@@ -1,0 +1,242 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Google Maps Adapter to ArcGIS Server Map Cache</title>
+  <style type="text/css">
+  
+  .code {border-right: blue thin solid; border-top: blue thin solid; border-left: blue thin solid; border-bottom: blue thin solid; font-family:Courier New; font-size:10pt}
+  </style>
+</head>
+<body>
+<div style="text-align: center; ">
+<h2><span style="font-weight: bold;">Google Maps Adapter to ArcGIS
+Server Map Cache</span></h2>
+<h1><span style="font-weight: bold;"></span></h1>
+<div style="text-align: left;">
+<h3><span style="font-weight: bold;"></span>Overview</h3>
+This small
+javascript library (<a target=_blank href="http://maps.charmeck.org/gmap_ags/gmap_ags.zip">download</a>) enables serving ArcGIS Server map cache directly in
+Google Maps
+API. Using this script, ArcGIS Server cached map service can be added
+to a Google Maps application using as little as one line of code. You
+can build GIS user orientated AGS ADF applications
+and more consumer orientated Google Maps applications using the exact
+same set of map caches. The main difference of this script and other
+Google Map/Virtual Earth
+    integration is that instead of making map caches to fit
+in Google's coordinate system(using AGS server as map engine and generate map to overlay with Google Map), this script will make Google fit in the
+existing ArcGIS Map cache (GM as a direct consumer of AGS map cache), without maintaining two separate set
+of map caches, which is expensive in
+    terms of disk space and refreshing/updating time. Specifically:<br>
+<ul>
+  <li>No need to project your map into Google's coordinate system
+(Sphere Mercator). The map can stay in GCS or state plane coordinate system. (<strong>Lambert Conic Conformal</strong>,
+      <strong>
+      Transverse Mercartor </strong>are implemented, which pretty cover the whole &nbsp;U.S. state plane coordinate 
+systems except one zone in Alaska). You can also
+      use raw Lat/Lng CS (e.g. ArcGISOnline). The reason not to use Google's CS is that some local grid system such
+      as engineering/survey grid will show distortion, and you might have already created your ArcGIS server application with your state
+      plane system for use with your ArcGIS Server ADF application. However, if you choose to use ArcGIS
+      server to build Map cache to overlay with Google Maps, you can do that too using
+      the included tile schema files.</li>
+  <li>No need to follow the exact zoom level defined by Google tile schema, which starts from 0 at global level and increase in strict
+factor of 2 downwards. The map cache can use standard map scales such as 1:500000, 1:250000 etc, or customized scales you defined when building ArcGIS server cache. A good scale candinate is 1:576,
+      coresponding to "half-foot pixel", which is widely used in aerial photos. You
+      get
+      every pixels you paid for at highest zoom level--without losing details via resampling if the map image is been renderred to different scale. &nbsp;</li>
+  <li>Use different tile sizes. By default, ArcGIS server uses 512x512,
+which is different than Google's default 256x256. A larger tile size can effectively reduce the "too-many-labels-on-each-tile"
+      problem in smaller tile schema. It also 
+      reduces the number of calls made by the client to web server during tile downloading.
+      <br>
+  </li>
+    <li>
+Samples: 
+        <br />
+        --Use only one line of code for each ArcGIS Server map service:
+        <br />
+        &nbsp; &nbsp; &nbsp;&nbsp; NC State Plane: &nbsp;<a target=_blank href="http://maps.charmeck.org/gmap_ags/adp.htm">http://maps.charmeck.org/gmap_ags/adp.htm</a>,&nbsp;<br />
+        &nbsp; &nbsp; &nbsp; ArcGISOnline (WGS84): <a href="http://maps.charmeck.org/gmap_ags/adp_arcgisonline.htm" target="_blank">
+            http://maps.charmeck.org/gmap_ags/adp_arcgisonline.htm</a><br />
+        --Direct construct GMapType:
+        <br />
+        &nbsp; &nbsp; &nbsp; NC State Plane:
+<a target=_blank href="http://maps.charmeck.org/gmap_ags/gprj.htm">http://maps.charmeck.org/gmap_ags/gprj.htm</a>
+        ,&nbsp;<br />
+        &nbsp; &nbsp;&nbsp; ArcGISOnline (WGS84): <a href="http://maps.charmeck.org/gmap_ags/gprj_arcgisonline.htm">
+            http://maps.charmeck.org/gmap_ags/gprj_arcgisonline.htm</a><br>
+    <!--
+<li>Check <a href="http://maps.charmeck.org/gmap_ags/">http://maps.charmeck.org/gmap_ags/</a> for latest revision. </li>
+-->
+    </li>
+</ul>
+<h3>Code</h3>
+The script contains the following classes. You can repack a new js file with
+    the ones you need and reduce the download size. The scripts defines a generic projection
+    interface between lat/lng and real world coordinates, then use scale or resolution
+    (real units/pixel) at different zoom levels to convert between lat/lng and pixel,
+    which is required by <a href="http://code.google.com/apis/maps/documentation/reference.html#GProjection"
+        target="_blank">GProjection</a>.
+    <br>
+<ul>
+  <li>LCC : Lambert Conic Conformal Projection. Convert lat/lng from/to
+real world coordinate system. Most State Plane Coordinate Systems in
+United States uses LCC projection. </li>
+    <li>TMERC: Transverse Mercator. </li>
+    <li>GCS: The lat/lng Geographic Coordinate System. If your map is in raw lat/lng, you
+        can use this class. </li>
+  <li>GMapCacheProjection: This is a wrapper around a real projection
+class such as LCC. It extends GProjection and is responsible to convert
+lat/lng to pixel system to be used by Google Maps API. It also handles
+the zoom level, scale conversion.</li>
+  <li>GMapCacheAdapter: This is a convinient class to reduce the code
+needed to use ArcGIS map cache. It parses the map cache configuration
+file and set up the real prjection
+      class and GMapCacheProjection class.
+  </li>
+    <li>MapOverlay: this class can be used in place of GGroundOverlay when use different
+        projections. It appears GGroundOverlay only works with GMercatorProjection.<br>
+    </li>
+</ul>
+<h3>Usage</h3>
+You will have to include Google Map API scripts (make sure you have correct Google
+    API key)
+    before this adapter script.
+    <br />
+    <br />
+    <div class="code">
+&lt;<span class="start-tag">script</span><span class="attribute-name"> src</span>=<span
+    class="attribute-value">"http://maps.google.com/maps?file=api&amp;amp;v=2&amp;amp;key=ABQIAAAAiOIdlCs11aj2JsFS38tclBQfKfnu-mh0q_bJgSL96pCW-X8IuhTkUHKzIl8dkf8AaWQ2-R0nXzUiSg"
+</span><span class="attribute-name">type</span>=<span class="attribute-value">"text/javascript"</span>&gt;&lt;/<span
+    class="end-tag">script</span>&gt;
+        <br />
+&lt;<span class="start-tag">script</span><span class="attribute-name"> type</span>=<span
+    class="attribute-value">"text/javascript" </span><span class="attribute-name">src</span>=<span
+        class="attribute-value">"gmap_ags.js"</span>&gt;&lt;/<span class="end-tag">script</span>&gt;</div>
+    <br />
+There are two ways to use the library: uses GMapCacheAdapter class or
+uses Projection(LCC) and GMapCacheProjection directly. 
+    <br>
+<ul>
+  <li>Use GMapCacheAdapter class("one line of code"). Construct a GMapCacheAdapter object
+by passing in the absolute path of the map cache configuration file
+(which is created automatically by ArcGIS server cache builder), the
+already created map object of type GMap2, and options:<br>
+Assuming there is a fused, pre-cached ArcGIS map service named
+"GET_Aerial", its cache is saved in a folder accessed by virtual
+directory "/mapcache", then<br>
+    <div class="code"><br />new GMapCacheAdapter("/mapcache/PLAN_zoning/Layers/conf.xml",map,{name:"Zoning"});<br /><br></div>
+      <br />
+      That's it.
+This line of code will create a button with name "Zoning" on upper
+right cornor of Google Map and displaying the map service tile images.
+Because the code uses Ajax code to download the configuration XML
+asynchronizely then parse, it must be on the same host of the map cache
+because of Javascript security model, also, there maybe a small delay
+in displaying the map service while the config file is being
+      downloaded. Here is the actual configuration file: <a href="http://maps.charmeck.org/mapcache/PLAN_zoning/Layers/conf.xml"
+          target="_blank">conf.xml<br />
+      </a>.<br>
+Sample: <a href="http://maps.charmeck.org/gmap_ags/adp.htm" target="_blank">http://maps.charmeck.org/gmap_ags/adp.htm</a>
+      <br />
+  </li>
+  <li>Use GMapCacheProjection class directly. It
+requires more code and may hardcode the configuration value. This
+offers more flexibility in writing Google API code and does not require
+map cache resides on same host. (Access map tiles from different host
+may subject to data usage licensing and terms of use restriction).
+There is no delay in map display either. This is very useful if your
+map tile scehma is very consistant. Steps to add ArcGIS server cache:
+  <ul>
+    <li>Create a Projection use coordinate system's parameters.
+        <br />
+        <br />
+      <div class="code">var prj=new LCC({semi_major:6378137.0, inverse_flattening:298.257222101,<br>standard_parallel_1:34.33333333333334, standard_parallel_2:36.16666666666666,<br>central_meridian:-79.0, latitude_of_origin: 33.75, <br>false_easting:2000000.002616666, false_northing:0, unit:0.3048006096012192});<br /></div>
+    </li>
+    <li>Create a GMapCacheProjection use tile schema's parameters.<br />
+        <br>
+      <div class="code">var gprj=new GMapCacheProjection({zoomOffset:10,<br> originX:0,originY:2000000, projection:prj, <br> resolutions:[434.027777777778, 217.013888888889, 108.506944444444,<br> 55.5555555555556,27.7777777777778,13.8888888888889,<br> 6.94444444444444,3.47222222222222,1.73611111111111,1,0.5]});<br />
+      </div>
+    </li>
+    <li>Create GTileLayer and GMapType:<br />
+        <br>
+      <div class="code">var agsLayer1= new GTileLayer("", 10, 18);<br>agsLayer1.getTileUrl = function(tile,zoom){<br>&nbsp; return 'http://maps.charmeck.org/mapcache/PLAN_zoning/Layers/_alllayers/L'+('00'+(zoom-10).toString(10)).substring(('00'+(zoom-10).toString(10)).length-2)+'/R'+('00000000'+tile.y.toString(16)).substring(('00000000'+tile.y.toString(16)).length-8)+'/C'+('00000000'+tile.x.toString(16)).substring(('00000000'+tile.x.toString(16)).length-8)+'.png';<br>}<br>var agsMap1 = new GMapType([agsLayer1],gprj,'Zoning', {tileSize: 512});<br>map.addMapType(agsMap1);</div>
+    </li>
+  </ul>
+</li>
+</ul>
+<div style="margin-left: 80px;">Sample:&nbsp; <a
+ href="http://maps.charmeck.org/gmap_ags/gprj.htm" target="_blank">http://maps.charmeck.org/gmap_ags/gprj.htm</a></div>
+<h3>
+    Notes</h3>
+    <ul>
+        <li>Build tiles on the fly(a.k.a cache-on-demand). Sometimes this maybe helpful, for example, for detailed
+            level (17+), you do not want cache the whole area if the map service is not frequently
+            used. You can either manipulate the <span style="font-family: Courier New">getTileUrl</span>
+            function and redirect URL either
+            to a image handler beyound certain zoom level, or you can
+            register png or jpg extention to a hanlder and render tile at background if not
+            exist. You can use this <a href="http://maps.charmeck.org/map_cache_builder/" target="_blank">
+                tool</a> to build your map cache using different source, either pre-cooked or
+            on-demand. </li>
+        <li>Generate tiles to overlay with Google Map or Virtual Earth. If the MXD is projected to Sphere Mercator, and use correct
+            zoom scale, the dynamic map can be overlayed without problem.
+            Controry to popular believes, the
+            exact size of the major axis
+            does not matter, as long as the scale and origins are set correctly,
+            because it was cancelled out in the end. If you choose a modified WGS84, use this<a href="http://maps.charmeck.org/gmap_ags/wgs_sphere_mercator.xml" target="_blank">
+                file</a>, and check out <a href="http://maps.charmeck.org/gmap_ags/gprj_sphere_wgs.htm"
+                    target="_blank">this</a> sample. &nbsp;If you just use plain old Sphere Mercator (code: 53004), use <a href="http://maps.charmeck.org/gmap_ags/sphere_mercator.xml" target="_blank">
+                    this </a>file, and check out <a href="http://maps.charmeck.org/gmap_ags/gprj_sphere_reg.htm"
+                        target="_blank">this</a> sample. If you use that, there is no need to
+            use this library, you can use the GMercatorProjection directly. &nbsp;There are also some <a href="http://maps.charmeck.org/curisa/" target="_blank">meterials
+                        and code</a> presented &nbsp;in 2007 North Carolina URISA conference
+            that explains the details, with a full tile server implementation that works with
+            Google Maps, Virtual Earth and Yahoo Map. </li>
+        <li>Dynamic Maps. You can use ArcGIS
+            Server as analysis engine and generate a single
+            map image and overlay on top of tiles. That is a much more efficient way than generate
+            tiles on the fly because the latter put a lot more requests, sometimes unnecessary,
+            to map engine (VE has option to disable buffer but that will affects panning). If
+            you stay with Google's coordinate system, then <a href="http://code.google.com/apis/maps/documentation/reference.html#GGroundOverlay"
+                target="_blank">GGroundOverlay</a> class is an easy and quick way to do it.
+            However, GGroundOverlay does not work with customized projection, so you will need
+            to build a customize <a href="http://code.google.com/apis/maps/documentation/reference.html#GOverlay"
+                target="_blank">GOverlay</a> class and drop images on top of tiles. </li>
+        <li>Identify and Query functions. Those can be handled using event handling functions
+            registered with onclick events, and tie that with any server side spatial query
+            functions with AJAX calls. </li>
+        <li>Load third party tiles built with ArcGIS Server such as <a href="http://arcgisonline.esri.com/"
+            target="_blank">ArcGISOnline</a>. (Note these usage are subject
+            to data license restriction). You can download the cache meta file and use
+            "baseUrl" option to point to the tile source. For the purpose of the demonstration,
+            this is example loading a few data sources from ArcGIS online: <a href="http://maps.charmeck.org/gmap_ags/adp_arcgisonline.htm">use
+                adapter</a> &amp; <a href="http://maps.charmeck.org/gmap_ags/gprj_arcgisonline.htm" target="_blank">direct use projection class</a>.
+        </li>
+        <li>
+        Raw Lat Lng maps. ArcGIS online map caches are examples of tiles in WGS84. </li>
+        <li>
+        This lib build the LCC and TMERC class directly from the math fomulars for the purpose of minimizing third party
+        dependency and download size. For more comprehensive projection support, you can
+        consider combining the GMapCacheProjection code with libraries like <a href="http://proj4js.org"
+            target="_blank">Proj4JS</a>, however if you do that you may better off with OpenLayers
+            instead of Google Maps anyway. </li>
+    </ul>
+    <h3>
+        Reference</h3>
+<ul>
+  <li><a
+ href="http://www.posc.org/Epicentre.2_2/DataModel/ExamplesofUsage/eu_cs34e.html">http://www.posc.org/Epicentre.2_2/DataModel/ExamplesofUsage/eu_cs34e.html</a></li>
+    <li><a href="http://www.radicalcartography.net/projections/state%20planes.gif">http://www.radicalcartography.net/projections/state%20planes.gif</a><a
+        href="http://www.radicalcartography.net/projectionref.html"></a></li>
+    <li><a href="http://pubs.er.usgs.gov/djvu/PP/PP_1395.pdf">http://pubs.er.usgs.gov/djvu/PP/PP_1395.pdf</a></li>
+  <li><a href="http://edndoc.esri.com/arcobjects/9.2/welcome.htm">http://edndoc.esri.com/arcobjects/9.2/welcome.htm</a></li>
+  <li><a
+ href="http://code.google.com/apis/maps/documentation/reference.html">http://code.google.com/apis/maps/documentation/reference.html</a></li>
+</ul>
+    Comments please send to nliu at ci.charlotte.nc.us<br />
+    Last Revison: 2008-03-28<br>
+</div>
+</div>
+</body>
+</html>

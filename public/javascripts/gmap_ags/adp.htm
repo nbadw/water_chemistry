@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Google Maps Adapter to ArcGIS Server Map Cache</title>
+    <!-- replace your key -->
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAiOIdlCs11aj2JsFS38tclBQfKfnu-mh0q_bJgSL96pCW-X8IuhTkUHKzIl8dkf8AaWQ2-R0nXzUiSg"
+        type="text/javascript"></script>
+    <script type="text/javascript" src="gmap_ags.js"></script>
+    <style type="text/css">      html, body {     margin: 0px;     height: 100%;} </style>
+    <script type="text/javascript">
+    function initialize() {
+     if (GBrowserIsCompatible()) {
+        var map= new GMap2(document.getElementById("map_canvas"));
+        new GKeyboardHandler(map);
+        map.setCenter(new GLatLng(35.249208, -80.843099), 11);
+        map.addControl(new GMapTypeControl());
+        map.addControl(new GLargeMapControl  ()); 
+        map.addControl(new GScaleControl());
+        map.enableDoubleClickZoom();
+        map.enableContinuousZoom();
+        map.enableScrollWheelZoom();
+        map.getMapTypes().length=0;// remove default maps if needed
+        
+        // add ArcGIS Server Map Cache.
+        new GMapCacheAdapter("/mapcache/GET_Aerial/Layers/conf.xml",map,{name:"2007Aerial"});
+        new GMapCacheAdapter("/mapcache/PLAN_zoning/Layers/conf.xml",map,{name:"Zoning"});
+	   }
+       
+    }
+
+    </script>
+
+</head>
+<body onload="initialize()" onunload="GUnload();">
+<div id="map_canvas" style="width: 100%; height: 100%"></div>
+</body>
+</html>

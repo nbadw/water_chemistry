@@ -1,0 +1,20 @@
+div.site-item {
+    padding: 5px;
+}
+div.site-item p {
+    padding-left: 10px;
+    font-size: 11px;
+    font-style: italic;
+    font-family: Verdana;
+}
+div.x-site-view-over {
+    background-color: lightyellow;
+}
+div.x-view-selected {
+    background-color: lightblue;
+}
+
+input.filter {
+    width: 90%;
+    margin: 5px;
+}
