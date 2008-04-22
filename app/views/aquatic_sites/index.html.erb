@@ -71,6 +71,7 @@ SitesPanel = function(store) {
         minWidth: 215,
         width: 215,
         autoScroll: true,
+        collapsible: true,
         items: [filter, this.list],
         bbar: new Ext.PagingToolbar({ 
             store: this.store,
@@ -132,13 +133,13 @@ MapPanel = function(store) {
             this.map.setZoom(this.map.getBoundsZoomLevel(bounds));
             console.debug("zooming to level " + this.map.getBoundsZoomLevel(bounds));
             
-            console.info("loading map cache adapter");
-            new GMapCacheAdapter(
-                "/map_cache/aquatic sites/conf.xml", 
-                map, { 
-                    name: "Data Entry" 
-                }
-            ); 
+//            console.info("loading map cache adapter");
+//            new GMapCacheAdapter(
+//                "/map_cache/aquatic sites/conf.xml", 
+//                map, { 
+//                    name: "Data Entry" 
+//                }
+//            ); 
         });        
     }
 };

@@ -7,7 +7,7 @@ div.site-item p {
     font-style: italic;
     font-family: Verdana;
 }
-div.x-site-view-over {
+div.x-site-view-over, div.x-task-view-over {
     background-color: lightyellow;
 }
 div.x-view-selected {
@@ -17,4 +17,8 @@ div.x-view-selected {
 input.filter {
     width: 90%;
     margin: 5px;
+}
+
+iframe {
+    border: none;
 }

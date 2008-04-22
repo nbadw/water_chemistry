@@ -9,14 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 3) do
-
-  create_table "activities", :force => true do |t|
-    t.column "name", :string, :null => false
-    t.column "title", :string, :null => false
-    t.column "created_at", :timestamp
-    t.column "updated_at", :timestamp
-  end
+ActiveRecord::Schema.define(:version => 2) do
 
   create_table "aquatic_sites", :force => true do |t|
     t.column "name", :string

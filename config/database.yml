@@ -11,9 +11,9 @@
 development:
   adapter: postgresql
   encoding: UTF8
-  database: georails_dev
-  username: developer
-  password: development
+  database: waterchemistry_dev
+  username: postgres
+  password: PGx3wp3
 
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have
@@ -36,9 +36,9 @@ development:
 test:
   adapter: postgresql
   encoding: UTF8
-  database: georails_test
+  database: waterchemistry_test
   username: tester
-  password: test
+  password: testing
 
 #production:
 #  adapter: postgresql
