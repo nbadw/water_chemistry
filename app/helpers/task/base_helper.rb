@@ -1,0 +1,2 @@
+module Task::BaseHelper
+end
