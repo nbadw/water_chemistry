@@ -1,8 +1,5 @@
 # This controller handles the login/logout function of the site.  
-class SessionsController < ApplicationController
-  # Be sure to include AuthenticationSystem in Application Controller instead
-  include AuthenticatedSystem
-  
+class SessionsController < ApplicationController  
   layout 'application'
   
   before_filter :login_required,         :only => :destroy

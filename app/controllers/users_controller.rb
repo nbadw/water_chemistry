@@ -1,7 +1,4 @@
-class UsersController < ApplicationController
-  # Be sure to include AuthenticationSystem in Application Controller instead
-  include AuthenticatedSystem
-  
+class UsersController < ApplicationController  
   layout 'application'
   
   before_filter :not_logged_in_required,   :only => [:new, :create] 

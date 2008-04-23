@@ -1,20 +1,8 @@
-<h1>Listing roles</h1>
+<h2>Roles for <%=h @user.login.capitalize %></h2>
 
-<table>
-  <tr>
-    <th>Rolename</th>
-  </tr>
+<h3>Roles assigned:</h3>
+<ul><%= render :partial => 'role', :collection => @user.roles %></ul>
 
-<% for role in @roles %>
-  <tr>
-    <td><%=h role.rolename %></td>
-    <td><%= link_to 'Show', role %></td>
-    <td><%= link_to 'Edit', edit_role_path(role) %></td>
-    <td><%= link_to 'Destroy', role, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
+<h3>Roles available:</h3>
+<ul><%= render :partial => 'role', :collection => (@all_roles - @user.roles) %></ul>
 
-<br />
-
-<%= link_to 'New role', new_role_path %>
