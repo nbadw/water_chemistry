@@ -1,14 +1,13 @@
 /* 
-superconductor
+kuler scheme: superconductor
 #B3D5E1 - baby blue
 #A4BFB0 - light olive green
 #748C69 - olive green
 #4F5939 - army green
 #001E20 - dark
 */
-
 /* 
-chemistry class
+kuler scheme: chemistry class
 #77DDF5 - light blue
 #13345E - dark blue
 #006DFF - blue
@@ -63,10 +62,14 @@ chemistry class
     background-color: #FF5900;
     color: #fff;
 }
-#navigation .agency {
+#navigation .location {
     padding: 21px 20px 10px;
     font-size: 24px;
     font-weight: bold;
+}
+#activity #navigation .location .agency_name {
+    font-size: 16px;
+    padding-left: 10px;
 }
 #navigation .tabs {
     margin: 0 25px;
@@ -75,7 +78,6 @@ chemistry class
     float: left;
     margin: 7px 5px 0;
     font-size: 16px;
-    xfont-family: Verdana;
 }
 #navigation .tab.option {
     float: right;
@@ -115,6 +117,11 @@ chemistry class
 #content h1 {
     font-size: 18px;
     font-family: Verdana;
+}
+#content iframe {
+    width: 100%;
+    height: 100%;
+    min-height: 700px;
 }
 
 #content #activities {

@@ -13,8 +13,9 @@ class User < ActiveRecord::Base
   validates_uniqueness_of   :login, :email, :case_sensitive => false
   validates_format_of       :email, :with => /(^([^@\s]+)@((?:[-_a-z0-9]+\.)+[a-z]{2,})$)|(^$)/i
   
-  has_many :permissions
-  has_many :roles, :through => :permissions
+  has_many   :permissions
+  has_many   :roles, :through => :permissions
+  belongs_to :agency
   
   before_save   :encrypt_password
   before_create :make_activation_code 
@@ -22,6 +23,13 @@ class User < ActiveRecord::Base
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
   attr_accessible :login, :email, :password, :password_confirmation
+        
+  generator_for(:login, :start => 'user0') { |prev| prev.succ }
+  generator_for(:email, :start => 'email0@test.com') do |prev|
+    user, domain = prev.split('@')
+    user.succ + '@' + domain
+  end
+  generator_for(:password, :start => 'password') { |prev| prev.succ }
   
   class ActivationCodeNotFound < StandardError  
   end
@@ -141,8 +149,12 @@ class User < ActiveRecord::Base
   # before filter 
   def encrypt_password
     return if password.blank?
-    self.salt = Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{login}--") if new_record?
+    self.salt = generate_salt if new_record?
     self.crypted_password = encrypt(password)
+  end
+  
+  def generate_salt
+    Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{login}--")
   end
       
   def password_required?

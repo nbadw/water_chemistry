@@ -1,5 +1,5 @@
 class UsersController < ApplicationController  
-  layout 'application'
+  layout 'sessions'
   
   before_filter :not_logged_in_required,   :only => [:new, :create] 
   before_filter :login_required,           :only => [:show, :edit, :update]

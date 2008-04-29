@@ -37,8 +37,8 @@ test:
   adapter: postgresql
   encoding: UTF8
   database: waterchemistry_test
-  username: tester
-  password: testing
+  username: postgres
+  password: PGx3wp3
 
 #production:
 #  adapter: postgresql

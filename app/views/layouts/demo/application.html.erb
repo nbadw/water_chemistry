@@ -28,7 +28,9 @@
     </div>
     
     <div id="navigation">
-      <h2 class="agency"><%= @agency ? @agency.name : 'AGENCY_NAME' %></h2>
+      <h2 class="location">
+        <span class="agency_name"><%= @agency ? @agency.name : 'AGENCY_NAME' %></span>
+      </h2>
       <ul class="tabs">
         <li class="tab"><a href="#">Overview</a></li>
         <li class="tab active"><a href="#">Activities</a></li>

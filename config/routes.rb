@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.root :controller => "demo/application", :action => "login"
+  map.root :controller => "data_entry", :action => "index"
   map.signup '/signup', :controller => 'users', :action => 'new'
   map.login '/login', :controller => 'sessions', :action => 'new'
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
@@ -16,10 +16,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :session
   map.resource :password
 
-  ###
-  #map.resources :tasks
-  map.resources :aquatic_sites
-  ###
   
   # The priority is based upon order of creation: first created -> highest priority.
 

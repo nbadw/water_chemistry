@@ -1,16 +1,15 @@
 # This controller handles the login/logout function of the site.  
-class SessionsController < ApplicationController  
-  layout 'application'
-  
+class SessionsController < ApplicationController    
   before_filter :login_required,         :only => :destroy
   before_filter :not_logged_in_required, :only => [:new, :create]
   
   # render new.rhtml
   def new
+    @page_title = 'Login'
   end
   
   def create
-    password_authentication(params[:login], params[:password])
+    password_authentication(params[:username], params[:password])
   end
   
   def destroy
@@ -18,7 +17,7 @@ class SessionsController < ApplicationController
     cookies.delete :auth_token
     reset_session
     flash[:notice] = "You have been logged out."
-    redirect_to login_path    
+    redirect_to :action => 'new'
   end
   
   protected  
@@ -51,7 +50,7 @@ class SessionsController < ApplicationController
     flash[:notice] = "Logged in successfully"
     return_to = session[:return_to]
     if return_to.nil?
-      redirect_to user_path(self.current_user)
+      redirect_to root_path
     else
       redirect_to return_to
     end

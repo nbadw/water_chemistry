@@ -5,10 +5,6 @@ require 'sessions_controller'
 class SessionsController; def rescue_action(e) raise e end; end
 
 class SessionsControllerTest < Test::Unit::TestCase
-  # Be sure to include AuthenticatedTestHelper in test/test_helper.rb instead
-  # Then, you can remove it from this and the units test.
-  include AuthenticatedTestHelper
-
   fixtures :users
 
   def setup
@@ -16,15 +12,23 @@ class SessionsControllerTest < Test::Unit::TestCase
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end
+  
+  context "on POST request to :show" do
+    setup { post :create, :username => 'quentin', :password => 'test' }
+    should_respond_with :redirect
+    should "have user in session" do
+      assert session[:user_id]
+    end
+  end
 
   def test_should_login_and_redirect
-    post :create, :login => 'quentin', :password => 'test'
+    post :create, :username => 'quentin', :password => 'test'
     assert session[:user_id]
     assert_response :redirect
   end
 
   def test_should_fail_login_and_not_redirect
-    post :create, :login => 'quentin', :password => 'bad password'
+    post :create, :username => 'quentin', :password => 'bad password'
     assert_nil session[:user_id]
     assert_response :success
   end
@@ -37,12 +41,12 @@ class SessionsControllerTest < Test::Unit::TestCase
   end
 
   def test_should_remember_me
-    post :create, :login => 'quentin', :password => 'test', :remember_me => "1"
+    post :create, :username => 'quentin', :password => 'test', :remember_me => "1"
     assert_not_nil @response.cookies["auth_token"]
   end
 
   def test_should_not_remember_me
-    post :create, :login => 'quentin', :password => 'test', :remember_me => "0"
+    post :create, :username => 'quentin', :password => 'test', :remember_me => "0"
     assert_nil @response.cookies["auth_token"]
   end
   

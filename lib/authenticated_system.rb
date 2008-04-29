@@ -84,7 +84,7 @@ module AuthenticatedSystem
       format.html do
         store_location
         flash[:error] = "You must be logged in to access this."
-        redirect_to new_session_path
+        redirect_to login_path
       end
       format.any do
         request_http_basic_authentication 'Web Password'

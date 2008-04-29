@@ -1,2 +1,0 @@
-module Task::MeasurementsHelper
-end

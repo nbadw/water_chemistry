@@ -1,9 +1,10 @@
 class PasswordsController < ApplicationController
-  layout 'application'
+  layout 'sessions'
   before_filter :not_logged_in_required, :only => [:new, :create]
   
   # Enter email address to recover password 
   def new
+    @page_title = "Password/Username Recovery"
   end
   
   # Forgot password action
