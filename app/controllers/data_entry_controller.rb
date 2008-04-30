@@ -7,8 +7,8 @@ class DataEntryController < ApplicationController
   end
   
   def overview
-    @user = self.current_user
-    @agency = @user.agency
-    @activities = Activity.find_by_agency @agency.id
+  end
+  
+  def water_chemistry    
   end
 end

@@ -36,4 +36,6 @@ class Test::Unit::TestCase
 
   # Add more helper methods to be used by all tests here...
   include AuthenticatedTestHelper  
+  ActionMailer::Base.delivery_method = :test
+  ActionMailer::Base.perform_deliveries = true
 end

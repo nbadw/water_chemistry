@@ -6,5 +6,5 @@ class Agency < ActiveRecord::Base
   validates_uniqueness_of :code
   
   generator_for :name => 'AgencyName'
-  generator_for(:code, :start => 'AG1') { |prev| prev.succ }
+  generator_for(:code, :start => 'AG0') { |prev| prev.succ }
 end

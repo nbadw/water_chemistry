@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   # Virtual attribute for the unencrypted password
   attr_accessor :password
 
-  validates_presence_of     :login, :email
+  validates_presence_of     :login, :email, :agency
   validates_presence_of     :password,                   :if => :password_required?
   validates_presence_of     :password_confirmation,      :if => :password_required?
   validates_length_of       :password, :within => 4..40, :if => :password_required?
@@ -22,14 +22,15 @@ class User < ActiveRecord::Base
   
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :login, :email, :password, :password_confirmation
+  attr_accessible :login, :email, :password, :password_confirmation, :agency
         
   generator_for(:login, :start => 'user0') { |prev| prev.succ }
   generator_for(:email, :start => 'email0@test.com') do |prev|
     user, domain = prev.split('@')
     user.succ + '@' + domain
   end
-  generator_for(:password, :start => 'password') { |prev| prev.succ }
+  generator_for(:password, :start => 'password0') { |prev| prev.succ }
+  generator_for(:password_confirmation, :start => 'password0') { |prev| prev.succ }
   
   class ActivationCodeNotFound < StandardError  
   end
@@ -68,7 +69,8 @@ class User < ActiveRecord::Base
   end
   
   def pending?
-    @activated
+    #@activated
+    !active?
   end
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
