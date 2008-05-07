@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <title>Data Entry Demo: <%= controller.action_name.capitalize %> UI</title>
+    
+    <%= stylesheet_link_tag "reset" %> 
+<style type="text/css">
+body {
+    background-color: #B3D5E1;
+    color: #222;
+    font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+    margin: 0 auto;
+    text-align: center;
+}
+#container {
+    margin: 70px auto 20px;
+    width: 500px;
+}
+#dialog {
+    background-color: #fff;
+    border: 10px solid #001E20;
+    padding: 15px 20px 10px;
+    text-align: left;
+}
+#dialog h1 {
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: bold;
+}
+#dialog dl {
+    margin-top: 10px;
+}
+#dialog dt {
+    float: left;
+    font-size: 14px;
+    line-height: 24px;
+    width: 80px;
+}
+#dialog dd {
+    color: #666;
+    font-size: 11px;
+    line-height: 24px;
+    margin: 0 0 5px 80px;
+}
+#dialog input {
+    font-size: 14px;
+    padding: 3px;
+}
+input#username {
+    width: 300px;
+}
+
+</style>
+  </head>
+  <body id="login" onload="document.forms[0].elements[0].focus();">
+    
+    <div id="container">
+      <div id="dialog">
+        <h1>Data Entry Login</h1>
+        <form action="/demo/application/activities">
+          <dl>
+            <dt>Username:</dt>
+            <dd>
+              <input id="username" type="text" name="username"/>
+            </dd>
+            <dt>Password:</dt>
+            <dd>
+              <input id="password" type="password" name="password"/>
+              <span>(<a href="#">I forgot my password/username</a>)</span>
+            </dd>
+            
+            <dd>
+              <input type="checkbox" name="remember_me"/>
+              Remember me on this computer
+            </dd>
+            
+            <dd>
+              <input type="submit" value="Sign In"/>
+            </dd>
+          </dl>
+        </form>
+      </div>
+    </div>
+    
+  </body>
+</html>

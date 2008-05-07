@@ -1,0 +1,72 @@
+body {
+    background-color: #a5c9ff;
+    color: #222;
+    font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+    margin: 0 auto;
+    text-align: center;
+}
+#container {
+    margin: 70px auto 20px;
+    width: 500px;
+}
+#dialog {
+    background-color: #fff;
+    border: 10px solid #001E20;
+    padding: 15px 20px 10px;
+    text-align: left;
+}
+#dialog .error {
+    background-color: #ffffe0;
+    border: 1px solid orange;
+    color: red;
+    font-size: 12px;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+#dialog .notice {
+    background-color: #e0ecff;
+    border: 1px solid #a5c9ff;
+    color: #135;
+    font-size: 12px;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+#dialog h1 {
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: bold;
+}
+#dialog dl {
+    margin-top: 10px;
+}
+#dialog dt {
+    float: left;
+    font-size: 14px;
+    line-height: 24px;
+    width: 80px;
+}
+#dialog dd {
+    color: #666;
+    font-size: 11px;
+    line-height: 24px;
+    margin: 0 0 5px 80px;
+}
+#dialog input {
+    font-size: 14px;
+    padding: 3px;
+}
+#login input#username {
+    width: 300px;
+}
+#login #register {
+    margin-top: 50px;
+}
+
+#account-recovery p {
+
+}
+#account-recovery input#email {
+    width: 400px;
+    display: block;
+    margin: 10px 0 20px;
+}

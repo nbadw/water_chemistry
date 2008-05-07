@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Google Maps Adapter to ArcGIS Server Map Cache</title>
+    <!-- replace your key -->
+
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAiOIdlCs11aj2JsFS38tclBQfKfnu-mh0q_bJgSL96pCW-X8IuhTkUHKzIl8dkf8AaWQ2-R0nXzUiSg"
+        type="text/javascript"></script>
+  <script type="text/javascript" src="gmap_ags.js"></script>
+
+ 
+    <style type="text/css">
+             html, body {     margin: 0px;     height: 100%;}
+             </style>
+
+    <script type="text/javascript">
+    function initialize() {
+
+       
+      if (GBrowserIsCompatible()) {
+      
+        var map= new GMap2(document.getElementById("map_canvas"));
+        new GKeyboardHandler(map);
+// make sure change to your latlng if not in Charlotte, NC.
+        map.setCenter(new GLatLng(35.249208, -80.843099), 11);
+        map.addControl(new GMapTypeControl());
+        map.addControl(new GLargeMapControl  ()); 
+        map.addControl(new GScaleControl());
+        map.enableDoubleClickZoom();
+        map.enableContinuousZoom();
+        map.enableScrollWheelZoom();
+   
+        map.getMapTypes().length=0;// remove default maps
+// create a real projection
+	var prj=new LCC({semi_major:6378137.0, inverse_flattening:298.257222101,
+standard_parallel_1:34.33333333333334, standard_parallel_2:36.16666666666666,
+central_meridian:-79.0, 
+latitude_of_origin: 33.75, 
+false_easting:2000000.002616666, 
+false_northing:0, 
+unit:0.3048006096012192});
+// create a GProjection to convert pixel/latlng
+var params={
+	zoomOffset:10,
+        originX:0,
+        originY:2000000,
+	projection:prj,
+        resolutions:[
+		  434.027777777778, 217.013888888889, 108.506944444444,
+		   55.5555555555556,27.7777777777778,13.8888888888889,
+		   6.94444444444444,3.47222222222222,1.73611111111111] 
+ 	};
+	var gprj=new GMapCacheProjection(params);
+//create a layer
+        var agsLayer1= new GTileLayer("", params.zoomOffset, (params.zoomOffset+params.resolutions.length-1));
+        agsLayer1.getTileUrl = function(tile,zoom){
+                  return 'http://mt'+((tile.x+tile.y)%4)+'.charmeck.org/mapcache/PLAN_zoning/Layers/_alllayers/L'+('00'+(zoom-params.zoomOffset).toString(10)).substring(('00'+(zoom-params.zoomOffset).toString(10)).length-2)+'/R'+('00000000'+tile.y.toString(16)).substring(('00000000'+tile.y.toString(16)).length-8)+'/C'+('00000000'+tile.x.toString(16)).substring(('00000000'+tile.x.toString(16)).length-8)+'.png';
+        }
+// create a MapType		
+       var agsMap1 = new GMapType([agsLayer1],gprj,'Zoning', {tileSize: 512});
+       
+       var agsLayer2= new GTileLayer("", 10, 17);
+       agsLayer2.getTileUrl = function(tile,zoom){
+                  return '/mapcache/GET_Aerial/Layers/_alllayers/L'+('00'+(zoom-10).toString(10)).substring(('00'+(zoom-10).toString(10)).length-2)+'/R'+('00000000'+tile.y.toString(16)).substring(('00000000'+tile.y.toString(16)).length-8)+'/C'+('00000000'+tile.x.toString(16)).substring(('00000000'+tile.x.toString(16)).length-8)+'.jpg';
+       }
+       var agsMap2 = new GMapType([agsLayer2],gprj,'2007 Aerial', {tileSize: 512});
+
+       
+       map.addMapType(agsMap2);
+       map.addMapType(agsMap1);
+       
+       map.setMapType(agsMap1);
+     
+      }
+      
+      
+    }
+
+    </script>
+
+</head>
+<body onload="initialize()" onunload="GUnload();">
+   
+                <div id="map_canvas" style="width: 100%; height: 100%">
+                </div>
+           
+</body>
+</html>

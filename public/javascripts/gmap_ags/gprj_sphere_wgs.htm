@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Google Maps Adapter to ArcGIS Server Map Cache</title>
+    <!-- replace your key -->
+
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAiOIdlCs11aj2JsFS38tclBQfKfnu-mh0q_bJgSL96pCW-X8IuhTkUHKzIl8dkf8AaWQ2-R0nXzUiSg"
+        type="text/javascript"></script>
+  <!--script type="text/javascript" src="gmap_ags.js"></script-->
+
+ 
+    <style type="text/css">
+             html, body {     margin: 0px;     height: 100%;}
+             </style>
+
+    <script type="text/javascript">
+    function initialize() {
+
+       
+      if (GBrowserIsCompatible()) {
+      
+        var map= new GMap2(document.getElementById("map_canvas"));
+        new GKeyboardHandler(map);
+// make sure change to your latlng if not in Charlotte, NC.
+        map.setCenter(new GLatLng(35.227208, -80.843099), 17);
+        map.addControl(new GMapTypeControl());
+        map.addControl(new GLargeMapControl  ()); 
+        map.addControl(new GScaleControl());
+        map.enableDoubleClickZoom();
+        map.enableContinuousZoom();
+        map.enableScrollWheelZoom();
+   
+        //map.getMapTypes().length=0;// remove default maps
+// create a real projection
+	
+	var gprj=new GMercatorProjection(20);
+//create a layer
+        var agsLayer1= new GTileLayer("", 14,18);
+        agsLayer1.getTileUrl = function(tile,zoom){
+                  var u='/mapcache/Test_CharmercWGS/Layers/_alllayers/L'+('00'+(zoom-0).toString(10)).substring(('00'+(zoom-0).toString(10)).length-2)+'/R'+('00000000'+(tile.y).toString(16)).substring(('00000000'+(tile.y).toString(16)).length-8)+'/C'+('00000000'+tile.x.toString(16)).substring(('00000000'+tile.x.toString(16)).length-8)+'.png';
+GLog.write(u);
+return u;
+
+        };
+agsLayer1.getOpacity = function(){return 0.5};
+
+        var agsMap1 = new GMapType([G_NORMAL_MAP.getTileLayers()[0],agsLayer1],gprj,'WGS Adjusted Sphere Mercator', {tileSize: 256});
+       
+       map.addMapType(agsMap1);
+       
+       map.setMapType(agsMap1);
+
+     
+      }
+      
+      
+    }
+
+    </script>
+
+</head>
+<body onload="initialize()" onunload="GUnload();">
+   This samples shows using WGS84 adjusted sphere mercator (R=6378137.0 meters)
+   <table>
+   <tr><td style="vertical-align:top"> <div id="map_canvas" style="width:512px; height: 512px">
+                </div></td><td><pre>&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;TileCacheInfo xsi:type='typens:TileCacheInfo' 
+			   xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' 
+			   xmlns:xs='http://www.w3.org/2001/XMLSchema' 
+			   xmlns:typens='http://www.esri.com/schemas/ArcGIS/9.2'&gt;
+	&lt;SpatialReference xsi:type='typens:ProjectedCoordinateSystem'&gt;
+		   &lt;WKT&gt;PROJCS[&quot;WGS_Sphere_Mercator&quot;,GEOGCS[&quot;WGS_Sphere&quot;,DATUM[&quot;&lt;custom&gt;&quot;,SPHEROID[&quot;&lt;custom&gt;&quot;,6378137.0,0.0]],PRIMEM[&quot;Greenwich&quot;,0.0],UNIT[&quot;Degree&quot;,0.0174532925199433]],PROJECTION[&quot;Mercator&quot;],PARAMETER[&quot;False_Easting&quot;,0.0],PARAMETER[&quot;False_Northing&quot;,0.0],PARAMETER[&quot;Central_Meridian&quot;,0.0],PARAMETER[&quot;Standard_Parallel_1&quot;,0.0],UNIT[&quot;Meter&quot;,1.0]]&lt;/WKT&gt;
+		&lt;XOrigin&gt;-22041211.5590394&lt;/XOrigin&gt;
+		&lt;YOrigin&gt;-33265069.1542249&lt;/YOrigin&gt;
+		&lt;XYScale&gt;135385247.705054&lt;/XYScale&gt;
+		&lt;ZOrigin&gt;-100000&lt;/ZOrigin&gt;
+		&lt;ZScale&gt;10000&lt;/ZScale&gt;
+		&lt;MOrigin&gt;-100000&lt;/MOrigin&gt;
+		&lt;MScale&gt;10000&lt;/MScale&gt;
+		&lt;XYTolerance&gt;0.001&lt;/XYTolerance&gt;
+		&lt;ZTolerance&gt;0.0002&lt;/ZTolerance&gt;
+		&lt;MTolerance&gt;0.0002&lt;/MTolerance&gt;
+		&lt;HighPrecision&gt;true&lt;/HighPrecision&gt;
+	&lt;/SpatialReference&gt;
+	&lt;TileOrigin xsi:type='typens:PointN'&gt;
+		   &lt;X&gt;-20037508.34&lt;/X&gt;
+		&lt;Y&gt;20037508.34&lt;/Y&gt;
+	&lt;/TileOrigin&gt;
+	&lt;TileCols&gt;256&lt;/TileCols&gt;
+	&lt;TileRows&gt;256&lt;/TileRows&gt;
+	&lt;DPI&gt;96&lt;/DPI&gt;
+	&lt;LODInfos xsi:type='typens:ArrayOfLODInfo'&gt;
+&lt;LODInfo xsi:type='typens:LODInfo'&gt;&lt;LevelID&gt;0&lt;/LevelID&gt;&lt;Scale&gt;591658710.909131&lt;/Scale&gt;&lt;Resolution&gt;156543.033928041&lt;/Resolution&gt;&lt;/LODInfo&gt;
+&lt;LODInfo xsi:type='typens:LODInfo'&gt;&lt;LevelID&gt;1&lt;/LevelID&gt;&lt;Scale&gt;295829355.454566&lt;/Scale&gt;&lt;Resolution&gt;78271.5169640205&lt;/Resolution&gt;&lt;/LODInfo&gt;
+&lt;LODInfo xsi:type='typens:LODInfo'&gt;&lt;LevelID&gt;2&lt;/LevelID&gt;&lt;Scale&gt;147914677.727283&lt;/Scale&gt;&lt;Resolution&gt;39135.7584820102&lt;/Resolution&gt;&lt;/LODInfo&gt;
+&lt;LODInfo xsi:type='typens:LODInfo'&gt;&lt;LevelID&gt;3&lt;/LevelID&gt;&lt;Scale&gt;73957338.8636414&lt;/Scale&gt;&lt;Resolution&gt;19567.8792410051&lt;/Resolution&gt;&lt;/LODInfo&gt;
+&lt;LODInfo xsi:type='typens:LODInfo'&gt;&lt;LevelID&gt;4&lt;/LevelID&gt;&lt;Scale&gt;36978669.4318207&lt;/Scale&gt;&lt;Resolution&gt;9783.93962050256&lt;/Resolution&gt;&lt;/LODInfo&gt;
+&lt;LODInfo xsi:type='typens:LODInfo'&gt;&lt;LevelID&gt;5&lt;/LevelID&gt;&lt;Scale&gt;18489334.7159103&lt;/Scale&gt;&lt;Resolution&gt;4891.96981025128&lt;/Resolution&gt;&lt;/LODInfo&gt;
+&lt;LODInfo xsi:type='typens:LODInfo'&gt;&lt;LevelID&gt;6&lt;/LevelID&gt;&lt;Scale&gt;9244667.35795517&lt;/Scale&gt;&lt;Resolution&gt;2445.98490512564&lt;/Resolution&gt;&lt;/LODInfo&gt;
+&lt;LODInfo xsi:type='typens:LODInfo'&gt;&lt;LevelID&gt;7&lt;/LevelID&gt;&lt;Scale&gt;4622333.67897759&lt;/Scale&gt;&lt;Resolution&gt;1222.99245256282&lt;/Resolution&gt;&lt;/LODInfo&gt;
+&lt;LODInfo xsi:type='typens:LODInfo'&gt;&lt;LevelID&gt;8&lt;/LevelID&gt;&lt;Scale&gt;2311166.83948879&lt;/Scale&gt;&lt;Resolution&gt;611.49622628141&lt;/Resolution&gt;&lt;/LODInfo&gt;
+&lt;LODInfo xsi:type='typens:LODInfo'&gt;&lt;LevelID&gt;9&lt;/LevelID&gt;&lt;Scale&gt;1155583.4197444&lt;/Scale&gt;&lt;Resolution&gt;305.748113140705&lt;/Resolution&gt;&lt;/LODInfo&gt;
+&lt;LODInfo xsi:type='typens:LODInfo'&gt;&lt;LevelID&gt;10&lt;/LevelID&gt;&lt;Scale&gt;577791.709872198&lt;/Scale&gt;&lt;Resolution&gt;152.874056570353&lt;/Resolution&gt;&lt;/LODInfo&gt;
+&lt;LODInfo xsi:type='typens:LODInfo'&gt;&lt;LevelID&gt;11&lt;/LevelID&gt;&lt;Scale&gt;288895.854936099&lt;/Scale&gt;&lt;Resolution&gt;76.4370282851763&lt;/Resolution&gt;&lt;/LODInfo&gt;
+&lt;LODInfo xsi:type='typens:LODInfo'&gt;&lt;LevelID&gt;12&lt;/LevelID&gt;&lt;Scale&gt;144447.92746805&lt;/Scale&gt;&lt;Resolution&gt;38.2185141425881&lt;/Resolution&gt;&lt;/LODInfo&gt;
+&lt;LODInfo xsi:type='typens:LODInfo'&gt;&lt;LevelID&gt;13&lt;/LevelID&gt;&lt;Scale&gt;72223.9637340248&lt;/Scale&gt;&lt;Resolution&gt;19.1092570712941&lt;/Resolution&gt;&lt;/LODInfo&gt;
+&lt;LODInfo xsi:type='typens:LODInfo'&gt;&lt;LevelID&gt;14&lt;/LevelID&gt;&lt;Scale&gt;36111.9818670124&lt;/Scale&gt;&lt;Resolution&gt;9.55462853564703&lt;/Resolution&gt;&lt;/LODInfo&gt;
+&lt;LODInfo xsi:type='typens:LODInfo'&gt;&lt;LevelID&gt;15&lt;/LevelID&gt;&lt;Scale&gt;18055.9909335062&lt;/Scale&gt;&lt;Resolution&gt;4.77731426782352&lt;/Resolution&gt;&lt;/LODInfo&gt;
+&lt;LODInfo xsi:type='typens:LODInfo'&gt;&lt;LevelID&gt;16&lt;/LevelID&gt;&lt;Scale&gt;9027.9954667531&lt;/Scale&gt;&lt;Resolution&gt;2.38865713391176&lt;/Resolution&gt;&lt;/LODInfo&gt;
+&lt;LODInfo xsi:type='typens:LODInfo'&gt;&lt;LevelID&gt;17&lt;/LevelID&gt;&lt;Scale&gt;4513.99773337655&lt;/Scale&gt;&lt;Resolution&gt;1.19432856695588&lt;/Resolution&gt;&lt;/LODInfo&gt;
+&lt;LODInfo xsi:type='typens:LODInfo'&gt;&lt;LevelID&gt;18&lt;/LevelID&gt;&lt;Scale&gt;2256.99886668828&lt;/Scale&gt;&lt;Resolution&gt;0.597164283477939&lt;/Resolution&gt;&lt;/LODInfo&gt;
+&lt;LODInfo xsi:type='typens:LODInfo'&gt;&lt;LevelID&gt;19&lt;/LevelID&gt;&lt;Scale&gt;1128.49943334414&lt;/Scale&gt;&lt;Resolution&gt;0.29858214173897&lt;/Resolution&gt;&lt;/LODInfo&gt;
+&lt;LODInfo xsi:type='typens:LODInfo'&gt;&lt;LevelID&gt;20&lt;/LevelID&gt;&lt;Scale&gt;564.249716672069&lt;/Scale&gt;&lt;Resolution&gt;0.149291070869485&lt;/Resolution&gt;&lt;/LODInfo&gt;
+&lt;LODInfo xsi:type='typens:LODInfo'&gt;&lt;LevelID&gt;21&lt;/LevelID&gt;&lt;Scale&gt;282.124858336034&lt;/Scale&gt;&lt;Resolution&gt;0.0746455354347424&lt;/Resolution&gt;&lt;/LODInfo&gt;
+&lt;LODInfo xsi:type='typens:LODInfo'&gt;&lt;LevelID&gt;22&lt;/LevelID&gt;&lt;Scale&gt;141.062429168017&lt;/Scale&gt;&lt;Resolution&gt;0.0373227677173712&lt;/Resolution&gt;&lt;/LODInfo&gt;
+&lt;/LODInfos&gt;
+&lt;/TileCacheInfo&gt;
+                </pre></td></tr></table>
+           
+</body>
+</html>

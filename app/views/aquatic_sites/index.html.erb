@@ -1,0 +1,215 @@
+<script type="text/javascript">
+Ext.onReady(function() {
+    var store = new SiteStore('/aquatic_sites.js');    
+    var map   = new MapPanel(store);
+    var sites = new SitesPanel(store);
+
+    new Ext.Viewport({
+        layout: 'border',
+        items: [map, sites]
+    });
+    
+    sites.list.on('selectionchange', function(dataview, selections) {        
+        if(selections.length > 0) {
+            var site = dataview.getSelectedRecords()[0].data;
+            console.debug('selected site changed to ' + site.name);
+            map.showMarker(site);
+        }
+    }, this);
+        
+    store.loadData({ 
+        'results': <%= @count %>, 
+        'sites': <%= @sites.to_json %>  
+    });
+});
+
+SitesPanel = function(store) {
+    console.info('creating sites panel');
+        
+    var tpl = new Ext.XTemplate(
+        '<tpl for=".">', 
+            '<div class="site-item">',
+                '<h3>{name}</h3>',
+                '<p>{short_description}</p>',
+            '</div>',
+        '</tpl>'
+    );        
+        
+    var filter = new Ext.form.TextField({
+        emptyText: 'type to filter sites',
+        cls: 'filter'
+    });
+    
+    this.store = store;    
+    this.list = new Ext.DataView({
+        store: this.store,
+        overClass: 'x-site-view-over',
+        itemSelector: 'div.site-item',
+        emptyText: 'No sites to display',
+        singleSelect: true,
+        tpl: tpl,
+        prepareData: function(data) {
+            data.name = data.name || 'Unnamed Site';
+            var description = data.description || 'No Description';
+            data.short_description = description.length >= 100 ?
+                description.substring(0, 97) + '...' :
+                description;                
+            return data;
+        }
+    });
+    
+    filter.on('specialkey', function(field, evt) {
+        if(evt.getCharCode() == Ext.EventObject.ENTER) {
+            this.store.setFilter(field.getValue());
+        }
+    }, this);
+    
+    SitesPanel.superclass.constructor.call(this, {
+        title: 'Aquatic Sites',
+        region: 'east',
+        split: true,
+        minWidth: 215,
+        width: 215,
+        autoScroll: true,
+        collapsible: true,
+        items: [filter, this.list],
+        bbar: new Ext.PagingToolbar({ 
+            store: this.store,
+            pageSize: <%= @sites.size %>
+        })
+    });
+};
+Ext.extend(SitesPanel, Ext.Panel);
+
+MapPanel = function(store) {    
+    console.info('creating map panel');
+        
+    this.store = store;
+    this.map = null;
+    this.overlays = {};
+    this.infoTpl = new Ext.XTemplate(
+        '<tpl for=".">', 
+            '<div class="site-item">',
+                '<h3>{name}</h3>',
+                '<p>ID: {id}</p>',
+                '<ul><li>Latitude: {lat}</li><li>Longitude: {lng}</li></ul>',
+                '<p>{full_description}</p>',
+            '</div>',
+        '</tpl>'
+    );
+    
+    MapPanel.superclass.constructor.call(this, {
+        region: 'center'
+    });
+    
+    this.store.on('datachanged', function(store) {
+        console.debug('datastore changed, refreshing map');
+        this.updateMap();
+    }, this);
+    
+    this.on('resize', function(comp) { 
+        console.debug('panel being resized');
+        this.map.checkResize(); 
+    }, this);
+    
+    if(GBrowserIsCompatible()) {  
+        this.on('render', function(comp) {
+            this.map = new GMap2(comp.body.dom);
+            var map = this.map;
+            new GKeyboardHandler(map);
+            map.addControl(new GLargeMapControl());
+            map.addControl(new GScaleControl());
+            map.addControl(new GOverviewMapControl());
+            map.addControl(new GMapTypeControl());
+            map.enableDoubleClickZoom();
+            map.enableContinuousZoom();
+            map.enableScrollWheelZoom();
+            map.checkResize();
+            
+            var bounds = <%= create_bounds(@extent) %>;
+            var center = bounds.getCenter();
+            this.map.setCenter(center);        
+            console.debug("centering map to " + center.lat() + ", " + center.lng());
+            this.map.setZoom(this.map.getBoundsZoomLevel(bounds));
+            console.debug("zooming to level " + this.map.getBoundsZoomLevel(bounds));
+            
+            console.info("loading map cache adapter");
+            new GMapCacheAdapter(
+                "/map_cache/aquatic sites/conf.xml", 
+                map, { 
+                    name: "Sites" 
+                }
+            ); 
+        });        
+    }
+};
+Ext.extend(MapPanel, Ext.Panel, {
+    updateMap: function() {
+        this.map.clearOverlays();
+        this.site2marker = {};
+        
+        var sites = this.store.data.items;
+        var bounds = new GLatLngBounds();         
+        
+        for(var i=0, len=sites.length; i < len; i++) {
+            var site = sites[i].data;
+            var point = new GLatLng(site.lat, site.lng);
+            var marker = new GMarker(point);
+            var html = this.infoTpl.apply(this.prepareData(site));
+            this.overlays[site.id] = { marker: marker, html: html };
+            marker.bindInfoWindowHtml(html);            
+            this.map.addOverlay(marker);
+            bounds.extend(point);
+            console.debug("marker added at " + point.lat() + ", " + point.lng());
+        }
+        
+        var center = bounds.getCenter();
+        this.map.setCenter(center);        
+        console.debug("centering map to " + center.lat() + ", " + center.lng());
+        this.map.setZoom(this.map.getBoundsZoomLevel(bounds));
+        console.debug("zooming to level " + this.map.getBoundsZoomLevel(bounds));
+    },
+    
+    showMarker: function(site) {          
+        var overlay = this.overlays[site.id];
+        overlay.marker.openInfoWindowHtml(overlay.html);
+    },
+    
+    prepareData: function(site) {
+        site.name = site.name || 'Unnamed Site';
+        site.full_description = site.description || 'No Description';        
+        return site;
+    }
+});
+
+SiteStore = function(url) {
+    this.extent = null;
+    
+    c = {
+        root: 'sites',
+        totalProperty: 'results',
+        id: 'id',
+        fields: [
+            'id', 'name', 'description', 
+            { name: 'lat', type: 'float' }, 
+            { name: 'lng', type: 'float' }
+        ], 
+        url: url,
+        baseParams: { filter: '' }
+    };
+    SiteStore.superclass.constructor.call(this, Ext.apply(c, {
+        proxy: !c.data ? new Ext.data.HttpProxy({url: c.url, method: 'GET'}) : undefined,
+        reader: new Ext.data.JsonReader(c, c.fields)
+    }));
+};
+Ext.extend(SiteStore, Ext.data.Store, {
+    setFilter: function(text) {
+        if(this.baseParams.filter == text)
+            return;
+        
+        console.debug('setting filter to ' + text);
+        this.baseParams.filter = text;
+        this.load();
+    }
+});
+</script>

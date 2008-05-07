@@ -1,0 +1,180 @@
+/* 
+kuler scheme: superconductor
+#B3D5E1 - baby blue
+#A4BFB0 - light olive green
+#748C69 - olive green
+#4F5939 - army green
+#001E20 - dark
+*/
+/* 
+kuler scheme: chemistry class
+#77DDF5 - light blue
+#13345E - dark blue
+#006DFF - blue
+#000A40 - navy (dark)
+#FF5900 - orange
+*/
+
+#header {
+    background-color: #001E20;
+    color: #fff;
+    height: 50px;
+}
+#session {
+    float: right;    
+    padding: 10px 20px;
+    height: 30px;
+    text-align: right;
+    font-size: 11px;
+    font-family: Verdana;
+}
+#session a {
+    font-weight: bold;
+    color: #fff;
+}
+#session a:hover {
+    color: #B3D5E1;
+}
+#session .user {
+}
+#session .actions {
+    margin-top: 7px;
+    text-align: right;
+}
+#application .logo {
+    height: 36px;
+    width: 36px;
+    float: left;
+    background-color: #fff;
+    color: #000;
+    text-align: center;
+    margin: 7px 10px;
+}
+#application .name {
+    font-size: 16px;
+    padding-top: 17px;
+    font-family: Verdana;
+    height: 33px;
+}
+
+#navigation {
+    height: 90px;
+    background-color: #FF5900;
+    color: #fff;
+}
+#navigation .location {
+    padding: 21px 20px 10px;
+    font-size: 24px;
+    font-weight: bold;
+}
+#activity #navigation .location .agency_name {
+    font-size: 16px;
+    padding-left: 10px;
+}
+#navigation .tabs {
+    margin: 0 25px;
+}
+#navigation .tab {
+    float: left;
+    margin: 7px 5px 0;
+    font-size: 16px;
+}
+#navigation .tab.option {
+    float: right;
+    font-size: 12px;
+    margin-top: 11px;
+}
+#navigation .tab a {
+    display: block;
+    padding: 6px 10px;
+    text-decoration: none;
+    background-color: #B3D5E1;
+    color: #13345E;
+}
+#navigation .tab a:hover {
+    background-color: #13345E;
+    color: #77DDF5;
+}
+#navigation .tab.active a {
+    background-color: #fff;
+    color: #001E20;
+    font-weight: bold;
+    padding-bottom: 7px;
+    border: 1px solid #001e20;
+    border-bottom: none;
+    margin-top: -1px;
+}
+#navigation .tab.active a:hover {
+    background-color: #fff;
+    color: #001E20;
+}
+
+#content {
+    padding: 25px 20px;
+    color: #001E20;
+    border-top: 1px solid #001E20;
+}
+#content h1 {
+    font-size: 18px;
+    font-family: Verdana;
+}
+#content iframe {
+    width: 100%;
+    height: 100%;
+    min-height: 700px;
+}
+
+#content #activities {
+    margin: 10px 0;
+}
+#content #activities .activity {
+    margin-bottom: 20px; 
+    font-size: 12px;
+}
+#content #activities .activity .title {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+#content #activities .activity .description {
+    margin-right: 70px;
+    margin-bottom: 15px;
+}
+#content #activities .activity .author {
+
+}
+#content #activities .activity .date {
+    color: grey;
+    float: right;
+    text-align: right;
+}
+#content #activities .activity .map {
+    float: left;
+    width: 100px;
+    height: 100px;
+    border: 1px solid black;
+    text-align: center;
+    margin: 0 10px 10px 0;
+}
+
+div.site-item {
+    padding: 5px;
+}
+div.site-item p {
+    padding-left: 10px;
+    font-size: 11px;
+    font-style: italic;
+    font-family: Verdana;
+}
+div.x-site-view-over, div.x-task-view-over {
+    background-color: lightyellow;
+}
+div.x-view-selected {
+    background-color: lightblue;
+}
+input.filter {
+    width: 90%;
+    margin: 5px;
+}
+iframe {
+    border: none;
+}

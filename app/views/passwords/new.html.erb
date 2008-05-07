@@ -1,0 +1,21 @@
+<div id="account-recovery">  
+  <h1>Forgot Username/Password</h1>
+  
+  <% if flash[:error] %>
+    <div class="error">
+      <%= flash[:error] %>
+    </div>
+  <% end %>
+  
+  <% if flash[:notice] %>
+    <div class="notice">
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
+  
+  <% form_tag url_for(:action => 'create') do %>
+    <p>What is the email address used to create your account?</p>
+    <%= text_field_tag :email %>
+    <%= submit_tag 'Reset Password' %>
+<% end %>
+</div>
