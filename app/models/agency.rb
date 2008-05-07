@@ -1,6 +1,5 @@
 class Agency < ActiveRecord::Base
   has_many :users
-  has_many :activities
   
   validates_presence_of   :name, :code
   validates_uniqueness_of :code

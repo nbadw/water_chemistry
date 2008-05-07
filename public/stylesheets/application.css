@@ -67,22 +67,31 @@ kuler scheme: chemistry class
     font-size: 24px;
     font-weight: bold;
 }
-#activity #navigation .location .agency_name {
+#activity #navigation .location .agency_name,
+#navigation .location .back {
     font-size: 16px;
     padding-left: 10px;
+    font-weight: normal;
+}
+#navigation .location .back a {
+    color: #fff;
+    text-decoration: none;
+}
+#navigation .location .back a:hover {
+    text-decoration: underline;
 }
 #navigation .tabs {
     margin: 0 25px;
 }
 #navigation .tab {
     float: left;
-    margin: 7px 5px 0;
+    margin: 0 5px;
     font-size: 16px;
 }
 #navigation .tab.option {
     float: right;
     font-size: 12px;
-    margin-top: 11px;
+    margin-top: 4px;
 }
 #navigation .tab a {
     display: block;
@@ -113,6 +122,7 @@ kuler scheme: chemistry class
     padding: 25px 20px;
     color: #001E20;
     border-top: 1px solid #001E20;
+    min-height: 400px;
 }
 #content h1 {
     font-size: 18px;

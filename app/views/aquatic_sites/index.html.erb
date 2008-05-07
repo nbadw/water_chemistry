@@ -157,7 +157,7 @@ Ext.extend(MapPanel, Ext.Panel, {
             var marker = new GMarker(point);
             var html = this.infoTpl.apply(this.prepareData(site));
             this.overlays[site.id] = { marker: marker, html: html };
-            marker.bindInfoWindowHtml(html);            
+            //marker.bindInfoWindowHtml(html);            
             this.map.addOverlay(marker);
             bounds.extend(point);
             console.debug("marker added at " + point.lat() + ", " + point.lng());
@@ -172,7 +172,13 @@ Ext.extend(MapPanel, Ext.Panel, {
     
     showMarker: function(site) {          
         var overlay = this.overlays[site.id];
-        overlay.marker.openInfoWindowHtml(overlay.html);
+        var tabs = [
+            new GInfoWindowTab('Site Details', overlay.html),
+            new GInfoWindowTab('Edit', '<ul><li><a href="#">Edit Site Details</a></li><li><a href="#">Add/Edit Water Temperature Data</a></li><li><a href="#">Etc.</a></li></ul>'),
+            new GInfoWindowTab('Delete', '<p>Really Delete?</p><center><a href="#">Yes</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">No</a></center>')
+        ];
+        
+        overlay.marker.openInfoWindowTabsHtml(tabs, { maxContent: '<iframe style="width: 100%; height: 100%;" src="/temperature_loggers/temperature_data/show"></iframe>', maxTitle: "Temperature Data" });
     },
     
     prepareData: function(site) {

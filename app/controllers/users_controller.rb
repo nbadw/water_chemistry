@@ -20,8 +20,10 @@ class UsersController < ApplicationController
   end
   
   def create
-    cookies.delete :auth_token
+    cookies.delete :auth_token    
+    agency = Agency.find params.delete(:agency_id)
     @user = User.new(params[:user])
+    @user.agency = agency
     @user.save!
     #Uncomment to have the user logged in after creating an account - Not Recommended
     #self.current_user = @user

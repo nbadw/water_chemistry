@@ -3,12 +3,15 @@ class DataEntryController < ApplicationController
   before_filter :login_required
   
   def index
-    redirect_to :action => 'overview'
+    redirect_to :action => 'browse'
   end
   
-  def overview
+  def browse
+    @activity_groups = Activity.group_by_category(:all)
+    render :action => 'index'
   end
   
-  def water_chemistry    
+  def explore
+    
   end
 end

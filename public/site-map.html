@@ -1,0 +1,39 @@
+<!-- 
+    Document   : site-map
+    Created on : May 4, 2008, 5:28:39 PM
+    Author     : colin
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title>Aquatic Sites Map</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <link rel="stylesheet" type="text/css" href="/javascripts/ext-2.1/resources/css/ext-all.css"></link>
+        
+        <script type="text/javascript" src="/javascripts/ext-2.1/adapter/ext/ext-base.js"></script>
+        <script type="text/javascript" src="/javascripts/ext-2.1/ext-all-debug.js"></script>
+        <script type="text/javascript" src="/javascripts/aquatic_sites_map.js"></script>
+        <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAGINyEenSy_3jKcSV_XX_gRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxTjJBRnVvIn8PFzD1OlcSsgbQPO7A" type="text/javascript"></script>
+    </head>
+    <body onunload="GUnload();">
+        
+        <script type="text/javascript">
+            new Ext.Viewport({
+                layout: 'border',
+                items: new AquaticSitesPanel({
+                    region: 'center',
+                    data: { 
+                        results: 3, 
+                        sites: [
+                            { id: 0, name: 'test site 1', lng: -67.925025, lat: 45.19194 },
+                            { id: 1, name: 'test site 2', lng: -66.164890, lat: 45.19194 },
+                            { id: 2, name: 'test site 3', lng: -66.164890, lat: 47.48049 }
+                        ] 
+                    }
+                })
+            });
+        </script>
+        
+    </body>
+</html>

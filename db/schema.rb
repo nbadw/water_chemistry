@@ -9,79 +9,81 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 9) do
+ActiveRecord::Schema.define(:version => 8) do
 
   create_table "activities", :force => true do |t|
-    t.column "name", :string, :null => false
-    t.column "title", :string, :null => false
+    t.column "dw_aquatic_activity_code", :integer
+    t.column "name", :string, :default => "", :null => false
     t.column "desc", :text
-    t.column "author", :string
-    t.column "type", :string
-    t.column "agency_id", :integer, :null => false
-    t.column "version", :integer
-    t.column "deleted_at", :timestamp
-    t.column "created_at", :timestamp
-    t.column "updated_at", :timestamp
-    t.column "geom", :geometry, :srid => 4326
-  end
-
-  add_index "activities", ["geom"], :name => "index_activities_on_geom", :spatial=> true 
-
-  create_table "activity_versions", :force => true do |t|
-    t.column "activity_id", :integer
-    t.column "version", :integer
-    t.column "name", :string
-    t.column "title", :string
-    t.column "desc", :text
-    t.column "author", :string
-    t.column "agency_id", :integer
-    t.column "deleted_at", :timestamp
-    t.column "created_at", :timestamp
-    t.column "updated_at", :timestamp
-    t.column "geom", :geometry
-    t.column "versioned_type", :string
+    t.column "category", :string, :default => "", :null => false
+    t.column "duration", :string
+    t.column "created_at", :datetime
+    t.column "updated_at", :datetime
   end
 
   create_table "agencies", :force => true do |t|
     t.column "name", :string
     t.column "code", :string
-    t.column "created_at", :timestamp
-    t.column "updated_at", :timestamp
+    t.column "agency_type", :string
+    t.column "data_rules", :boolean
+    t.column "created_at", :datetime
+    t.column "updated_at", :datetime
+  end
+
+  create_table "aquatic_site_usages", :force => true do |t|
+    t.column "dw_aquatic_site_use_id", :integer
+    t.column "aquatic_site_id", :integer
+    t.column "aquatic_activity_code", :integer
+    t.column "aquatic_site_type", :string
+    t.column "agency_code", :string
+    t.column "agency_site_id", :string
+    t.column "start_year", :string
+    t.column "end_year", :string
+    t.column "years_active", :string
+    t.column "incorporated_at", :datetime
+    t.column "created_at", :datetime
+    t.column "updated_at", :datetime
   end
 
   create_table "aquatic_sites", :force => true do |t|
+    t.column "dw_aquatic_site_id", :integer
+    t.column "old_aquatic_site_id", :integer
+    t.column "river_system_id", :integer
+    t.column "waterbody_id", :integer
     t.column "name", :string
     t.column "description", :string
-    t.column "waterbody_id", :integer
-    t.column "drainage_code", :string
-    t.column "created_at", :timestamp
-    t.column "updated_at", :timestamp
-    t.column "geom", :point, :srid => 4326, :null => false
+    t.column "habitat_desc", :string
+    t.column "reach_no", :integer
+    t.column "start_desc", :string
+    t.column "end_desc", :string
+    t.column "start_route_meas", :float
+    t.column "end_route_meas", :float
+    t.column "site_type", :string
+    t.column "specific_site", :boolean
+    t.column "georeferenced", :boolean
+    t.column "entered_at", :datetime
+    t.column "incorporated_at", :datetime
+    t.column "coordinate_source", :string
+    t.column "coordinate_system", :string
+    t.column "coordinate_units", :string
+    t.column "x_coord", :string
+    t.column "y_coord", :string
+    t.column "comments", :string
+    t.column "created_at", :datetime
+    t.column "updated_at", :datetime
   end
-
-  add_index "aquatic_sites", ["geom"], :name => "index_aquatic_sites_on_geom", :spatial=> true 
 
   create_table "permissions", :force => true do |t|
     t.column "role_id", :integer, :null => false
     t.column "user_id", :integer, :null => false
-    t.column "created_at", :timestamp
-    t.column "updated_at", :timestamp
+    t.column "created_at", :datetime
+    t.column "updated_at", :datetime
   end
 
   create_table "roles", :force => true do |t|
     t.column "rolename", :string
-    t.column "created_at", :timestamp
-    t.column "updated_at", :timestamp
-  end
-
-  create_table "tasks", :force => true do |t|
-    t.column "title", :string, :null => false
-    t.column "position", :integer, :null => false
-    t.column "activity_id", :integer, :null => false
-    t.column "controller", :string, :null => false
-    t.column "action", :string, :null => false
-    t.column "created_at", :timestamp
-    t.column "updated_at", :timestamp
+    t.column "created_at", :datetime
+    t.column "updated_at", :datetime
   end
 
   create_table "users", :force => true do |t|
@@ -90,14 +92,30 @@ ActiveRecord::Schema.define(:version => 9) do
     t.column "crypted_password", :string, :limit => 40
     t.column "salt", :string, :limit => 40
     t.column "remember_token", :string
-    t.column "remember_token_expires_at", :timestamp
+    t.column "remember_token_expires_at", :datetime
     t.column "activation_code", :string, :limit => 40
-    t.column "activated_at", :timestamp
+    t.column "activated_at", :datetime
     t.column "password_reset_code", :string, :limit => 40
     t.column "enabled", :boolean, :default => true
-    t.column "created_at", :timestamp
-    t.column "updated_at", :timestamp
-    t.column "agency_id", :integer
+    t.column "created_at", :datetime
+    t.column "updated_at", :datetime
+  end
+
+  create_table "waterbodies", :force => true do |t|
+    t.column "dw_waterbody_id", :integer
+    t.column "name", :string
+    t.column "abbrev_name", :string
+    t.column "alt_name", :string
+    t.column "waterbody_type", :string
+    t.column "waterbody_complex_id", :integer
+    t.column "surveyed", :boolean
+    t.column "flows_into_waterbody_id", :integer
+    t.column "flows_into_waterbody_name", :string
+    t.column "flows_into_watershed", :string
+    t.column "date_entered", :datetime
+    t.column "date_modified", :datetime
+    t.column "created_at", :datetime
+    t.column "updated_at", :datetime
   end
 
 end

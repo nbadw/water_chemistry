@@ -52,7 +52,7 @@ class UserTest < Test::Unit::TestCase
       assert_not_nil @user.remember_token
       assert_not_nil @user.remember_token_expires_at
       assert @user.remember_token_expires_at.between?(before, after)
-    end
+    end   
   end
   
   context "with an activated user account" do

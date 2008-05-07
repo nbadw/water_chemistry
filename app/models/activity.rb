@@ -1,8 +1,18 @@
-class Activity < ActiveRecord::Base
-  acts_as_paranoid
-  acts_as_versioned
-  #acts_as_draftable
+class Activity < ActiveRecord::Base  
+  has_many :activity_events
+  has_many :sites, :through => :activity_events
   
-  belongs_to :agency
-  has_many   :tasks
+  validates_presence_of   :name, :category
+  validates_uniqueness_of :name  
+  
+  class << self 
+    def group_by_category(*args)
+      options = args.extract_options!
+      @activities = Activity.find(args.first, options)
+      @activities.inject(Hash.new) do |hash, a|
+        hash[a.category] = (hash[a.category] || []) << a
+        hash
+      end
+    end
+  end
 end

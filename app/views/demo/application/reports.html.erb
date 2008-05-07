@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <title>Data Entry Demo: <%= controller.action_name.capitalize %> UI</title>
+    
+    <%= stylesheet_link_tag 'application' %>
+    <%= stylesheet_link_tag '../javascripts/ext-2.1/resources/css/ext-all' %>
+    <%= javascript_include_tag 'ext-2.1/adapter/ext/ext-base' %>
+    <%= javascript_include_tag 'ext-2.1/ext-all-debug' %>        
+
+    <style> 
+      #navigation .tab { margin-top: 0; }
+      #navigation .tab.option { margin-top: 4px; }
+      #content { height: 400px; }
+      
+      #content .x-panel, 
+      #content .x-panel-body { 
+        border: none; 
+      }
+      #reports-ct h2 {
+        border-bottom: 2px solid #99bbe8;
+        cursor: pointer;
+        padding-top: 6px;
+      }
+      #reports-ct h2 div {
+        background: transparent url(/javascripts/ext-2.1/resources/images/default/grid/group-expand-sprite.gif) no-repeat scroll 3px -47px;
+        color: 3764a0;
+        font-family: tahoma, arial, helvetica, sans-serif;
+        font-size: 11px;
+        font-weight: bold;
+        padding: 4px 4px 4px 17px;
+      }
+      #reports-ct .collapsed h2 div {
+        background-position: 3px 3px;
+      }
+      #reports-ct .collapsed dl {
+        display: none;
+      }
+      #reports-ct dd {
+        cursor: pointer;
+        float: left;
+        height: 100px;
+        width: 300px;
+        padding: 5px 5px 5px 10px;
+      }
+      #reports-ct dd.over {
+        background-color: #ffffe0;
+      }
+      #reports-ct dd h4 {
+        color: #555;
+        font-family: tahoma, arial, helvetica, sans-serif;
+        font-size: 11px;
+        font-weight: bold;
+      }
+      #reports-ct dd p {
+        color: #777;
+        font-family: tahoma, arial, helvetica, sans-serif;
+        font-size: 11px;
+      }
+    </style>
+    
+  </head>
+  <body>
+    
+    <div id="header">
+      <div id="session">
+        <p>Logged in as <a href="#"><span class="user">username</span></a></p> <% #= link_to h(current_user.login.capitalize), user_path(current_user) %>
+        <div class="actions">
+          <a href="#">Profile</a>  <% #= link_to 'Edit Profile', edit_user_path(current_user) %>
+          <span class="pipe">|</span>
+          <a href="/demo/application/login">Logout</a>  <% #= link_to 'Log Out', logout_url %>
+        </div>
+      </div>
+      
+      <div id="application">
+        <img class="logo" src="#" alt="IMG"/>
+        <h1 class="name">Aquatic Data Warehouse: Data Entry</h1>
+      </div>      
+    </div>
+    
+    <div id="navigation">
+      <h2 class="location">
+        <span class="agency_name"><%= @agency ? @agency.name : 'AGENCY_NAME' %></span>
+      </h2>
+      <ul class="tabs">
+        <li class="tab active"><a href="#">Main Menu</a></li>
+        
+        <li class="tab option"><a href="#">Help</a></li>
+        <li class="tab option"><a href="#">Settings</a></li>
+      </ul>
+    </div>
+    
+    <div id="content"> 
+    
+<script type="text/javascript">
+ReportsPanel = Ext.extend(Ext.DataView, {
+    autoHeight: true,
+    frame:true,
+    cls: 'reports',
+    itemSelector: 'dd',
+    overClass: 'over',
+    
+    tpl : new Ext.XTemplate(
+        '<div id="reports-ct">',
+            '<tpl for=".">',
+            '<div><a name="{id}"></a><h2><div>{title}</div></h2>',
+            '<dl>',
+                '<tpl for="reports">',
+                    '<dd ext:url="{url}">',
+                        '<div><h4>{text}</h4><p>{desc}</p></div>',
+                    '</dd>',
+                '</tpl>',
+            '<div style="clear:left"></div></dl></div>',
+            '</tpl>',
+        '</div>'
+    ),
+
+    onClick : function(e) {
+        var group = e.getTarget('h2', 3, true);
+        if(group) {
+            group.up('div').toggleClass('collapsed');
+            console.log('toggle group');
+        }else {
+            var t = e.getTarget('dd', 5, true);
+            if(t && !e.getTarget('a', 2)){
+                var url = t.getAttributeNS('ext', 'url');
+                console.log('open report page ' + url);
+            }
+        }
+        return ReportsPanel.superclass.onClick.apply(this, arguments);
+    }
+});
+
+Ext.EventManager.on(window, 'load', function() {
+    var catalog = [{
+        title: 'Water Monitoring',
+        reports: [{
+            text: 'Water Temperature',
+            url:  '#',
+            desc: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi rhoncus lacus vel massa. Donec blandit, sapien id feugiat luctus, metus justo tristique purus, quis tincidunt ligula purus consectetuer nisi. Vivamus adipiscing mollis arcu.'
+        },{
+            text: 'Groundwater Level Monitoring',
+            url:  '#',
+            desc: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi rhoncus lacus vel massa. Donec blandit, sapien id feugiat luctus, metus justo tristique purus, quis tincidunt ligula purus consectetuer nisi. Vivamus adipiscing mollis arcu.'
+        },{
+            text: 'Hydrometric Stations',
+            url:  '#',
+            desc: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi rhoncus lacus vel massa. Donec blandit, sapien id feugiat luctus, metus justo tristique purus, quis tincidunt ligula purus consectetuer nisi. Vivamus adipiscing mollis arcu.'
+        },{
+            text: 'MacroInvertebrates',
+            url:  '#',
+            desc: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi rhoncus lacus vel massa. Donec blandit, sapien id feugiat luctus, metus justo tristique purus, quis tincidunt ligula purus consectetuer nisi. Vivamus adipiscing mollis arcu.'
+        },{
+            text: 'Bacterial Analysis',
+            url:  '#',
+            desc: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi rhoncus lacus vel massa. Donec blandit, sapien id feugiat luctus, metus justo tristique purus, quis tincidunt ligula purus consectetuer nisi. Vivamus adipiscing mollis arcu.'
+        }]
+    },{
+        title: 'Angling Regulations',
+        reports: [{
+            text: 'Angling Leases',
+            url:  '#',
+            desc: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi rhoncus lacus vel massa. Donec blandit, sapien id feugiat luctus, metus justo tristique purus, quis tincidunt ligula purus consectetuer nisi. Vivamus adipiscing mollis arcu.'
+        },{
+            text: 'Crown Reserves',
+            url:  '#',
+            desc: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi rhoncus lacus vel massa. Donec blandit, sapien id feugiat luctus, metus justo tristique purus, quis tincidunt ligula purus consectetuer nisi. Vivamus adipiscing mollis arcu.'
+        },{
+            text: 'Regulated Waters',
+            url:  '#',
+            desc: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi rhoncus lacus vel massa. Donec blandit, sapien id feugiat luctus, metus justo tristique purus, quis tincidunt ligula purus consectetuer nisi. Vivamus adipiscing mollis arcu.'
+        }]
+    },{
+        title: 'Fish Management',
+        reports: [{
+            text: 'Broodstock Collection',
+            url:  '#',
+            desc: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi rhoncus lacus vel massa. Donec blandit, sapien id feugiat luctus, metus justo tristique purus, quis tincidunt ligula purus consectetuer nisi. Vivamus adipiscing mollis arcu.'
+        },{
+            text: 'Electrofishing',
+            url:  '#',
+            desc: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi rhoncus lacus vel massa. Donec blandit, sapien id feugiat luctus, metus justo tristique purus, quis tincidunt ligula purus consectetuer nisi. Vivamus adipiscing mollis arcu.'
+        },{
+            text: 'Fish Run Counts',
+            url:  '#',
+            desc: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi rhoncus lacus vel massa. Donec blandit, sapien id feugiat luctus, metus justo tristique purus, quis tincidunt ligula purus consectetuer nisi. Vivamus adipiscing mollis arcu.'
+        },{
+            text: 'Fish Stocking',
+            url:  '#',
+            desc: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi rhoncus lacus vel massa. Donec blandit, sapien id feugiat luctus, metus justo tristique purus, quis tincidunt ligula purus consectetuer nisi. Vivamus adipiscing mollis arcu.'
+        },{
+            text: 'Fish Translocations',
+            url:  '#',
+            desc: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi rhoncus lacus vel massa. Donec blandit, sapien id feugiat luctus, metus justo tristique purus, quis tincidunt ligula purus consectetuer nisi. Vivamus adipiscing mollis arcu.'
+        }]
+    }];
+
+    for(var i = 0, c; c = catalog[i]; i++){
+        c.id = 'report-' + i;
+    }
+
+    var store = new Ext.data.JsonStore({
+        idProperty: 'id',
+        fields: ['id', 'title', 'reports'],
+        data: catalog
+    });
+
+    new Ext.Panel({
+        items: new ReportsPanel({
+            store: store
+        })
+    }).render('content');
+});
+</script>
+
+    </div>
+    
+  </body>
+</html>

@@ -1,4 +1,9 @@
 ActionController::Routing::Routes.draw do |map|
+  
+  map.resources :waterbodies,   :active_scaffold => true
+  map.resources :watersheds,    :active_scaffold => true
+  map.resources :aquatic_sites, :active_scaffold => true
+
   map.root :controller => "data_entry", :action => "index"
   map.signup '/signup', :controller => 'users', :action => 'new'
   map.login '/login', :controller => 'sessions', :action => 'new'

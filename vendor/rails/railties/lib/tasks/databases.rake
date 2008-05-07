@@ -291,7 +291,8 @@ namespace :db do
 
         ActiveRecord::Base.clear_active_connections!
         `dropdb -U "#{abcs["test"]["username"]}" #{abcs["test"]["database"]}`
-        `createdb #{enc_option} -U "#{abcs["test"]["username"]}" #{abcs["test"]["database"]}`
+        # XXX: the -T template option shouldn't be here! maybe override this rake task instead?
+        `createdb #{enc_option} -U "#{abcs["test"]["username"]}" -T template_postgis #{abcs["test"]["database"]}`
       when "sqlite","sqlite3"
         dbfile = abcs["test"]["database"] || abcs["test"]["dbfile"]
         File.delete(dbfile) if File.exist?(dbfile)

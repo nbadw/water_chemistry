@@ -1,0 +1,44 @@
+import:  
+  adapter: sqlserver
+  database: dataWarehouse_dev
+  host: .\SQLEXPRESS
+  provider: SQLNCLI
+  windows_auth: true 
+
+export:
+  adapter: postgresql
+  encoding: UTF8
+  database: waterchemistry_dev
+  username: postgres
+  password: PGx3wp3
+
+mappings:
+    - table: 
+        name: tblDrainageUnit
+        new_name: drainage_units
+        - columns:
+            name: drainagecd
+
+    ", :id => false, :force => true do |t|
+    t.string  "drainagecd",   :limit => 34,  :null => false
+    t.string  "level1no",     :limit => 4
+    t.string  "level1name",   :limit => 80
+    t.string  "level2no",     :limit => 4
+    t.string  "level2name",   :limit => 100
+    t.string  "level3no",     :limit => 4
+    t.string  "level3name",   :limit => 100
+    t.string  "level4no",     :limit => 4
+    t.string  "level4name",   :limit => 100
+    t.string  "level5no",     :limit => 4
+    t.string  "level5name",   :limit => 100
+    t.string  "level6no",     :limit => 4
+    t.string  "level6name",   :limit => 100
+    t.string  "unitname",     :limit => 110
+    t.string  "unittype",     :limit => 8
+    t.string  "borderind",    :limit => 2
+    t.integer "streamorder"
+    t.float   "area_ha"
+    t.float   "area_percent"
+    t.string  "cgndb_key",    :limit => 20
+    t.string  "drainsinto",   :limit => 80
+  end
