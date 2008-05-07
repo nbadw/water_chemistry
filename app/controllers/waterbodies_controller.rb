@@ -1,4 +1,4 @@
 class WaterbodiesController < ApplicationController
   layout 'admin'
-  active_scaffold
+  active_scaffold :waterbody
 end

@@ -1,6 +1,8 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class ActivityTest < ActiveSupport::TestCase
+  should_have_many :aquatic_site_usages
+  should_have_many :aquatic_sites, :through => :aquatic_site_usages
   should_require_attributes :name, :category
   
   context "given an existing activity record" do

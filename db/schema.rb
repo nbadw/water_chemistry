@@ -9,10 +9,9 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 8) do
+ActiveRecord::Schema.define(:version => 11) do
 
   create_table "activities", :force => true do |t|
-    t.column "dw_aquatic_activity_code", :integer
     t.column "name", :string, :default => "", :null => false
     t.column "desc", :text
     t.column "category", :string, :default => "", :null => false
@@ -23,7 +22,6 @@ ActiveRecord::Schema.define(:version => 8) do
 
   create_table "agencies", :force => true do |t|
     t.column "name", :string
-    t.column "code", :string
     t.column "agency_type", :string
     t.column "data_rules", :boolean
     t.column "created_at", :datetime
@@ -31,7 +29,6 @@ ActiveRecord::Schema.define(:version => 8) do
   end
 
   create_table "aquatic_site_usages", :force => true do |t|
-    t.column "dw_aquatic_site_use_id", :integer
     t.column "aquatic_site_id", :integer
     t.column "aquatic_activity_code", :integer
     t.column "aquatic_site_type", :string
@@ -46,7 +43,6 @@ ActiveRecord::Schema.define(:version => 8) do
   end
 
   create_table "aquatic_sites", :force => true do |t|
-    t.column "dw_aquatic_site_id", :integer
     t.column "old_aquatic_site_id", :integer
     t.column "river_system_id", :integer
     t.column "waterbody_id", :integer
@@ -71,6 +67,7 @@ ActiveRecord::Schema.define(:version => 8) do
     t.column "comments", :string
     t.column "created_at", :datetime
     t.column "updated_at", :datetime
+    t.column "deleted_at", :datetime
   end
 
   create_table "permissions", :force => true do |t|
@@ -99,13 +96,14 @@ ActiveRecord::Schema.define(:version => 8) do
     t.column "enabled", :boolean, :default => true
     t.column "created_at", :datetime
     t.column "updated_at", :datetime
+    t.column "agency_id", :integer
   end
 
   create_table "waterbodies", :force => true do |t|
-    t.column "dw_waterbody_id", :integer
     t.column "name", :string
     t.column "abbrev_name", :string
     t.column "alt_name", :string
+    t.column "drainage_code", :string
     t.column "waterbody_type", :string
     t.column "waterbody_complex_id", :integer
     t.column "surveyed", :boolean
@@ -114,6 +112,30 @@ ActiveRecord::Schema.define(:version => 8) do
     t.column "flows_into_watershed", :string
     t.column "date_entered", :datetime
     t.column "date_modified", :datetime
+    t.column "created_at", :datetime
+    t.column "updated_at", :datetime
+  end
+
+  create_table "watersheds", :force => true do |t|
+    t.column "name", :string
+    t.column "unit_type", :string
+    t.column "border", :boolean
+    t.column "stream_order", :integer
+    t.column "area_ha", :float
+    t.column "area_percent", :float
+    t.column "drains_into", :string
+    t.column "level1_no", :string
+    t.column "level1_name", :string
+    t.column "level2_no", :string
+    t.column "level2_name", :string
+    t.column "level3_no", :string
+    t.column "level3_name", :string
+    t.column "level4_no", :string
+    t.column "level4_name", :string
+    t.column "level5_no", :string
+    t.column "level5_name", :string
+    t.column "level6_no", :string
+    t.column "level6_name", :string
     t.column "created_at", :datetime
     t.column "updated_at", :datetime
   end

@@ -1,0 +1,5 @@
+adapter: sqlserver
+database: dw_staging
+host: .
+provider: SQLNCLI
+windows_auth: true 

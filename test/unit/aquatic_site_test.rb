@@ -1,9 +1,9 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class AquaticSiteTest < ActiveSupport::TestCase
-  should_have_many :activity_events
-  should_have_many :activities, :through => :activity_events  
-  should_require_attributes :geom
+  should_belong_to :waterbody
+  should_have_many :aquatic_site_usages
+  should_have_many :activities, :through => :aquatic_site_usages
       
   context "acting as paranoid" do
     setup do
@@ -12,7 +12,7 @@ class AquaticSiteTest < ActiveSupport::TestCase
       AquaticSite.delete @deleted.id
     end
         
-    should_have_db_column :deleted_at, :type => 'timestamp'
+    should_have_db_column :deleted_at, :type => 'datetime'
     
     should "not find sites that have been deleted" do
       assert_nil AquaticSite.find(:first)
@@ -39,7 +39,7 @@ class AquaticSiteTest < ActiveSupport::TestCase
   context "when activity events are attached to aquatic site" do
     setup do
       @aquatic_site = AquaticSite.generate!
-      @aquatic_site.activity_events << ActivityEvent.generate!
+      #@aquatic_site.activity_events << ActivityEvent.generate!
     end
     
     should_eventually "cascade delete to activity events" do

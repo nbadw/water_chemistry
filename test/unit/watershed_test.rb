@@ -1,6 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class WatershedTest < ActiveSupport::TestCase
+  should_have_many :waterbodies
   should_require_attributes :drainage_code
   
   context "given an existing record" do
