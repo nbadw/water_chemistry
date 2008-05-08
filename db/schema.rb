@@ -12,132 +12,132 @@
 ActiveRecord::Schema.define(:version => 11) do
 
   create_table "activities", :force => true do |t|
-    t.column "name", :string, :default => "", :null => false
-    t.column "desc", :text
-    t.column "category", :string, :default => "", :null => false
-    t.column "duration", :string
-    t.column "created_at", :datetime
-    t.column "updated_at", :datetime
+    t.string   "name",       :default => "", :null => false
+    t.text     "desc"
+    t.string   "category",   :default => "", :null => false
+    t.string   "duration"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "agencies", :force => true do |t|
-    t.column "name", :string
-    t.column "agency_type", :string
-    t.column "data_rules", :boolean
-    t.column "created_at", :datetime
-    t.column "updated_at", :datetime
+  create_table "agencies", :primary_key => "code", :force => true do |t|
+    t.string   "name"
+    t.string   "agency_type"
+    t.boolean  "data_rules"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "aquatic_site_usages", :force => true do |t|
-    t.column "aquatic_site_id", :integer
-    t.column "aquatic_activity_code", :integer
-    t.column "aquatic_site_type", :string
-    t.column "agency_code", :string
-    t.column "agency_site_id", :string
-    t.column "start_year", :string
-    t.column "end_year", :string
-    t.column "years_active", :string
-    t.column "incorporated_at", :datetime
-    t.column "created_at", :datetime
-    t.column "updated_at", :datetime
+    t.integer  "aquatic_site_id"
+    t.integer  "aquatic_activity_code"
+    t.string   "aquatic_site_type"
+    t.string   "agency_code"
+    t.string   "agency_site_id"
+    t.string   "start_year"
+    t.string   "end_year"
+    t.string   "years_active"
+    t.datetime "incorporated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "aquatic_sites", :force => true do |t|
-    t.column "old_aquatic_site_id", :integer
-    t.column "river_system_id", :integer
-    t.column "waterbody_id", :integer
-    t.column "name", :string
-    t.column "description", :string
-    t.column "habitat_desc", :string
-    t.column "reach_no", :integer
-    t.column "start_desc", :string
-    t.column "end_desc", :string
-    t.column "start_route_meas", :float
-    t.column "end_route_meas", :float
-    t.column "site_type", :string
-    t.column "specific_site", :boolean
-    t.column "georeferenced", :boolean
-    t.column "entered_at", :datetime
-    t.column "incorporated_at", :datetime
-    t.column "coordinate_source", :string
-    t.column "coordinate_system", :string
-    t.column "coordinate_units", :string
-    t.column "x_coord", :string
-    t.column "y_coord", :string
-    t.column "comments", :string
-    t.column "created_at", :datetime
-    t.column "updated_at", :datetime
-    t.column "deleted_at", :datetime
+    t.integer  "old_aquatic_site_id"
+    t.integer  "river_system_id"
+    t.integer  "waterbody_id"
+    t.string   "name"
+    t.string   "description"
+    t.string   "habitat_desc"
+    t.integer  "reach_no"
+    t.string   "start_desc"
+    t.string   "end_desc"
+    t.float    "start_route_meas"
+    t.float    "end_route_meas"
+    t.string   "site_type"
+    t.boolean  "specific_site"
+    t.boolean  "georeferenced"
+    t.datetime "entered_at"
+    t.datetime "incorporated_at"
+    t.string   "coordinate_source"
+    t.string   "coordinate_system"
+    t.string   "coordinate_units"
+    t.string   "x_coord"
+    t.string   "y_coord"
+    t.string   "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   create_table "permissions", :force => true do |t|
-    t.column "role_id", :integer, :null => false
-    t.column "user_id", :integer, :null => false
-    t.column "created_at", :datetime
-    t.column "updated_at", :datetime
+    t.integer  "role_id",    :null => false
+    t.integer  "user_id",    :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "roles", :force => true do |t|
-    t.column "rolename", :string
-    t.column "created_at", :datetime
-    t.column "updated_at", :datetime
+    t.string   "rolename"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|
-    t.column "login", :string
-    t.column "email", :string
-    t.column "crypted_password", :string, :limit => 40
-    t.column "salt", :string, :limit => 40
-    t.column "remember_token", :string
-    t.column "remember_token_expires_at", :datetime
-    t.column "activation_code", :string, :limit => 40
-    t.column "activated_at", :datetime
-    t.column "password_reset_code", :string, :limit => 40
-    t.column "enabled", :boolean, :default => true
-    t.column "created_at", :datetime
-    t.column "updated_at", :datetime
-    t.column "agency_id", :integer
+    t.string   "login"
+    t.string   "email"
+    t.string   "crypted_password",          :limit => 40
+    t.string   "salt",                      :limit => 40
+    t.string   "remember_token"
+    t.datetime "remember_token_expires_at"
+    t.string   "activation_code",           :limit => 40
+    t.datetime "activated_at"
+    t.string   "password_reset_code",       :limit => 40
+    t.boolean  "enabled",                                 :default => true
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "agency_code"
   end
 
   create_table "waterbodies", :force => true do |t|
-    t.column "name", :string
-    t.column "abbrev_name", :string
-    t.column "alt_name", :string
-    t.column "drainage_code", :string
-    t.column "waterbody_type", :string
-    t.column "waterbody_complex_id", :integer
-    t.column "surveyed", :boolean
-    t.column "flows_into_waterbody_id", :integer
-    t.column "flows_into_waterbody_name", :string
-    t.column "flows_into_watershed", :string
-    t.column "date_entered", :datetime
-    t.column "date_modified", :datetime
-    t.column "created_at", :datetime
-    t.column "updated_at", :datetime
+    t.string   "name"
+    t.string   "abbrev_name"
+    t.string   "alt_name"
+    t.string   "drainage_code"
+    t.string   "waterbody_type"
+    t.integer  "waterbody_complex_id"
+    t.boolean  "surveyed"
+    t.integer  "flows_into_waterbody_id"
+    t.string   "flows_into_waterbody_name"
+    t.string   "flows_into_watershed"
+    t.datetime "date_entered"
+    t.datetime "date_modified"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "watersheds", :force => true do |t|
-    t.column "name", :string
-    t.column "unit_type", :string
-    t.column "border", :boolean
-    t.column "stream_order", :integer
-    t.column "area_ha", :float
-    t.column "area_percent", :float
-    t.column "drains_into", :string
-    t.column "level1_no", :string
-    t.column "level1_name", :string
-    t.column "level2_no", :string
-    t.column "level2_name", :string
-    t.column "level3_no", :string
-    t.column "level3_name", :string
-    t.column "level4_no", :string
-    t.column "level4_name", :string
-    t.column "level5_no", :string
-    t.column "level5_name", :string
-    t.column "level6_no", :string
-    t.column "level6_name", :string
-    t.column "created_at", :datetime
-    t.column "updated_at", :datetime
+  create_table "watersheds", :primary_key => "drainage_code", :force => true do |t|
+    t.string   "name"
+    t.string   "unit_type"
+    t.boolean  "border"
+    t.integer  "stream_order"
+    t.float    "area_ha"
+    t.float    "area_percent"
+    t.string   "drains_into"
+    t.string   "level1_no"
+    t.string   "level1_name"
+    t.string   "level2_no"
+    t.string   "level2_name"
+    t.string   "level3_no"
+    t.string   "level3_name"
+    t.string   "level4_no"
+    t.string   "level4_name"
+    t.string   "level5_no"
+    t.string   "level5_name"
+    t.string   "level6_no"
+    t.string   "level6_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

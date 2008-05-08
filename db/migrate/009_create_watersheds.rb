@@ -1,7 +1,7 @@
 class CreateWatersheds < ActiveRecord::Migration   
   def self.up
     create_table :watersheds, :id => false do |t|
-      t.column  "id", "varchar(17) primary key", :null => false
+      t.string  "drainage_code", :limit => 17, :null => false
       t.string  "name"
       t.string  "unit_type"
       t.boolean "border"
@@ -15,6 +15,7 @@ class CreateWatersheds < ActiveRecord::Migration
       end
       t.timestamps
     end
+    execute "ALTER TABLE `watersheds` ADD PRIMARY KEY (`drainage_code`)"
   end
 
   def self.down

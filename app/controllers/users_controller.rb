@@ -29,7 +29,8 @@ class UsersController < ApplicationController
     #self.current_user = @user
     flash[:notice] = "Thanks for signing up! Please check your email to activate your account before logging in."
     redirect_to login_path    
-  rescue ActiveRecord::RecordInvalid
+  rescue ActiveRecord::RecordInvalid => exc
+    logger.error exc.message
     flash[:error] = "There was a problem creating your account."
     render :action => 'new'
   end

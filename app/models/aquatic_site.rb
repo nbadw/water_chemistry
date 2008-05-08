@@ -1,10 +1,21 @@
 class AquaticSite < ActiveRecord::Base
+  class RecordIsIncorporated < ActiveRecord::ActiveRecordError
+  end
+  class SiteUsagesAttached < ActiveRecord::ActiveRecordError    
+  end
+  
+  before_destroy :check_if_incorporated
+  before_destroy :check_if_aquatic_site_usages_attached
   acts_as_paranoid  
   
   belongs_to :waterbody
   has_many   :aquatic_site_usages
   has_many   :activities, :through => :aquatic_site_usages
-    
+  
+  def incorporated?
+    !self.incorporated_at.nil?
+  end
+  
   def self.import_from_datawarehouse(attributes)
     site = AquaticSite.new
     site.id = attributes['aquaticsiteid']
@@ -31,5 +42,17 @@ class AquaticSite < ActiveRecord::Base
     site.y_coord = attributes['ycoordinate']
     site.comments = attributes['comments']
     site.save(false)
+  end
+  
+  private
+  def check_if_incorporated
+    raise(RecordIsIncorporated, "Incorporated records cannot be deleted") if incorporated?
+  end
+  
+  def check_if_aquatic_site_usages_attached
+    raise(
+      SiteUsagesAttached, 
+      "Site usages are attached, record cannot be deleted"
+    ) if self.aquatic_site_usages.size > 0
   end
 end

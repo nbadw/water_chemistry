@@ -15,22 +15,14 @@ class User < ActiveRecord::Base
   
   has_many   :permissions
   has_many   :roles, :through => :permissions
-  belongs_to :agency
+  belongs_to :agency, :foreign_key => 'agency_code'
   
   before_save   :encrypt_password
   before_create :make_activation_code 
   
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :login, :email, :password, :password_confirmation, :agency
-        
-  generator_for(:login, :start => 'user0') { |prev| prev.succ }
-  generator_for(:email, :start => 'email0@test.com') do |prev|
-    user, domain = prev.split('@')
-    user.succ + '@' + domain
-  end
-  generator_for(:password, :start => 'password0') { |prev| prev.succ }
-  generator_for(:password_confirmation, :start => 'password0') { |prev| prev.succ }
+  attr_accessible :login, :email, :password, :password_confirmation, :agency         
   
   class ActivationCodeNotFound < StandardError  
   end

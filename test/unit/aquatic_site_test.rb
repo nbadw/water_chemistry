@@ -35,23 +35,27 @@ class AquaticSiteTest < ActiveSupport::TestCase
       assert_equal 0, AquaticSite.count_with_deleted
     end
   end
+     
+  context "when site has been incorporated into the data warehouse" do
+    setup { @aquatic_site = AquaticSite.generate!(:incorporated_at => DateTime.now) }
+      
+    should "throw error if delete is attempted" do 
+      assert_raise(AquaticSite::RecordIsIncorporated) { AquaticSite.destroy @aquatic_site.id }
+    end
+  end
   
   context "when activity events are attached to aquatic site" do
     setup do
       @aquatic_site = AquaticSite.generate!
-      #@aquatic_site.activity_events << ActivityEvent.generate!
+      @aquatic_site.aquatic_site_usages << AquaticSiteUsage.generate!
+    end
+    
+    should "throw error if delete is attempted" do
+      assert_raise(AquaticSite::SiteUsagesAttached) { AquaticSite.destroy @aquatic_site.id }
     end
     
     should_eventually "cascade delete to activity events" do
       
-    end
-    
-    context "when site has been commited to data warehouse" do
-      setup { @aquatic_site.export_to_datawarehouse }
-      
-      should_eventually "throw error if delete is attempted" do
-        
-      end
     end
   end
 end

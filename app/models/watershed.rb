@@ -1,10 +1,10 @@
 class Watershed < ActiveRecord::Base
+  set_primary_key 'drainage_code'
+  
   has_many :waterbodies, :foreign_key => 'drainage_code'
   
-  validates_presence_of   :drainage_code
-  validates_format_of     :drainage_code, :with => /^\d{2}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}$/
-  validates_uniqueness_of :drainage_code
-  
+  validates_format_of :drainage_code, :with => /^\d{2}-\d{2}-\d{2}-\d{2}-\d{2}-\d{2}$/
+    
   def self.import_from_datawarehouse(attributes)
     watershed = Watershed.new
     watershed.id = attributes['drainagecd']

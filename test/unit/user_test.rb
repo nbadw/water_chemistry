@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class UserTest < Test::Unit::TestCase     
   should_belong_to :agency
-  should_require_attributes :login, :email, :agency, :password, :password_confirmation
+  should_require_attributes :login, :email, :password, :password_confirmation, :agency
   
   context "with a new user" do
     setup { @user = User.generate! }
