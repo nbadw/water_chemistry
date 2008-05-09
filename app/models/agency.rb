@@ -7,7 +7,7 @@ class Agency < ActiveRecord::Base
   validates_presence_of   :name
   
   def to_label
-    self.id
+    self.code
   end  
   
   def self.import_from_datawarehouse(attributes)

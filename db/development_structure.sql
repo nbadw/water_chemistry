@@ -100,7 +100,7 @@ CREATE TABLE `users` (
   `enabled` tinyint(1) default '1',
   `created_at` datetime default NULL,
   `updated_at` datetime default NULL,
-  `agency_code` int(11) default NULL,
+  `agency_code` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

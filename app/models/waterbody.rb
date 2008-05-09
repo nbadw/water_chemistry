@@ -6,6 +6,10 @@ class Waterbody < ActiveRecord::Base
     self.name
   end
   
+  def self.search(query)
+    Waterbody.find :all, :conditions => ['name LIKE ? OR drainage_code LIKE ? OR id LIKE ?', query, query, query]
+  end
+  
   def self.import_from_datawarehouse(attributes)
     waterbody = Waterbody.new
     waterbody.id = attributes['waterbodyid']

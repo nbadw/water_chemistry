@@ -1,6 +1,6 @@
 class JoinUsersToAgency < ActiveRecord::Migration
   def self.up
-    add_column :users, :agency_code, :integer
+    add_column :users, :agency_code, :string
   end
 
   def self.down

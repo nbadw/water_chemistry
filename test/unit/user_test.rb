@@ -52,7 +52,13 @@ class UserTest < Test::Unit::TestCase
       assert_not_nil @user.remember_token
       assert_not_nil @user.remember_token_expires_at
       assert @user.remember_token_expires_at.between?(before, after)
-    end   
+    end  
+
+    should "allow agency to be set" do
+      a = Agency.generate!
+      @user.agency = a
+      assert_equal a.code, @user.agency_code
+    end
   end
   
   context "with an activated user account" do

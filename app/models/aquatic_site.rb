@@ -11,9 +11,21 @@ class AquaticSite < ActiveRecord::Base
   belongs_to :waterbody
   has_many   :aquatic_site_usages
   has_many   :activities, :through => :aquatic_site_usages
-  
+      
   def incorporated?
     !self.incorporated_at.nil?
+  end
+  
+  def agencies
+    aquatic_site_usages.collect{ |usage| usage.agency_code }.uniq
+  end
+  
+  def waterbody_id
+    waterbody ? waterbody.id : 'No Waterbody ID!'
+  end
+  
+  def drainage_code
+    waterbody.drainage_code if waterbody
   end
   
   def self.import_from_datawarehouse(attributes)

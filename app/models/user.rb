@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
   
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :login, :email, :password, :password_confirmation, :agency         
+  attr_accessible :login, :email, :password, :password_confirmation, :agency_code, :agency        
   
   class ActivationCodeNotFound < StandardError  
   end
@@ -138,7 +138,7 @@ class User < ActiveRecord::Base
   def has_role?(rolename)
     self.roles.find_by_rolename(rolename) ? true : false
   end
-
+  
   protected
   # before filter 
   def encrypt_password

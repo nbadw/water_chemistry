@@ -1,7 +1,9 @@
-module AquaticSitesHelper
-  def create_bounds(extent)
-    coords = extent.match( /\((.*)\)/ )[1]
-    box = coords.split(',').collect{ |coord| coord.split(' ').collect{ |num| num.to_f } }
-    GLatLngBounds.new(GLatLng.new(box[0].reverse), GLatLng.new(box[1].reverse)).create
+module AquaticSitesHelper  
+  def description_column(record)
+    record.description || 'No Description'
+  end
+  
+  def agencies_column(record)
+    record.agencies.join(', ')
   end
 end
