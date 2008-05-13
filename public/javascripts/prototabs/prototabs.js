@@ -64,7 +64,7 @@ ProtoTabs.prototype = {
 		var url = this.options.ajaxUrls[tab.itemId];
 		
 		// if there is an ajax url defined update the panel with ajax
-		if(url != undefined && tab.linkedPanel.childNodes.length == 0) {
+		if(url != undefined && tab.linkedPanel.childElements().length == 0) {
 			tab.linkedPanel.update(this.options.ajaxLoadingText);
 			new Ajax.Request(url, {
                                 method: 'get',

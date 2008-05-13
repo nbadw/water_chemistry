@@ -1,0 +1,112 @@
+<%= GMap.header %>
+<div id="map-container">
+  <div id="map" style="height: 500px;">
+    <noscript>
+      Javascript is not enabled.  Please enable it in your browser.
+    </noscript>
+  </div>
+</div>
+
+<div id="aquatic-sites-container">
+  <div id="aquatic-sites">
+    <%= render :partial => 'aquatic_sites/aquatic_sites' %>
+  </div>
+  <div class="note">
+    
+  </div>
+</div>
+
+<script type="text/javascript">
+    function enhanceAquaticSites() {
+        $('aquatic-sites').select('li.aquatic-site').each(function(li) {
+            Event.observe(li, 'mouseover', function(evt) {
+                this.addClassName('over');
+            });
+            Event.observe(li, 'mouseout', function(evt) {
+                this.removeClassName('over');
+            });
+        });
+        
+        $('aquatic-sites').select('li.aquatic-site a').each(function(link) {
+            Event.observe(link, 'click', handleAquaticSiteClick);
+        });
+        
+        $('aquatic-sites').select('div.pagination a').each(function(link) {
+            Event.observe(link, 'click', function(evt) {
+                Event.stop(evt); // prevent the default action
+                var url    = this.href.split('?')[0]
+                var params = this.href.toQueryParams();
+                params['format'] = 'js'
+                
+                new Ajax.Request(url, { 
+                    method: 'get',
+                    parameters: params,
+                    onComplete: function(response) {
+                        enhanceAquaticSites();
+                    }
+                });
+            });    
+        });
+    }
+    
+    function updateMap(siteMarkers) {
+        map.clearOverlays();
+        site2marker = {};
+        
+        var bounds = new GLatLngBounds();
+        for(var i=0, len=siteMarkers.length; i < len; i++) {
+            var site = siteMarkers[i];
+            var coord = new GLatLng(site.lat, site.lon);
+            var marker = new GMarker(coord);
+            marker.bindInfoWindowHtml(site.info);
+            GEvent.addListener(marker, 'click', handleMarkerClick);
+            map.addOverlay(marker);
+            site2marker[site.id] = marker;
+            bounds.extend(coord);
+        }
+        map.setCenter(bounds.getCenter(), map.getBoundsZoomLevel(bounds));
+    }
+    
+    function handleMarkerClick(evt) {
+        for(var site_id in site2marker) {
+            if(this == site2marker[site_id]) {  
+                $('aquatic-sites').select('li.aquatic-site').each(function(li) { li.removeClassName('selected') });
+                Element.up('aquatic-site-' + site_id, 'li.aquatic-site').addClassName('selected');
+            }                
+        }       
+    }
+    
+    function handleAquaticSiteClick(evt) {
+        Event.stop(evt);
+        $('aquatic-sites').select('li.aquatic-site').each(function(li) { li.removeClassName('selected') });
+        Element.up(this, 'li.aquatic-site').addClassName('selected');
+        var site_id = parseInt(this.id.sub('aquatic-site-', ''));
+        if(site2marker[site_id]) {
+            GEvent.trigger(site2marker[site_id], 'click');
+        }
+    }
+    
+    // initialization (run once on load)
+    enhanceAquaticSites();    
+    if (GBrowserIsCompatible()) {
+        var map = null;
+        var site2marker = {};
+        Event.observe(window, 'unload', function(evt) { GUnload(); });        
+        map = new GMap2($('map'));
+        map.addControl(new GLargeMapControl());
+        map.addControl(new GScaleControl());
+        map.addControl(new GOverviewMapControl());
+        map.addControl(new GMapTypeControl());
+        map.enableDoubleClickZoom();
+        map.enableContinuousZoom();
+        map.enableScrollWheelZoom();
+        map.setCenter(new GLatLng(45.19194, -67.925025), 10);      
+        new GKeyboardHandler(map);   
+        //new GMapCacheAdapter(
+        //    "/map_cache/aquatic sites/conf.xml", 
+        //    map, { 
+        //        name: "Sites" 
+        //    }  
+        updateMap(<%= @site_markers.to_json  %>);
+    }
+</script>

@@ -13,6 +13,9 @@ class AquaticSite < ActiveRecord::Base
   has_many   :activities, :through => :aquatic_site_usages
   
   validates_presence_of :name, :description, :waterbody
+  
+  alias_attribute :lat, :wgs84_lat
+  alias_attribute :lon, :wgs84_lon
       
   def incorporated?
     !self.incorporated_at.nil?
