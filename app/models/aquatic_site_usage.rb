@@ -4,25 +4,7 @@ class AquaticSiteUsage < ActiveRecord::Base
   belongs_to :agency, :foreign_key => 'agency_code'
   
   validates_presence_of :activity
-    
-  def waterbody
-    self.aquatic_site.waterbody if self.aquatic_site
-  end
-  
-  def waterbody_name
-    waterbody ? waterbody.name : 'Unnamed Waterbody'
-  end
-  
-  def waterbody_id
-    waterbody ? waterbody.id : 'ID Not Found'
-  end 
-  
-  def description
-    (self.aquatic_site && self.aquatic_site.description) ?
-      self.aquatic_site.description :
-      'No Description'
-  end
-  
+      
   def self.import_from_datawarehouse(attributes)
     record = AquaticSiteUsage.new
     record.id = attributes['aquaticsiteuseid']

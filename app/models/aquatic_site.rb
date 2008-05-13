@@ -11,6 +11,8 @@ class AquaticSite < ActiveRecord::Base
   belongs_to :waterbody
   has_many   :aquatic_site_usages
   has_many   :activities, :through => :aquatic_site_usages
+  
+  validates_presence_of :name, :description, :waterbody
       
   def incorporated?
     !self.incorporated_at.nil?

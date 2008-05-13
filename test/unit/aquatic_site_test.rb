@@ -4,6 +4,8 @@ class AquaticSiteTest < ActiveSupport::TestCase
   should_belong_to :waterbody
   should_have_many :aquatic_site_usages
   should_have_many :activities, :through => :aquatic_site_usages
+  
+  should_require_attributes :name, :description, :waterbody
       
   context "acting as paranoid" do
     setup do

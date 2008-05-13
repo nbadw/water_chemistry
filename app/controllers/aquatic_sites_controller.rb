@@ -1,37 +1,49 @@
 class AquaticSitesController < ApplicationController
-  before_filter :full_or_simple_table_config
-  
   layout 'admin'
-  
-  active_scaffold :aquatic_site do |config|
-    config.columns = [:id, :name, :agencies, :waterbody_id,
-      :waterbody, :drainage_code, :description, :activities]
+    
+  active_scaffold :aquatic_site do |config|    
+    config.columns = [:id, :name, :agencies, :waterbody_id, :waterbody, 
+      :drainage_code, :description, :activities]
         
     config.columns[:id].label = 'Aquatic Site ID'
     config.columns[:waterbody_id].label = 'Waterbody ID'
     config.columns[:waterbody].label = 'Waterbody Name'
     config.columns[:drainage_code].label = 'Watershed Code'
     config.columns[:name].label = 'Site Name'
-    config.columns[:description].label = 'Site Description'
+    config.columns[:description].label = 'Site Description'    
     
     config.list.columns.exclude :name
+    config.columns[:drainage_code].sort_by :sql => 'waterbodies.drainage_code'
+    config.list.sorting =[{ :drainage_code => :asc }]
     
     config.create.columns = [:agency, :name, :description, :waterbody]
+    config.create.persistent = true
+    
+    config.update.columns = [:agency, :name, :description, :waterbody]
+        
+    config.columns[:waterbody_id].search_sql = 'waterbodies.id'
+    config.search.columns << :waterbody_id
+    config.columns[:waterbody].search_sql = 'waterbodies.name'
+    config.search.columns << :waterbody
+    config.columns[:drainage_code].search_sql = 'waterbodies.drainage_code'    
+    config.search.columns << :drainage_code
+    config.columns[:activities].search_sql = 'activities.name'
+    config.search.columns << :activities
+    config.columns[:agencies].search_sql = 'aquatic_site_usages.agency_code'
+    config.search.columns << :agencies
   end
   
   def conditions_for_collection
-    ['aquatic_sites.id > 0']
+    ['aquatic_sites.id > 0 AND waterbody_id IS NOT NULL']
+  end
+  
+  def active_scaffold_joins
+    [:waterbody, :aquatic_site_usages, :activities]
   end
   
   def auto_complete_for_waterbody_contains
     query = params[:waterbody][:contains]
-    @waterbodies = Waterbody.search("%#{query}%") unless query.blank?
-    render :partial => "live/search" 
-  end
-  
-  def full_or_simple_table_config
-    if params['list_type'] == 'simple'
-      
-    end
+    @waterbodies = Waterbody.search(query) unless query.blank?
+    render :partial => "autocomplete" 
   end
 end

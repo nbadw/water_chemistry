@@ -1,9 +1,5 @@
 class ActivitiesController < ApplicationController
-  def index
-    @activities = Activity.find :all
-  end
-  
-  def show
-    @activity = Activity.find params[:id]
+  active_scaffold :activity do |config|
+    config.columns = [:name, :category, :duration]
   end
 end

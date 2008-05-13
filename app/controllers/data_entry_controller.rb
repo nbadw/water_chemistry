@@ -2,11 +2,10 @@ class DataEntryController < ApplicationController
   layout 'application'
   before_filter :login_required
     
-  def browse
-    
+  def browse    
   end
   
-  def explore
-    
+  def explore    
+    render :layout => !request.xml_http_request?
   end
 end

@@ -49,6 +49,7 @@ kuler scheme: chemistry class
     color: #000;
     text-align: center;
     margin: 7px 10px;
+    display: none;
 }
 #application .name {
     font-size: 16px;
@@ -85,13 +86,13 @@ kuler scheme: chemistry class
 }
 #navigation .tab {
     float: left;
-    margin: 0 5px;
+    margin: 7px 5px 0;
     font-size: 16px;
 }
 #navigation .tab.option {
     float: right;
     font-size: 12px;
-    margin-top: 4px;
+    margin-top: 11px;
 }
 #navigation .tab a {
     display: block;
@@ -187,4 +188,27 @@ input.filter {
 }
 iframe {
     border: none;
+}
+#waterbody-editor {
+    clear: both;
+    padding: 2px 0;
+    margin: -5px;
+}
+#waterbody-editor label {
+    display: inline;
+}
+#waterbody-editor dl dt {
+    float: left;
+    padding: 6px 0;
+    width: 12em;
+}
+#waterbody-editor dl dd {
+    float: left;
+}
+#waterbody-editor #waterbody_contains {
+    padding: 2px;
+    border: 1px solid #1F7F00;
+    font-size: 16px;
+    font-wieght: bold;
+    width: 500px;
 }

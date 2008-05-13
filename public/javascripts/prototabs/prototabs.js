@@ -53,20 +53,21 @@ ProtoTabs.prototype = {
 		
 		if(this.currentTab != ''){
 			this.currentTab.linkedPanel.hide();
-			this.currentTab.removeClassName('selected');
+			this.currentTab.removeClassName('active');
 		}
 		
 		//set the currently open panel to the new panel
 		this.currentTab = tab;
 		
 		tab.linkedPanel.show();
-		tab.addClassName('selected');
+		tab.addClassName('active');
 		var url = this.options.ajaxUrls[tab.itemId];
 		
 		// if there is an ajax url defined update the panel with ajax
-		if(url != undefined){
+		if(url != undefined && tab.linkedPanel.childNodes.length == 0) {
 			tab.linkedPanel.update(this.options.ajaxLoadingText);
-			new Ajax.Request(url,{
+			new Ajax.Request(url, {
+                                method: 'get',
 				onComplete: function(transport) {
 					tab.linkedPanel.update(transport.responseText);
 				}

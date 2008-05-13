@@ -1,8 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class AquaticSitesControllerTest < ActionController::TestCase
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+  should_eventually "fill in waterbody name when create called with errors" do
+    
   end
 end
