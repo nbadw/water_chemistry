@@ -1,5 +1,3 @@
-require 'will_paginate'
-
 class DataEntryController < ApplicationController
   layout 'application'
   before_filter :login_required

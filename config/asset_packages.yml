@@ -1,0 +1,15 @@
+--- 
+javascripts: 
+- base: 
+  - prototype
+  - effects
+  - application
+  - prototabs/prototabs
+  - active_scaffold/default/active_scaffold
+stylesheets: 
+- base: 
+  - reset
+  - application
+  - active_scaffold/default/stylesheet
+- ie:
+  - active_scaffold/default/stylesheet-ie
