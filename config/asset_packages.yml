@@ -3,6 +3,7 @@ javascripts:
 - base: 
   - prototype
   - effects
+  - controls
   - application
   - prototabs/prototabs
   - active_scaffold/default/active_scaffold

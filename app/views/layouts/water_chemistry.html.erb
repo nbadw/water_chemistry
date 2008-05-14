@@ -8,7 +8,6 @@
     <%= stylesheet_link_merged :base %>
     <!--[if IE]><%= stylesheet_link_merged :ie %><![endif]-->
     <%= javascript_include_merged :base %>
-    <%= GMap.header %>
     <%= calendar_date_select_includes "silver" %>
   </head>
   <body>
@@ -31,11 +30,11 @@
     
     <div id="navigation">
       <h2 class="location">
-        <span class="agency_name"><%= 'Main Menu' %></span>
+        <span class="agency_name">Water Chemistry</span>
       </h2>
       <ul id="tabs" class="tabs">
-        <li class="tab <%= 'active' if controller.action_name == 'browse' %>"><a href="#browse">Browse</a></li>
-        <li class="tab <%= 'active' if controller.action_name == 'explore' %>"><a href="#explore">Explore</a></li>
+        <li class="tab <%= 'active' if controller.action_name == 'samples' || controller.action_name == 'index' %>"><a href="/water_chemistry/samples">Samples</a></li>
+        <li class="tab <%= 'active' if controller.action_name == 'parameters' %>"><a href="/water_chemistry/parameters">Parameters</a></li>
         
         <li class="tab <%= 'active' if controller.action_name == 'help' %> option"><a href="#help">Help</a></li>
         <!-- <li class="tab option"><a href="#">Settings</a></li> -->
@@ -43,26 +42,7 @@
     </div>
     
     <div id="content"> 
-      <div id="browse">
-        <%= yield if controller.action_name == 'browse' %>
-      </div>
-      <div id="explore">
-        <%= yield if controller.action_name == 'explore' %>
-      </div>
-      <div id="help">
-        <%= yield if controller.action_name == 'help' %>
-      </div>
-    </div>
-    
-    <script type="text/javascript">
-        Event.observe(window, 'load', function() {
-            new ProtoTabs('tabs', {
-                defaultPanel: '<%= controller.action_name %>', 
-                ajaxUrls: { explore: '/explore?format=html', browse: '/browse' }
-            });
-        });
-    </script>
-    
-    
+        <%= yield %>
+    </div>    
   </body>
 </html>

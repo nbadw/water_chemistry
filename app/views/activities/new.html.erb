@@ -1,0 +1,29 @@
+<dl>
+  <dt>
+    <label for="activities">Select Activity</label>
+  </dt>
+  <dd>
+    <div style="padding: 6px 0">
+        <select>
+          <% @groups.each do |group| %>
+            <optgroup label="<%= group %>">
+                <% @activity_groups[group].each do |activity| %>
+                  <option value="<%= activity.id %>"><%= activity.name %></option>
+                <% end %>
+            </optgroup>
+          <% end %>
+        </select>
+    </div>
+  </dd>
+</dl>
+
+<dl>
+  <dt>
+    <label for="activities">Date</label>
+  </dt>
+  <dd>
+    <div style="padding: 6px 0">
+        <%= calendar_date_select :activity, :date %>
+    </div>
+  </dd>
+</dl>

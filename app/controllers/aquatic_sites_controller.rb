@@ -2,9 +2,9 @@ class AquaticSitesController < ApplicationController
   layout 'admin'
     
   active_scaffold :aquatic_site do |config|    
+    # base config
     config.columns = [:id, :name, :agencies, :waterbody_id, :waterbody, 
-      :drainage_code, :description, :activities]
-        
+      :drainage_code, :description, :activities]        
     config.columns[:id].label = 'Aquatic Site ID'
     config.columns[:waterbody_id].label = 'Waterbody ID'
     config.columns[:waterbody].label = 'Waterbody Name'
@@ -12,15 +12,18 @@ class AquaticSitesController < ApplicationController
     config.columns[:name].label = 'Site Name'
     config.columns[:description].label = 'Site Description'    
     
+    # list config
     config.list.columns.exclude :name
-    config.columns[:drainage_code].sort_by :sql => 'waterbodies.drainage_code'
     config.list.sorting =[{ :drainage_code => :asc }]
+    config.columns[:drainage_code].sort_by :sql => 'waterbodies.drainage_code'
     
+    # create config
     config.create.columns = [:agency, :name, :description, :waterbody]
-    config.create.persistent = true
     
+    # update config
     config.update.columns = [:agency, :name, :description, :waterbody]
         
+    # search config
     config.columns[:waterbody_id].search_sql = 'waterbodies.id'
     config.search.columns << :waterbody_id
     config.columns[:waterbody].search_sql = 'waterbodies.name'

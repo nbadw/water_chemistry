@@ -1,10 +1,12 @@
 ActionController::Routing::Routes.draw do |map|
-
+  map.resources :parameters
+  
   map.root :controller => "data_entry", :action => "browse"
   
   map.resources :waterbodies,   :active_scaffold => true
   map.resources :watersheds,    :active_scaffold => true
   map.resources :aquatic_sites, :active_scaffold => true
+  map.resources :samples,       :active_scaffold => true
   
   map.browse   '/browse',       :controller => 'data_entry', :action => 'browse'
   map.explore  '/explore',      :controller => 'data_entry', :action => 'explore'
@@ -24,7 +26,6 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resource :session
   map.resource :password
-
   
   # The priority is based upon order of creation: first created -> highest priority.
 
