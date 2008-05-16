@@ -1,13 +1,9 @@
 class WaterChemistryController < ApplicationController
-  def index
-    render :action => 'samples'
+  layout 'application' 
+  
+  def browse    
   end
   
-  def samples
-    
-  end
-  
-  def parameters
-    
+  def explore    
   end
 end

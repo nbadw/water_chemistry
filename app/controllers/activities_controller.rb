@@ -1,7 +1,8 @@
 class ActivitiesController < ApplicationController
   active_scaffold :activity do |config|
-    config.columns = [:name, :category, :duration]    
-  end
+    config.columns = [:name, :aquatic_site_usages]    
+    config.columns[:aquatic_site_usages].label = 'Activity Events'
+  end  
   
   def new
     @activity_groups = Activity.group_by_category :all

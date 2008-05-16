@@ -3,6 +3,8 @@ ActionController::Routing::Routes.draw do |map|
   
   map.root :controller => "data_entry", :action => "browse"
   
+  map.water_chemistry '/water_chemistry', :controller => 'water_chemistry', :action => 'browse'
+  
   map.resources :waterbodies,   :active_scaffold => true
   map.resources :watersheds,    :active_scaffold => true
   map.resources :aquatic_sites, :active_scaffold => true

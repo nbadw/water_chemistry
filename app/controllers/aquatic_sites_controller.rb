@@ -10,12 +10,14 @@ class AquaticSitesController < ApplicationController
     config.columns[:waterbody].label = 'Waterbody Name'
     config.columns[:drainage_code].label = 'Watershed Code'
     config.columns[:name].label = 'Site Name'
-    config.columns[:description].label = 'Site Description'    
+    config.columns[:description].label = 'Site Description'  
+    
+    config.columns[:activities].clear_link
     
     # list config
+    config.columns[:drainage_code].sort_by :sql => 'waterbodies.drainage_code'
     config.list.columns.exclude :name
     config.list.sorting =[{ :drainage_code => :asc }]
-    config.columns[:drainage_code].sort_by :sql => 'waterbodies.drainage_code'
     
     # create config
     config.create.columns = [:agency, :name, :description, :waterbody]

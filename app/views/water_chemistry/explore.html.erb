@@ -1,0 +1,40 @@
+<div id="map-container">
+  <div id="map" style="height: 500px;">
+    <noscript>
+      Javascript is not enabled.  Please enable it in your browser.
+    </noscript>
+  </div>
+</div>
+
+<div id="aquatic-sites-container">
+  <div id="aquatic-sites">
+    <%= render :partial => 'aquatic_sites/aquatic_sites' %>
+  </div>
+  <div class="note">
+    
+  </div>
+</div>
+
+<script type="text/javascript">
+    // initialization (run once on load)
+    enhanceAquaticSites();    
+    if (GBrowserIsCompatible()) {
+        Event.observe(window, 'unload', function(evt) { GUnload(); });        
+        map = new GMap2($('map'));
+        map.addControl(new GLargeMapControl());
+        map.addControl(new GScaleControl());
+        map.addControl(new GOverviewMapControl());
+        map.addControl(new GMapTypeControl());
+        map.enableDoubleClickZoom();
+        map.enableContinuousZoom();
+        map.enableScrollWheelZoom();
+        map.setCenter(new GLatLng(45.19194, -67.925025), 10);      
+        new GKeyboardHandler(map);   
+        //new GMapCacheAdapter(
+        //    "/map_cache/aquatic sites/conf.xml", 
+        //    map, { 
+        //        name: "Sites" 
+        //    }  
+        updateMap(<%= @site_markers.to_json  %>);
+    }
+</script>
