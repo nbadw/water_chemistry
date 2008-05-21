@@ -39,6 +39,12 @@ namespace :bootstrap do
     export_to :model => :waterbody, :records => 
       import_from(:table => 'tblWaterBody', :primary_key => 'WaterBodyID')
   end
+  
+  desc "bootstrap aquatic activity events"
+  task :aquatic_events => :environment do
+    export_to :model => :activity_event, :records =>
+      import_from(:table => 'tblAquaticActivity', :primary_key => 'AquaticActivityId')
+  end
 end
 
 def export_to(options = {})

@@ -1,7 +1,11 @@
 (in C:/Documents and Settings/colin/My Documents/NetBeansProjects/WaterChemistry)
+rake asset:packager:build_all        # Merge and compress assets
+rake asset:packager:create_yml       # Generate asset_packages.yml from exi...
+rake asset:packager:delete_all       # Delete all asset builds
 rake bootstrap:activities            # bootstrap activities
 rake bootstrap:agencies              # bootstrap agencies
 rake bootstrap:all                   # bootstrap all
+rake bootstrap:aquatic_events        # bootstrap aquatic activity events
 rake bootstrap:aquatic_site_usages   # bootstrap aquatic site usages
 rake bootstrap:aquatic_sites         # bootstrap aquatic sites
 rake bootstrap:waterbodies           # bootstrap waterbodies
