@@ -17,5 +17,4 @@ class Agency < ActiveRecord::Base
   end
   
   generator_for :name => 'AgencyName'
-  generator_for(:id, :start => 'AG0') { |prev| prev.succ }
 end
