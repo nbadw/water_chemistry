@@ -1,6 +1,4 @@
-ActionController::Routing::Routes.draw do |map|
-  map.resources :parameters
-  
+ActionController::Routing::Routes.draw do |map|  
   map.root :controller => "data_entry", :action => "browse"
   
   map.water_chemistry '/water_chemistry', :controller => 'water_chemistry', :action => 'browse'
@@ -8,7 +6,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :waterbodies,   :active_scaffold => true
   map.resources :watersheds,    :active_scaffold => true
   map.resources :aquatic_sites, :active_scaffold => true
-  map.resources :samples,       :active_scaffold => true
   
   map.browse   '/browse',       :controller => 'data_entry', :action => 'browse'
   map.explore  '/explore',      :controller => 'data_entry', :action => 'explore'

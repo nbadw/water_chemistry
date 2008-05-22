@@ -1,0 +1,13 @@
+# Aquatic Data Warehouse connections used for import/export functionality
+# see ./lib/data_warehouse files
+development:
+    adapter: sqlserver
+    database: dataWarehouse
+    host: .
+    provider: SQLNCLI
+    windows_auth: true 
+test:
+    adapter: sqlite3
+    database: db/data_warehouse_test.sqlite3
+    timeout: 5000
+
