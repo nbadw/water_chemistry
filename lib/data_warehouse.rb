@@ -11,13 +11,15 @@ module DataWarehouse
   end
 
   module ClassMethods
-    def acts_as_data_warehouse_model(options = {})
-      unless data_warehouse_model? # don't let AR call this twice
+    def acts_as_incorporated(options = {})
+      unless acts_as_incorporated? # don't let AR call this twice
+        cattr_accessor :incorporated_attribute        
+        self.incorporated_attribute = options[:with] || :incorporated_at
         include ActsAsMethods
       end
     end
     
-    def data_warehouse_model?
+    def acts_as_incorporated?
       self.included_modules.include?(ActsAsMethods)
     end
   end
@@ -50,6 +52,7 @@ module DataWarehouse
       # check for explicit mapping of attribute to dw table column
       # otherwise attempt to guess the column name using the levenshtein distance
       # throw an error if all else fails
+      self.incorporated_at = DateTime.now
     end
     
     def guess_target_attribute_column(target_attribute, possible_attributes)
@@ -63,7 +66,7 @@ module DataWarehouse
     end
     
     def incorporated?
-      
+      !!read_attribute(:incorporated_at)        
     end
     
     # These are class methods that are mixed in with the model class.
