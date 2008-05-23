@@ -72,10 +72,7 @@ CREATE TABLE `aquatic_site_usages` (
   `incorporated_at` datetime default NULL,
   `created_at` datetime default NULL,
   `updated_at` datetime default NULL,
-  PRIMARY KEY  (`id`),
-  KEY `aquatic_site_id` (`aquatic_site_id`),
-  KEY `aquatic_activity_code` (`aquatic_activity_code`),
-  KEY `agency_code` (`agency_code`)
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `aquatic_sites` (
@@ -107,8 +104,7 @@ CREATE TABLE `aquatic_sites` (
   `deleted_at` datetime default NULL,
   `wgs84_lat` decimal(15,10) default NULL,
   `wgs84_lon` decimal(15,10) default NULL,
-  PRIMARY KEY  (`id`),
-  KEY `waterbody_id` (`waterbody_id`)
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `instruments` (
@@ -144,7 +140,7 @@ CREATE TABLE `permissions` (
   `created_at` datetime default NULL,
   `updated_at` datetime default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `roles` (
   `id` int(11) NOT NULL auto_increment,
@@ -152,11 +148,11 @@ CREATE TABLE `roles` (
   `created_at` datetime default NULL,
   `updated_at` datetime default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `schema_info` (
   `version` int(11) default NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL auto_increment,
@@ -173,9 +169,8 @@ CREATE TABLE `users` (
   `created_at` datetime default NULL,
   `updated_at` datetime default NULL,
   `agency_code` varchar(255) default NULL,
-  PRIMARY KEY  (`id`),
-  KEY `agency_code` (`agency_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `waterbodies` (
   `id` int(11) NOT NULL auto_increment,
@@ -193,10 +188,7 @@ CREATE TABLE `waterbodies` (
   `date_modified` datetime default NULL,
   `created_at` datetime default NULL,
   `updated_at` datetime default NULL,
-  PRIMARY KEY  (`id`),
-  KEY `drainage_code` (`drainage_code`),
-  KEY `flows_into_waterbody_id` (`flows_into_waterbody_id`),
-  KEY `flows_into_watershed` (`flows_into_watershed`)
+  PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `watersheds` (

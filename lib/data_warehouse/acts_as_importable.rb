@@ -11,9 +11,9 @@ module DataWarehouse
             :import_perform_validations, :import_must_import_all_or_fail, :import_column_prefix
           self.import_from_table = import_table
           self.import_primary_key = options[:primary_key] || guess_primary_key(import_table)
-          self.import_perform_validations = options[:perform_validations] || true
-          self.import_must_import_all_or_fail = options[:must_import_all_or_fail] || true
-          self.import_overwrite_existing = options[:overwrite_existing] || false
+          self.import_perform_validations = false
+          self.import_must_import_all_or_fail = options.has_key?(:must_import_all_or_fail) ? options[:must_import_all_or_fail] : true
+          self.import_overwrite_existing = options.has_key?(:overwrite_existing) ? options[:overwrite_existing] : false
           self.import_column_prefix = options[:column_prefix]
           include ImportMethods
         end
@@ -64,7 +64,7 @@ module DataWarehouse
           self.import_transformers[original_column] = { :target_column => target_column || original_column, :block => block }
         end
         
-        def import_from_data_warehouse    
+        def import_from_data_warehouse              
           data_warehouse_configurations = YAML::load_file("#{RAILS_ROOT}/config/data_warehouse.yml")          
           
           logger.debug 'connecting to data warehouse'                   
@@ -88,7 +88,7 @@ module DataWarehouse
           ActiveRecord::Base.establish_connection(ActiveRecord::Base.configurations[RAILS_ENV])  
                   
           logger.debug 'transforming records for import'
-          import_values = records.collect do |record|
+          records.each_with_index do |record, i|
             attributes = {}
             record.attributes.each do |attribute, value|                            
               if transformer = self.import_transformers[attribute]
@@ -99,21 +99,19 @@ module DataWarehouse
                 guessed_attribute = guess_target_attribute(attribute, target_columns, self.import_column_prefix)
                 attributes[guessed_attribute] = value
               end
-            end
+            end            
             attributes[:id] = record.id
-            attributes
-          end     
             
-          import_values.each_with_index do |attributes, i|
             logger.debug "importing #{self.class_name} record #{i+1} of #{records.size}"
             begin
               new_record = self.new(attributes)
               new_record.id = attributes[:id]
-              new_record.save(self.import_perform_validations)
+              saved = new_record.save(false)
+              saved
             rescue Exception => exc
               logger.error "IMPORT ERROR: #{exc.message} - #{attributes.inspect}"
-            end
-          end        
+            end  
+          end    
         end
       end # ClassMethods    
     end # ImportMethods
