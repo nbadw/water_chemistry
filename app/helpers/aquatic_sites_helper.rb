@@ -10,9 +10,9 @@ module AquaticSitesHelper
   def activities_column(record)
     options = {
       :_method => 'get',
-      :action => 'site_activity_usages',
+      :action => 'site_aquatic_activities',
       :aquatic_site_id => record.id,
-      :controller => 'aquatic_site_usages'      
+      :controller => 'aquatic_activities'      
     }
     html_options = {
       :class => 'nested action',

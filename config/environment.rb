@@ -60,3 +60,4 @@ Rails::Initializer.run do |config|
 end
 
 require 'data_warehouse/init'
+require 'ar-extensions'

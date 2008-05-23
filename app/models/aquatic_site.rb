@@ -12,6 +12,8 @@ class AquaticSite < ActiveRecord::Base
   has_many   :aquatic_site_usages
   has_many   :activities, :through => :aquatic_site_usages
   
+  has_many   :aquatic_activities
+  
   validates_presence_of :name, :description, :waterbody
   
   alias_attribute :lat, :wgs84_lat
@@ -33,12 +35,12 @@ class AquaticSite < ActiveRecord::Base
     waterbody.drainage_code if waterbody
   end
   
-  acts_as_importable 'tblAquaticSite', :perform_validations => false
+  acts_as_importable 'tblAquaticSite'
   import_transformation_for 'AquaticSiteName', 'name'
   import_transformation_for 'AquaticSiteDesc', 'description'
-  import_transformation_for('SpecificSiteInd', 'specific_site') { |attr, val, column| val == 'Y' }
-  import_transformation_for('Georeferenced')   { |attr, val, column| val == 'Y' }
-  import_transformation_for('IncorporatedInd', 'incorporated_at') { |attr, val, column| val ? DateTime.now : nil }
+  import_transformation_for('SpecificSiteInd', 'specific_site') { |record| record['SpecificSiteInd'.downcase] == 'Y' }
+  import_transformation_for('Georeferenced')   { |record| record['Georeferenced'.downcase] == 'Y' }
+  import_transformation_for('IncorporatedInd', 'incorporated_at') { |record| DateTime.now if record['IncorporatedInd'.downcase] }
   
   private
   def check_if_incorporated

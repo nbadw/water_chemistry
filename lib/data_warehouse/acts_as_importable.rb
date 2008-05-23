@@ -9,7 +9,7 @@ module DataWarehouse
         unless acts_as_importable? # don't let AR call this twice
           cattr_accessor :import_from_table, :import_primary_key, :import_overwrite_existing,
             :import_perform_validations, :import_must_import_all_or_fail, :import_column_prefix,
-            :import_excludes
+            :import_excludes, :import_log
           self.import_from_table = import_table
           self.import_primary_key = options[:primary_key] || guess_primary_key(import_table)
           self.import_perform_validations = false
@@ -68,86 +68,92 @@ module DataWarehouse
           self.import_transformers[original_column] = { :target_column => target_column || original_column, :block => block }
         end
         
+        def run_import_transformations(attributes, columns)
+          import_log = self.import_log
+          transformers = self.import_transformers || {}
+          
+          self.import_excludes.each do |exclude|
+            import_log.debug "excluding #{exclude}" if import_log.debug?
+            attributes.delete(exclude.downcase)
+          end
+          
+          new_attributes = {}
+          attributes.each do |attribute, value| 
+            next if attribute == self.import_primary_key.downcase # we'll set this last to make sure it doesn't get overwritten
+                          
+            if transformer = transformers[attribute]
+              block  = transformer[:block]
+              target = transformer[:target_column]
+              new_attributes[target] = block ? block.call(attributes) : value
+              import_log.debug "transform: #{attribute}=#{value} -> #{target}=#{new_attributes[target]}" if import_log.debug?
+            else
+              guessed_attribute = guess_target_attribute(attribute, columns, self.import_column_prefix)
+              new_attributes[guessed_attribute] = value
+              import_log.debug "transform guess: #{attribute}=#{value} -> #{guessed_attribute}=#{new_attributes[guessed_attribute]}" if import_log.debug?
+            end               
+          end
+
+          new_attributes[self.primary_key] = attributes[self.primary_key]
+          new_attributes
+        end
+        
         def import_from_data_warehouse                        
-          console = Logger.new(STDOUT)
-          console.level = Logger::INFO
+          import_log = self.import_log ||= Logger.new(File.open("#{RAILS_ROOT}/log/import_#{RAILS_ENV}.log", "a"))
+          import_log.level = RAILS_ENV == 'production' ? Logger::INFO : Logger::DEBUG
           data_warehouse_configurations = YAML::load_file("#{RAILS_ROOT}/config/data_warehouse.yml")                    
           
-          console.debug 'connecting to data warehouse'                   
+          import_log.debug 'connecting to data warehouse'                   
           ActiveRecord::Base.establish_connection(data_warehouse_configurations["#{RAILS_ENV}"])    
 
           table_name = self.import_from_table
           primary_key = self.import_primary_key
-          console.info "reading data from #{table_name}"      
+          import_log.info "reading data from #{table_name}"      
+          puts "reading data from #{table_name}"  
           dw_table = Class.new(ActiveRecord::Base) do
             set_table_name  table_name.downcase
             set_primary_key primary_key.downcase if primary_key
           end  
-          
-          columns = dw_table.columns.inject(Hash.new) { |hash, col| hash.merge({col.name => col}) }
-          console.debug "column info: #{dw_table.columns.inspect}"
-          
-          records = dw_table.find :all    
-          if records.empty?
-            console.info "table is empty - nothing to import"
+                 
+          total_records = dw_table.count
+          if total_records == 0
+            import_log.info "table is empty - nothing to import"
+            puts "table is empty - nothing to import"
             return
           end
           
-          console.info "#{records.size} records ready to be imported" 
+          limit = 1000
+          pages = (total_records % limit) + 1          
+          ActiveRecord::Base.establish_connection(ActiveRecord::Base.configurations[RAILS_ENV]) 
+          columns = self.columns.collect{ |column| column.name } 
           
-          console.debug 'restoring default active record connection'
-          ActiveRecord::Base.establish_connection(ActiveRecord::Base.configurations[RAILS_ENV])  
-                  
-          console.debug 'transforming records for import'
-          import_columns = self.columns.collect{ |column| column.name }
-          imports = []
-          records.each_with_index do |record, i|
-            if self.exists?(record.id)
-              console.info "record #{i+1} already exists, skipping to next record"
-              next
+          pages.times do |page|
+            ActiveRecord::Base.establish_connection(data_warehouse_configurations["#{RAILS_ENV}"])
+            
+            records = dw_table.find :all, :limit => limit, :offset => page * limit             
+            records.collect! do |record|                 
+              attributes = record.attributes
+              attributes[self.primary_key] = record.id
+              attributes
             end
-            
-            attributes = {}
-            record.attributes.collect do |attribute, value|  
-              next if attribute == self.import_primary_key.downcase
-              if self.import_excludes.collect{ |exclude| exclude.downcase }.include?(attribute) 
-                logger.debug "excluding #{attribute}"
-                next
-              end
-              
-              if transformer = (self.import_transformers || {})[attribute]
-                block = transformer[:block]
-                attributes[transformer[:target_column]] = block ? block.call(attribute, value, columns[attribute], record) : value
-                console.debug "transform: #{attribute}=#{value} -> #{transformer[:target_column]}=#{attributes[transformer[:target_column]]}"
-              else
-                target_columns = self.columns.collect{ |col| col.name }
-                guessed_attribute = guess_target_attribute(attribute, target_columns, self.import_column_prefix)
-                attributes[guessed_attribute] = value
-                console.debug "transform guess: #{attribute}=#{value} -> #{guessed_attribute}=#{attributes[guessed_attribute]}"
-              end
-            end            
-            attributes[self.primary_key] = record.id
-            console.debug "setting primary key=#{record.id}"
-            
-            attributes['created_at'] = DateTime.now if import_columns.include?('created_at')
-            attributes['updated_at'] = DateTime.now if import_columns.include?('updated_at')
-            
-            imports << import_columns.collect { |col| attributes[col] }
-#            console.info "importing #{self.class_name} record #{i+1} of #{records.size}"
-#            begin
-#              id = attributes.delete(:id)
-#              new_record = self.new(attributes)
-#              new_record.id = id
-#              saved = new_record.save(false)
-#              saved
-#            rescue Exception => exc
-#              console.error "IMPORT ERROR: #{exc.message} - #{attributes.inspect}"
-#            end  
+            import_log.info "preparing records #{page * limit + 1}-#{page * limit + limit} (of #{total_records}) for import"
+            puts "preparing records #{page * limit + 1}-#{page * limit + limit} (of #{total_records}) for import"
+
+            records.collect! do |attributes|              
+              attributes = run_import_transformations(attributes, columns)            
+              attributes['created_at'] = DateTime.now if columns.include?('created_at')
+              attributes['updated_at'] = DateTime.now if columns.include?('updated_at')
+              columns.collect { |col| attributes[col] }
+            end
+
+            import_log.info 'performing bulk import'
+            puts 'performing bulk import'
+            ActiveRecord::Base.establish_connection(ActiveRecord::Base.configurations[RAILS_ENV]) 
+            self.import columns, records, { :validate => false }
           end
-          
-          console.info 'starting bulk import'
-          self.import import_columns, imports, { :validate => false }
-          console.info "import of #{table_name} complete"
+          import_log.info "import of #{table_name} complete"
+          puts "import of #{table_name} complete"
+          import_log.debug 'restoring default active record connection' if import_log.debug?
+          ActiveRecord::Base.establish_connection(ActiveRecord::Base.configurations[RAILS_ENV])  
         end
       end # ClassMethods    
     end # ImportMethods

@@ -32,6 +32,7 @@ def import(model_name)
   else
     imports = [model_name.classify.constantize]
   end  
+  
   imports.each do |klass|
     puts "importing data warehouse records into #{klass.table_name} table"
     klass.import_from_data_warehouse
