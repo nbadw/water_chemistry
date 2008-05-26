@@ -36,6 +36,44 @@ class AquaticSite < ActiveRecord::Base
   end
   
   acts_as_importable 'tblAquaticSite'
+#  def self.import_from_data_warehouse
+#    records = FasterCSV.read("#{RAILS_ROOT}/db/import/tblAquaticSite.csv")
+#    columns = [
+#      :id,                  #0
+#      :old_aquatic_site_id, #1
+#      :river_system_id,     #2
+#      :waterbody_id,        #3
+#      :name,                #4
+#      :description,         #5
+#      :habitat_desc,        #6
+#      :reach_no,            #7
+#      :start_desc,          #8
+#      :end_desc,            #9
+#      :start_route_meas,    #10
+#      :end_route_meas,      #11
+#      :site_type,           #12
+#      :specific_site,       #13
+#      :georeferenced,       #14
+#      :entered_at,          #15
+#      :incorporated_at,     #16
+#      :coordinate_source,   #17
+#      :coordinate_system,   #18
+#      :coordinate_units,    #19
+#      :x_coord,             #20
+#      :y_coord,             #21
+#      :comments             #22
+#    ]
+#    
+#    records.collect! do |record| 
+#      record.delete_at(4) # delete WaterBodyName
+#      record[13] = record[13] == 'Y' # SpecificSiteInd
+#      record[14] = record[14] == 'Y' # GeoreferencedInd      
+#      record[16] = DateTime.now if record[16] # IncorporatedInd
+#      record      
+#    end
+#    
+#    self.import columns, records, { :validate => false }
+#  end
   import_transformation_for 'AquaticSiteName', 'name'
   import_transformation_for 'AquaticSiteDesc', 'description'
   import_transformation_for('SpecificSiteInd', 'specific_site') { |record| record['SpecificSiteInd'.downcase] == 'Y' }

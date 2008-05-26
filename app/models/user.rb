@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   # Virtual attribute for the unencrypted password
   attr_accessor :password
 
-  validates_presence_of     :login, :email, :agency
+  validates_presence_of     :login, :email, :agency_code
   validates_presence_of     :password,                   :if => :password_required?
   validates_presence_of     :password_confirmation,      :if => :password_required?
   validates_length_of       :password, :within => 4..40, :if => :password_required?
@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
   
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :login, :email, :password, :password_confirmation, :agency_code, :agency        
+  attr_accessible :login, :email, :password, :password_confirmation, :agency_code, :agency
   
   class ActivationCodeNotFound < StandardError  
   end

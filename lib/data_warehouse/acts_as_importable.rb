@@ -122,7 +122,7 @@ module DataWarehouse
           end
           
           limit = 1000
-          pages = (total_records % limit) + 1          
+          pages = (total_records / limit) + 1          
           ActiveRecord::Base.establish_connection(ActiveRecord::Base.configurations[RAILS_ENV]) 
           columns = self.columns.collect{ |column| column.name } 
           
