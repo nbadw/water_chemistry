@@ -55,7 +55,7 @@ class UserTest < Test::Unit::TestCase
     end  
 
     should "allow agency to be set" do
-      a = Agency.generate!
+      a = CdAgency.generate!
       @user.agency = a
       assert_equal a.code, @user.agency_code
     end

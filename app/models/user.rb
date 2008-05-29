@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   
   has_many   :permissions
   has_many   :roles, :through => :permissions
-  belongs_to :agency, :foreign_key => 'agency_code'
+  belongs_to :agency, :class_name => 'CdAgency', :foreign_key => 'agency_code'
   
   before_save   :encrypt_password
   before_create :make_activation_code 
