@@ -1,0 +1,6 @@
+<div class="site-activity-usages" style="margin-top: 1em;">
+  <div id="tbl_aquatic_activity-messages"></div>
+  <%= render :active_scaffold => 'tbl_aquatic_activity', :label => @label,
+    :conditions => ["#{TblAquaticActivity.table_name}.aquaticsiteid = ? AND #{TblAquaticActivity.table_name}.aquaticactivitycd = ?", 
+    @aquatic_site_id, @aquatic_activity_code] %>
+</div>

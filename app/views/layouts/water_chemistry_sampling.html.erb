@@ -31,9 +31,14 @@
     
     <div id="navigation">
       <h2 class="location">
-        <span class="primary"><%= 'Main Menu' %></span>
+        <span class="agency_name">Water Chemistry Sampling</span>
       </h2>
-      <%= tabnav :main %>
+      <ul id="tabs" class="tabs">
+        <li class="tab <%= 'active' if controller.action_name == 'browse' %>"><a href="#browse">Browse</a></li>
+        <li class="tab <%= 'active' if controller.action_name == 'explore' %>"><a href="#explore">Explore</a></li>
+        
+        <li class="tab <%= 'active' if controller.action_name == 'help' %> option"><a href="#help">Help</a></li>
+      </ul>
     </div>
     
     <div id="content"> 
@@ -46,7 +51,7 @@
       <div id="help">
         <%= yield if controller.action_name == 'help' %>
       </div>
-    </div>    
+    </div>       
     
   </body>
 </html>

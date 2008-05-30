@@ -2,7 +2,7 @@ class CdAgency < ActiveRecord::Base
   set_table_name  'cdAgency'
   set_primary_key 'agencycd'
   
-  alias_method :code, :id
+  alias_attribute :code, :id
   alias_attribute :name, :agency
   
   has_many :users, :foreign_key => 'agency_code'

@@ -40,9 +40,14 @@ function updateMap(siteMarkers) {
     var bounds = new GLatLngBounds();
     for(var i=0, len=siteMarkers.length; i < len; i++) {
         var site = siteMarkers[i];
-        var coord = new GLatLng(site.lat, site.lon);
+        var coord = new GLatLng(site.latitude, site.longitude);
         var marker = new GMarker(coord);
-        marker.bindInfoWindowHtml(site.info);
+        var maxContentDiv = document.createElement('div');
+        maxContentDiv.innerHTML = 'Loading...'
+        marker.bindInfoWindowHtml(site.info, {
+            maxContent: maxContentDiv, 
+            maxTitle: "More Info"
+        });
         GEvent.addListener(marker, 'click', handleMarkerClick);
         map.addOverlay(marker);
         site2marker[site.id] = marker;
@@ -58,6 +63,13 @@ function handleMarkerClick(evt) {
             Element.up('aquatic-site-' + site_id, 'li.aquatic-site').addClassName('selected');
         }                
     }       
+
+    var iw = map.getInfoWindow();
+    GEvent.addListener(iw, "maximizeclick", function() {
+        GDownloadUrl("ajax_content.html", function(data) {
+            maxContentDiv.innerHTML = data;
+        });
+    });
 }
     
 function handleAquaticSiteClick(evt) {

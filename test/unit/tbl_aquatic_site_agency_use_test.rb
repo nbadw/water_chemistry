@@ -1,8 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class TblAquaticSiteAgencyUseTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  def test_truth
-    assert true
-  end
+  should_belong_to :aquatic_site
+  should_belong_to :aquatic_activity_code
+  should_belong_to :agency  
 end

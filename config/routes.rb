@@ -1,11 +1,8 @@
 ActionController::Routing::Routes.draw do |map|  
-  map.root :controller => "data_entry", :action => "browse"
+  map.root :controller => "data_entry", :action => "browse"  
+  map.connect '/tbl_aquatic_activity/site_aquatic_activities', :controller => 'tbl_aquatic_activity', :action => 'site_aquatic_activities'  
+  map.connect '/water_chemistry_sampling/:action', :controller => 'water_chemistry'
   
-  map.water_chemistry '/water_chemistry', :controller => 'water_chemistry', :action => 'browse'
-  
-  map.resources :waterbodies,   :active_scaffold => true
-  map.resources :watersheds,    :active_scaffold => true
-  map.resources :aquatic_sites, :active_scaffold => true
   
   map.browse   '/browse',       :controller => 'data_entry', :action => 'browse'
   map.explore  '/explore',      :controller => 'data_entry', :action => 'explore'

@@ -1,137 +1,77 @@
-CREATE TABLE `activities` (
-  `id` int(11) NOT NULL auto_increment,
-  `name` varchar(255) NOT NULL,
-  `desc` text,
-  `category` varchar(255) NOT NULL,
-  `duration` varchar(255) default NULL,
-  `created_at` datetime default NULL,
-  `updated_at` datetime default NULL,
-  PRIMARY KEY  (`id`)
+CREATE TABLE `cdagency` (
+  `agencycd` varchar(10) NOT NULL,
+  `agency` varchar(120) default NULL,
+  `agencytype` varchar(8) default NULL,
+  `datarulesind` varchar(2) default NULL,
+  PRIMARY KEY  (`agencycd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `activity_events` (
-  `id` int(11) NOT NULL auto_increment,
-  `project` varchar(255) default NULL,
-  `permit_number` varchar(255) default NULL,
-  `aquatic_program_id` int(11) default NULL,
-  `aquatic_activity_code` int(11) default NULL,
-  `aquatic_method_code` int(11) default NULL,
-  `old_aquatic_site_id` int(11) default NULL,
-  `aquatic_site_id` int(11) default NULL,
-  `starts_at` datetime default NULL,
-  `ends_at` datetime default NULL,
-  `agency_code` varchar(255) default NULL,
-  `agency2_code` varchar(255) default NULL,
-  `agency2_contact` varchar(255) default NULL,
-  `aquatic_activity_leader` varchar(255) default NULL,
-  `crew` varchar(255) default NULL,
-  `weather_conditions` varchar(255) default NULL,
-  `water_temp_in_celsius` decimal(10,0) default NULL,
-  `air_temp_in_celsius` decimal(10,0) default NULL,
-  `water_level` varchar(255) default NULL,
-  `water_level_in_cm` varchar(255) default NULL,
-  `morning_water_level_in_cm` varchar(255) default NULL,
-  `evening_water_level_in_cm` varchar(255) default NULL,
-  `siltation` varchar(255) default NULL,
-  `primary_activity` tinyint(1) default NULL,
-  `comments` varchar(255) default NULL,
-  `entered_at` datetime default NULL,
-  `incorporated_at` datetime default NULL,
-  `transferred_at` datetime default NULL,
-  `created_at` datetime default NULL,
-  `updated_at` datetime default NULL,
-  PRIMARY KEY  (`id`),
-  KEY `index_activity_events_on_aquatic_program_id` (`aquatic_program_id`),
-  KEY `index_activity_events_on_aquatic_activity_code` (`aquatic_activity_code`),
-  KEY `index_activity_events_on_aquatic_method_code` (`aquatic_method_code`),
-  KEY `index_activity_events_on_aquatic_site_id` (`aquatic_site_id`),
-  KEY `index_activity_events_on_agency_code` (`agency_code`),
-  KEY `index_activity_events_on_agency2_code` (`agency2_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `cdaquaticactivity` (
+  `aquaticactivitycd` int(11) NOT NULL auto_increment,
+  `aquaticactivity` varchar(100) default NULL,
+  `aquaticactivitycategory` varchar(60) default NULL,
+  `duration` varchar(40) default NULL,
+  PRIMARY KEY  (`aquaticactivitycd`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
 
-CREATE TABLE `agencies` (
-  `code` varchar(10) NOT NULL,
-  `name` varchar(255) default NULL,
-  `agency_type` varchar(255) default NULL,
-  `data_rules` tinyint(1) default NULL,
-  `created_at` datetime default NULL,
-  `updated_at` datetime default NULL,
-  PRIMARY KEY  (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `cdaquaticactivitymethod` (
+  `aquaticmethodcd` int(11) NOT NULL auto_increment,
+  `aquaticactivitycd` int(11) default NULL,
+  `aquaticmethod` varchar(60) default NULL,
+  PRIMARY KEY  (`aquaticmethodcd`),
+  KEY `index_cdAquaticActivityMethod_on_aquaticactivitycd` (`aquaticactivitycd`)
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
 
-CREATE TABLE `aquatic_site_usages` (
-  `id` int(11) NOT NULL auto_increment,
-  `aquatic_site_id` int(11) default NULL,
-  `aquatic_activity_code` int(11) default NULL,
-  `aquatic_site_type` varchar(255) default NULL,
-  `agency_code` varchar(255) default NULL,
-  `agency_site_id` varchar(255) default NULL,
-  `start_year` varchar(255) default NULL,
-  `end_year` varchar(255) default NULL,
-  `years_active` varchar(255) default NULL,
-  `incorporated_at` datetime default NULL,
-  `created_at` datetime default NULL,
-  `updated_at` datetime default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `cdinstrument` (
+  `instrumentcd` int(11) NOT NULL auto_increment,
+  `instrument` varchar(100) default NULL,
+  `instrument_category` varchar(100) default NULL,
+  PRIMARY KEY  (`instrumentcd`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
-CREATE TABLE `aquatic_sites` (
-  `id` int(11) NOT NULL auto_increment,
-  `old_aquatic_site_id` int(11) default NULL,
-  `river_system_id` int(11) default NULL,
-  `waterbody_id` int(11) default NULL,
-  `name` varchar(255) default NULL,
-  `description` varchar(255) default NULL,
-  `habitat_desc` varchar(255) default NULL,
-  `reach_no` int(11) default NULL,
-  `start_desc` varchar(255) default NULL,
-  `end_desc` varchar(255) default NULL,
-  `start_route_meas` float default NULL,
-  `end_route_meas` float default NULL,
-  `site_type` varchar(255) default NULL,
-  `specific_site` tinyint(1) default NULL,
-  `georeferenced` tinyint(1) default NULL,
-  `entered_at` datetime default NULL,
-  `incorporated_at` datetime default NULL,
-  `coordinate_source` varchar(255) default NULL,
-  `coordinate_system` varchar(255) default NULL,
-  `coordinate_units` varchar(255) default NULL,
-  `x_coord` varchar(255) default NULL,
-  `y_coord` varchar(255) default NULL,
-  `comments` varchar(255) default NULL,
-  `created_at` datetime default NULL,
-  `updated_at` datetime default NULL,
-  `deleted_at` datetime default NULL,
-  `wgs84_lat` decimal(15,10) default NULL,
-  `wgs84_lon` decimal(15,10) default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `cdmeasureinstrument` (
+  `measureinstrumentcd` int(11) NOT NULL auto_increment,
+  `oandmcd` int(11) default NULL,
+  `instrumentcd` int(11) default NULL,
+  PRIMARY KEY  (`measureinstrumentcd`),
+  KEY `index_cdMeasureInstrument_on_oandmcd` (`oandmcd`),
+  KEY `index_cdMeasureInstrument_on_instrumentcd` (`instrumentcd`)
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
 
-CREATE TABLE `instruments` (
-  `id` int(11) NOT NULL auto_increment,
-  `name` varchar(255) default NULL,
-  `category` varchar(255) default NULL,
-  `created_at` datetime default NULL,
-  `updated_at` datetime default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `cdmeasureunit` (
+  `measureunitcd` int(11) NOT NULL auto_increment,
+  `oandmcd` int(11) default NULL,
+  `unitofmeasurecd` int(11) default NULL,
+  PRIMARY KEY  (`measureunitcd`),
+  KEY `index_cdMeasureUnit_on_oandmcd` (`oandmcd`),
+  KEY `index_cdMeasureUnit_on_unitofmeasurecd` (`unitofmeasurecd`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
 
-CREATE TABLE `lab_types` (
-  `id` int(11) NOT NULL auto_increment,
-  `name` varchar(255) default NULL,
-  `created_at` datetime default NULL,
-  `updated_at` datetime default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `cdoandm` (
+  `oandmcd` int(11) NOT NULL auto_increment,
+  `oandm_type` varchar(32) default NULL,
+  `oandm_category` varchar(80) default NULL,
+  `oandm_group` varchar(100) default NULL,
+  `oandm_parameter` varchar(100) default NULL,
+  `oandm_parametercd` varchar(60) default NULL,
+  `oandm_valuesind` tinyint(1) NOT NULL,
+  PRIMARY KEY  (`oandmcd`)
+) ENGINE=InnoDB AUTO_INCREMENT=187 DEFAULT CHARSET=latin1;
 
-CREATE TABLE `measurement_units` (
-  `id` int(11) NOT NULL auto_increment,
-  `name` varchar(255) default NULL,
-  `symbol` varchar(255) default NULL,
-  `created_at` datetime default NULL,
-  `updated_at` datetime default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `cdoandmvalues` (
+  `oandmvaluescd` int(11) NOT NULL auto_increment,
+  `oandmcd` int(11) default NULL,
+  `value` varchar(40) default NULL,
+  PRIMARY KEY  (`oandmvaluescd`),
+  KEY `index_cdOandMValues_on_oandmcd` (`oandmcd`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `cdunitofmeasure` (
+  `unitofmeasurecd` int(11) NOT NULL auto_increment,
+  `unitofmeasure` varchar(100) default NULL,
+  `unitofmeasureabv` varchar(20) default NULL,
+  PRIMARY KEY  (`unitofmeasurecd`)
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `permissions` (
   `id` int(11) NOT NULL auto_increment,
@@ -154,6 +94,171 @@ CREATE TABLE `schema_info` (
   `version` int(11) default NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `tblaquaticactivity` (
+  `aquaticactivityid` int(11) NOT NULL auto_increment,
+  `tempaquaticactivityid` int(11) default NULL,
+  `project` varchar(200) default NULL,
+  `permitno` varchar(40) default NULL,
+  `aquaticprogramid` int(11) default NULL,
+  `aquaticactivitycd` int(11) default NULL,
+  `aquaticmethodcd` int(11) default NULL,
+  `oldaquaticsiteid` int(11) default NULL,
+  `aquaticsiteid` int(11) default NULL,
+  `aquaticactivitystartdate` varchar(20) default NULL,
+  `aquaticactivityenddate` varchar(20) default NULL,
+  `aquaticactivitystarttime` varchar(12) default NULL,
+  `aquaticactivityendtime` varchar(12) default NULL,
+  `year` varchar(8) default NULL,
+  `agencycd` varchar(8) default NULL,
+  `agency2cd` varchar(8) default NULL,
+  `agency2contact` varchar(100) default NULL,
+  `aquaticactivityleader` varchar(100) default NULL,
+  `crew` varchar(100) default NULL,
+  `weatherconditions` varchar(100) default NULL,
+  `watertemp_c` float default NULL,
+  `airtemp_c` float default NULL,
+  `waterlevel` varchar(12) default NULL,
+  `waterlevel_cm` varchar(100) default NULL,
+  `waterlevel_am_cm` varchar(100) default NULL,
+  `waterlevel_pm_cm` varchar(100) default NULL,
+  `siltation` varchar(100) default NULL,
+  `primaryactivityind` tinyint(1) default NULL,
+  `comments` varchar(500) default NULL,
+  `dateentered` datetime default NULL,
+  `incorporatedind` tinyint(1) default NULL,
+  `datetransferred` datetime default NULL,
+  PRIMARY KEY  (`aquaticactivityid`),
+  KEY `index_tblAquaticActivity_on_aquaticprogramid` (`aquaticprogramid`),
+  KEY `index_tblAquaticActivity_on_aquaticactivitycd` (`aquaticactivitycd`),
+  KEY `index_tblAquaticActivity_on_aquaticmethodcd` (`aquaticmethodcd`),
+  KEY `index_tblAquaticActivity_on_oldaquaticsiteid` (`oldaquaticsiteid`),
+  KEY `index_tblAquaticActivity_on_aquaticsiteid` (`aquaticsiteid`),
+  KEY `index_tblAquaticActivity_on_agencycd` (`agencycd`),
+  KEY `index_tblAquaticActivity_on_agency2cd` (`agency2cd`)
+) ENGINE=InnoDB AUTO_INCREMENT=150638 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `tblaquaticsite` (
+  `aquaticsiteid` int(11) NOT NULL auto_increment,
+  `oldaquaticsiteid` int(11) default NULL,
+  `riversystemid` int(11) default NULL,
+  `waterbodyid` int(11) default NULL,
+  `waterbodyname` varchar(100) default NULL,
+  `aquaticsitename` varchar(200) default NULL,
+  `aquaticsitedesc` varchar(500) default NULL,
+  `habitatdesc` varchar(100) default NULL,
+  `reachno` int(11) default NULL,
+  `startdesc` varchar(200) default NULL,
+  `enddesc` varchar(200) default NULL,
+  `startroutemeas` float default NULL,
+  `endroutemeas` float default NULL,
+  `sitetype` varchar(40) default NULL,
+  `specificsiteind` varchar(2) default NULL,
+  `georeferencedind` varchar(2) default NULL,
+  `dateentered` datetime default NULL,
+  `incorporatedind` tinyint(1) default NULL,
+  `coordinatesource` varchar(100) default NULL,
+  `coordinatesystem` varchar(100) default NULL,
+  `xcoordinate` varchar(100) default NULL,
+  `ycoordinate` varchar(100) default NULL,
+  `coordinateunits` varchar(100) default NULL,
+  `comments` varchar(300) default NULL,
+  `wgs84_lat` decimal(15,10) default NULL,
+  `wgs84_lon` decimal(15,10) default NULL,
+  PRIMARY KEY  (`aquaticsiteid`),
+  KEY `index_tblAquaticSite_on_riversystemid` (`riversystemid`),
+  KEY `index_tblAquaticSite_on_waterbodyid` (`waterbodyid`)
+) ENGINE=InnoDB AUTO_INCREMENT=10000 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `tblaquaticsiteagencyuse` (
+  `aquaticsiteuseid` int(11) NOT NULL auto_increment,
+  `aquaticsiteid` int(11) default NULL,
+  `aquaticactivitycd` int(11) default NULL,
+  `aquaticsitetype` varchar(60) default NULL,
+  `agencycd` varchar(8) default NULL,
+  `agencysiteid` varchar(32) default NULL,
+  `startyear` varchar(8) default NULL,
+  `endyear` varchar(8) default NULL,
+  `yearsactive` varchar(40) default NULL,
+  `incorporatedind` tinyint(1) default NULL,
+  PRIMARY KEY  (`aquaticsiteuseid`),
+  KEY `index_tblAquaticSiteAgencyUse_on_aquaticsiteid` (`aquaticsiteid`),
+  KEY `index_tblAquaticSiteAgencyUse_on_aquaticactivitycd` (`aquaticactivitycd`),
+  KEY `index_tblAquaticSiteAgencyUse_on_agencycd` (`agencycd`)
+) ENGINE=InnoDB AUTO_INCREMENT=6185 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `tblenvironmentalobservations` (
+  `envobservationid` int(11) NOT NULL auto_increment,
+  `aquaticactivityid` int(11) default NULL,
+  `observationgroup` varchar(100) default NULL,
+  `observation` varchar(100) default NULL,
+  `observationsupp` varchar(100) default NULL,
+  `pipesize_cm` int(11) default NULL,
+  `fishpassageobstructionind` tinyint(1) default NULL,
+  PRIMARY KEY  (`envobservationid`),
+  KEY `index_tblEnvironmentalObservations_on_aquaticactivityid` (`aquaticactivityid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `tblsample` (
+  `sampleid` int(11) NOT NULL auto_increment,
+  `aquaticactivityid` int(11) default NULL,
+  `tempaquaticactivityid` int(11) default NULL,
+  `agencysampleno` varchar(20) default NULL,
+  `sampledepth_m` float default NULL,
+  `watersourcetype` varchar(40) default NULL,
+  `samplecollectionmethodcd` int(11) default NULL,
+  `analyzedby` varchar(510) default NULL,
+  PRIMARY KEY  (`sampleid`),
+  KEY `index_tblSample_on_aquaticactivityid` (`aquaticactivityid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `tblwaterbody` (
+  `waterbodyid` int(11) NOT NULL auto_increment,
+  `cgndb_key` varchar(20) default NULL,
+  `cgndb_key_alt` varchar(20) default NULL,
+  `drainagecd` varchar(34) default NULL,
+  `waterbodytypecd` varchar(8) default NULL,
+  `waterbodyname` varchar(110) default NULL,
+  `waterbodyname_abrev` varchar(80) default NULL,
+  `waterbodyname_alt` varchar(80) default NULL,
+  `waterbodycomplexid` int(11) default NULL,
+  `surveyed_ind` varchar(2) default NULL,
+  `flowsintowaterbodyid` float default NULL,
+  `flowsintowaterbodyname` varchar(80) default NULL,
+  `flowintodrainagecd` varchar(34) default NULL,
+  `dateentered` datetime default NULL,
+  `datemodified` datetime default NULL,
+  PRIMARY KEY  (`waterbodyid`)
+) ENGINE=InnoDB AUTO_INCREMENT=1000000 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `tblwatermeasurement` (
+  `watermeasurementid` int(11) NOT NULL auto_increment,
+  `aquaticactivityid` int(11) default NULL,
+  `tempaquaticactivityid` int(11) default NULL,
+  `tempdataid` int(11) default NULL,
+  `temperatureloggerid` int(11) default NULL,
+  `habitatunitid` int(11) default NULL,
+  `sampleid` int(11) default NULL,
+  `watersourcetype` varchar(100) default NULL,
+  `waterdepth_m` float default NULL,
+  `timeofday` varchar(10) default NULL,
+  `oandmcd` int(11) default NULL,
+  `instrumentcd` int(11) default NULL,
+  `measurement` float default NULL,
+  `unitofmeasurecd` int(11) default NULL,
+  `detectionlimitind` tinyint(1) NOT NULL,
+  `comment` varchar(510) default NULL,
+  PRIMARY KEY  (`watermeasurementid`),
+  KEY `index_tblWaterMeasurement_on_aquaticactivityid` (`aquaticactivityid`),
+  KEY `index_tblWaterMeasurement_on_tempaquaticactivityid` (`tempaquaticactivityid`),
+  KEY `index_tblWaterMeasurement_on_tempdataid` (`tempdataid`),
+  KEY `index_tblWaterMeasurement_on_temperatureloggerid` (`temperatureloggerid`),
+  KEY `index_tblWaterMeasurement_on_habitatunitid` (`habitatunitid`),
+  KEY `index_tblWaterMeasurement_on_sampleid` (`sampleid`),
+  KEY `index_tblWaterMeasurement_on_oandmcd` (`oandmcd`),
+  KEY `index_tblWaterMeasurement_on_instrumentcd` (`instrumentcd`),
+  KEY `index_tblWaterMeasurement_on_unitofmeasurecd` (`unitofmeasurecd`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE `users` (
   `id` int(11) NOT NULL auto_increment,
   `login` varchar(255) default NULL,
@@ -172,49 +277,4 @@ CREATE TABLE `users` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
-CREATE TABLE `waterbodies` (
-  `id` int(11) NOT NULL auto_increment,
-  `name` varchar(255) default NULL,
-  `abbrev_name` varchar(255) default NULL,
-  `alt_name` varchar(255) default NULL,
-  `drainage_code` varchar(255) default NULL,
-  `waterbody_type` varchar(255) default NULL,
-  `waterbody_complex_id` int(11) default NULL,
-  `surveyed` tinyint(1) default NULL,
-  `flows_into_waterbody_id` int(11) default NULL,
-  `flows_into_waterbody_name` varchar(255) default NULL,
-  `flows_into_watershed` varchar(255) default NULL,
-  `date_entered` datetime default NULL,
-  `date_modified` datetime default NULL,
-  `created_at` datetime default NULL,
-  `updated_at` datetime default NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE `watersheds` (
-  `drainage_code` varchar(17) NOT NULL,
-  `name` varchar(255) default NULL,
-  `unit_type` varchar(255) default NULL,
-  `border` tinyint(1) default NULL,
-  `stream_order` int(11) default NULL,
-  `area_ha` float default NULL,
-  `area_percent` float default NULL,
-  `drains_into` varchar(255) default NULL,
-  `level1_no` varchar(255) default NULL,
-  `level1_name` varchar(255) default NULL,
-  `level2_no` varchar(255) default NULL,
-  `level2_name` varchar(255) default NULL,
-  `level3_no` varchar(255) default NULL,
-  `level3_name` varchar(255) default NULL,
-  `level4_no` varchar(255) default NULL,
-  `level4_name` varchar(255) default NULL,
-  `level5_no` varchar(255) default NULL,
-  `level5_name` varchar(255) default NULL,
-  `level6_no` varchar(255) default NULL,
-  `level6_name` varchar(255) default NULL,
-  `created_at` datetime default NULL,
-  `updated_at` datetime default NULL,
-  PRIMARY KEY  (`drainage_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-INSERT INTO `schema_info` (version) VALUES (16)
+INSERT INTO `schema_info` (version) VALUES (21)

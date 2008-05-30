@@ -2,7 +2,8 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class TblAquaticSiteTest < ActiveSupport::TestCase
   should_belong_to :waterbody 
-#  should_have_many :aquatic_site_usages
+  should_have_many :aquatic_site_agency_usages
+  should_have_many :aquatic_activity_codes, :through => :aquatic_site_agency_usages
 #  should_have_many :activities, :through => :aquatic_site_usages
 #  should_have_many :aquatic_activities
 #   

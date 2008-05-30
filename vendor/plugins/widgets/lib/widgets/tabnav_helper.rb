@@ -73,12 +73,13 @@ module Widgets
         li_options = {}
         li_options[:id] = "#{tab.html[:id]}_container" if tab.html[:id] 
         
+        # slight modification to make sure html[:class] options get passed into li_options[:class] also
         if tab.disabled?
-          tab.html[:class] = 'disabled'
+          tab.html[:class] = "disabled #{tab.html[:class]}"
         elsif tab.highlighted?(params)
-          tab.html[:class] = 'active'
-          li_options[:class] = "active" 
-        end
+          tab.html[:class] = "active #{tab.html[:class]}"          
+        end        
+        li_options[:class] = tab.html[:class]
                 
         out tag('li', li_options, true)
         if tab.disabled? || (tab.link.empty? && tab.remote_link.nil?)

@@ -82,31 +82,31 @@ kuler scheme: chemistry class
 #navigation .location .back a:hover {
     text-decoration: underline;
 }
-#navigation .tabs {
+#navigation ul.tabs {
     margin: 0 25px;
 }
-#navigation .tab {
+#navigation li.tab {
     float: left;
     margin: 7px 5px 0;
     font-size: 16px;
 }
-#navigation .tab.option {
+#navigation li.tab.option {
     float: right;
     font-size: 12px;
     margin-top: 11px;
 }
-#navigation .tab a {
+#navigation li.tab a {
     display: block;
     padding: 6px 10px;
     text-decoration: none;
     background-color: #B3D5E1;
     color: #13345E;
 }
-#navigation .tab a:hover {
+#navigation li.tab a:hover {
     background-color: #13345E;
     color: #77DDF5;
 }
-#navigation .tab.active a {
+#navigation li.tab.active a {
     background-color: #fff;
     color: #001E20;
     font-weight: bold;
@@ -115,7 +115,7 @@ kuler scheme: chemistry class
     border-bottom: none;
     margin-top: -1px;
 }
-#navigation .tab.active a:hover {
+#navigation li.tab.active a:hover {
     background-color: #fff;
     color: #001E20;
 }
@@ -206,7 +206,7 @@ iframe {
 #waterbody-editor dl dd {
     float: left;
 }
-#waterbody-editor #waterbody_contains {
+#waterbody-editor #waterbody_search {
     padding: 2px;
     border: 1px solid #1F7F00;
     font-size: 16px;
