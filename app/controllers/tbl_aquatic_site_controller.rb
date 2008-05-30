@@ -50,4 +50,8 @@ class TblAquaticSiteController < ApplicationController
     @waterbodies = TblWaterbody.search(query) unless query.blank?
     render :partial => "autocomplete" 
   end
+  
+  def gmap_max_content    
+    render :inline => "<%= render :active_scaffold => 'tbl_aquatic_site', :conditions => ['#{TblAquaticSite.table_name}.aquaticsiteid = ?', params[:id]], :label => '' %>"
+  end
 end

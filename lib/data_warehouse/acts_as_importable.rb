@@ -36,25 +36,41 @@ module DataWarehouse
           
           import_log.debug 'connecting to data warehouse'                   
           ActiveRecord::Base.establish_connection(data_warehouse_configurations["#{RAILS_ENV}"])    
-          import_log.info "reading data from #{table_name}"      
-          puts "reading data from #{table_name}" 
-          columns = self.columns.collect{ |col| col.name } 
-          records = self.find(:all).collect do |row|
-            columns.collect { |col| row.attributes[col] } 
-          end
-          
-          if records.size == 0
+                    
+          total_records = self.count :all
+          if total_records == 0
             import_log.info "table is empty - nothing to import"
             puts "table is empty - nothing to import"
             return
           end
           
-          import_log.debug 'restoring default active record connection' if import_log.debug?
-          ActiveRecord::Base.establish_connection(ActiveRecord::Base.configurations[RAILS_ENV])  
+          limit = 1000
+          pages = total_records / 1000 + 1
+          pages.times do |page|
+            unless page == 0
+              import_log.debug 'connecting to data warehouse'                   
+              ActiveRecord::Base.establish_connection(data_warehouse_configurations["#{RAILS_ENV}"])    
+            end
+            
+            if pages > 1              
+              import_log.info "reading rows #{page * limit + 1}-#{(page + 1) * limit} of #{total_records} from #{table_name}"   
+              puts "reading rows #{page * limit + 1}-#{(page + 1) * limit} of #{total_records} from #{table_name}" 
+            else
+              import_log.info "reading data from #{table_name}"      
+              puts "reading data from #{table_name}" 
+            end
+            columns = self.columns.collect{ |col| col.name } 
+            records = self.paginate(:all, :page => (page+1), :per_page => limit).collect do |row|
+              columns.collect { |col| row.attributes[col] } 
+            end
+            
+            import_log.debug 'restoring default active record connection' if import_log.debug?
+            ActiveRecord::Base.establish_connection(ActiveRecord::Base.configurations[RAILS_ENV])  
           
-          import_log.info 'performing bulk import'
-          puts 'performing bulk import'
-          self.import columns, records, { :validate => false, :on_duplicate_key_update => columns }
+            import_log.info 'performing bulk import'
+            puts 'performing bulk import'
+            self.import columns, records, { :validate => false, :on_duplicate_key_update => columns }            
+          end          
             
           import_log.info "import of #{table_name} complete"
           puts "import of #{table_name} complete"

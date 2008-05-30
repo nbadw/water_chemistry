@@ -6,4 +6,8 @@ class TblAquaticActivityTest < ActiveSupport::TestCase
   should_belong_to :agency
   should_belong_to :agency2
   should_belong_to :aquatic_activity_method_code
+  
+  should_eventually "make sure rainfall can only be none/light/heavy" do
+    
+  end
 end

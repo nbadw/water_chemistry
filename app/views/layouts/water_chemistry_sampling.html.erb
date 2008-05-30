@@ -26,12 +26,17 @@
       <div id="application">
         <img class="logo" src="#" alt="IMG"/>
         <h1 class="name">Aquatic Data Warehouse: Data Entry</h1>
-      </div>      
+      </div>    
+      
+      <div id="agency">
+        <h3><%= "#{current_user.agency.name} (#{current_user.agency.code})" if current_user.agency %></h3>
+      </div>    
     </div>
     
     <div id="navigation">
       <h2 class="location">
-        <span class="agency_name">Water Chemistry Sampling</span>
+        <span class="primary">Water Chemistry Sampling</span>
+        <span class="back"><%= link_to 'Back to Main Menu', root_url %></span>
       </h2>
       <ul id="tabs" class="tabs">
         <li class="tab <%= 'active' if controller.action_name == 'browse' %>"><a href="#browse">Browse</a></li>

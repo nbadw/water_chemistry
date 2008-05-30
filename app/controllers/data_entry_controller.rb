@@ -16,7 +16,7 @@ class DataEntryController < ApplicationController
     @site_markers = @aquatic_sites.collect do |aquatic_site|
       if aquatic_site.latitude && aquatic_site.longitude
         { :id => aquatic_site.id, :latitude => aquatic_site.latitude, :longitude => aquatic_site.longitude, 
-          :info => render_to_string(:partial => 'aquatic_sites/info_window', :locals => { :aquatic_site => aquatic_site }) }
+          :info => render_to_string(:partial => 'tbl_aquatic_site/info_window', :locals => { :aquatic_site => aquatic_site }) }
       end
     end.compact    
     
@@ -24,7 +24,7 @@ class DataEntryController < ApplicationController
       format.html { render :layout => !request.xml_http_request? }
       format.js do                 
         render :update do |page|
-          page.replace_html('aquatic-sites', :partial => 'aquatic_sites/aquatic_sites')
+          page.replace_html('aquatic-sites', :partial => 'tbl_aquatic_site/aquatic_sites')
           page << "updateMap(#{@site_markers.to_json});"
         end
       end

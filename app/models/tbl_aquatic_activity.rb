@@ -3,12 +3,15 @@ class TblAquaticActivity < ActiveRecord::Base
   set_primary_key 'aquaticactivityid'
   
   alias_attribute :weather_conditions, :weatherconditions
+  alias_attribute :rain_fall_in_last_24_hours, :rainfall_last24
   
   belongs_to :aquatic_activity_code, :class_name => 'CdAquaticActivity', :foreign_key => 'aquaticactivitycd' 
   belongs_to :aquatic_site, :class_name => 'TblAquaticSite', :foreign_key => 'aquaticsiteid'
   belongs_to :agency, :class_name => 'CdAgency', :foreign_key => 'agencycd'
   belongs_to :agency2, :class_name => 'CdAgency', :foreign_key => 'agency2cd'
   belongs_to :aquatic_activity_method_code, :class_name => 'CdAquaticActivityMethod', :foreign_key => 'aquaticmethodcd'
+  
+  validates_inclusion_of :rainfall_last24, :in => %w(None Light Heavy)
   
   acts_as_importable
   

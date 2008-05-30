@@ -1,4 +1,8 @@
-<ul>
+<% if @aquatic_sites.empty? %>
+  <p>No Aquatic Sites With Coordinates Found!</p>
+<% end %>
+
+<ul>  
   <% @aquatic_sites.each do |site| %>
     <li class="aquatic-site"><a id="aquatic-site-<%= site.id %>" href="#"><%= site.name || 'Unnamed Site' %></a></li>
   <%  end %>

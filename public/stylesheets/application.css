@@ -14,7 +14,9 @@ kuler scheme: chemistry class
 #000A40 - navy (dark)
 #FF5900 - orange
 */
-
+body {
+    min-width: 700px;
+}
 #header {
     background-color: #001E20;
     color: #fff;
@@ -58,6 +60,23 @@ kuler scheme: chemistry class
     font-family: Verdana;
     height: 33px;
 }
+#application .name a {
+    font-weight: normal;
+    text-decoration: none;
+    color: #fff;
+}
+#application .name a:hover {
+    color: #B3D5E1;
+}
+#agency {
+    float: right;
+    font-weight: bold;
+    font-family: verdana;
+    font-size: 11px;
+    text-align: right;
+    padding: 10px 20px;
+    color: #001e20;
+}
 
 #navigation {
     height: 90px;
@@ -66,13 +85,15 @@ kuler scheme: chemistry class
 }
 #navigation .location {
     padding: 21px 20px 10px;
-    font-size: 24px;
     font-weight: bold;
 }
-#activity #navigation .location .agency_name,
+#navigation .location .primary {
+    font-size: 24px;
+}    
 #navigation .location .back {
-    font-size: 16px;
+    font-size: 11px;
     padding-left: 10px;
+    font-family: verdana;
     font-weight: normal;
 }
 #navigation .location .back a {

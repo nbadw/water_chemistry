@@ -2,7 +2,7 @@
 # see ./lib/data_warehouse files
 development:
     adapter: sqlserver
-    database: dataWarehouse
+    database: water_chemistry_dev
     host: .
     provider: SQLNCLI
     windows_auth: true 
