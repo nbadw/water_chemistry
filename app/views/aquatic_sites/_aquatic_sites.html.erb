@@ -1,6 +1,0 @@
-<ul>
-  <% @aquatic_sites.each do |site| %>
-    <li class="aquatic-site"><a id="aquatic-site-<%= site.id %>" href="#"><%= site.name || 'Unnamed Site' %></a></li>
-  <%  end %>
-</ul>
-<%= will_paginate @aquatic_sites, :inner_window => 0, :outer_window => 0 %>
