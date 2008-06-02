@@ -37,24 +37,16 @@
       <h2 class="location">
         <span class="primary">Water Chemistry Sampling</span>
         <span class="back"><%= link_to 'Back to Main Menu', root_url %></span>
-      </h2>
-      <ul id="tabs" class="tabs">
-        <li class="tab <%= 'active' if controller.action_name == 'browse' %>"><a href="#browse">Browse</a></li>
-        <li class="tab <%= 'active' if controller.action_name == 'explore' %>"><a href="#explore">Explore</a></li>
-        
-        <li class="tab <%= 'active' if controller.action_name == 'help' %> option"><a href="#help">Help</a></li>
-      </ul>
+      </h2>            
+      <%= tabnav :water_chemistry_sampling %>
     </div>
     
     <div id="content"> 
-      <div id="browse">
-        <%= yield if controller.action_name == 'browse' %>
+      <div id="main">        
+        <%= yield %>
       </div>
-      <div id="explore">
-        <%= yield if controller.action_name == 'explore' %>
-      </div>
-      <div id="help">
-        <%= yield if controller.action_name == 'help' %>
+      <div id="right">
+        <% # = render 'water_chemistry_sampling/aquatic_site' %>
       </div>
     </div>       
     

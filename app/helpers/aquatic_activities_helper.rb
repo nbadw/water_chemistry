@@ -1,2 +1,0 @@
-module AquaticActivitiesHelper
-end

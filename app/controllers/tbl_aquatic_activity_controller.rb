@@ -12,14 +12,14 @@
     aquatic_activity = TblAquaticActivity.find params[:id], :include => :aquatic_activity_code
     activity_name = aquatic_activity.aquatic_activity_code.name
     activity_controller = activity_name.gsub(' ', '_').downcase
-    redirect_to :controller => activity_controller, :id => params[:id]
+    redirect_to :controller => activity_controller, :action => 'edit', :id => params[:id]
   end
   
   def show
     aquatic_activity = TblAquaticActivity.find params[:id], :include => :aquatic_activity_code
     activity_name = aquatic_activity.aquatic_activity_code.name
     activity_controller = activity_name.gsub(' ', '_').downcase
-    redirect_to :controller => activity_controller, :id => params[:id]
+    redirect_to :controller => activity_controller, :action => 'show', :id => params[:id]
   end
   
   def aquatic_site_activities    

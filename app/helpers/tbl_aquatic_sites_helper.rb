@@ -1,4 +1,8 @@
 module TblAquaticSitesHelper
+  def agencies_column(record)
+    record.agencies.join(', ')
+  end
+  
   def description_column(record)
     record.description || 'No Description'
   end

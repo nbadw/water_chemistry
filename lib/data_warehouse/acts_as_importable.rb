@@ -8,7 +8,7 @@ module DataWarehouse
       def acts_as_importable(options = {})
         unless acts_as_importable? # don't let AR call this twice
           cattr_accessor :import_overwrite_existing, :import_perform_validations, 
-            :import_must_import_all_or_fail, :import_log
+            :import_must_import_all_or_fail, :import_method, :import_log
           self.import_perform_validations = false
           self.import_must_import_all_or_fail = options.has_key?(:must_import_all_or_fail) ? options[:must_import_all_or_fail] : true
           self.import_overwrite_existing = options.has_key?(:overwrite_existing) ? options[:overwrite_existing] : false
@@ -30,6 +30,8 @@ module DataWarehouse
       # These are class methods that are mixed in with the model class.
       module ClassMethods     
         def import_from_data_warehouse                        
+          return unless self.name == 'TblWaterbody'
+          
           import_log = self.import_log ||= Logger.new(File.open("#{RAILS_ROOT}/log/import_#{RAILS_ENV}.log", "a"))
           import_log.level = RAILS_ENV == 'production' ? Logger::INFO : Logger::DEBUG
           data_warehouse_configurations = YAML::load_file("#{RAILS_ROOT}/config/data_warehouse.yml")                    
@@ -59,21 +61,50 @@ module DataWarehouse
               import_log.info "reading data from #{table_name}"      
               puts "reading data from #{table_name}" 
             end
+            
             columns = self.columns.collect{ |col| col.name } 
-            records = self.paginate(:all, :page => (page+1), :per_page => limit).collect do |row|
-              columns.collect { |col| row.attributes[col] } 
-            end
+            records = self.paginate(:all, :page => (page+1), :per_page => limit)
             
             import_log.debug 'restoring default active record connection' if import_log.debug?
             ActiveRecord::Base.establish_connection(ActiveRecord::Base.configurations[RAILS_ENV])  
-          
-            import_log.info 'performing bulk import'
-            puts 'performing bulk import'
-            self.import columns, records, { :validate => false, :on_duplicate_key_update => columns }            
-          end          
             
+            method = self.import_method || :bulk
+            #method = :record
+            
+            if method == :record
+              records.each do |record|
+                begin
+                  new_record = self.new(record.attributes)
+                  new_record.id = record.id
+                  import_log.debug "saving id: #{new_record.id} #{new_record.inspect}"
+                  new_record.save(false)
+                rescue Exception => exc
+                  import_log.error "#{exc.message}"
+                end
+              end
+            else
+              values = records.collect do |row|
+                columns.collect { |col| row.attributes[col] } 
+              end  
+              import_log.info 'performing bulk import'
+              puts 'performing bulk import'
+              begin
+                self.import columns, values, { :validate => false, :on_duplicate_key_update => columns } 
+              rescue Exception => e
+                import_log.error e.message
+                puts e.message
+              end
+            end         
+          end      
+          
           import_log.info "import of #{table_name} complete"
-          puts "import of #{table_name} complete"
+          puts "import of #{table_name} complete"   
+          
+          import_count = self.count
+          if import_count != total_records
+            puts "warning!!! the number of imported records (#{import_count}) does not match the total number of records that were marked for import (#{total_records})"
+          end
+          
         end
       end # ClassMethods    
     end # ImportMethods

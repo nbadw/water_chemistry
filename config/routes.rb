@@ -1,19 +1,18 @@
 ActionController::Routing::Routes.draw do |map|  
   map.root :controller => "data_entry", :action => "browse"  
   map.connect '/tbl_aquatic_activity/site_aquatic_activities', :controller => 'tbl_aquatic_activity', :action => 'site_aquatic_activities'  
-  map.connect '/water_chemistry_sampling/:action', :controller => 'water_chemistry'
-  
+  map.connect '/water_chemistry_sampling/:id/:action', :controller => 'water_chemistry_sampling'  
   
   map.browse   '/browse',       :controller => 'data_entry', :action => 'browse'
   map.explore  '/explore',      :controller => 'data_entry', :action => 'explore'
-  map.signup   '/signup',       :controller => 'users', :action => 'new'
-  map.login    '/login',        :controller => 'sessions', :action => 'new'
-  map.logout   '/logout',       :controller => 'sessions', :action => 'destroy'
-  map.activate '/activate/:id', :controller => 'accounts', :action => 'show'
+  map.signup   '/signup',       :controller => 'users',      :action => 'new'
+  map.login    '/login',        :controller => 'sessions',   :action => 'new'
+  map.logout   '/logout',       :controller => 'sessions',   :action => 'destroy'
+  map.activate '/activate/:id', :controller => 'accounts',   :action => 'show'
   
-  map.forgot_password '/forgot_password', :controller => 'passwords', :action => 'new'
-  map.reset_password '/reset_password/:id', :controller => 'passwords', :action => 'edit'
-  map.change_password '/change_password', :controller => 'accounts', :action => 'edit'
+  map.forgot_password '/forgot_password',    :controller => 'passwords', :action => 'new'
+  map.reset_password  '/reset_password/:id', :controller => 'passwords', :action => 'edit'
+  map.change_password '/change_password',    :controller => 'accounts',  :action => 'edit'
     
   map.resources :users, :member => { :enable => :put } do |users|
     users.resource  :account

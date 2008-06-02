@@ -35,35 +35,22 @@ function enhanceAquaticSites() {
     
 function updateMap(siteMarkers) {
     map.clearOverlays();
-    site2marker = {};
         
     var bounds = new GLatLngBounds();
     for(var i=0, len=siteMarkers.length; i < len; i++) {
         var site = siteMarkers[i];
         var coord = new GLatLng(site.latitude, site.longitude);
         var marker = new GMarker(coord);  
-        marker.id = site.id;          
-        marker.bindInfoWindowHtml(site.info, {
-            maxContent: maxContentDiv, 
-            maxTitle: "Aquatic Site Details"
-        });   
         var maxContentDiv = document.createElement('div');                
-        maxContentDiv.innerHTML = 'Loading...'; 
         
-        GEvent.addListener(marker, 'click', function(evt) {
-            $('aquatic-sites').select('li.aquatic-site').each(function(li) { 
-                li.removeClassName('selected') 
-            });            
-            Element.up('aquatic-site-' + site.id, 'li.aquatic-site').addClassName('selected');
-            
-            var iw = map.getInfoWindow();
-            GEvent.addListener(iw, "maximizeclick", function() {
-                GDownloadUrl("/tbl_aquatic_site/gmap_max_content/" + site.id, function(data) {
-                    console.log(maxContentDiv.innerHTML);
-                    maxContentDiv.innerHTML = data;
-                });
-            });                   
-        });
+        maxContentDiv.innerHTML = 'Loading...';         
+        marker.id = site.id;          
+        marker.maxContent = maxContentDiv;
+        marker.bindInfoWindowHtml(site.info, {
+            maxContent: marker.maxContent, 
+            maxTitle: "Aquatic Site Details"
+        });           
+        GEvent.addListener(marker, 'click', handleMarkerClick);
         
         map.addOverlay(marker);
         site2marker[site.id] = marker;
@@ -74,25 +61,22 @@ function updateMap(siteMarkers) {
     
 function handleMarkerClick(evt) {                
     var marker = this;
-    for(var site_id in site2marker) {
-        if(marker == site2marker[site_id]) {  
-            $('aquatic-sites').select('li.aquatic-site').each(function(li) { 
-                li.removeClassName('selected') 
-            });            
-            Element.up('aquatic-site-' + site_id, 'li.aquatic-site').addClassName('selected');
-            
-            var iw = map.getInfoWindow(); 
-            var maxContent = marker.getMaxContent();
-            
-            GEvent.addListener(iw, "maximizeend", function() {
-                var content = iw.getContentContainers();
+    $('aquatic-sites').select('li.aquatic-site').each(function(li) { 
+        li.removeClassName('selected') 
+    });            
+    Element.up('aquatic-site-' + marker.id, 'li.aquatic-site').addClassName('selected');
+
+    var iw = map.getInfoWindow();
+    
+    if(marker.maxContent.innerHTML == 'Loading...') {
+        GEvent.addListener(iw, "maximizeclick", function() {
+            GDownloadUrl("/tbl_aquatic_site/gmap_max_content/" + marker.id, function(data) {
+                marker.maxContent.innerHTML = data;
             });
-//                GDownloadUrl("/tbl_aquatic_site/gmap_max_content/" + site_id, function(data) {
-//                    $('max-content-div-' + site_id).innerHTML = data;
-//                });
-//            });            
-        }                
-    }      
+        }); 
+    } else {        
+        GEvent.clearListeners(iw, "maximizeclick");
+    }
 }
     
 function handleAquaticSiteClick(evt) {

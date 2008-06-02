@@ -20,7 +20,7 @@ class TblAquaticSite < ActiveRecord::Base
   end
   
   def drainage_code
-    waterbody.drainage_code if waterbody
+    self.waterbody.drainage_code if self.waterbody
   end
   
   #  class RecordIsIncorporated < ActiveRecord::ActiveRecordError
