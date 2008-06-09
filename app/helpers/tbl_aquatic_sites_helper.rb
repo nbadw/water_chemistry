@@ -1,6 +1,6 @@
 module TblAquaticSitesHelper
   def agencies_column(record)
-    record.agencies.join(', ')
+    record.agencies.sort.join(', ')
   end
   
   def description_column(record)
@@ -20,7 +20,7 @@ module TblAquaticSitesHelper
       :id => "aquatic_sites-nested-#{record.id}-link"
     }
     
-    record.aquatic_activity_codes.uniq.collect do |aquatic_activity_code|      
+    record.aquatic_activity_codes.uniq.sort.collect do |aquatic_activity_code|      
       options[:aquatic_activity_code] = aquatic_activity_code.id
       options[:label] = "#{aquatic_activity_code.name} Activities for #{record.name}"
       # XXX: limiting to only water chemistry sampling activities, the rest are disabled
@@ -30,5 +30,9 @@ module TblAquaticSitesHelper
         '<a href="#" class="disabled">' + aquatic_activity_code.name + '</a>'
       end
     end.join('<br/><br/>')
+  end
+  
+  def coordinates_column(record)
+    "--- TODO ---"
   end
 end

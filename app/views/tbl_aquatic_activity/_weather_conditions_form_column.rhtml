@@ -1,0 +1,12 @@
+<dl>
+  <dt>
+    <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
+  </dt>
+  <dd>
+    <select name="record[<%= column.name %>]">
+      <% TblAquaticActivity.weather_conditions_options.each do |value| %>
+        <option><%=h value %> </option>
+      <% end %>
+    </select>
+  </dd>
+</dl>

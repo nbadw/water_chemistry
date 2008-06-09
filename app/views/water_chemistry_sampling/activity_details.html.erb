@@ -1,1 +1,1 @@
-<%= render :active_scaffold => 'tbl_aquatic_activity' %>
+<%= render :active_scaffold => 'tbl_aquatic_activity', :conditions => ["#{TblAquaticActivity.primary_key} = ?", @aquatic_activity_id] %>

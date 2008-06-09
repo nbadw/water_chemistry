@@ -147,6 +147,7 @@ module ThoughtBot # :nodoc:
       def should_allow_values_for(attribute, *good_values)
         get_options!(good_values)
         klass = model_class
+        good_values.flatten!
         good_values.each do |v|
           should "allow #{attribute} to be set to \"#{v}\"" do
             assert object = klass.find(:first), "Can't find first #{klass}"

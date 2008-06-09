@@ -271,3 +271,12 @@ div.aquatic-site-info-window p {
 #aquatic-sites li.aquatic-site.selected {
     background-color: yellow;
 }
+
+#water-chemistry-sampling #content #main {
+    float: left;
+    width: 70%;
+}
+#water-chemistry-sampling #content #right {
+    float: left;
+    width: 30%;
+}

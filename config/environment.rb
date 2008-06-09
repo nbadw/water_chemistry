@@ -59,5 +59,7 @@ Rails::Initializer.run do |config|
   # config.active_record.default_timezone = :utc
 end
 
+ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(:adw => "%d/%m/%y")
+
 require 'data_warehouse/init'
 require 'ar-extensions'

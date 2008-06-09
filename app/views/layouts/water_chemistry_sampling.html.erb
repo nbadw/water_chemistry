@@ -11,7 +11,7 @@
     <%= GMap.header %>
     <%= calendar_date_select_includes "silver" %>
   </head>
-  <body>
+  <body id="water-chemistry-sampling">
     
     <div id="header">
       <div id="session">
@@ -46,7 +46,7 @@
         <%= yield %>
       </div>
       <div id="right">
-        <% # = render 'water_chemistry_sampling/aquatic_site' %>
+        <%= render :partial => 'aquatic_site' %>
       </div>
     </div>       
     

@@ -3,7 +3,8 @@ class TblAquaticSiteController < ApplicationController
     # base config
     config.label = "Aquatic Sites"    
     config.columns = [:id, :name, :agencies, :waterbody_id, :waterbody_name, 
-      :drainage_code, :description, :aquatic_activity_codes]  
+      :drainage_code, :description, :aquatic_activity_codes, :coordinates] 
+    
     config.columns[:waterbody_id].label = 'Waterbody Id'
     config.columns[:drainage_code].label = 'Watershed Code'
     config.columns[:name].label = 'Site Name'
@@ -14,15 +15,18 @@ class TblAquaticSiteController < ApplicationController
     
     # list config
     config.columns[:drainage_code].sort_by :sql => "#{TblWaterbody.table_name}.drainagecd"
-    config.list.columns.exclude :name
+    config.list.columns.exclude :name, :coordinates
     config.list.sorting =[{ :drainage_code => :asc }]
+    
+    # show config
+    config.show.columns.exclude :aquatic_activity_codes
     
     # create config
     config.create.label = "Create a New Aquatic Site"
-    config.create.columns = [:agency, :name, :description, :waterbody]
+    config.create.columns = [:agency, :name, :description, :waterbody, :coordinates]
     
     # update config
-    config.update.columns = [:agency, :name, :description, :waterbody]
+    config.update.columns = [:agency, :name, :description, :waterbody, :coordinates]
         
     # search config
     config.columns[:waterbody_id].search_sql = "#{TblWaterbody.table_name}.waterbodyid"
