@@ -1,8 +1,5 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class TblWaterMeasurementTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  def test_truth
-    assert true
-  end
+  should_belong_to :aquatic_activity, :sample
 end

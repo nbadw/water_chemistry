@@ -1,3 +1,30 @@
-<p>
-  Aquatic Site
-</p>
+<div id="aquatic-site" class="active-scaffold">
+  <%= @aquatic_site_map.div %>
+  <h3 class="name"><%= @aquatic_site.name %></h3>
+  <div class="show-view">
+      <dl>
+        <dt>Waterbody Name</dt>
+        <dd><%= @aquatic_site.waterbody ? @aquatic_site.waterbody.name : '-' %></dd>
+      </dl>
+      <dl>
+        <dt>Waterbody ID</dt>
+        <dd><%= @aquatic_site.waterbody ? @aquatic_site.waterbody.id : '-' %></dd>
+      </dl>
+      <dl>
+        <dt>Drainage Code</dt>
+        <dd><%= @aquatic_site.waterbody ? @aquatic_site.waterbody.drainage_code : '-' %></dd>
+      </dl>
+      <dl>
+        <dt>Latitude (WGS 84)</dt>
+        <dd><%= @aquatic_site.latitude || '-' %></dd>
+      </dl>
+      <dl>
+        <dt>Longitude (WGS 84)</dt>
+        <dd><%= @aquatic_site.longitude || '-' %></dd>
+      </dl>
+      <dl>
+        <dt>Description</dt>
+        <dd><%= @aquatic_site.description || '-' %></dd>
+      </dl>
+  </div>
+</div>

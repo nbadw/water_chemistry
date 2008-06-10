@@ -1,0 +1,3 @@
+class TblEnvironmentalObservationsController < ApplicationController
+  activescaffold :tbl_environmental_observations
+end

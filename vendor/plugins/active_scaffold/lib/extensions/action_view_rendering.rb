@@ -54,8 +54,11 @@ module ActionView #:nodoc:
         session["as:#{eid}"] = {:constraints => constraints, :conditions => conditions, :list => {:label => args.first[:label]}}
         options[:params] ||= {}
         options[:params].merge! :eid => eid
+        
+        # XXX: Added this so other active scaffold components besides the list table can be embedded
+        action = options[:action] || 'table'
 
-        render_component :controller => remote_controller.to_s, :action => 'table', :params => options[:params]
+        render_component :controller => remote_controller.to_s, :action => action, :params => options[:params]
       else
         render_without_active_scaffold(*args, &block)
       end

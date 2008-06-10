@@ -1,10 +1,26 @@
 class TblWaterMeasurement < ActiveRecord::Base
   set_table_name  'tblWaterMeasurement'
   set_primary_key 'watermeasurementid'
-  acts_as_importable
-#  acts_as_importable 'tblWaterMeasurement_New', :primary_key => 'WaterMeasurementID'
-#  import_transformation_for('TimeofDay', 'time_of_day') do |record|
-#    time_of_day = record['TimeofDay'.downcase].strip
-#    DateTime.parse time_of_day unless time_of_day.empty?
-#  end
+  
+  alias_attribute :water_source_type, :watersourcetype
+  alias_attribute :water_depth_in_meters, :waterdepth_m
+  alias_attribute :detection_limit, :detectionlimitind
+  
+  belongs_to :aquatic_activity, :class_name => 'TblAquaticActivity', :foreign_key => 'aquaticactivityid'
+  belongs_to :sample, :class_name => 'TblSample', :foreign_key => 'sampleid'
+#    t.integer "tempdataid"
+#    t.integer "temperatureloggerid"
+#    t.integer "habitatunitid"
+#    t.string  "watersourcetype",       :limit => 100
+#    t.float   "waterdepth_m",          :limit => 4
+#    t.string  "timeofday",             :limit => 10
+#    t.integer "oandmcd"
+#    t.integer "instrumentcd"
+#    t.float   "measurement",           :limit => 4
+#    t.integer "unitofmeasurecd"
+#    t.boolean "detectionlimitind",                    :null => false
+#    t.string  "comment",               :limit => 510
+  
+  acts_as_importable  
+  
 end

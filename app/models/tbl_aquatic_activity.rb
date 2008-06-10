@@ -5,6 +5,7 @@ class TblAquaticActivity < ActiveRecord::Base
   alias_attribute :weather_conditions, :weatherconditions
   alias_attribute :rain_fall_in_last_24_hours, :rainfall_last24
   alias_attribute :water_level, :waterlevel
+  alias_attribute :aquatic_site_id, :aquaticsiteid
   
   # TODO: should these be process before save or made into actual attributes
   attr_accessor :water_clarity, :water_color, :water_crossing, :point_source, :non_point_source, :watercourse_alteration

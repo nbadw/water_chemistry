@@ -3,21 +3,21 @@ render_tabnav :main, :html => { :class => 'tabs', :id => 'main-tabs' } do
   add_tab do |t|
     t.named 'Samples'
     t.titled 'Samples'
-    t.links_to :controller => 'water_chemistry_sampling', :action => 'samples', :id => params[:id] 
+    t.links_to :controller => 'water_chemistry_sampling', :action => 'samples', :id => params[:id], :aquatic_site_id => @aquatic_site.id
     t.html[:class] = 'tab'
   end 
   
   add_tab do |t|
     t.named 'Activity Details'
     t.titled 'Activity Details'
-    t.links_to :controller => 'water_chemistry_sampling', :action => 'activity_details', :id => params[:id]    
+    t.links_to :controller => 'water_chemistry_sampling', :action => 'activity_details', :id => params[:id], :aquatic_site_id => @aquatic_site.id    
     t.html[:class] = 'tab'
   end 
   
   add_tab do |t|
     t.named 'Observations'
     t.titled 'Observations'
-    t.links_to :controller => 'water_chemistry_sampling', :action => 'observations', :id => params[:id]   
+    t.links_to :controller => 'water_chemistry_sampling', :action => 'observations', :id => params[:id], :aquatic_site_id => @aquatic_site.id   
     t.html[:class] = 'tab'
   end 
   

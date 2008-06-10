@@ -69,15 +69,22 @@ module DataWarehouse
             ActiveRecord::Base.establish_connection(ActiveRecord::Base.configurations[RAILS_ENV])  
             
             method = self.import_method || :bulk
-            #method = :record
+            method = :record
             
             if method == :record
               records.each do |record|
                 begin
-                  new_record = self.new(record.attributes)
-                  new_record.id = record.id
-                  import_log.debug "saving id: #{new_record.id} #{new_record.inspect}"
-                  new_record.save(false)
+                  if self.exists?(record.id)
+                    import_log.debug "updating id: #{record.id} #{record.attributes.inspect}"
+                    self.update(record.id, record.attributes)
+                  else
+                    previous_count = self.count
+                    new_record = self.new(record.attributes)
+                    new_record.id = record.id
+                    import_log.debug "saving id: #{new_record.id} #{new_record.inspect}"
+                    new_record.save(false)
+                    raise Exception.new("count hasn't changed after saving of #{new_record}") unless self.count > previous_count
+                  end
                 rescue Exception => exc
                   import_log.error "#{exc.message}"
                 end

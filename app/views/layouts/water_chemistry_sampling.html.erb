@@ -9,7 +9,7 @@
     <!--[if IE]><%= stylesheet_link_merged :ie %><![endif]-->
     <%= javascript_include_merged :base %>
     <%= GMap.header %>
-    <%= calendar_date_select_includes "silver" %>
+    <%= @aquatic_site_map.to_html %>
   </head>
   <body id="water-chemistry-sampling">
     
@@ -42,11 +42,15 @@
     </div>
     
     <div id="content"> 
-      <div id="main">        
-        <%= yield %>
+      <div id="center">
+        <div id="center-content">
+          <%= yield %>
+        </div>
       </div>
       <div id="right">
-        <%= render :partial => 'aquatic_site' %>
+        <div id="right-content">
+          <%= render :partial => 'aquatic_site' %>
+        </div>
       </div>
     </div>       
     

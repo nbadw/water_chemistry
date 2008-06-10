@@ -1,3 +1,7 @@
+div.site-activity-usages div.active-scaffold-header {
+    padding: 2px 0 3px;
+}
+
 #tbl_aquatic_activity-create--form #tbl_aquatic_activity--agency-subform {
     display: none;
 }
@@ -18,4 +22,21 @@
 #tbl_aquatic_activity-create--form #tbl_aquatic_activity--aquatic_activity_method_code-subform select {
     font-size: 16px;
     letter-spacing: -1px;
+}
+.active-scaffold-header div.actions a.prepare_config_list,
+.active-scaffold-header div.actions a.show_export {
+    background-position: 1px 50%;
+    background-repeat: no-repeat;
+    padding-left: 19px;
+    padding-right: 3px;
+}
+.active-scaffold-header div.actions a.prepare_config_list:hover,
+.active-scaffold-header div.actions a.show_export:hover {
+    background-color: #ff8;
+}
+.active-scaffold-header div.actions a.prepare_config_list {
+    background-image: url(../images/active_scaffold/default/customize.png);
+}
+.active-scaffold-header div.actions a.show_export {
+    background-image: url(../images/active_scaffold/default/export.png);
 }
