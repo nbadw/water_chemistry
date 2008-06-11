@@ -3,8 +3,10 @@
     <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
   </dt>
   <dd>
-    <select name="record[aquatic_activity_method_code]">
-      <option>--- TODO: INSERT VALUES ---</option>
+    <select name="record[<%= column.name %>]">
+      <% @aquatic_activity_method_codes.each do |method_code| %>
+        <option value="<%=h method_code.id %>"><%=h method_code.name %> </option>
+      <% end %>
     </select>
   </dd>
 </dl>

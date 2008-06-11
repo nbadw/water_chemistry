@@ -1,4 +1,4 @@
-module TblAquaticSitesHelper
+module TblAquaticSiteHelper
   def agencies_column(record)
     record.agencies.sort.join(', ')
   end

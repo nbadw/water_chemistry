@@ -1,4 +1,4 @@
-class CreateTblEnvironmentalObservations < ActiveRecord::Migration
+class CreateTblEnvironmentalObservation < ActiveRecord::Migration
   def self.up
     create_table "tblEnvironmentalObservations", :primary_key => "envobservationid" do |t|
       t.integer "aquaticactivityid"

@@ -9,6 +9,7 @@ module DataWarehouse
         unless acts_as_importable? # don't let AR call this twice
           cattr_accessor :import_overwrite_existing, :import_perform_validations, 
             :import_must_import_all_or_fail, :import_method, :import_log
+          self.import_method = options[:import_method] || :bulk
           self.import_perform_validations = false
           self.import_must_import_all_or_fail = options.has_key?(:must_import_all_or_fail) ? options[:must_import_all_or_fail] : true
           self.import_overwrite_existing = options.has_key?(:overwrite_existing) ? options[:overwrite_existing] : false
@@ -29,9 +30,7 @@ module DataWarehouse
 
       # These are class methods that are mixed in with the model class.
       module ClassMethods     
-        def import_from_data_warehouse                        
-          return unless self.name == 'TblWaterbody'
-          
+        def import_from_data_warehouse                         
           import_log = self.import_log ||= Logger.new(File.open("#{RAILS_ROOT}/log/import_#{RAILS_ENV}.log", "a"))
           import_log.level = RAILS_ENV == 'production' ? Logger::INFO : Logger::DEBUG
           data_warehouse_configurations = YAML::load_file("#{RAILS_ROOT}/config/data_warehouse.yml")                    
@@ -67,11 +66,8 @@ module DataWarehouse
             
             import_log.debug 'restoring default active record connection' if import_log.debug?
             ActiveRecord::Base.establish_connection(ActiveRecord::Base.configurations[RAILS_ENV])  
-            
-            method = self.import_method || :bulk
-            method = :record
-            
-            if method == :record
+                        
+            if self.import_method == :record
               records.each do |record|
                 begin
                   if self.exists?(record.id)

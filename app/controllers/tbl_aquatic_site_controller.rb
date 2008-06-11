@@ -23,7 +23,10 @@ class TblAquaticSiteController < ApplicationController
     
     # create config
     config.create.label = "Create a New Aquatic Site"
-    config.create.columns = [:agency, :name, :description, :waterbody, :coordinates]
+    config.create.columns = [:agency, :name, :description, :waterbody]
+    config.create.columns.add_subgroup "Location" do |location|
+      location.add :coordinates
+    end
     
     # update config
     config.update.columns = [:agency, :name, :description, :waterbody, :coordinates]

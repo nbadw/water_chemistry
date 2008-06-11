@@ -1,0 +1,8 @@
+<dl>
+  <dt>
+    <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
+  </dt>
+  <dd>
+    <%= calendar_date_select :record, :start_date, :class => 'text-input' %>
+  </dd>
+</dl>

@@ -94,6 +94,17 @@ CREATE TABLE `schema_info` (
   `version` int(11) default NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+CREATE TABLE `sessions` (
+  `id` int(11) NOT NULL auto_increment,
+  `session_id` varchar(255) NOT NULL,
+  `data` text,
+  `created_at` datetime default NULL,
+  `updated_at` datetime default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `index_sessions_on_session_id` (`session_id`),
+  KEY `index_sessions_on_updated_at` (`updated_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE `tblaquaticactivity` (
   `aquaticactivityid` int(11) NOT NULL auto_increment,
   `tempaquaticactivityid` int(11) default NULL,
@@ -206,7 +217,7 @@ CREATE TABLE `tblsample` (
   `agencysampleno` varchar(20) default NULL,
   `sampledepth_m` float default NULL,
   `watersourcetype` varchar(40) default NULL,
-  `samplecollectionmethodcd` int(11) default NULL,
+  `samplecollectionmethodcd` varchar(255) default NULL,
   `analyzedby` varchar(510) default NULL,
   PRIMARY KEY  (`sampleid`),
   KEY `index_tblSample_on_aquaticactivityid` (`aquaticactivityid`)
@@ -278,4 +289,4 @@ CREATE TABLE `users` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `schema_info` (version) VALUES (22)
+INSERT INTO `schema_info` (version) VALUES (24)

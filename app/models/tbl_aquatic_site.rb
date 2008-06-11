@@ -22,7 +22,6 @@ class TblAquaticSite < ActiveRecord::Base
   def drainage_code
     self.waterbody.drainage_code if self.waterbody
   end
-  
   #  class RecordIsIncorporated < ActiveRecord::ActiveRecordError
   #  end
   #  class SiteUsagesAttached < ActiveRecord::ActiveRecordError    

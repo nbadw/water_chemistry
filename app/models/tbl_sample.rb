@@ -6,10 +6,20 @@ class TblSample < ActiveRecord::Base
   alias_attribute :sample_depth_in_meters, :sampledepth_m
   alias_attribute :water_source_type, :watersourcetype
   alias_attribute :analyzed_by, :analyzedby
+  alias_attribute :collection_method, :samplecollectionmethodcd
   
-  #belongs_to :sample_collection_method, :class_name => '', :foreign_key => 'samplecollectionmethodcd'
+  def self.collection_method_options
+    ["Field Kit", "Lab"]
+  end
+  
   belongs_to :aquatic_activity, :class_name => 'TblAquaticActivity', :foreign_key => 'aquaticactivityid'
-  has_many :water_measurements, :class_name => 'TblWaterMeasurement', :foreign_key => 'sampleid'
+  has_many :results, :class_name => 'TblWaterMeasurement', :foreign_key => 'sampleid'
   
+  validates_inclusion_of :collection_method, :in => self.collection_method_options
+      
   acts_as_importable 
+  
+  def to_label
+    "Sample Id:#{self.id}"
+  end
 end

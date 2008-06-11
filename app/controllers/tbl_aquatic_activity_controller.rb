@@ -13,8 +13,8 @@
     # create config  
     config.create.columns = []
     config.create.columns.add_subgroup "Sampling Info" do |sampling_info| 
-      sampling_info.add :start_date, :aquatic_activity_method_code, :crew, :agency, :aquatic_activity_code
-      sampling_info.columns[:aquatic_activity_method_code].label = "Collection Method"
+      sampling_info.add :aquatic_activity_method_code, :start_date, :crew
+      sampling_info.columns[:start_date].label = "Start Date"
       sampling_info.columns[:crew].label = "Personnel"
     end
     config.create.columns.add_subgroup "Weather Observations" do |weather_observations|
@@ -34,6 +34,18 @@
     config.show.link.inline = false
   end
   
+  alias_method :active_scaffold_new, :new
+  def new
+    @aquatic_activity_method_codes = CdAquaticActivityMethod.find_all_by_aquaticactivitycd active_scaffold_session_storage[:constraints][:aquaticactivitycd]
+    active_scaffold_new
+  end
+  
+  alias_method :active_scaffold_create, :create
+  def create
+    @aquatic_activity_method_codes = CdAquaticActivityMethod.find_all_by_aquaticactivitycd active_scaffold_session_storage[:constraints][:aquaticactivitycd]
+    active_scaffold_create
+  end
+  
   def edit
     aquatic_activity = TblAquaticActivity.find params[:id], :include => :aquatic_activity_code
     activity_name = aquatic_activity.aquatic_activity_code.name
@@ -51,14 +63,19 @@
   end
   
   def aquatic_site_activities    
-    @label = params[:label]    
-    @conditions = ["#{TblAquaticActivity.table_name}.aquaticsiteid = ? AND #{TblAquaticActivity.table_name}.aquaticactivitycd = ?", 
-      params[:aquatic_site_id], params[:aquatic_activity_code]]    
+    @label = params[:label]       
+    @constraints = { :aquaticsiteid => params[:aquatic_site_id], :aquaticactivitycd => params[:aquatic_activity_code] }  
     render :layout => false
   end
   
   def aquatic_activity_details
     @record = TblAquaticActivity.find params[:aquatic_activity_id]
     render :action => 'show', :layout => false
+  end
+  
+  def before_create_save(record)
+    record.aquaticsiteid = active_scaffold_session_storage[:constraints][:aquaticsiteid]
+    record.aquaticactivitycd = active_scaffold_session_storage[:constraints][:aquaticactivitycd]
+    record.agencycd = current_user.agency.code
   end
 end

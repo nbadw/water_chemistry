@@ -7,7 +7,7 @@ class TblAquaticActivity < ActiveRecord::Base
   alias_attribute :water_level, :waterlevel
   alias_attribute :aquatic_site_id, :aquaticsiteid
   
-  # TODO: should these be process before save or made into actual attributes
+  # TODO: should these be processed before save or made into actual attributes?
   attr_accessor :water_clarity, :water_color, :water_crossing, :point_source, :non_point_source, :watercourse_alteration
   
   def self.rainfall_last24_options
@@ -31,8 +31,10 @@ class TblAquaticActivity < ActiveRecord::Base
   validates_inclusion_of :rainfall_last24, :in => self.rainfall_last24_options
   validates_inclusion_of :weather_conditions, :in => self.weather_conditions_options
   validates_inclusion_of :water_level, :in => self.water_level_options
+  validates_presence_of  :aquatic_site, :aquatic_activity_code, :agency, 
+    :aquatic_activity_method_code, :aquaticactivitystartdate 
   
-  acts_as_importable
+  acts_as_importable :import_method => :record
   
   def start_date
     date_str = "#{self.aquaticactivitystartdate} #{self.aquaticactivitystarttime}".strip
@@ -46,6 +48,17 @@ class TblAquaticActivity < ActiveRecord::Base
     start_date
   end
   
+  def start_date=(date)
+    if date.is_a? String
+      date = DateTime.parse date unless date.empty?
+    end
+    
+    if date.is_a?(DateTime) || date.is_a?(Date) || date.is_a?(Time)
+      self.aquaticactivitystartdate = date.to_s(:adw)
+      self.aquaticactivitystarttime = date.to_s(:time)
+    end
+  end
+  
   def end_date
     date_str = "#{self.aquaticactivityenddate} #{self.aquaticactivityendtime}".strip
     date_str = "#{date_str}/01/01" if date_str.match(/^\d{4}\/?$/) # some times we only get the year back
@@ -57,4 +70,15 @@ class TblAquaticActivity < ActiveRecord::Base
     end
     end_date
   end  
+  
+  def end_date=(date)    
+    if date.is_a? String
+      date = DateTime.parse date unless date.empty?
+    end
+     
+    if date.is_a?(DateTime) || date.is_a?(Date) || date.is_a?(Time)
+      self.aquaticactivityenddate = date.to_s(:adw)
+      self.aquaticactivityendtime = date.to_s(:time)
+    end
+  end
 end

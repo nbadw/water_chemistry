@@ -7,7 +7,7 @@ class TblWaterbody < ActiveRecord::Base
   
   has_many :aquatic_sites, :class_name => 'TblAquaticSite', :foreign_key => 'waterbodyid'
   
-  acts_as_importable
+  acts_as_importable :import_method => :record
   
   def self.search(query)
     search_conditions = ['waterbodyname LIKE ? OR drainagecd LIKE ? OR waterbodyid LIKE ?', "%#{query}%", "#{query}%", "#{query}%"]
