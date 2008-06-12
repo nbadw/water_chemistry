@@ -2,9 +2,10 @@ class TblAquaticSiteController < ApplicationController
   active_scaffold do |config|    
     # base config
     config.label = "Aquatic Sites"    
-    config.columns = [:id, :name, :agencies, :waterbody_id, :waterbody_name, 
+    config.columns = [:incorporated, :id, :name, :agencies, :waterbody_id, :waterbody_name, 
       :drainage_code, :description, :aquatic_activity_codes, :coordinates] 
     
+    config.columns[:incorporated].label = ''
     config.columns[:waterbody_id].label = 'Waterbody Id'
     config.columns[:drainage_code].label = 'Watershed Code'
     config.columns[:name].label = 'Site Name'
@@ -32,16 +33,15 @@ class TblAquaticSiteController < ApplicationController
     config.update.columns = [:agency, :name, :description, :waterbody, :coordinates]
         
     # search config
+    config.columns[:name].search_sql = "#{TblAquaticSite.table_name}.aquaticsitename"
+    config.columns[:description].search_sql = "#{TblAquaticSite.table_name}.aquaticsitedesc"
     config.columns[:waterbody_id].search_sql = "#{TblWaterbody.table_name}.waterbodyid"
-    config.search.columns << :waterbody_id
     config.columns[:waterbody].search_sql = "#{TblWaterbody.table_name}.waterbodyname"
-    config.search.columns << :waterbody
-    config.columns[:drainage_code].search_sql = "#{TblWaterbody.table_name}.drainagecd"    
-    config.search.columns << :drainage_code
+    config.columns[:drainage_code].search_sql = "#{TblWaterbody.table_name}.drainagecd"  
     config.columns[:aquatic_activity_codes].search_sql = "#{CdAquaticActivity.table_name}.aquaticactivity"
-    config.search.columns << :aquatic_activity_codes
     config.columns[:agencies].search_sql = "#{TblAquaticSiteAgencyUse.table_name}.agencycd"
-    config.search.columns << :agencies
+    config.search.columns = [:name, :description, :waterbody_id, :waterbody, 
+      :drainage_code, :aquatic_activity_codes, :agencies]
   end
   
   def conditions_for_collection

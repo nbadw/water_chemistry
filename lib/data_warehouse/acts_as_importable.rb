@@ -105,6 +105,7 @@ module DataWarehouse
           
           import_count = self.count
           if import_count != total_records
+            import_log.info "warning!!! the number of imported records (#{import_count}) does not match the total number of records that were marked for import (#{total_records})"
             puts "warning!!! the number of imported records (#{import_count}) does not match the total number of records that were marked for import (#{total_records})"
           end
           

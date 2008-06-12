@@ -40,3 +40,8 @@ div.site-activity-usages div.active-scaffold-header {
 .active-scaffold-header div.actions a.show_export {
     background-image: url(../images/active_scaffold/default/export.png);
 }
+
+td.incorporated-column {
+    text-align: center;
+    vertical-align: middle;
+}

@@ -2,23 +2,22 @@ class WaterChemistrySamplingController < ApplicationController
   before_filter :create_aquatic_site_map, :except => [:show, :edit]
   
   def show
-    redirect_to :action => 'activity_details', :id => params[:id], :aquatic_site_id => params[:aquatic_site_id]
+    redirect_to :action => 'activity_details', :aquatic_site_id => params[:aquatic_site_id],
+      :aquatic_activity_id => params[:aquatic_activity_id]
   end
   
   def edit
-    redirect_to :action => 'samples', :id => params[:id], :aquatic_site_id => params[:aquatic_site_id]
+    redirect_to :action => 'samples', :aquatic_site_id => params[:aquatic_site_id],
+      :aquatic_activity_id => params[:aquatic_activity_id]
   end
   
   def samples   
-    @aquatic_activity_id = params[:id]
   end
   
   def activity_details
-    @aquatic_activity_id = params[:id]
   end
   
   def observations
-    @aquatic_activity_id = params[:id]
   end
   
   private

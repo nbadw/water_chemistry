@@ -1,4 +1,8 @@
 module TblAquaticSiteHelper
+  def incorporated_column(record)
+    '<img class="incorporated" src="/images/lock-16.png"/>' if record.incorporated
+  end
+  
   def agencies_column(record)
     record.agencies.sort.join(', ')
   end

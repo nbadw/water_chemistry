@@ -8,12 +8,18 @@ class TblAquaticSite < ActiveRecord::Base
   alias_attribute :waterbody_name, :waterbodyname    
   alias_attribute :latitude, :wgs84_lat
   alias_attribute :longitude, :wgs84_lon
+  alias_attribute :incorporated, :incorporatedind
   
   belongs_to :waterbody, :class_name => 'TblWaterbody', :foreign_key => 'waterbodyid'  
   has_many   :aquatic_site_agency_usages, :class_name => 'TblAquaticSiteAgencyUse', :foreign_key => 'aquaticsiteid'
   has_many   :aquatic_activity_codes, :through => :aquatic_site_agency_usages
   
-  acts_as_importable
+  acts_as_importable :import_method => :record
+  acts_as_incorporated
+  
+  def authorized_for_destroy?
+    !incorporated
+  end
  
   def agencies
     aquatic_site_agency_usages.collect{ |usage| usage.agency_code }.uniq
@@ -22,8 +28,6 @@ class TblAquaticSite < ActiveRecord::Base
   def drainage_code
     self.waterbody.drainage_code if self.waterbody
   end
-  #  class RecordIsIncorporated < ActiveRecord::ActiveRecordError
-  #  end
   #  class SiteUsagesAttached < ActiveRecord::ActiveRecordError    
   #  end
   #  
