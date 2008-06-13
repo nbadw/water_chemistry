@@ -6,7 +6,7 @@ class CdAgency < ActiveRecord::Base
   alias_attribute :name, :agency
   
   has_many :users, :foreign_key => 'agency_code'
-  #  has_many :aquatic_site_usages, :foreign_key => 'agency_code'
+  has_many :aquatic_site_agency_usages, :class_name => 'TblAquaticSiteAgencyUse', :foreign_key => 'agencycd'
   
   acts_as_importable
   
@@ -15,13 +15,4 @@ class CdAgency < ActiveRecord::Base
   def to_label
     self.code
   end  
-  
-#  def self.import_from_datawarehouse(attributes)
-#    record = Agency.new
-#    record.id = attributes['agencycd']
-#    record.name = attributes['agency']
-#    record.agency_type = attributes['agencytype']
-#    record.data_rules = attributes['datarulesind'] == 'Y' ? true : false
-#    record.save(false)
-#  end
 end

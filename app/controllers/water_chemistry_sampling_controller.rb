@@ -12,12 +12,26 @@ class WaterChemistrySamplingController < ApplicationController
   end
   
   def samples   
+    # parameters come from OandM table, DENV parameters list
+    # parameter values: parameter, value, unit of measure
   end
   
   def activity_details
   end
   
   def observations
+    # observations come from OandM table, scoped to Observations type
+    # stored in tblObservations
+  end
+  
+  def measurements    
+    # measurements come from OandM table, scoped to Measurement type
+    # stored in tblSiteMeasurements
+    render :inline => 'todo'
+  end
+  
+  def results    
+    render :inline => 'todo'
   end
   
   private

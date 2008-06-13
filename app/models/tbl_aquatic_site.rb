@@ -1,4 +1,7 @@
 class TblAquaticSite < ActiveRecord::Base
+  class AquaticSiteInUse < ActiveRecord::ActiveRecordError;end      
+  class RecordIsIncorporated < ActiveRecord::ActiveRecordError;end
+  
   set_table_name  'tblAquaticSite'
   set_primary_key 'aquaticsiteid'
   
@@ -12,50 +15,41 @@ class TblAquaticSite < ActiveRecord::Base
   
   belongs_to :waterbody, :class_name => 'TblWaterbody', :foreign_key => 'waterbodyid'  
   has_many   :aquatic_site_agency_usages, :class_name => 'TblAquaticSiteAgencyUse', :foreign_key => 'aquaticsiteid'
-  has_many   :aquatic_activity_codes, :through => :aquatic_site_agency_usages
+  has_many   :aquatic_activity_codes, :through => :aquatic_site_agency_usages, :uniq => true
+  has_many   :agencies, :through => :aquatic_site_agency_usages, :uniq => true
   
   acts_as_importable :import_method => :record
-  acts_as_incorporated
+    
+  before_destroy :check_if_incorporated
+  before_destroy :check_if_aquatic_site_agency_usages_attached
+    
+  validates_presence_of :description, :waterbody    
   
   def authorized_for_destroy?
-    !incorporated
+    !incorporated?
   end
- 
-  def agencies
-    aquatic_site_agency_usages.collect{ |usage| usage.agency_code }.uniq
+  
+  def authorized_for_update?
+    !incorporated?
   end
   
   def drainage_code
     self.waterbody.drainage_code if self.waterbody
   end
-  #  class SiteUsagesAttached < ActiveRecord::ActiveRecordError    
-  #  end
-  #  
-  #  before_destroy :check_if_incorporated
-  #  before_destroy :check_if_aquatic_site_usages_attached
-  #  acts_as_paranoid  
-  #    
-  #  has_many   :aquatic_activities
-  #  
-  #  validates_presence_of :name, :description, :waterbody
-  #      
-  #  def incorporated?
-  #    !self.incorporated_at.nil?
-  #  end
-  #  
-  #  import_transformation_for('SpecificSiteInd', 'specific_site') { |record| record['SpecificSiteInd'.downcase] == 'Y' }
-  #  import_transformation_for('Georeferenced')   { |record| record['Georeferenced'.downcase] == 'Y' }
-  #  import_transformation_for('IncorporatedInd', 'incorporated_at') { |record| DateTime.now if record['IncorporatedInd'.downcase] }
-  #  
-  #  private
-  #  def check_if_incorporated
-  #    raise(RecordIsIncorporated, "Incorporated records cannot be deleted") if incorporated?
-  #  end
-  #  
-  #  def check_if_aquatic_site_usages_attached
-  #    raise(
-  #      SiteUsagesAttached, 
-  #      "Site usages are attached, record cannot be deleted"
-  #    ) if self.aquatic_site_usages.size > 0
-  #  end
+  
+  def incorporated?
+    !!read_attribute(:incorporatedind)        
+  end    
+  
+  private
+  def check_if_incorporated
+    raise(RecordIsIncorporated, "Incorporated records cannot be deleted") if incorporated?
+  end
+    
+  def check_if_aquatic_site_agency_usages_attached
+    raise(
+      AquaticSiteInUse, 
+      "Site usages are attached, record cannot be deleted"
+    ) if self.aquatic_site_agency_usages.count > 0
+  end
 end

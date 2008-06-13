@@ -1,0 +1,18 @@
+etl_execution:
+  adapter: mysql
+  encoding: utf8
+  database: waterchemistry_etl
+  username: rails_developer
+  password: developer
+  host: localhost
+aquatic_data_warehouse:
+  adapter: sqlserver
+  database: dataWarehouse
+  host: .
+  provider: SQLNCLI
+  windows_auth: true
+operational:
+  adapter: mysql
+  username: root
+  host: localhost
+  database: operational_production

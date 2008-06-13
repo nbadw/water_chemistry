@@ -25,6 +25,22 @@ render_tabnav :main, :html => { :class => 'tabs', :id => 'main-tabs' } do
   end 
   
   add_tab do |t|
+    t.named 'Measurements'
+    t.titled 'Measurements'
+    t.links_to :controller => 'water_chemistry_sampling', :action => 'measurements', 
+      :aquatic_activity_id => params[:aquatic_activity_id], :aquatic_site_id => params[:aquatic_site_id]
+    t.html[:class] = 'tab'
+  end 
+  
+  add_tab do |t|
+    t.named 'Results'
+    t.titled 'Results'
+    t.links_to :controller => 'water_chemistry_sampling', :action => 'results', 
+      :aquatic_activity_id => params[:aquatic_activity_id], :aquatic_site_id => params[:aquatic_site_id]
+    t.html[:class] = 'tab'
+  end 
+  
+  add_tab do |t|
     t.named 'Help'
     t.titled 'Help'
     t.links_to :controller => 'water_chemistry_sampling', :action => 'help'

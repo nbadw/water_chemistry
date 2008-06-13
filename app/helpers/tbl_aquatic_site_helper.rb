@@ -4,27 +4,28 @@ module TblAquaticSiteHelper
   end
   
   def agencies_column(record)
-    record.agencies.sort.join(', ')
+    record.agencies.collect do |agency|
+      text = agency.code
+      text = "#{text} (#{agency.aquatic_site_agency_usages.first.agencysiteid})" unless agency.aquatic_site_agency_usages.empty?
+    end.sort.join('<br/><br/>')
   end
   
   def description_column(record)
-    record.description || 'No Description'
+    description = [
+      ("<span class=\"aquatic-site-name\">#{record.name}</span>" if record.name), 
+      ("<span style=\"font-style: italic\" class=\"aquatic-site-description\">#{record.description}</span>" if record.description)
+    ].compact.join('<br/>')       
+    !description.empty? ? description : '-'
   end
   
   def aquatic_activity_codes_column(record)
-    options = {
-      :_method => 'get',
-      :action => 'aquatic_site_activities',
-      :aquatic_site_id => record.id,
-      :controller => 'tbl_aquatic_activity'      
-    }
-    html_options = {
-      :class => 'nested action',
-      :position => 'after',
-      :id => "aquatic_sites-nested-#{record.id}-link"
-    }
+    options = { :_method => 'get', :action => 'aquatic_site_activities',
+      :aquatic_site_id => record.id, :controller => 'tbl_aquatic_activity' }
+    html_options = { :class => 'nested action', :position => 'after',
+      :id => "aquatic_sites-nested-#{record.id}-link" }
     
-    record.aquatic_activity_codes.uniq.sort.collect do |aquatic_activity_code|      
+    # create links to inline site activities
+    links = record.aquatic_activity_codes.sort.collect do |aquatic_activity_code|      
       options[:aquatic_activity_code] = aquatic_activity_code.id
       options[:label] = "#{aquatic_activity_code.name} Activities for #{record.name}"
       # XXX: limiting to only water chemistry sampling activities, the rest are disabled
@@ -33,7 +34,14 @@ module TblAquaticSiteHelper
       else
         '<a href="#" class="disabled">' + aquatic_activity_code.name + '</a>'
       end
-    end.join('<br/><br/>')
+    end
+    
+    # create default link to create a new activity
+    links << link_to('Create a new data set', { :_method => 'get', :controller => 'tbl_aquatic_site_agency_use',
+      :action => 'new', :aquatic_site_id => record.id, :format => 'js' }, { :class => 'nested action', 
+      :position => 'after', :id => "aquatic_sites-nested-#{record.id}-link" })
+    
+    links.join('<br/><br/>')
   end
   
   def coordinates_column(record)

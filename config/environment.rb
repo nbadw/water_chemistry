@@ -61,5 +61,5 @@ end
 
 ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(:adw => "%Y/%m/%d")
 
-require 'data_warehouse/init'
-require 'ar-extensions'
+#require 'data_warehouse/init'
+#require 'ar-extensions'

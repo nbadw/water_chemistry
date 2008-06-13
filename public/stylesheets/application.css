@@ -173,7 +173,7 @@ body {
     margin-bottom: 15px;
 }
 #content #activities .activity .author {
-
+    
 }
 #content #activities .activity .date {
     color: grey;
@@ -218,14 +218,7 @@ iframe {
 }
 #waterbody-editor label {
     display: inline;
-}
-#waterbody-editor dl dt {
-    float: left;
-    padding: 6px 0;
-    width: 12em;
-}
-#waterbody-editor dl dd {
-    float: left;
+    font-weight: bold;
 }
 #waterbody-editor #waterbody_search {
     padding: 2px;
@@ -234,6 +227,34 @@ iframe {
     font-weight: bold;
     width: 500px;
 }
+#waterbody-editor dt {
+    float: left;
+    width: 12em;
+    color: #555;
+    font-family: verdana,sans-serif;
+    font-size: 11px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: normal;
+    clear: left;
+    padding: 0px;
+}
+#waterbody-editor dt.lookup {
+    padding: 6px 0;
+}
+#waterbody-editor dd {
+    float: left;
+    font-family: arial;
+    font-size: 14px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: bold;
+    line-height: normal;
+    margin-bottom: 5px;
+    padding-left: 5px;
+}
+
 #explore #map-container {
     float: left;
     width: 70%;
@@ -299,4 +320,41 @@ div.aquatic-site-info-window p {
     font-size: 16px;
     font-weight: bold;
     margin-bottom: 10px;
+}
+
+.active-scaffold .incorporated-message {
+    background-color: #E6F2FF;
+    border: 1px solid #B9DCFF;
+    margin: 2px 0 7px;
+}
+
+.active-scaffold .incorporated-message h2 {
+    background-color: #B9DCFF;
+    color: #333;
+    font-family: Verdana;
+    font-size: 11px;
+    letter-spacing: 0;
+    margin: 0;
+    padding: 2px 5px;
+}
+
+.active-scaffold .incorporated-message ul {
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: disc;
+    margin: 0;
+    padding: 0 2px 4px 25px;
+}
+
+.active-scaffold .incorporated-message ul li {
+    background-color: transparent;
+    font-family: verdana;
+    font-size: 11px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: normal;
+    margin: 0;
+    padding: 0;
 }

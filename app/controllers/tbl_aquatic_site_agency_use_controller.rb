@@ -1,0 +1,2 @@
+class TblAquaticSiteAgencyUseController < ApplicationController  
+end
