@@ -1,3 +1,14 @@
+desc "etl import"
+task :etl_import => :environment do
+  require File.join(RAILS_ROOT, 'vendor', 'plugins', 'etl', 'lib', 'etl')
+  require 'active_record/connection_adapters/sqlserver_adapter'
+  puts "Starting ETL process"
+  ETL::Engine.init :config => File.join(RAILS_ROOT, 'db', 'etl', 'database.yml')  
+  ETL::Engine.realtime_activity = true
+  ETL::Engine.process File.join(RAILS_ROOT, 'db', 'etl', 'import.ebf')
+  puts "ETL process complete"
+end
+
 # this rule acts like ruby's method missing for rake tasks
 # see http://nubyonrails.com/articles/2006/07/28/foscon-and-living-dangerously-with-rake
 rule "" do |t|

@@ -7,12 +7,13 @@ etl_execution:
   host: localhost
 aquatic_data_warehouse:
   adapter: sqlserver
-  database: dataWarehouse
-  host: .
+  database: dataWarehouse_dev
+  host: .\SQLEXPRESS
   provider: SQLNCLI
   windows_auth: true
 operational:
   adapter: mysql
-  username: root
+  username: rails_developer
+  password: developer
   host: localhost
-  database: operational_production
+  database: waterchemistry_dev

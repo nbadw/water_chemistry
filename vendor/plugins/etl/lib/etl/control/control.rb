@@ -60,12 +60,17 @@ module ETL #:nodoc:
             end
           end
         else
+          source = nil
           source_types.each do |source_type|
             if configuration[source_type]
               source_class = ETL::Control::Source.class_for_name(source_type)
-              sources << source_class.new(self, configuration, definition)
+              source = source_class.new(self, configuration, definition)
               break
             end
+          end
+          if source 
+            sources << source
+          else
             raise ControlError, "A source was specified but no matching type was found"
           end
         end

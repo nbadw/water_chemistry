@@ -1,4 +1,4 @@
-(in C:/Documents and Settings/nbdata/My Documents/NetBeansProjects/WaterChemistry)
+(in C:/Documents and Settings/colin/My Documents/NetBeansProjects/WaterChemistry)
 rake asset:packager:build_all          # Merge and compress assets
 rake asset:packager:create_yml         # Generate asset_packages.yml from e...
 rake asset:packager:delete_all         # Delete all asset builds
@@ -44,6 +44,7 @@ rake doc:plugins                       # Generate documentation for all ins...
 rake doc:rails                         # Build the rails HTML Files
 rake doc:reapp                         # Force a rebuild of the RDOC files
 rake doc:rerails                       # Force a rebuild of the RDOC files
+rake etl_import                        # etl import
 rake fiveruns:tuneup:assets:install    # Install assets
 rake fiveruns:tuneup:assets:uninstall  # Uninstall assets
 rake fiveruns:tuneup:tmp:clear         # Clear tempory data (runs, etc)
@@ -84,3 +85,10 @@ rake tmp:create                        # Creates tmp directories for sessio...
 rake tmp:pids:clear                    # Clears all files in tmp/pids
 rake tmp:sessions:clear                # Clears all files in tmp/sessions
 rake tmp:sockets:clear                 # Clears all files in tmp/sockets
+rake warehouse:build_date_dimension    # Build a 'standard' date dimension
+rake warehouse:build_random_data       # Build random data for all facts an...
+rake warehouse:migrate                 # Migrate ActiveWarehouse
+rake warehouse:populate                # Populate with test data
+rake warehouse:rebuild                 # Rebuild the warehouse
+rake warehouse:recreate                # Drop and create the current database
+rake warehouse:setup                   # Recreate, migrate and populate
