@@ -24,6 +24,7 @@ class TblAquaticSiteController < ApplicationController
     config.list.sorting =[{ :drainage_code => :asc }]
     
     # show config
+    config.show.label = ''
     config.show.columns.exclude :incorporated, :name, :aquatic_activity_codes
     
     # create config
@@ -37,8 +38,6 @@ class TblAquaticSiteController < ApplicationController
     end
     
     # update config
-    config.update.columns = [:name, :description]
-    config.update.label = "Create a New Aquatic Site"
     config.update.columns = [:name, :description]
     config.update.columns.add_subgroup "Waterbody" do |waterbody| 
       waterbody.add :waterbody

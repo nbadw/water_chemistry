@@ -41,17 +41,18 @@ production:
   password: 
   host: localhost
 
-# Aquatic Data Warehouse connections used for import/export functionality
-# see ./lib/data_warehouse files
-data_warehouse:
-  development:
-    adapter: sqlserver
-    database: dataWarehouse
-    host: .
-    provider: SQLNCLI
-    windows_auth: true 
-  test:
-    adapter: sqlite3
-    database: db/data_warehouse_test.sqlite3
-    timeout: 5000
+etl_execution:
+  adapter: mysql
+  encoding: utf8
+  database: waterchemistry_etl
+  username: rails_developer
+  password: developer
+  host: localhost
+
+aquatic_data_warehouse:
+  adapter: sqlserver
+  database: dataWarehouse
+  host: localhost
+  provider: SQLNCLI
+  windows_auth: true
 

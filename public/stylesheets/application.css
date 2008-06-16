@@ -358,3 +358,11 @@ div.aquatic-site-info-window p {
     margin: 0;
     padding: 0;
 }
+
+.description-column .aquatic-site-description {
+    font-style: italic;
+    font-family: verdana;
+    font-size: 10px;
+    display: block;
+    margin: 5px 5px 3px; 
+}

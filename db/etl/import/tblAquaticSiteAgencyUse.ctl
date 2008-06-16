@@ -1,5 +1,5 @@
 # ETL Control file
-model = TblAquaticActivity
+model = TblAquaticSiteAgencyUse
 table = model.table_name.to_s.downcase
 columns = model.columns.collect { |col| col.name.to_sym }
 outfile = "output/#{model.to_s.underscore}.txt"

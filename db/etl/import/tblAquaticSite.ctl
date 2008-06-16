@@ -1,5 +1,5 @@
 # ETL Control file
-model = TblAquaticActivity
+model = TblAquaticSite
 table = model.table_name.to_s.downcase
 columns = model.columns.collect { |col| col.name.to_sym }
 outfile = "output/#{model.to_s.underscore}.txt"
@@ -15,6 +15,12 @@ destination :out, {
 }, { 
   :order => columns 
 } 
+
+before_write do |row| 
+    incorporated = row[:incorporatedind]
+    row[:incorporatedind] = incorporated == 'true' ? 1 : 0
+    row
+end
 
 post_process :bulk_import, { 
   :file => outfile, 

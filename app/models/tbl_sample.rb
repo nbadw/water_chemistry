@@ -16,9 +16,7 @@ class TblSample < ActiveRecord::Base
   has_many :results, :class_name => 'TblWaterMeasurement', :foreign_key => 'sampleid'
   
   validates_inclusion_of :collection_method, :in => self.collection_method_options
-      
-  acts_as_importable 
-  
+        
   def to_label
     "Sample Id:#{self.id}"
   end

@@ -1,5 +1,0 @@
-adapter: sqlserver
-database: dataWarehouse_dev
-host: .\SQLEXPRESS
-provider: SQLNCLI
-windows_auth: true 

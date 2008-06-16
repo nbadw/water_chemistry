@@ -13,7 +13,7 @@ module TblAquaticSiteHelper
   def description_column(record)
     description = [
       ("<span class=\"aquatic-site-name\">#{record.name}</span>" if record.name), 
-      ("<span style=\"font-style: italic\" class=\"aquatic-site-description\">#{record.description}</span>" if record.description)
+      ("<span class=\"aquatic-site-description\">#{record.description}</span>" if record.description)
     ].compact.join('<br/>')       
     !description.empty? ? description : '-'
   end
@@ -37,7 +37,7 @@ module TblAquaticSiteHelper
     end
     
     # create default link to create a new activity
-    links << link_to('Create a new data set', { :_method => 'get', :controller => 'tbl_aquatic_site_agency_use',
+    links << link_to('Add a new data set', { :_method => 'get', :controller => 'tbl_aquatic_site_agency_use',
       :action => 'new', :aquatic_site_id => record.id, :format => 'js' }, { :class => 'nested action', 
       :position => 'after', :id => "aquatic_sites-nested-#{record.id}-link" })
     

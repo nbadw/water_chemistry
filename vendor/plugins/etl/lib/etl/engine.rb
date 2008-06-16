@@ -27,12 +27,16 @@ module ETL #:nodoc:
           @read_locally = options[:read_locally]
           @rails_root = options[:rails_root]
           
-          require File.join(@rails_root, 'config/environment') if @rails_root
-
-          options[:config] ||= 'database.yml'
-          database_configuration = YAML::load(ERB.new(IO.read(options[:config])).result + "\n")
+          if @rails_root
+            require File.join(@rails_root, 'config/environment')
+            database_configuration = options[:config] ? YAML::load(ERB.new(IO.read(options[:config])).result + "\n") : {}
+          else
+            options[:config] ||= 'database.yml'
+            database_configuration = YAML::load(ERB.new(IO.read(options[:config])).result + "\n")
+          end
+          
           ActiveRecord::Base.configurations.merge!(database_configuration)
-          ETL::Base.configurations = database_configuration
+          ETL::Base.configurations = ActiveRecord::Base.configurations
           #puts "configurations in init: #{ActiveRecord::Base.configurations.inspect}"
           
           require 'etl/execution'

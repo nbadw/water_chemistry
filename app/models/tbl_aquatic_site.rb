@@ -17,9 +17,7 @@ class TblAquaticSite < ActiveRecord::Base
   has_many   :aquatic_site_agency_usages, :class_name => 'TblAquaticSiteAgencyUse', :foreign_key => 'aquaticsiteid'
   has_many   :aquatic_activity_codes, :through => :aquatic_site_agency_usages, :uniq => true
   has_many   :agencies, :through => :aquatic_site_agency_usages, :uniq => true
-  
-  acts_as_importable :import_method => :record
-    
+      
   before_destroy :check_if_incorporated
   before_destroy :check_if_aquatic_site_agency_usages_attached
     

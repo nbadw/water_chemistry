@@ -1,30 +1,17 @@
-desc "etl import"
-task :etl_import => :environment do
-  require File.join(RAILS_ROOT, 'vendor', 'plugins', 'etl', 'lib', 'etl')
-  require 'active_record/connection_adapters/sqlserver_adapter'
-  puts "Starting ETL process"
-  ETL::Engine.init :config => File.join(RAILS_ROOT, 'db', 'etl', 'database.yml')  
-  ETL::Engine.realtime_activity = true
-  ETL::Engine.process File.join(RAILS_ROOT, 'db', 'etl', 'import.ebf')
-  puts "ETL process complete"
-end
-
-# this rule acts like ruby's method missing for rake tasks
-# see http://nubyonrails.com/articles/2006/07/28/foscon-and-living-dangerously-with-rake
-rule "" do |t|
-  # data_warehouse:import:method
-  if /^data_warehouse:import:(.*)/.match(t.name)
-    import t.name.split(":").last    
-  elsif /^data_warehouse:export:(.*)/.match(t.name)
-    puts t.name.split(":")[1..-1].last
-  end
-end
-
 namespace :data_warehouse do     
-  desc "import all"
-  task :import do
-    import :all
-  end    
+  desc "import tables from aquatic data warehouse"
+  task :import => :environment do
+    init_etl :limit => 50
+    puts "Starting ETL process"
+    ETL::Engine.process File.join(RAILS_ROOT, 'db', 'etl', 'import.ebf')
+    puts "ETL process complete"
+  end  
+
+  desc "transform water chemistry analysis row into water measurement rows"  
+  task :chem => :environment do
+    init_etl :limit => 5
+    ETL::Engine.process File.join(RAILS_ROOT, 'db', 'etl', 'import', 'transform_water_chemistry.ctl')
+  end  
   
   desc "export all"
   task :export => :environment do 
@@ -32,20 +19,11 @@ namespace :data_warehouse do
   end
 end
 
-def import(model_name)
-  Rake::Task[:environment].invoke
-  # this makes sure that ActiveRecord::Base.subclass reports the correct files
-  Dir.glob(File.join(RAILS_ROOT,'app','models','**','*.rb')).each do |file|
-    require_dependency file
-  end
-  if model_name == :all
-    imports = ActiveRecord::Base.send(:subclasses).select { |klass| klass.acts_as_importable? }
-  else
-    imports = [model_name.classify.constantize]
-  end  
-  
-  imports.each do |klass|
-    puts "importing data warehouse records into #{klass.table_name} table"
-    klass.import_from_data_warehouse
-  end
+def init_etl(options = {})
+  require File.join(RAILS_ROOT, 'vendor', 'plugins', 'etl', 'lib', 'etl')
+  require 'etl_engine_logger_mod'
+  require 'active_record/connection_adapters/sqlserver_adapter'   
+  options = { :rails_root => RAILS_ROOT }.merge(options)
+  ETL::Engine.init options
+  ETL::Engine.realtime_activity = true
 end

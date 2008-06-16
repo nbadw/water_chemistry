@@ -33,9 +33,7 @@ class TblAquaticActivity < ActiveRecord::Base
   validates_inclusion_of :water_level, :in => self.water_level_options
   validates_presence_of  :aquatic_site, :aquatic_activity_code, :agency, 
     :aquatic_activity_method_code, :aquaticactivitystartdate 
-  
-  acts_as_importable :import_method => :record
-  
+    
   def start_date
     date_str = "#{self.aquaticactivitystartdate} #{self.aquaticactivitystarttime}".strip
     date_str = "#{date_str}/01/01" if date_str.match(/^\d{4}\/?$/) # some times we only get the year back

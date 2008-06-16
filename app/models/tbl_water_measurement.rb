@@ -7,20 +7,5 @@ class TblWaterMeasurement < ActiveRecord::Base
   alias_attribute :detection_limit, :detectionlimitind
   
   belongs_to :aquatic_activity, :class_name => 'TblAquaticActivity', :foreign_key => 'aquaticactivityid'
-  belongs_to :sample, :class_name => 'TblSample', :foreign_key => 'sampleid'
-#    t.integer "tempdataid"
-#    t.integer "temperatureloggerid"
-#    t.integer "habitatunitid"
-#    t.string  "watersourcetype",       :limit => 100
-#    t.float   "waterdepth_m",          :limit => 4
-#    t.string  "timeofday",             :limit => 10
-#    t.integer "oandmcd"
-#    t.integer "instrumentcd"
-#    t.float   "measurement",           :limit => 4
-#    t.integer "unitofmeasurecd"
-#    t.boolean "detectionlimitind",                    :null => false
-#    t.string  "comment",               :limit => 510
-  
-  acts_as_importable  
-  
+  belongs_to :sample, :class_name => 'TblSample', :foreign_key => 'sampleid' 
 end

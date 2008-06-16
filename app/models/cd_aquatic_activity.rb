@@ -6,8 +6,6 @@ class CdAquaticActivity < ActiveRecord::Base
   
   has_many :aquatic_activities, :class_name => 'TblAquaticActivity', :foreign_key => 'aquaticactivitycd'
   
-  acts_as_importable
-  
   def <=>(compare_to)
     compare_to.is_a?(CdAquaticActivity) ? self.name <=> compare_to.name : self.name <=> compare_to.to_s
   end

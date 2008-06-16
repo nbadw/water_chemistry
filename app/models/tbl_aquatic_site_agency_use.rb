@@ -7,6 +7,4 @@ class TblAquaticSiteAgencyUse < ActiveRecord::Base
   belongs_to :aquatic_site, :class_name => 'TblAquaticSite', :foreign_key => 'aquaticsiteid'
   belongs_to :aquatic_activity_code, :class_name => 'CdAquaticActivity', :foreign_key => 'aquaticactivitycd'
   belongs_to :agency, :class_name => 'CdAgency', :foreign_key => 'agencycd'
-  
-  acts_as_importable
 end

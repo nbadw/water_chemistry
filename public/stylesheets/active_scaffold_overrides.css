@@ -45,3 +45,16 @@ td.incorporated-column {
     text-align: center;
     vertical-align: middle;
 }
+
+#tbl_aquatic_site_agency_use-create--form #tbl_aquatic_site_agency_use--aquatic_activity_code-subform dt {
+    float: left; 
+    padding: 6px 0; 
+    width: 12em;
+}
+#tbl_aquatic_site_agency_use-create--form #tbl_aquatic_site_agency_use--aquatic_activity_code-subform label {
+    display: block;
+}
+#tbl_aquatic_site_agency_use-create--form #tbl_aquatic_site_agency_use--aquatic_activity_code-subform select {
+    font-size: 16px;
+    letter-spacing: -1px;
+}

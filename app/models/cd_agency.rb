@@ -7,9 +7,7 @@ class CdAgency < ActiveRecord::Base
   
   has_many :users, :foreign_key => 'agency_code'
   has_many :aquatic_site_agency_usages, :class_name => 'TblAquaticSiteAgencyUse', :foreign_key => 'agencycd'
-  
-  acts_as_importable
-  
+    
   validates_presence_of   :name
 
   def to_label
