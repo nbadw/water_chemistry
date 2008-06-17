@@ -17,8 +17,7 @@ destination :out, {
 } 
 
 before_write do |row| 
-    incorporated = row[:incorporatedind]
-    row[:incorporatedind] = incorporated == 'true' ? 1 : 0
+    row[:incorporatedind] = row[:incorporatedind].strip == 'true' ? 1 : 0
     row
 end
 

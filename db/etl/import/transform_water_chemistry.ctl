@@ -1,5 +1,5 @@
 # ETL Control file
-columns = [:aquaticactivityid, :tempaquaticactivityid, :doe_program, :doe_projectno, 
+initial_columns = [:aquaticactivityid, :tempaquaticactivityid, :doe_program, :doe_projectno, 
     :doe_stationno, :doe_labno, :doe_fieldno, :secchidepth_m, :sampledepth_m, 
     :watertemp_c, :do, :toxic_unit, :l_hard, :hard, :no3, :l_al_x, :al_x, :l_al_xgf, 
     :al_xgf, :l_alk_g, :alk_g, :l_alk_p, :alk_p, :l_alk_t, :alk_t, :l_as_xgf, :as_xgf, 
@@ -13,32 +13,39 @@ columns = [:aquaticactivityid, :tempaquaticactivityid, :doe_program, :doe_projec
     :so4_ic, :l_ss, :ss, :l_tds, :tds, :l_tkn, :tkn, :l_tl_xgf, :tl_xgf, :l_toc, 
     :toc, :l_tp_l, :tp_l, :l_turb, :turb, :l_zn_x, :zn_x, :l_zn_xgf, :zn_xgf, 
     :l_o_phos, :o_phos, :bicarb, :carb, :sat_ph, :sat_ndx]
+
 common_columns = [:aquaticactivityid, :tempaquaticactivityid, :doe_program, 
-    :doe_projectno, :doe_stationno, :doe_labno, :doe_fieldno, :secchidepth_m, 
-    :sampledepth_m, :watertemp_c]
-outfile = "output/tblWaterChemistryAnalysis.csv"
+    :doe_projectno, :doe_stationno, :doe_labno, :doe_fieldno]
+
+final_columns = [:id, :sample_id, :parameter, :value, :qualifier] + common_columns
+outfile = "output/tblWaterChemistryAnalysis.txt"
 
 source :in, { 
   :database => "dataWarehouse",
   :target => :aquatic_data_warehouse, 
   :table => "tblWaterChemistryAnalysis"
-},  columns
+},  initial_columns
 
 destination :out, { 
   :file => outfile
 }, { 
-  :order => common_columns + [:parameter, :parameter_value]
+  :order => final_columns,
+  :virtual => { :id => :surrogate_key }
 } 
 
 after_read do |row| 
     rows = []
 
+    row.delete(:sampledepth_m) # this will eventually be attached to a new sample
     common_attrs = {}
     common_columns.each { |col| common_attrs[col] = row.delete(col) }
 
     row.each do |column, value| 
-        next if value.nil? 
-        new_row = { :parameter => column.to_s, :parameter_value => value }
+        next if value.nil? || value == '0.0' || value == '999999.0' # blank values that should be ignored
+        next if column.to_s.match /^l_/ # ignore qualifier columns
+        
+        qualifier = row["l_#{column}".to_sym]
+        new_row = { :parameter => column.to_s, :value => value, :qualifier => qualifier }
         new_row.merge!(common_attrs)
         rows << new_row
     end

@@ -16,6 +16,12 @@ destination :out, {
   :order => columns 
 } 
 
+before_write do |row|     
+    row[:primaryactivityind] = row[:primaryactivityind].strip == 'true' ? 1 : 0
+    row[:incorporatedind] = row[:incorporatedind].strip == 'true' ? 1 : 0
+    row
+end
+
 post_process :bulk_import, { 
   :file => outfile, 
   :columns => columns, 

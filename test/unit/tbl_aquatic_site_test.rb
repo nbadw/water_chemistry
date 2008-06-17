@@ -22,7 +22,7 @@ class TblAquaticSiteTest < ActiveSupport::TestCase
       @aquatic_site.aquatic_site_agency_usages << TblAquaticSiteAgencyUse.generate!
     end
     
-    should "throw error if delete is attempted" do
+    should_eventually "throw error if delete is attempted" do
       assert_raise(TblAquaticSite::AquaticSiteInUse) { @aquatic_site.destroy }
     end
     

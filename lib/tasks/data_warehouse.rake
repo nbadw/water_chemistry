@@ -1,7 +1,7 @@
 namespace :data_warehouse do     
   desc "import tables from aquatic data warehouse"
   task :import => :environment do
-    init_etl :limit => 50
+    init_etl
     puts "Starting ETL process"
     ETL::Engine.process File.join(RAILS_ROOT, 'db', 'etl', 'import.ebf')
     puts "ETL process complete"

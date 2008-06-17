@@ -12,7 +12,7 @@ CREATE TABLE `cdaquaticactivity` (
   `aquaticactivitycategory` varchar(60) default NULL,
   `duration` varchar(40) default NULL,
   PRIMARY KEY  (`aquaticactivitycd`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `cdaquaticactivitymethod` (
   `aquaticmethodcd` int(11) NOT NULL auto_increment,
@@ -20,14 +20,14 @@ CREATE TABLE `cdaquaticactivitymethod` (
   `aquaticmethod` varchar(60) default NULL,
   PRIMARY KEY  (`aquaticmethodcd`),
   KEY `index_cdAquaticActivityMethod_on_aquaticactivitycd` (`aquaticactivitycd`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `cdinstrument` (
   `instrumentcd` int(11) NOT NULL auto_increment,
   `instrument` varchar(100) default NULL,
   `instrument_category` varchar(100) default NULL,
   PRIMARY KEY  (`instrumentcd`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `cdmeasureinstrument` (
   `measureinstrumentcd` int(11) NOT NULL auto_increment,
@@ -36,7 +36,7 @@ CREATE TABLE `cdmeasureinstrument` (
   PRIMARY KEY  (`measureinstrumentcd`),
   KEY `index_cdMeasureInstrument_on_oandmcd` (`oandmcd`),
   KEY `index_cdMeasureInstrument_on_instrumentcd` (`instrumentcd`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `cdmeasureunit` (
   `measureunitcd` int(11) NOT NULL auto_increment,
@@ -45,7 +45,7 @@ CREATE TABLE `cdmeasureunit` (
   PRIMARY KEY  (`measureunitcd`),
   KEY `index_cdMeasureUnit_on_oandmcd` (`oandmcd`),
   KEY `index_cdMeasureUnit_on_unitofmeasurecd` (`unitofmeasurecd`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `cdoandm` (
   `oandmcd` int(11) NOT NULL auto_increment,
@@ -56,7 +56,7 @@ CREATE TABLE `cdoandm` (
   `oandm_parametercd` varchar(60) default NULL,
   `oandm_valuesind` tinyint(1) NOT NULL,
   PRIMARY KEY  (`oandmcd`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `cdoandmvalues` (
   `oandmvaluescd` int(11) NOT NULL auto_increment,
@@ -64,14 +64,14 @@ CREATE TABLE `cdoandmvalues` (
   `value` varchar(40) default NULL,
   PRIMARY KEY  (`oandmvaluescd`),
   KEY `index_cdOandMValues_on_oandmcd` (`oandmcd`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `cdunitofmeasure` (
   `unitofmeasurecd` int(11) NOT NULL auto_increment,
   `unitofmeasure` varchar(100) default NULL,
   `unitofmeasureabv` varchar(20) default NULL,
   PRIMARY KEY  (`unitofmeasurecd`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `permissions` (
   `id` int(11) NOT NULL auto_increment,
@@ -80,7 +80,7 @@ CREATE TABLE `permissions` (
   `created_at` datetime default NULL,
   `updated_at` datetime default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `roles` (
   `id` int(11) NOT NULL auto_increment,
@@ -88,11 +88,11 @@ CREATE TABLE `roles` (
   `created_at` datetime default NULL,
   `updated_at` datetime default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `schema_info` (
   `version` int(11) default NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `sessions` (
   `id` int(11) NOT NULL auto_increment,
@@ -103,7 +103,7 @@ CREATE TABLE `sessions` (
   PRIMARY KEY  (`id`),
   KEY `index_sessions_on_session_id` (`session_id`),
   KEY `index_sessions_on_updated_at` (`updated_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `tblaquaticactivity` (
   `aquaticactivityid` int(11) NOT NULL auto_increment,
@@ -147,7 +147,7 @@ CREATE TABLE `tblaquaticactivity` (
   KEY `index_tblAquaticActivity_on_aquaticsiteid` (`aquaticsiteid`),
   KEY `index_tblAquaticActivity_on_agencycd` (`agencycd`),
   KEY `index_tblAquaticActivity_on_agency2cd` (`agency2cd`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=150638 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `tblaquaticsite` (
   `aquaticsiteid` int(11) NOT NULL auto_increment,
@@ -179,7 +179,7 @@ CREATE TABLE `tblaquaticsite` (
   PRIMARY KEY  (`aquaticsiteid`),
   KEY `index_tblAquaticSite_on_riversystemid` (`riversystemid`),
   KEY `index_tblAquaticSite_on_waterbodyid` (`waterbodyid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10000 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `tblaquaticsiteagencyuse` (
   `aquaticsiteuseid` int(11) NOT NULL auto_increment,
@@ -196,7 +196,7 @@ CREATE TABLE `tblaquaticsiteagencyuse` (
   KEY `index_tblAquaticSiteAgencyUse_on_aquaticsiteid` (`aquaticsiteid`),
   KEY `index_tblAquaticSiteAgencyUse_on_aquaticactivitycd` (`aquaticactivitycd`),
   KEY `index_tblAquaticSiteAgencyUse_on_agencycd` (`agencycd`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6185 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `tblenvironmentalobservations` (
   `envobservationid` int(11) NOT NULL auto_increment,
@@ -240,7 +240,7 @@ CREATE TABLE `tblwaterbody` (
   `dateentered` datetime default NULL,
   `datemodified` datetime default NULL,
   PRIMARY KEY  (`waterbodyid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1000000 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `tblwatermeasurement` (
   `watermeasurementid` int(11) NOT NULL auto_increment,
@@ -269,7 +269,7 @@ CREATE TABLE `tblwatermeasurement` (
   KEY `index_tblWaterMeasurement_on_oandmcd` (`oandmcd`),
   KEY `index_tblWaterMeasurement_on_instrumentcd` (`instrumentcd`),
   KEY `index_tblWaterMeasurement_on_unitofmeasurecd` (`unitofmeasurecd`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=194944 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL auto_increment,
@@ -287,6 +287,6 @@ CREATE TABLE `users` (
   `updated_at` datetime default NULL,
   `agency_code` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 INSERT INTO `schema_info` (version) VALUES (24)

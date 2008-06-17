@@ -1,7 +1,7 @@
 class TblAquaticSiteAgencyUseController < ApplicationController  
   active_scaffold do |config|
     config.create.label = ''
-    config.create.columns = [:aquatic_activity_code, :aquaticsitetype, :agencysiteid, :startyear, :endyear, :yearsactive]
+    config.create.columns = [:aquatic_activity_code, :agencysiteid]
     config.columns[:aquatic_activity_code].label = "Select a Data Set to Add"
   end
   

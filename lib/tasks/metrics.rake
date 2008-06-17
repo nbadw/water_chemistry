@@ -22,11 +22,10 @@ namespace :metrics do
     options = ""
     default_options.each_pair { |key, value| options << "#{key} #{value} " }
     
-    sh "rcov #{options} #{test_list}" do |ok, response|
-      unless ok
-        puts "Rcov failed with exit status: #{response.exitstatus}"
-        exit 1
-      end
+    successful = system("rcov.bat #{options} #{test_list}")
+    unless successful
+      puts "Rcov failed with exit status: #{$?}"
+      exit 1
     end
   end  
   
@@ -41,15 +40,15 @@ namespace :metrics do
     
     default_options.merge!(SAIKURO_OPTIONS) if defined?(SAIKURO_OPTIONS)
     options = ""
-    default_options.each_pair { |key, value| options << "#{key} #{value} " } 
-       
-    sh "ruby #{File.expand_path(File.join( File.dirname(__FILE__), '../lib' ))}/saikuro "+
-                "#{options}" do |ok, response|
-      unless ok
-        puts "Saikuro failed with exit status: #{response.exitstatus}"
-        exit 1
-      end
+    default_options.each_pair { |key, value| options << "#{key} #{value} " }     
+    saikuro_path = File.expand_path(File.join( RAILS_ROOT, 'lib', 'saikuro' ))
+    
+    successful = system("ruby \"#{saikuro_path}\" #{options}")
+    unless successful
+      puts "Saikuro failed with exit status: #{$?}"
+      exit 1
     end
+    
     if File.exist? "#{base_directory}/cyclomatic_complexity/index_cyclo.html"
       mv "#{base_directory}/cyclomatic_complexity/index_cyclo.html", 
          "#{base_directory}/cyclomatic_complexity/index.html"
@@ -58,24 +57,24 @@ namespace :metrics do
   
   desc "Generate a Flog report"
   task :flog do
-    FileUtils.mkpath "#{base_directory}/flog"
-    sh "echo '<pre>' > #{base_directory}/flog/index.html"
-    sh "flog -a app/ >> #{base_directory}/flog/index.html" do |ok, response|
-      unless ok
-        puts "Flog failed with exit status: #{response.exitstatus}"
-        exit 1
-      end
-    end
-    flog_output = File.read("#{base_directory}/flog/index.html")
-    total_score = flog_output.split("\n")[1].split("=").last.strip.to_f
-    total_methods = flog_output.split("\n").select {|line| line =~ /#/ }.length    
-    sh "echo 'Average Score Per Method: #{total_score / total_methods}' >> #{base_directory}/flog/index.html"
-    sh "echo '</pre>' >> #{base_directory}/flog/index.html"
+#    FileUtils.mkpath "#{base_directory}/flog"
+#    system("echo \"<pre>\" > #{base_directory}/flog/index.html")
+#    system "flog -a app/ >> #{base_directory}/flog/index.html" do |ok, response|
+#      unless ok
+#        puts "Flog failed with exit status: #{response.exitstatus}"
+#        exit 1
+#      end
+#    end
+#    flog_output = File.read("#{base_directory}/flog/index.html")
+#    total_score = flog_output.split("\n")[1].split("=").last.strip.to_f
+#    total_methods = flog_output.split("\n").select {|line| line =~ /#/ }.length    
+#    system "echo 'Average Score Per Method: #{total_score / total_methods}' >> #{base_directory}/flog/index.html"
+#    system "echo '</pre>' >> #{base_directory}/flog/index.html"
   end
   
   desc "Generate a stats report"
   task :stats do
-    sh "rake stats > #{File.join(base_directory, 'stats.log')}"
+    system "rake stats > #{File.join(base_directory, 'stats.log')}"
   end
 
   def base_directory

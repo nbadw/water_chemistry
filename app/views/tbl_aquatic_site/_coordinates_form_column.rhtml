@@ -1,8 +1,11 @@
-<dl>
-  <dt>
-    <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
-  </dt>
-  <dd>
-    <div style="padding: 6px 0">*** TODO ***</div>
-  </dd>
-</dl>
+<div id="coordinates-editor">
+  <dl>
+    <dt>
+      <label><%= column.label %></label>
+    </dt>
+    <dd>
+      <%= tabnav :coordinates_form %>
+    </dd>
+  </dl>
+</div>
+

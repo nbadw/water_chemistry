@@ -34,7 +34,7 @@ class TblAquaticSiteController < ApplicationController
       waterbody.add :waterbody
     end
     config.create.columns.add_subgroup "Location" do |location|
-      location.add :coordinates
+      location.add :coordinatesource, :coordinateunits, :coordinates
     end
     
     # update config
@@ -57,7 +57,7 @@ class TblAquaticSiteController < ApplicationController
   end
   
   def conditions_for_collection
-    ["#{TblAquaticSite.table_name}.#{TblAquaticSite.primary_key} > 0 AND #{TblAquaticSite.table_name}.waterbodyid IS NOT NULL"]
+    ["#{TblAquaticSite.table_name}.#{TblAquaticSite.primary_key} > 0 AND #{TblAquaticSite.table_name}.waterbodyid > 0"]
   end
   
   def active_scaffold_joins
@@ -72,5 +72,21 @@ class TblAquaticSiteController < ApplicationController
   
   def gmap_max_content    
     render :inline => "<%= render :active_scaffold => 'tbl_aquatic_site', :conditions => ['#{TblAquaticSite.table_name}.aquaticsiteid = ?', params[:id]], :label => '' %>"
+  end
+  
+  def do_search
+    @query = params[:search].to_s.strip rescue ''
+
+    unless @query.empty?
+      columns = active_scaffold_config.search.columns
+      # if just a number, match exact
+      like_pattern = @query.match(/^\d[-\d]*$/) ? '?%' : '%?%'
+      self.active_scaffold_conditions = merge_conditions(self.active_scaffold_conditions, ActiveScaffold::Finder.create_conditions_for_columns(@query, columns, like_pattern))
+
+      includes_for_search_columns = columns.collect{ |column| column.includes}.flatten.uniq.compact
+      self.active_scaffold_joins.concat includes_for_search_columns
+
+      active_scaffold_config.list.user.page = nil
+    end
   end
 end

@@ -4,6 +4,6 @@ class CreateRainfallColumnOnTblAquaticActivity < ActiveRecord::Migration
   end
 
   def self.down
-    remove_column "tblAquaticActivity", "railfall_last24"
+    remove_column "tblAquaticActivity", "rainfall_last24"
   end
 end

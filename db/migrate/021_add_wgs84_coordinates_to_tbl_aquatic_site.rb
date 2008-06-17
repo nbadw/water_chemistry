@@ -5,7 +5,7 @@ class AddWgs84CoordinatesToTblAquaticSite < ActiveRecord::Migration
   end
 
   def self.down
-    remove_column :aquatic_sites, 'wgs84_lat'
-    remove_column :aquatic_sites, 'wgs84_lon'
+    remove_column "tblAquaticSite", 'wgs84_lat'
+    remove_column "tblAquaticSite", 'wgs84_lon'
   end
 end
