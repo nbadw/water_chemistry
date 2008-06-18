@@ -1,0 +1,9 @@
+cancel_selector = "##{element_form_id(:action => :create)} a.cancel".to_json
+
+if controller.send :successful?
+  page << "$$(#{cancel_selector}).first().link.close_with_refresh();"
+else
+  page << "l = $$(#{cancel_selector}).first().link;"
+  page.replace element_form_id(:action => :create), :partial => 'create_form'
+  page << "l.register_cancel_hooks();"
+end

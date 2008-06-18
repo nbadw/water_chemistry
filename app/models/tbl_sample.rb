@@ -13,7 +13,9 @@ class TblSample < ActiveRecord::Base
   end
   
   belongs_to :aquatic_activity, :class_name => 'TblAquaticActivity', :foreign_key => 'aquaticactivityid'
-  has_many :results, :class_name => 'TblWaterMeasurement', :foreign_key => 'sampleid'
+  has_many :sample_results, :foreign_key => 'sample_id'
+  has_many :parameters, :through => :sample_results, :uniq => true
+  #has_many :results, :class_name => 'TblWaterMeasurement', :foreign_key => 'sampleid'
   
   validates_inclusion_of :collection_method, :in => self.collection_method_options
         

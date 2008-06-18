@@ -8,9 +8,9 @@ namespace :data_warehouse do
   end  
 
   desc "transform water chemistry analysis row into water measurement rows"  
-  task :chem => :environment do
-    init_etl :limit => 5
-    ETL::Engine.process File.join(RAILS_ROOT, 'db', 'etl', 'import', 'transform_water_chemistry.ctl')
+  task :samples => :environment do
+    init_etl
+    ETL::Engine.process File.join(RAILS_ROOT, 'db', 'etl', 'samples.ebf')
   end  
   
   desc "export all"

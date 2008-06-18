@@ -73,6 +73,15 @@ CREATE TABLE `cdunitofmeasure` (
   PRIMARY KEY  (`unitofmeasurecd`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
+CREATE TABLE `parameters` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(255) default NULL,
+  `code` varchar(255) default NULL,
+  `created_at` datetime default NULL,
+  `updated_at` datetime default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE `permissions` (
   `id` int(11) NOT NULL auto_increment,
   `role_id` int(11) NOT NULL,
@@ -89,6 +98,17 @@ CREATE TABLE `roles` (
   `updated_at` datetime default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `sample_results` (
+  `id` int(11) NOT NULL auto_increment,
+  `sample_id` int(11) NOT NULL,
+  `parameter_id` int(11) NOT NULL,
+  `value` float default NULL,
+  `qualifier` varchar(255) default NULL,
+  `created_at` datetime default NULL,
+  `updated_at` datetime default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `schema_info` (
   `version` int(11) default NULL
@@ -179,7 +199,7 @@ CREATE TABLE `tblaquaticsite` (
   PRIMARY KEY  (`aquaticsiteid`),
   KEY `index_tblAquaticSite_on_riversystemid` (`riversystemid`),
   KEY `index_tblAquaticSite_on_waterbodyid` (`waterbodyid`)
-) ENGINE=InnoDB AUTO_INCREMENT=10000 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10001 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `tblaquaticsiteagencyuse` (
   `aquaticsiteuseid` int(11) NOT NULL auto_increment,
@@ -289,4 +309,4 @@ CREATE TABLE `users` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
-INSERT INTO `schema_info` (version) VALUES (24)
+INSERT INTO `schema_info` (version) VALUES (26)

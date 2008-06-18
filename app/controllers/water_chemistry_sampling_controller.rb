@@ -31,7 +31,18 @@ class WaterChemistrySamplingController < ApplicationController
   end
   
   def results    
-    render :inline => 'todo'
+    samples = TblSample.find_all_by_aquaticactivityid params[:aquatic_activity_id], :include => [:sample_results, :parameters]
+    
+    @columns = samples.collect { |sample| sample.parameters }.flatten.uniq.collect { |parameter| parameter.code }
+    @rows = samples.collect do |sample|
+      row = []
+      results = sample.sample_results.to_a
+      @columns.each do |column|
+        result = results.find { |result| result.parameter.code == column }
+        row << (result ? result.value : nil)
+      end
+      row
+    end    
   end
   
   private

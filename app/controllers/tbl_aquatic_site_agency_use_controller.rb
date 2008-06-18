@@ -19,5 +19,6 @@ class TblAquaticSiteAgencyUseController < ApplicationController
   
   def before_create_save(record)
     record.agencycd = current_user.agency.code
+    record.aquaticsiteid = params[:aquatic_site_id]
   end
 end

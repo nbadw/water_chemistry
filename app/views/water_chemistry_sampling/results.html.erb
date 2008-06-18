@@ -1,0 +1,22 @@
+<div style="text-align: center">
+  <table style="width: 100%">
+    <thead>
+      <tr>
+        <% @columns.each do |column| %>
+          <th><%=h column %></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @rows.each do |row| %>
+        <tr>
+          <% row.each do |value| %>
+            <td><%=h value %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  
+  <iframe style="width: 720px; min-height: 420px; margin-top: 20px;" src="<%= create_results_chart(@rows, @columns) %>"></iframe>
+</div>

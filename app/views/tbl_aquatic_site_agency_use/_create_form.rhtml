@@ -31,7 +31,7 @@ end -%>
     <%= render :partial => 'form_messages' %>
   <% end -%>
 
-  <input type="hidden" name="record[aquatic_site]" value="<%= params[:aquatic_site_id] %>"
+  <input type="hidden" name="aquatic_site_id" value="<%= params[:aquatic_site_id] %>"
   <%= render :partial => 'form', :locals => { :columns => active_scaffold_config.create.columns } %>
 
   <p class="form-footer">

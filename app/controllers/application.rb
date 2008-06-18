@@ -6,11 +6,11 @@ class ApplicationController < ActionController::Base
   
   ActiveScaffold.set_defaults do |config| 
     config.ignore_columns.add [:created_at, :updated_at, :lock_version]
-    config.actions.add :config_list
-    ActiveScaffold::Config::ConfigList.link.label = "Customize"
-    config.actions.add :list_filter    
-    config.actions.add :export
-    config.export_force_quotes = true
+    #config.actions.add :config_list
+    #ActiveScaffold::Config::ConfigList.link.label = "Customize"
+    #config.actions.add :list_filter    
+    #config.actions.add :export
+    #config.export_force_quotes = true
   end
   
   helper :all # include all helpers, all the time
