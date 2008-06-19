@@ -7,7 +7,7 @@ class TblAquaticSiteController < ApplicationController
     
     config.columns[:incorporated].label = ''
     config.columns[:id].label = 'Site Id'
-    config.columns[:agencies].label = 'Agency (Agency Site ID)'
+    config.columns[:agencies].label = 'Agency'
     config.columns[:waterbody_id].label = 'Waterbody Id'
     config.columns[:drainage_code].label = 'Watershed Code'
     config.columns[:name].label = 'Site Name'
@@ -34,7 +34,7 @@ class TblAquaticSiteController < ApplicationController
       waterbody.add :waterbody
     end
     config.create.columns.add_subgroup "Location" do |location|
-      location.add :coordinatesource, :coordinateunits, :coordinates
+      location.add :coordinate_source, :coordinate_system, :x_coordinate, :y_coordinate
     end
     
     # update config
@@ -43,7 +43,7 @@ class TblAquaticSiteController < ApplicationController
       waterbody.add :waterbody
     end
     config.update.columns.add_subgroup "Location" do |location|
-      location.add :coordinates
+      location.add :coordinate_source, :coordinate_system, :x_coordinate, :y_coordinate
     end
         
     # search config

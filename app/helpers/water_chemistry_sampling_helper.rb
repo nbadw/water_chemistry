@@ -1,5 +1,3 @@
-require_library_or_gem 'gchart'
-
 module WaterChemistrySamplingHelper
   def create_results_chart(rows, columns)
     data = rows.collect do |row|

@@ -1,0 +1,17 @@
+<dl>
+  <dt>
+    <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
+  </dt>
+  <dd>
+    <select name="record[<%= column.name %>]">     
+        <option>NAD83</option>
+        <option>NAD83 (CSRS) NB Stereographic</option>
+        <option>ATS77 NB Stereographic</option>
+        <option>UTM-NAD27 ZONE 19N</option>
+        <option>UTM-NAD27 ZONE 20N</option>
+        <option>UTM-NAD83 ZONE 19N</option>
+        <option>UTM-NAD83 ZONE 20N</option>
+        <option>WGS84</option>
+    </select>
+  </dd>
+</dl>

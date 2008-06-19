@@ -4,10 +4,7 @@ module TblAquaticSiteHelper
   end
   
   def agencies_column(record)
-    record.agencies.collect do |agency|
-      text = agency.code
-      text = "#{text} (#{agency.aquatic_site_agency_usages.first.agencysiteid})" unless agency.aquatic_site_agency_usages.empty?
-    end.sort.join('<br/><br/>')
+    record.agencies.collect { |agency| agency.code }.uniq.sort.join('<br/><br/>')
   end
   
   def description_column(record)

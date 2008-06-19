@@ -1,0 +1,12 @@
+<dl>
+  <dt>
+    <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
+  </dt>
+  <dd>
+    <select name="record[<%= column.name %>]">     
+        <option>GIS</option>
+        <option>GPS</option>
+        <option>Topographic Map</option>
+    </select>
+  </dd>
+</dl>
