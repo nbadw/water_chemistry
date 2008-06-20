@@ -366,3 +366,7 @@ div.aquatic-site-info-window p {
     display: block;
     margin: 5px 5px 3px; 
 }
+
+.info-window #tbl_aquatic_site-content {
+    margin-top: 25px;
+}

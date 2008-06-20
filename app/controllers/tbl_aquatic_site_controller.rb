@@ -57,7 +57,7 @@ class TblAquaticSiteController < ApplicationController
   end
   
   def conditions_for_collection
-    ["#{TblAquaticSite.table_name}.#{TblAquaticSite.primary_key} > 0 AND #{TblAquaticSite.table_name}.waterbodyid > 0"]
+    ["#{TblAquaticSite.table_name}.waterbodyid != 0"]
   end
   
   def active_scaffold_joins

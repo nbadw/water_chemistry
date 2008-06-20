@@ -20,14 +20,9 @@ class WaterChemistrySamplingController < ApplicationController
   end
   
   def observations
-    # observations come from OandM table, scoped to Observations type
-    # stored in tblObservations
   end
   
-  def measurements    
-    # measurements come from OandM table, scoped to Measurement type
-    # stored in tblSiteMeasurements
-    render :inline => 'todo'
+  def measurements   
   end
   
   def results    

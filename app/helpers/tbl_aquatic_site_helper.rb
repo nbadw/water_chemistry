@@ -1,6 +1,6 @@
 module TblAquaticSiteHelper
   def incorporated_column(record)
-    '<img class="incorporated" src="/images/lock-16.png"/>' if record.incorporated
+    '<img class="incorporated" src="' + (record.incorporated ? '/images/lock.png' : '/images/lock_open.png') +  '"/>' 
   end
   
   def agencies_column(record)

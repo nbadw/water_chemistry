@@ -3,7 +3,8 @@
     <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
   </dt>
   <dd>
-    <select name="record[<%= column.name %>]">
+    <select name="record[<%= column.name %>]">           
+      <option></option>
       <% TblAquaticActivity.rainfall_last24_options.each do |value| %>
         <option><%=h value %> </option>
       <% end %>

@@ -28,11 +28,10 @@ class TblAquaticActivity < ActiveRecord::Base
   belongs_to :agency2, :class_name => 'CdAgency', :foreign_key => 'agency2cd'
   belongs_to :aquatic_activity_method_code, :class_name => 'CdAquaticActivityMethod', :foreign_key => 'aquaticmethodcd'
     
-  validates_inclusion_of :rainfall_last24, :in => self.rainfall_last24_options
-  validates_inclusion_of :weather_conditions, :in => self.weather_conditions_options
-  validates_inclusion_of :water_level, :in => self.water_level_options
-  validates_presence_of  :aquatic_site, :aquatic_activity_code, :agency, 
-    :aquatic_activity_method_code, :aquaticactivitystartdate 
+  validates_inclusion_of :rainfall_last24, :in => self.rainfall_last24_options, :allow_nil => true, :allow_blank => true
+  validates_inclusion_of :weather_conditions, :in => self.weather_conditions_options, :allow_nil => true, :allow_blank => true
+  validates_inclusion_of :water_level, :in => self.water_level_options, :allow_nil => true, :allow_blank => true
+  validates_presence_of  :aquatic_site, :aquatic_activity_code, :agency, :aquatic_activity_method_code, :aquaticactivitystartdate 
     
   def start_date
     date_str = "#{self.aquaticactivitystartdate} #{self.aquaticactivitystarttime}".strip

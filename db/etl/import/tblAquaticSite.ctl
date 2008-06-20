@@ -21,10 +21,26 @@ before_write do |row|
     row
 end
 
+before_write do |row|
+    row[:aquaticsiteid].to_i > 0 ? row : nil
+end
+
+before_write :nullify, :fields => columns
+
 post_process :bulk_import, { 
   :file => outfile, 
   :columns => columns, 
   :field_separator => ",", 
   :target => RAILS_ENV.to_sym, 
   :table => table
+}
+
+post_process :coordinate_import, {
+  :shape_file => 'input/Aquatic_Sites.shp',
+  :shape_id => :aquasiteid,  
+  :target => RAILS_ENV.to_sym, 
+  :table => table,
+  :id_column => :aquaticsiteid,
+  :lat_column => :wgs84_lat,
+  :lng_column => :wgs84_lon
 }

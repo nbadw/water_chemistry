@@ -3,7 +3,8 @@
     <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
   </dt>
   <dd>
-    <select name="record[<%= column.name %>]">     
+    <select name="record[<%= column.name %>]">           
+        <option></option>
         <option>GIS</option>
         <option>GPS</option>
         <option>Topographic Map</option>

@@ -43,7 +43,8 @@ function updateMap(siteMarkers) {
         var marker = new GMarker(coord);  
         var maxContentDiv = document.createElement('div');                
         
-        maxContentDiv.innerHTML = 'Loading...';         
+        maxContentDiv.innerHTML = 'Loading...';
+        maxContentDiv.className = 'info-window';
         marker.id = site.id;          
         marker.maxContent = maxContentDiv;
         marker.bindInfoWindowHtml(site.info, {

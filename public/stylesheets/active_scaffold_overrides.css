@@ -58,3 +58,29 @@ td.incorporated-column {
     font-size: 16px;
     letter-spacing: -1px;
 }
+
+#tbl_observation-create--form #tbl_observation--observation_code-subform dt {
+    float: left; 
+    padding: 6px 0; 
+    width: 12em;
+}
+#tbl_observation-create--form #tbl_observation--observation_code-subform label {
+    display: block;
+}
+#tbl_observation-create--form #tbl_observation--observation_code-subform select {
+    font-size: 16px;
+    letter-spacing: -1px;
+}
+
+#tbl_site_measurement-create--form #tbl_site_measurement--measurement_code-subform dt {
+    float: left; 
+    padding: 6px 0; 
+    width: 12em;
+}
+#tbl_site_measurement-create--form #tbl_site_measurement--measurement_code-subform label {
+    display: block;
+}
+#tbl_site_measurement-create--form #tbl_site_measurement--measurement_code-subform select {
+    font-size: 16px;
+    letter-spacing: -1px;
+}

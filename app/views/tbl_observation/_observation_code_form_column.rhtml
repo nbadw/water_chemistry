@@ -1,0 +1,17 @@
+<dl>
+  <dt>
+    <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
+  </dt>
+  <dd>
+    <select name="record[<%= column.name %>]">  
+      <% @sorted_groups.each do |group| %>
+        <% observations = @observation_groups[group] %>
+        <optgroup label="<%=h group %>">
+          <% observations.each do |observation| %>
+            <option value="<%=h observation.id %>"><%=h observation.name %></option>
+          <% end %>
+        </optgroup>
+      <% end %>
+    </select>
+  </dd>
+</dl>

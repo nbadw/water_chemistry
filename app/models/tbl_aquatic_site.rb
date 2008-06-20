@@ -2,7 +2,8 @@ class TblAquaticSite < ActiveRecord::Base
   class AquaticSiteInUse < ActiveRecord::ActiveRecordError;end      
   class RecordIsIncorporated < ActiveRecord::ActiveRecordError;end
   
-  DEGREES_MINUTES_SECONDS_REGEXP = /^(-?\d{2}\d?)[:d°](\d\d?)[:'](\d\d?[.]?\d*)""?([NSEW]?)$/
+  DEGREES_MINUTES_SECONDS_REGEXP = /^(-?\d{2}\d?)[:d°](\d\d?)[:'](\d\d?[.]?\d*)"?([NSEW]?)$/
+  #DECIMAL_DEGREES_REGEXP = //
   DECIMAL_REGEXP = /^(-?\d+[.]?\d*)$/
   
   set_table_name  'tblAquaticSite'
@@ -25,17 +26,37 @@ class TblAquaticSite < ActiveRecord::Base
   has_many   :aquatic_activity_codes, :through => :aquatic_site_agency_usages, :uniq => true
   has_many   :agencies, :through => :aquatic_site_agency_usages, :uniq => true
         
-  before_destroy :check_if_incorporated
-  before_destroy :check_if_aquatic_site_agency_usages_attached
+  before_destroy :check_if_incorporated, :check_if_aquatic_site_agency_usages_attached
     
-  validates_presence_of :description, :waterbody    
-  validates_each :x_coordinate, :y_coordinate, :allow_nil => true do |record, attr, val|
-    error_msg = 'both x and y coordinates must be present'
-    if attr == :x_coordinate      
-      record.errors.add :y_coordinate, error_msg if record.y_coordinate.to_s.empty?
-    else
-      record.errors.add :x_coordinate, error_msg if record.x_coordinate.to_s.empty?
+  validates_presence_of :description, :waterbody  
+  
+  validates_each :x_coordinate do |record, attr, val|
+    if any_coordinate_attribute_present?(record)
+      record.errors.add :x_coordinate, "can't be empty" if val.to_s.empty?
     end    
+  end
+  
+  validates_each :y_coordinate do |record, attr, val|
+    if any_coordinate_attribute_present?(record)
+      record.errors.add :y_coordinate, "can't be empty" if val.to_s.empty?
+    end
+  end  
+  
+  validates_each :coordinate_source do |record, attr, val|
+    if any_coordinate_attribute_present?(record)
+      record.errors.add :coordinate_source, "can't be empty" if val.to_s.empty?
+    end
+  end
+  
+  validates_each :coordinate_system do |record, attr, val|
+    if any_coordinate_attribute_present?(record)
+      record.errors.add :coordinate_system, "can't be empty" if val.to_s.empty?
+    end
+  end
+  
+  def self.any_coordinate_attribute_present?(record)
+    coordinate_attributes = [:x_coordinate, :y_coordinate, :coordinate_source, :coordinate_system]
+    coordinate_attributes.any? { |attribute| !record.send(attribute).to_s.empty? }
   end
   
   def authorized_for_destroy?
@@ -63,7 +84,7 @@ class TblAquaticSite < ActiveRecord::Base
     raise(
       AquaticSiteInUse, 
       "Site usages are attached, record cannot be deleted"
-    ) if self.aquatic_site_agency_usages.count > 0
+    ) unless self.aquatic_site_agency_usages.empty?
   end
   
 #   #region Coordinate Parsing

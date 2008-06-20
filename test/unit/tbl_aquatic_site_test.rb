@@ -8,30 +8,43 @@ class TblAquaticSiteTest < ActiveSupport::TestCase
    
   should_require_attributes :description, :waterbody
   
-  should "be valid if both xcoordinate and ycoordinate are blank" do
+  should "be valid if all coordinate parameters are nil" do
     aquatic_site = TblAquaticSite.spawn
-    assert_valid aquatic_site
-    aquatic_site.xcoordinate = nil
-    aquatic_site.ycoordinate = nil
+    assert_nil aquatic_site.x_coordinate
+    assert_nil aquatic_site.y_coordinate
+    assert_nil aquatic_site.coordinate_system
+    assert_nil aquatic_site.coordinate_source
     assert_valid aquatic_site
   end
   
-  should "be invalid if xcoordinate is present and ycoordinate is not" do 
+  should "be valid if all coordinate parameters are blank" do
     aquatic_site = TblAquaticSite.spawn
+    aquatic_site.attributes.update(:x_coordinate => '', :y_coordinate => '', :coordinate_system => '', :coordinate_source => '')
     assert_valid aquatic_site
+  end
+  
+  should "be invalid if only x_coordinate parameter is present" do 
+    aquatic_site = TblAquaticSite.spawn
     aquatic_site.xcoordinate = '45.347'
-    aquatic_site.ycoordinate = nil
     assert !aquatic_site.valid?
-    assert_equal 1, aquatic_site.errors.count
   end
   
-  should "be invalid if ycoordinate is present and xcoordinate is not" do 
+  should "be invalid if only y_coordinate parameter is present" do 
     aquatic_site = TblAquaticSite.spawn
-    assert_valid aquatic_site
-    aquatic_site.xcoordinate = nil
-    aquatic_site.ycoordinate = '73.915'
+    aquatic_site.ycoordinate = '78.9464'
     assert !aquatic_site.valid?
-    assert_equal 1, aquatic_site.errors.count
+  end
+  
+  should "be invalid if only coordinate_system parameter is present" do 
+    aquatic_site = TblAquaticSite.spawn
+    aquatic_site.coordinate_system = 'WGS84'
+    assert !aquatic_site.valid?
+  end
+  
+  should "be invalid if only coordinate_source parameter is present" do 
+    aquatic_site = TblAquaticSite.spawn
+    aquatic_site.coordinate_source = 'GPS'
+    assert !aquatic_site.valid?
   end
      
   context "when site has been incorporated into the data warehouse" do
@@ -46,9 +59,10 @@ class TblAquaticSiteTest < ActiveSupport::TestCase
     setup do
       @aquatic_site = TblAquaticSite.generate!
       @aquatic_site.aquatic_site_agency_usages << TblAquaticSiteAgencyUse.generate!
+      @aquatic_site.save
     end
     
-    should_eventually "throw error if delete is attempted" do
+    should "throw error if delete is attempted" do
       assert_raise(TblAquaticSite::AquaticSiteInUse) { @aquatic_site.destroy }
     end
     
