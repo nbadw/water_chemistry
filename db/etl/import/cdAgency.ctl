@@ -17,19 +17,9 @@ end
 destination :out, { 
   :file => outfile
 }, { 
-  :order => columns 
-} 
-
-# decode table
-codefile = "decode/agency_table.txt"
-decode_columns = [:agencycd, :id]
-destination :out, { 
-  :file => codefile,
-  :separator => ':'
-}, { 
-  :order => decode_columns,
+  :order => [:id] + columns,
   :virtual => { :id => :surrogate_key }
-} 
+}  
 
 post_process :bulk_import, { 
   :file => outfile, 
