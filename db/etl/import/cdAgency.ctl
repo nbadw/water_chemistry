@@ -1,30 +1,36 @@
 # ETL Control file
-model = CdAgency
-table = model.table_name.to_s.downcase
-columns = model.columns.collect { |col| col.name.to_sym }
-outfile = "output/#{model.to_s.underscore}.txt"
+outfile = "output/cd_agency.csv"
+src_columns = [:agencycd, :agency, :agencytype, :datarulesind]
+dst_columns = [:id, :code, :name, :type, :data_rules, :imported_at, :exported_at, :created_at, :updated_at]
 
 source :in, { 
-  :database => "dataWarehouse",
+  :database => "datawarehouse",
   :target => :aquatic_data_warehouse, 
-  :table => table
-},  columns
+  :table => "cdAgency"
+}, src_columns
 
-before_write do |row|
-    row[:agencycd] != "`" ? row : nil
-end
+rename :agencycd, :code
+rename :agency, :name
+rename :agencytype, :type
+rename :datarulesind, :data_rules
+before_write { |row| row[:code] != "`" ? row : nil }
+before_write :check_exist, :target => RAILS_ENV, :table => "agencies", :columns => [:code]
 
 destination :out, { 
   :file => outfile
 }, { 
-  :order => [:id] + columns,
-  :virtual => { :id => :surrogate_key }
+  :order => dst_columns,
+  :virtual => { 
+    :created_at => Time.now,
+    :updated_at => Time.now,
+    :imported_at => Time.now
+  }
 }  
 
 post_process :bulk_import, { 
   :file => outfile, 
-  :columns => columns, 
+  :columns => dst_columns, 
   :field_separator => ",", 
-  :target => RAILS_ENV.to_sym, 
-  :table => table
+  :target => RAILS_ENV, 
+  :table => "agencies"
 }
