@@ -1,7 +1,7 @@
 # ETL Control file
 src_columns = [:aquaticmethodcd, :aquaticactivitycd, :aquaticmethod]
 dst_columns = [:id, :aquatic_activity_id, :method, :imported_at, :exported_at, :created_at, :updated_at]
-outfile = "output/cd_aquatic_activity_method.csv"
+outfile = "output/aquatic_activity_methods.csv"
 
 source :in, { 
   :database => "datawarehouse",

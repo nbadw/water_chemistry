@@ -1,5 +1,5 @@
 # ETL Control file
-outfile = "output/cd_agency.csv"
+outfile = "output/agencies.csv"
 src_columns = [:agencycd, :agency, :agencytype, :datarulesind]
 dst_columns = [:id, :code, :name, :type, :data_rules, :imported_at, :exported_at, :created_at, :updated_at]
 
