@@ -1,46 +1,61 @@
 # ETL Control file
-model = TblAquaticSite
-table = model.table_name.to_s.downcase
-columns = model.columns.collect { |col| col.name.to_sym }
-outfile = "output/#{model.to_s.underscore}.txt"
+src_columns = [:aquaticsiteid, :oldaquaticsiteid, :riversystemid, :waterbodyid, :waterbodyname, :aquaticsitename,
+    :aquaticsitedesc, :habitatdesc, :reachno, :startdesc, :enddesc, :startroutemeas, :endroutemeas, :sitetype,
+    :specificsiteind, :georeferencedind, :dateentered, :incorporatedind, :coordinatesource, :coordinatesystem,
+    :xcoordinate, :ycoordinate, :coordinateunits, :comments]
+dst_columns = [:id, :name, :description, :comments, :waterbody_id, :x_coordinate, :y_coordinate, :coordinate_srs_id, 
+    :coordinate_source, :gmap_srs_id, :gmap_latitude, :gmap_longitude, :imported_at, :exported_at, :created_at, :updated_at]
+outfile = "output/aquatic_sites.csv"
 
 source :in, { 
   :database => "dataWarehouse",
   :target => :aquatic_data_warehouse, 
-  :table => table
-},  columns
+  :table => "tblAquaticSite"
+}, src_columns
+
+rename :aquaticsiteid, :id
+rename :aquaticsitename, :name
+rename :aquaticsitedesc, :description
+rename :waterbodyid, :waterbody_id
+rename :xcoordinate, :x_coordinate
+rename :ycoordinate, :y_coordinate
+rename :coordinatesource, :coordinate_source
+rename :coordinatesystem, :coordinate_srs_id
+rename :dateentered, :created_at
+rename :incorporatedind, :exported_at
+
+before_write do |row| 
+    return nil unless row[:id].to_i > 0
+    row[:created_at] = Date.parse(row[:created_at]) rescue Time.now
+    row[:exported_at] = row[:exported_at].to_s == 'true' ? Time.now : nil
+    row[:coordinate_srs_id] = 0 
+    row
+end
+before_write :check_exist, :target => RAILS_ENV, :table => "aquatic_sites", :columns => [:id]
 
 destination :out, { 
   :file => outfile
 }, { 
-  :order => columns 
+  :order => dst_columns,
+  :virtual => { 
+    :updated_at => Time.now,
+    :imported_at => Time.now
+  } 
 } 
-
-before_write do |row| 
-    row[:incorporatedind] = row[:incorporatedind].strip == 'true' ? 1 : 0
-    row
-end
-
-before_write do |row|
-    row[:aquaticsiteid].to_i > 0 ? row : nil
-end
-
-before_write :nullify, :fields => columns
 
 post_process :bulk_import, { 
   :file => outfile, 
-  :columns => columns, 
+  :columns => dst_columns, 
   :field_separator => ",", 
-  :target => RAILS_ENV.to_sym, 
-  :table => table
+  :target => RAILS_ENV, 
+  :table => "aquatic_sites"
 }
 
 post_process :coordinate_import, {
-  :shape_file => 'input/Aquatic_Sites.shp',
+  :shape_file => 'input/aquatic_sites.shp',
   :shape_id => :aquasiteid,  
-  :target => RAILS_ENV.to_sym, 
-  :table => table,
-  :id_column => :aquaticsiteid,
-  :lat_column => :wgs84_lat,
-  :lng_column => :wgs84_lon
+  :target => RAILS_ENV, 
+  :table => :aquatic_sites,
+  :lat_column => :gmap_latitude,
+  :lng_column => :gmap_longitude
 }

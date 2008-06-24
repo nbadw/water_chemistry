@@ -1,25 +1,34 @@
 # ETL Control file
-model = CdUnitOfMeasure
-table = model.table_name.to_s.downcase
-columns = model.columns.collect { |col| col.name.to_sym }
-outfile = "output/#{model.to_s.underscore}.txt"
+src_columns = [:unitofmeasurecd, :unitofmeasure, :unitofmeasureabv]
+dst_columns = [:id, :name, :unit, :imported_at, :exported_at, :created_at, :updated_at]
+outfile = "output/measurement_units.csv"
 
 source :in, { 
   :database => "dataWarehouse",
   :target => :aquatic_data_warehouse, 
-  :table => table
-},  columns
+  :table => "cdUnitOfMeasure"
+}, src_columns
+
+rename :unitofmeasurecd, :id
+rename :unitofmeasure, :name
+rename :unitofmeasureabv, :unit
+before_write :check_exist, :target => RAILS_ENV, :table => "measurement_units", :columns => [:id]
 
 destination :out, { 
   :file => outfile
 }, { 
-  :order => columns 
+  :order => dst_columns,
+  :virtual => { 
+    :created_at => Time.now,
+    :updated_at => Time.now,
+    :imported_at => Time.now
+  } 
 } 
 
 post_process :bulk_import, { 
   :file => outfile, 
-  :columns => columns, 
+  :columns => dst_columns, 
   :field_separator => ",", 
-  :target => RAILS_ENV.to_sym, 
-  :table => table
+  :target => RAILS_ENV, 
+  :table => "measurement_units"
 }
