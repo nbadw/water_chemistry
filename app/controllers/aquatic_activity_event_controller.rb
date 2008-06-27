@@ -1,8 +1,8 @@
-  class TblAquaticActivityController < ApplicationController  
-  active_scaffold :tbl_aquatic_activity do |config|
+  class AquaticActivityEventController < ApplicationController  
+  active_scaffold do |config|
     # base config 
     config.label = "Aquatic Activities"    
-    config.columns = [:aquatic_activity_method_code, :start_date, :agency, 
+    config.columns = [:aquatic_activity_method, :start_date, :agency, 
       :weather_conditions, :rain_fall_in_last_24_hours, :water_level]
     config.columns[:start_date].label = "Start Date (DD/MM/YY)"
     
@@ -13,7 +13,7 @@
     # create config  
     config.create.columns = []
     config.create.columns.add_subgroup "Sampling Info" do |sampling_info| 
-      sampling_info.add :aquatic_activity_method_code, :start_date, :crew
+      sampling_info.add :aquatic_activity_method, :start_date, :crew
       sampling_info.columns[:start_date].label = "Start Date"
       sampling_info.columns[:crew].label = "Personnel"
     end
@@ -36,46 +36,46 @@
   
   alias_method :active_scaffold_new, :new
   def new
-    @aquatic_activity_method_codes = AquaticActivityMethod.find_all_by_aquaticactivitycd active_scaffold_session_storage[:constraints][:aquaticactivitycd]
+    @aquatic_activity_methods = AquaticActivityMethod.find_all_by_aquatic_activity_id active_scaffold_session_storage[:constraints][:aquatic_activity_id]
     active_scaffold_new
   end
   
   alias_method :active_scaffold_create, :create
   def create
-    @aquatic_activity_method_codes = AquaticActivityMethod.find_all_by_aquaticactivitycd active_scaffold_session_storage[:constraints][:aquaticactivitycd]
+    @aquatic_activity_methods = AquaticActivityMethod.find_all_by_aquatic_activity_id active_scaffold_session_storage[:constraints][:aquatic_activity_id]
     active_scaffold_create
   end
   
   def edit
-    aquatic_activity = AquaticActivityEvent.find params[:id], :include => :aquatic_activity_code
-    activity_name = aquatic_activity.aquatic_activity_code.name
+    event = AquaticActivityEvent.find params[:id], :include => :aquatic_activity
+    activity_name = event.aquatic_activity.name
     activity_controller = activity_name.gsub(' ', '_').downcase
     redirect_to :controller => activity_controller, :action => 'edit', 
-      :aquatic_activity_id => aquatic_activity.id, :aquatic_site_id => aquatic_activity.aquatic_site_id
+      :aquatic_activity_event_id => event.id, :aquatic_site_id => event.aquatic_site_id
   end
   
   def show
-    aquatic_activity = AquaticActivityEvent.find params[:id], :include => :aquatic_activity_code
-    activity_name = aquatic_activity.aquatic_activity_code.name
+    event = AquaticActivityEvent.find params[:id], :include => :aquatic_activity
+    activity_name = event.aquatic_activity.name
     activity_controller = activity_name.gsub(' ', '_').downcase
     redirect_to :controller => activity_controller, :action => 'show', 
-      :aquatic_activity_id => aquatic_activity.id, :aquatic_site_id => aquatic_activity.aquatic_site_id
+      :aquatic_activity_event_id => event.id, :aquatic_site_id => event.aquatic_site_id
   end
   
   def aquatic_site_activities    
     @label = params[:label]       
-    @constraints = { :aquaticsiteid => params[:aquatic_site_id], :aquaticactivitycd => params[:aquatic_activity_code] }  
+    @constraints = { :aquatic_site_id => params[:aquatic_site_id], :aquatic_activity_id => params[:aquatic_activity_id] }  
     render :layout => false
   end
   
-  def aquatic_activity_details
-    @record = AquaticActivityEvent.find params[:aquatic_activity_id]
+  def details
+    @record = AquaticActivityEvent.find params[:aquatic_activity_event_id]
     render :action => 'show', :layout => false
   end
   
   def before_create_save(record)
-    record.aquaticsiteid = active_scaffold_session_storage[:constraints][:aquaticsiteid]
-    record.aquaticactivitycd = active_scaffold_session_storage[:constraints][:aquaticactivitycd]
-    record.agencycd = current_user.agency.code
+    record.aquatic_site_id = active_scaffold_session_storage[:constraints][:aquatic_site_id]
+    record.aquatic_activity_id = active_scaffold_session_storage[:constraints][:aquatic_activity_id]
+    record.agency_id = current_user.agency.id
   end
 end

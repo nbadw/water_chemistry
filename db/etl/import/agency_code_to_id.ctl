@@ -8,7 +8,7 @@ source :in, {
 },  columns
 
 destination :out, { 
-  :file => "decode/cd_agency.txt",
+  :file => "decode/agency_code_to_id.txt",
   :separator => ':'
 }, { 
   :order => columns,

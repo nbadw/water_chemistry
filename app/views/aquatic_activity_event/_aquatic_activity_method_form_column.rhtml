@@ -4,8 +4,8 @@
   </dt>
   <dd>
     <select name="record[<%= column.name %>]">
-      <% @aquatic_activity_method_codes.each do |method_code| %>
-        <option value="<%=h method_code.id %>"><%=h method_code.name %> </option>
+      <% @aquatic_activity_methods.each do |method| %>
+        <option value="<%=h method.id %>"><%=h method.name %> </option>
       <% end %>
     </select>
   </dd>

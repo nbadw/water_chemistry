@@ -5,7 +5,10 @@ class AquaticSite < ActiveRecord::Base
   DEGREES_MINUTES_SECONDS_REGEXP = /^(-?\d{2}\d?)[:d°](\d\d?)[:'](\d\d?[.]?\d*)"?([NSEW]?)$/
   #DECIMAL_DEGREES_REGEXP = //
   DECIMAL_REGEXP = /^(-?\d+[.]?\d*)$/
-    
+  
+  alias_attribute :latitude,  :gmap_latitude
+  alias_attribute :longitude, :gmap_longitude
+  
   belongs_to :waterbody 
   has_many   :aquatic_site_usages
   has_many   :aquatic_activities, :through => :aquatic_site_usages, :uniq => true

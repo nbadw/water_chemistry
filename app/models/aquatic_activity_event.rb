@@ -2,6 +2,8 @@ class AquaticActivityEvent < ActiveRecord::Base
   # TODO: should these be processed before save or made into actual attributes?
   attr_accessor :water_clarity, :water_color, :water_crossing, :point_source, :non_point_source, :watercourse_alteration
   
+  alias_attribute :rain_fall_in_last_24_hours, :rainfall_last24
+  
   def self.rainfall_last24_options
     ["None", "Light", "Heavy"]
   end

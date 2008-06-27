@@ -71,7 +71,7 @@ function handleMarkerClick(evt) {
     
     if(marker.maxContent.innerHTML == 'Loading...') {
         GEvent.addListener(iw, "maximizeclick", function() {
-            GDownloadUrl("/tbl_aquatic_site/gmap_max_content/" + marker.id, function(data) {
+            GDownloadUrl("/aquatic_site/gmap_max_content/" + marker.id, function(data) {
                 marker.maxContent.innerHTML = data;
             });
         }); 

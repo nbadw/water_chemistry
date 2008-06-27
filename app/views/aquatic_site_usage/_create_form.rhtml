@@ -26,7 +26,7 @@ end -%>
   <h4><%= active_scaffold_config.create.label -%></h4>
 
   <% if request.xhr? -%>
-    <div id="tbl_aquatic_site_agency_use-messages" class="messages-container"><%= error_messages_for :record %></div>
+    <div id="aquatic_site_usage-messages" class="messages-container"><%= error_messages_for :record %></div>
   <% else -%>
     <%= render :partial => 'form_messages' %>
   <% end -%>

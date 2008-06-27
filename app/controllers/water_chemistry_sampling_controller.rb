@@ -2,13 +2,13 @@ class WaterChemistrySamplingController < ApplicationController
   before_filter :create_aquatic_site_map, :except => [:show, :edit]
   
   def show
-    redirect_to :action => 'activity_details', :aquatic_site_id => params[:aquatic_site_id],
-      :aquatic_activity_id => params[:aquatic_activity_id]
+    redirect_to :action => 'details', :aquatic_site_id => params[:aquatic_site_id],
+      :aquatic_activity_event_id => params[:aquatic_activity_event_id]
   end
   
   def edit
     redirect_to :action => 'samples', :aquatic_site_id => params[:aquatic_site_id],
-      :aquatic_activity_id => params[:aquatic_activity_id]
+      :aquatic_activity_event_id => params[:aquatic_activity_event_id]
   end
   
   def samples   
@@ -16,7 +16,7 @@ class WaterChemistrySamplingController < ApplicationController
     # parameter values: parameter, value, unit of measure
   end
   
-  def activity_details
+  def details
   end
   
   def observations

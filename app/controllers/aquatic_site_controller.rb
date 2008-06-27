@@ -1,9 +1,9 @@
-class TblAquaticSiteController < ApplicationController
+class AquaticSiteController < ApplicationController
   active_scaffold do |config|    
     # base config
     config.label = "Aquatic Sites"    
     config.columns = [:incorporated, :id, :name, :agencies, :waterbody_id, :waterbody_name, 
-      :drainage_code, :description, :aquatic_activity_codes, :coordinates] 
+      :drainage_code, :description, :aquatic_activities, :coordinates] 
     
     config.columns[:incorporated].label = ''
     config.columns[:id].label = 'Site Id'
@@ -12,20 +12,20 @@ class TblAquaticSiteController < ApplicationController
     config.columns[:drainage_code].label = 'Watershed Code'
     config.columns[:name].label = 'Site Name'
     config.columns[:description].label = 'Site Description'  
-    config.columns[:aquatic_activity_codes].label = 'Data'    
-    config.columns[:aquatic_activity_codes].clear_link
+    config.columns[:aquatic_activities].label = 'Data'    
+    config.columns[:aquatic_activities].clear_link
     
     # list config
     config.columns[:id].sort_by :sql => "#{AquaticSite.table_name}.#{AquaticSite.primary_key}"
-    config.columns[:drainage_code].sort_by :sql => "#{Waterbody.table_name}.drainagecd"
+    config.columns[:drainage_code].sort_by :sql => "#{Waterbody.table_name}.drainage_code"
     config.columns[:waterbody_id].sort_by :sql => "#{Waterbody.table_name}.#{Waterbody.primary_key}"
-    config.columns[:waterbody_name].sort_by :sql => "#{Waterbody.table_name}.waterbodyname"
+    config.columns[:waterbody_name].sort_by :sql => "#{Waterbody.table_name}.name"
     config.list.columns.exclude :name, :coordinates
     config.list.sorting =[{ :drainage_code => :asc }]
     
     # show config
     config.show.label = ''
-    config.show.columns.exclude :incorporated, :name, :aquatic_activity_codes
+    config.show.columns.exclude :incorporated, :name, :aquatic_activities
     
     # create config
     config.create.label = "Create a New Aquatic Site"
@@ -47,21 +47,21 @@ class TblAquaticSiteController < ApplicationController
     end
         
     # search config
-    config.columns[:name].search_sql = "#{AquaticSite.table_name}.aquaticsitename"
-    config.columns[:waterbody_id].search_sql = "#{Waterbody.table_name}.waterbodyid"
-    config.columns[:waterbody].search_sql = "#{Waterbody.table_name}.waterbodyname"
-    config.columns[:drainage_code].search_sql = "#{Waterbody.table_name}.drainagecd"  
-    config.columns[:aquatic_activity_codes].search_sql = "#{AquaticActivity.table_name}.aquaticactivity"
-    config.columns[:agencies].search_sql = "#{AquaticSiteUsage.table_name}.agencycd"
-    config.search.columns = [:name, :waterbody_id, :waterbody, :drainage_code, :aquatic_activity_codes, :agencies]
+    config.columns[:name].search_sql = "#{AquaticSite.table_name}.name"
+    config.columns[:waterbody_id].search_sql = "#{Waterbody.table_name}.#{Waterbody.primary_key}"
+    config.columns[:waterbody].search_sql = "#{Waterbody.table_name}.name"
+    config.columns[:drainage_code].search_sql = "#{Waterbody.table_name}.drainage_code"  
+    config.columns[:aquatic_activities].search_sql = "#{AquaticActivity.table_name}.name"
+    config.columns[:agencies].search_sql = "#{Agency.table_name}.code"
+    config.search.columns = [:name, :waterbody_id, :waterbody, :drainage_code, :aquatic_activities, :agencies]
   end
   
   def conditions_for_collection
-    ["#{AquaticSite.table_name}.waterbodyid != 0"]
+    ["#{AquaticSite.table_name}.waterbody_id != 0"]
   end
   
   def active_scaffold_joins
-    [:waterbody, :aquatic_site_agency_usages, :agencies, :aquatic_activity_codes]
+    [:waterbody, :aquatic_site_usages, :agencies, :aquatic_activities]
   end
  
   def auto_complete_for_waterbody_search

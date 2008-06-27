@@ -1,12 +1,11 @@
-<h4><%= @record.name || 'Unnamed Aquatic Site' -%></h4>
+<h4><%= @record.name.to_s.empty? ? 'Unnamed Aquatic Site' : @record.name -%></h4>
 
-<% if @record.incorporated %>
+<% if @record.incorporated? %>
   <div class="messages-container">
     <div class="incorporated-message">
       <h2>This aquatic site has incorporated into the Aquatic Data Warehouse</h2>
       <ul>
         <li>Edit and Delete functions are disabled</li>
-        <li>Adding and editing of attached activities is allowed</li>
       </ul>
     </div>
   </div>

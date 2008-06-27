@@ -12,7 +12,7 @@
 ActiveRecord::Schema.define(:version => 1) do
 
   create_table "agencies", :force => true do |t|
-    t.string   "code",        :limit => 10,  :default => "",    :null => false
+    t.string   "code",        :limit => 10,                     :null => false
     t.string   "name",        :limit => 120
     t.string   "type",        :limit => 8
     t.boolean  "data_rules",                 :default => false

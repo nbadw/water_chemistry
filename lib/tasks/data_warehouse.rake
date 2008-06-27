@@ -1,29 +1,122 @@
-namespace :data_warehouse do     
-  desc "import tables from aquatic data warehouse"
-  task :import => :environment do
-    init_etl
-    puts "Starting ETL process"
-    ETL::Engine.process File.join(RAILS_ROOT, 'db', 'etl', 'import.ebf')
-    puts "ETL process complete"
-  end  
+ETL_ROOT = File.join(RAILS_ROOT, 'db', 'etl')
 
-  desc "transform water chemistry analysis row into water measurement rows"  
-  task :samples => :environment do
-    init_etl
-    ETL::Engine.process File.join(RAILS_ROOT, 'db', 'etl', 'samples.ebf')
-  end  
-  
-  desc "export all"
-  task :export => :environment do 
+namespace :data_warehouse do 
+  task :initialize_etl_engine => :environment do    
+    initialize_etl_engine
+  end 
     
+  desc "run all import scripts"
+  task :import do
+    Rake::Task['data_warehouse:import:all'].invoke
   end
+  
+  namespace :import do 
+    task :init do
+      Rake::Task['data_warehouse:initialize_etl_engine'].invoke
+    end
+    
+    task :all => [:agencies, :aquatic_activities, :aquatic_activity_events, :aquatic_activity_methods,
+      :aquatic_site_usages, :aquatic_sites, :instruments, :units_of_measure, :waterbodies
+    ]
+
+    desc "import agencies"
+    task :agencies => :init do
+      process File.join(ETL_ROOT, 'import', 'agencies.ctl')
+    end
+    
+    desc "build code->id decode file for agencies"
+    task :agency_code_to_id => :agencies do
+      process File.join(ETL_ROOT, 'import', 'agency_code_to_id.ctl')
+    end
+    
+    desc "import aquatic activities"
+    task :aquatic_activities => :init do
+      process File.join(ETL_ROOT, 'import', 'aquatic_activities.ctl')
+    end
+    
+    desc "import aquatic activity events"
+    task :aquatic_activity_events => :agency_code_to_id do
+      process File.join(ETL_ROOT, 'import', 'aquatic_activities.ctl')
+    end
+    
+    desc "import aquatic activity methods"
+    task :aquatic_activity_methods => :init do
+      process File.join(ETL_ROOT, 'import', 'aquatic_activity_methods.ctl')
+    end    
+    
+    desc "import aquatic site usages"
+    task :aquatic_site_usages => :agency_code_to_id do
+      process File.join(ETL_ROOT, 'import', 'aquatic_site_usages.ctl')
+    end
+    
+    desc "import aquatic sites"
+    task :aquatic_sites => :init do
+      process File.join(ETL_ROOT, 'import', 'aquatic_sites.ctl')
+    end
+    
+    desc "import instruments"
+    task :instruments => :init do
+      process File.join(ETL_ROOT, 'import', 'instruments.ctl')
+    end
+    
+    desc "import cdMeasureInstrument"
+    task :cdMeasureInstrument => :init do
+      process File.join(ETL_ROOT, 'import', 'cdMeasureInstrument.ctl')
+    end
+    
+    desc "import cdMeasureUnit"
+    task :cdMeasureUnit => :init do
+      process File.join(ETL_ROOT, 'import', 'cdMeasureUnit.ctl')
+    end
+    
+    desc "import cdOandM"
+    task :cdOandM => :init do
+      process File.join(ETL_ROOT, 'import', 'cdOandM.ctl')
+    end
+    
+    desc "import cdOandMValues"
+    task :cdOandMValues => :init do
+      process File.join(ETL_ROOT, 'import', 'cdOandMValues.ctl')
+    end
+        
+    desc "import waterbodies"
+    task :units_of_measure => :init do
+      process File.join(ETL_ROOT, 'import', 'units_of_measure.ctl')
+    end
+    
+    desc "import waterbodies"
+    task :waterbodies => :init do
+      process File.join(ETL_ROOT, 'import', 'waterbodies.ctl')
+    end
+  end
+  
+
+  #  desc "transform water chemistry analysis row into water measurement rows"  
+  #  task :samples => :environment do
+  #    init_etl
+  #    ETL::Engine.process File.join(RAILS_ROOT, 'db', 'etl', 'samples.ebf')
+  #  end  
+  #  
+  #  desc "export all"
+  #  task :export => :environment do 
+  #    
+  #  end
 end
 
-def init_etl(options = {})
+def initialize_etl_engine(options = {})
   require File.join(RAILS_ROOT, 'vendor', 'plugins', 'etl', 'lib', 'etl')
+  require File.join(ETL_ROOT, 'lib', 'coordinate_import_processor')
+  require File.join(ETL_ROOT, 'lib', 'nullify_processor')
+  require File.join('active_record', 'connection_adapters', 'sqlserver_adapter') 
   require 'etl_engine_logger_mod'
-  require 'active_record/connection_adapters/sqlserver_adapter'   
+  
   options = { :rails_root => RAILS_ROOT }.merge(options)
   ETL::Engine.init options
   ETL::Engine.realtime_activity = true
+end
+
+def process(files)
+  puts "Starting ETL process"
+  [files].flatten.each { |file| ETL::Engine.process file }
+  puts "ETL process complete"  
 end
