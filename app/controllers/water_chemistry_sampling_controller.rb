@@ -42,7 +42,7 @@ class WaterChemistrySamplingController < ApplicationController
   
   private
   def create_aquatic_site_map
-    @aquatic_site = TblAquaticSite.find params[:aquatic_site_id], :include => :waterbody
+    @aquatic_site = AquaticSite.find params[:aquatic_site_id], :include => :waterbody
     @aquatic_site_map = GMap.new("aquatic-site-map")
     @aquatic_site_map.set_map_type_init(GMapType::G_HYBRID_MAP)
     @aquatic_site_map.control_init(:small_zoom => true)

@@ -9,48 +9,115 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define() do
+ActiveRecord::Schema.define(:version => 1) do
 
-  create_table "cdAgency", :id => false, :force => true do |t|
-    t.string "agencycd",     :limit => 10,  :null => false
-    t.string "agency",       :limit => 120
-    t.string "agencytype",   :limit => 8
-    t.string "datarulesind", :limit => 2
+  create_table "agencies", :force => true do |t|
+    t.string   "code",        :limit => 10,  :default => "", :null => false
+    t.string   "name",        :limit => 120
+    t.string   "type",        :limit => 8
+    t.string   "data_rules",  :limit => 2
+    t.datetime "imported_at"
+    t.datetime "exported_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "cdAquaticActivity", :id => false, :force => true do |t|
-    t.integer "aquaticactivitycd",                      :null => false
-    t.string  "aquaticactivity",         :limit => 100
-    t.string  "aquaticactivitycategory", :limit => 60
-    t.string  "duration",                :limit => 40
+  create_table "aquatic_activities", :force => true do |t|
+    t.string   "name",        :limit => 100
+    t.string   "category",    :limit => 60
+    t.string   "duration",    :limit => 40
+    t.datetime "imported_at"
+    t.datetime "exported_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "cdAquaticActivityMethod", :id => false, :force => true do |t|
-    t.integer "aquaticmethodcd"
-    t.integer "aquaticactivitycd"
-    t.string  "aquaticmethod",     :limit => 60
+  create_table "aquatic_activity_events", :force => true do |t|
+    t.string   "project",                    :limit => 200
+    t.string   "permit_no",                  :limit => 40
+    t.integer  "aquatic_program_id"
+    t.integer  "aquatic_activity_id"
+    t.integer  "aquatic_activity_method_id"
+    t.integer  "aquatic_site_id"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.integer  "agency_id"
+    t.integer  "agency2_id"
+    t.string   "agency2_contact",            :limit => 100
+    t.string   "activity_leader",            :limit => 100
+    t.string   "crew",                       :limit => 100
+    t.string   "weather_conditions",         :limit => 100
+    t.float    "water_temperature_c"
+    t.float    "air_temperature_c"
+    t.string   "water_level",                :limit => 12
+    t.string   "water_level_cm",             :limit => 100
+    t.string   "morning_water_level_cm",     :limit => 100
+    t.string   "evening_water_level_cm",     :limit => 100
+    t.string   "siltation",                  :limit => 100
+    t.boolean  "primary_activity"
+    t.string   "comments",                   :limit => 500
+    t.string   "rainfall_last24"
+    t.datetime "imported_at"
+    t.datetime "exported_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "cdInstrument", :id => false, :force => true do |t|
-    t.integer "instrumentcd",                       :null => false
-    t.string  "instrument",          :limit => 100
-    t.string  "instrument_category", :limit => 100
+  add_index "aquatic_activity_events", ["aquatic_program_id"], :name => "index_aquatic_activity_events_on_aquatic_program_id"
+  add_index "aquatic_activity_events", ["aquatic_activity_id"], :name => "index_aquatic_activity_events_on_aquatic_activity_id"
+  add_index "aquatic_activity_events", ["aquatic_activity_method_id"], :name => "index_aquatic_activity_events_on_aquatic_activity_method_id"
+  add_index "aquatic_activity_events", ["aquatic_site_id"], :name => "index_aquatic_activity_events_on_aquatic_site_id"
+  add_index "aquatic_activity_events", ["agency_id"], :name => "index_aquatic_activity_events_on_agency_id"
+  add_index "aquatic_activity_events", ["agency2_id"], :name => "index_aquatic_activity_events_on_agency2_id"
+
+  create_table "aquatic_activity_methods", :force => true do |t|
+    t.integer  "aquatic_activity_id"
+    t.string   "method",              :limit => 60
+    t.datetime "imported_at"
+    t.datetime "exported_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "cdMeasureInstrument", :id => false, :force => true do |t|
-    t.integer "measureinstrumentcd", :null => false
+  add_index "aquatic_activity_methods", ["aquatic_activity_id"], :name => "index_aquatic_activity_methods_on_aquatic_activity_id"
+
+  create_table "aquatic_sites", :force => true do |t|
+    t.string   "name",              :limit => 200
+    t.string   "description",       :limit => 500
+    t.string   "comments",          :limit => 300
+    t.integer  "waterbody_id"
+    t.string   "coordinate_source", :limit => 100
+    t.integer  "coordinate_srs_id"
+    t.string   "x_coordinate",      :limit => 100
+    t.string   "y_coordinate",      :limit => 100
+    t.integer  "gmap_srs_id"
+    t.decimal  "gmap_latitude",                    :precision => 15, :scale => 10
+    t.decimal  "gmap_longitude",                   :precision => 15, :scale => 10
+    t.datetime "imported_at"
+    t.datetime "exported_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "aquatic_sites", ["waterbody_id"], :name => "index_aquatic_sites_on_waterbody_id"
+
+  create_table "cdmeasureinstrument", :primary_key => "measureinstrumentcd", :force => true do |t|
     t.integer "oandmcd"
     t.integer "instrumentcd"
   end
 
-  create_table "cdMeasureUnit", :id => false, :force => true do |t|
-    t.integer "measureunitcd",   :null => false
+  add_index "cdmeasureinstrument", ["oandmcd"], :name => "index_cdMeasureInstrument_on_oandmcd"
+  add_index "cdmeasureinstrument", ["instrumentcd"], :name => "index_cdMeasureInstrument_on_instrumentcd"
+
+  create_table "cdmeasureunit", :primary_key => "measureunitcd", :force => true do |t|
     t.integer "oandmcd"
     t.integer "unitofmeasurecd"
   end
 
-  create_table "cdOandM", :id => false, :force => true do |t|
-    t.integer "oandmcd",                          :null => false
+  add_index "cdmeasureunit", ["oandmcd"], :name => "index_cdMeasureUnit_on_oandmcd"
+  add_index "cdmeasureunit", ["unitofmeasurecd"], :name => "index_cdMeasureUnit_on_unitofmeasurecd"
+
+  create_table "cdoandm", :primary_key => "oandmcd", :force => true do |t|
     t.string  "oandm_type",        :limit => 32
     t.string  "oandm_category",    :limit => 80
     t.string  "oandm_group",       :limit => 100
@@ -59,82 +126,52 @@ ActiveRecord::Schema.define() do
     t.boolean "oandm_valuesind",                  :null => false
   end
 
-  create_table "cdOandMValues", :id => false, :force => true do |t|
-    t.integer "oandmvaluescd",               :null => false
+  create_table "cdoandmvalues", :primary_key => "oandmvaluescd", :force => true do |t|
     t.integer "oandmcd"
-    t.string  "value",         :limit => 40
+    t.string  "value",   :limit => 40
   end
 
-  create_table "cdUnitofMeasure", :id => false, :force => true do |t|
-    t.integer "unitofmeasurecd"
-    t.string  "unitofmeasure",    :limit => 100
-    t.string  "unitofmeasureabv", :limit => 20
+  add_index "cdoandmvalues", ["oandmcd"], :name => "index_cdOandMValues_on_oandmcd"
+
+  create_table "instruments", :force => true do |t|
+    t.string   "name",        :limit => 100
+    t.string   "category",    :limit => 100
+    t.datetime "imported_at"
+    t.datetime "exported_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "tblAquaticActivity", :id => false, :force => true do |t|
-    t.integer  "aquaticactivityid",                       :null => false
-    t.integer  "tempaquaticactivityid"
-    t.string   "project",                  :limit => 200
-    t.string   "permitno",                 :limit => 40
-    t.integer  "aquaticprogramid"
-    t.integer  "aquaticactivitycd"
-    t.integer  "aquaticmethodcd"
-    t.integer  "oldaquaticsiteid"
-    t.integer  "aquaticsiteid"
-    t.string   "aquaticactivitystartdate", :limit => 20
-    t.string   "aquaticactivityenddate",   :limit => 20
-    t.string   "aquaticactivitystarttime", :limit => 12
-    t.string   "aquaticactivityendtime",   :limit => 12
-    t.string   "year",                     :limit => 8
-    t.string   "agencycd",                 :limit => 8
-    t.string   "agency2cd",                :limit => 8
-    t.string   "agency2contact",           :limit => 100
-    t.string   "aquaticactivityleader",    :limit => 100
-    t.string   "crew",                     :limit => 100
-    t.string   "weatherconditions",        :limit => 100
-    t.float    "watertemp_c",              :limit => 4
-    t.float    "airtemp_c",                :limit => 4
-    t.string   "waterlevel",               :limit => 12
-    t.string   "waterlevel_cm",            :limit => 100
-    t.string   "waterlevel_am_cm",         :limit => 100
-    t.string   "waterlevel_pm_cm",         :limit => 100
-    t.string   "siltation",                :limit => 100
-    t.boolean  "primaryactivityind"
-    t.string   "comments",                 :limit => 500
-    t.datetime "dateentered"
-    t.boolean  "incorporatedind"
-    t.datetime "datetransferred"
+  create_table "parameters", :force => true do |t|
+    t.string   "name"
+    t.string   "code"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "tblAquaticSite", :id => false, :force => true do |t|
-    t.integer  "aquaticsiteid",                   :null => false
-    t.integer  "oldaquaticsiteid"
-    t.integer  "riversystemid"
-    t.integer  "waterbodyid"
-    t.string   "waterbodyname",    :limit => 100
-    t.string   "aquaticsitename",  :limit => 200
-    t.string   "aquaticsitedesc",  :limit => 500
-    t.string   "habitatdesc",      :limit => 100
-    t.integer  "reachno"
-    t.string   "startdesc",        :limit => 200
-    t.string   "enddesc",          :limit => 200
-    t.float    "startroutemeas"
-    t.float    "endroutemeas"
-    t.string   "sitetype",         :limit => 40
-    t.string   "specificsiteind",  :limit => 2
-    t.string   "georeferencedind", :limit => 2
-    t.datetime "dateentered"
-    t.boolean  "incorporatedind"
-    t.string   "coordinatesource", :limit => 100
-    t.string   "coordinatesystem", :limit => 100
-    t.string   "xcoordinate",      :limit => 100
-    t.string   "ycoordinate",      :limit => 100
-    t.string   "coordinateunits",  :limit => 100
-    t.string   "comments",         :limit => 300
+  create_table "permissions", :force => true do |t|
+    t.integer  "role_id",    :null => false
+    t.integer  "user_id",    :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "tblAquaticSiteAgencyUse", :id => false, :force => true do |t|
-    t.integer "aquaticsiteuseid",                :null => false
+  create_table "roles", :force => true do |t|
+    t.string   "rolename"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "sample_results", :force => true do |t|
+    t.integer  "sample_id",    :null => false
+    t.integer  "parameter_id", :null => false
+    t.float    "value"
+    t.string   "qualifier"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tblaquaticsiteagencyuse", :primary_key => "aquaticsiteuseid", :force => true do |t|
     t.integer "aquaticsiteid"
     t.integer "aquaticactivitycd"
     t.string  "aquaticsitetype",   :limit => 60
@@ -146,32 +183,11 @@ ActiveRecord::Schema.define() do
     t.boolean "incorporatedind"
   end
 
-  create_table "tblDrainageUnit", :id => false, :force => true do |t|
-    t.string  "drainagecd",   :limit => 34,  :null => false
-    t.string  "level1no",     :limit => 4
-    t.string  "level1name",   :limit => 80
-    t.string  "level2no",     :limit => 4
-    t.string  "level2name",   :limit => 100
-    t.string  "level3no",     :limit => 4
-    t.string  "level3name",   :limit => 100
-    t.string  "level4no",     :limit => 4
-    t.string  "level4name",   :limit => 100
-    t.string  "level5no",     :limit => 4
-    t.string  "level5name",   :limit => 100
-    t.string  "level6no",     :limit => 4
-    t.string  "level6name",   :limit => 100
-    t.string  "unitname",     :limit => 110
-    t.string  "unittype",     :limit => 8
-    t.string  "borderind",    :limit => 2
-    t.integer "streamorder"
-    t.float   "area_ha"
-    t.float   "area_percent"
-    t.string  "cgndb_key",    :limit => 20
-    t.string  "drainsinto",   :limit => 80
-  end
+  add_index "tblaquaticsiteagencyuse", ["aquaticsiteid"], :name => "index_tblAquaticSiteAgencyUse_on_aquaticsiteid"
+  add_index "tblaquaticsiteagencyuse", ["aquaticactivitycd"], :name => "index_tblAquaticSiteAgencyUse_on_aquaticactivitycd"
+  add_index "tblaquaticsiteagencyuse", ["agencycd"], :name => "index_tblAquaticSiteAgencyUse_on_agencycd"
 
-  create_table "tblEnvironmentalObservations", :id => false, :force => true do |t|
-    t.integer "envobservationid",                         :null => false
+  create_table "tblenvironmentalobservations", :primary_key => "envobservationid", :force => true do |t|
     t.integer "aquaticactivityid"
     t.string  "observationgroup",          :limit => 100
     t.string  "observation",               :limit => 100
@@ -180,37 +196,44 @@ ActiveRecord::Schema.define() do
     t.boolean "fishpassageobstructionind"
   end
 
-  create_table "tblSample", :id => false, :force => true do |t|
-    t.integer "sampleid",                                :null => false
+  add_index "tblenvironmentalobservations", ["aquaticactivityid"], :name => "index_tblEnvironmentalObservations_on_aquaticactivityid"
+
+  create_table "tblobservations", :primary_key => "observationid", :force => true do |t|
+    t.integer "aquaticactivityid"
+    t.integer "oandmcd"
+    t.string  "oandm_other",               :limit => 50
+    t.string  "oandmvaluescd"
+    t.integer "pipesize_cm"
+    t.boolean "fishpassageobstructionind"
+  end
+
+  add_index "tblobservations", ["aquaticactivityid"], :name => "index_tblObservations_on_aquaticactivityid"
+
+  create_table "tblsample", :primary_key => "sampleid", :force => true do |t|
     t.integer "aquaticactivityid"
     t.integer "tempaquaticactivityid"
     t.string  "agencysampleno",           :limit => 20
-    t.float   "sampledepth_m",            :limit => 4
+    t.float   "sampledepth_m"
     t.string  "watersourcetype",          :limit => 40
-    t.integer "samplecollectionmethodcd"
+    t.string  "samplecollectionmethodcd"
     t.string  "analyzedby",               :limit => 510
   end
 
-  create_table "tblWaterBody", :id => false, :force => true do |t|
-    t.integer  "waterbodyid",                           :null => false
-    t.string   "cgndb_key",              :limit => 20
-    t.string   "cgndb_key_alt",          :limit => 20
-    t.string   "drainagecd",             :limit => 34
-    t.string   "waterbodytypecd",        :limit => 8
-    t.string   "waterbodyname",          :limit => 110
-    t.string   "waterbodyname_abrev",    :limit => 80
-    t.string   "waterbodyname_alt",      :limit => 80
-    t.integer  "waterbodycomplexid"
-    t.string   "surveyed_ind",           :limit => 2
-    t.float    "flowsintowaterbodyid"
-    t.string   "flowsintowaterbodyname", :limit => 80
-    t.string   "flowintodrainagecd",     :limit => 34
-    t.datetime "dateentered"
-    t.datetime "datemodified"
+  add_index "tblsample", ["aquaticactivityid"], :name => "index_tblSample_on_aquaticactivityid"
+
+  create_table "tblsitemeasurement", :primary_key => "sitemeasurementid", :force => true do |t|
+    t.integer "aquaticactivityid"
+    t.integer "oandmcd"
+    t.string  "oandm_other"
+    t.string  "bank"
+    t.integer "instrumentcd"
+    t.integer "measurement",       :limit => 10
+    t.integer "unitofmeasurecd"
   end
 
-  create_table "tblWaterMeasurement", :id => false, :force => true do |t|
-    t.integer "watermeasurementid",                   :null => false
+  add_index "tblsitemeasurement", ["aquaticactivityid"], :name => "index_tblSiteMeasurement_on_aquaticactivityid"
+
+  create_table "tblwatermeasurement", :primary_key => "watermeasurementid", :force => true do |t|
     t.integer "aquaticactivityid"
     t.integer "tempaquaticactivityid"
     t.integer "tempdataid"
@@ -218,14 +241,64 @@ ActiveRecord::Schema.define() do
     t.integer "habitatunitid"
     t.integer "sampleid"
     t.string  "watersourcetype",       :limit => 100
-    t.float   "waterdepth_m",          :limit => 4
+    t.float   "waterdepth_m"
     t.string  "timeofday",             :limit => 10
     t.integer "oandmcd"
     t.integer "instrumentcd"
-    t.float   "measurement",           :limit => 4
+    t.float   "measurement"
     t.integer "unitofmeasurecd"
     t.boolean "detectionlimitind",                    :null => false
     t.string  "comment",               :limit => 510
+  end
+
+  add_index "tblwatermeasurement", ["aquaticactivityid"], :name => "index_tblWaterMeasurement_on_aquaticactivityid"
+  add_index "tblwatermeasurement", ["tempaquaticactivityid"], :name => "index_tblWaterMeasurement_on_tempaquaticactivityid"
+  add_index "tblwatermeasurement", ["tempdataid"], :name => "index_tblWaterMeasurement_on_tempdataid"
+  add_index "tblwatermeasurement", ["temperatureloggerid"], :name => "index_tblWaterMeasurement_on_temperatureloggerid"
+  add_index "tblwatermeasurement", ["habitatunitid"], :name => "index_tblWaterMeasurement_on_habitatunitid"
+  add_index "tblwatermeasurement", ["sampleid"], :name => "index_tblWaterMeasurement_on_sampleid"
+  add_index "tblwatermeasurement", ["oandmcd"], :name => "index_tblWaterMeasurement_on_oandmcd"
+  add_index "tblwatermeasurement", ["instrumentcd"], :name => "index_tblWaterMeasurement_on_instrumentcd"
+  add_index "tblwatermeasurement", ["unitofmeasurecd"], :name => "index_tblWaterMeasurement_on_unitofmeasurecd"
+
+  create_table "units_of_measure", :force => true do |t|
+    t.string   "name",        :limit => 100
+    t.string   "unit",        :limit => 20
+    t.datetime "imported_at"
+    t.datetime "exported_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "login"
+    t.string   "email"
+    t.string   "crypted_password",          :limit => 40
+    t.string   "salt",                      :limit => 40
+    t.string   "remember_token"
+    t.datetime "remember_token_expires_at"
+    t.string   "activation_code",           :limit => 40
+    t.datetime "activated_at"
+    t.string   "password_reset_code",       :limit => 40
+    t.boolean  "enabled",                                 :default => true
+    t.integer  "agency_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "waterbodies", :force => true do |t|
+    t.string   "drainage_code",           :limit => 17
+    t.string   "waterbody_type",          :limit => 8
+    t.string   "name",                    :limit => 110
+    t.string   "abbreviated_name",        :limit => 80
+    t.string   "alt_name",                :limit => 80
+    t.integer  "waterbody_complex_id"
+    t.boolean  "surveyed"
+    t.integer  "flows_into_waterbody_id"
+    t.datetime "imported_at"
+    t.datetime "exported_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

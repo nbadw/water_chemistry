@@ -2,7 +2,6 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class TblSampleTest < ActiveSupport::TestCase
   should_belong_to :aquatic_activity
-  #should_have_many :results
   should_have_many :sample_results
   should_have_many :parameters, :through => :sample_results
   

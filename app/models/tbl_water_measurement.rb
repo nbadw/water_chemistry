@@ -6,6 +6,6 @@ class TblWaterMeasurement < ActiveRecord::Base
   alias_attribute :water_depth_in_meters, :waterdepth_m
   alias_attribute :detection_limit, :detectionlimitind
   
-  belongs_to :aquatic_activity, :class_name => 'TblAquaticActivity', :foreign_key => 'aquaticactivityid'
+  belongs_to :aquatic_activity, :foreign_key => 'aquaticactivityid'
   belongs_to :sample, :class_name => 'TblSample', :foreign_key => 'sampleid' 
 end

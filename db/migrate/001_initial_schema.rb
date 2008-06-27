@@ -1,5 +1,30 @@
 class InitialSchema < ActiveRecord::Migration
   def self.up
+    create_table :users, :force => true do |t|
+      t.string :login                   
+      t.string :email                  
+      t.string :crypted_password,             :limit => 40
+      t.string :salt,                         :limit => 40
+      t.string :remember_token         
+      t.timestamp :remember_token_expires_at  
+      t.string :activation_code,              :limit => 40
+      t.timestamp :activated_at         
+      t.string :password_reset_code,          :limit => 40
+      t.boolean :enabled,                     :default => true   
+      t.integer :agency_id
+      t.timestamps
+    end
+    
+    create_table :roles do |t|
+      t.string :rolename
+      t.timestamps
+    end
+    
+    create_table :permissions do |t|
+      t.integer :role_id, :user_id, :null => false
+      t.timestamps
+    end
+    
     create_table :agencies do |t|
       t.string    :code,       :limit => 10,  :null => false, :unique => true
       t.string    :name,       :limit => 120
@@ -11,17 +36,17 @@ class InitialSchema < ActiveRecord::Migration
     end
 
     create_table :aquatic_activities do |t|
-      t.string :name,           :limit => 100, :unique => true
-      t.string :category,       :limit => 60
-      t.string :duration,       :limit => 40
-      t.timestamp :imported_at
-      t.timestamp :exported_at
+      t.string    :name,        :limit => 100, :unique => true
+      t.string    :category,    :limit => 60
+      t.string    :duration,    :limit => 40
+      t.timestamp :imported_at  
+      t.timestamp :exported_at  
       t.timestamps
     end
 
     create_table :aquatic_activity_methods do |t|
-      t.integer :aquatic_activity_id
-      t.string  :method,              :limit => 60
+      t.integer   :aquatic_activity_id
+      t.string    :method,              :limit => 60
       t.timestamp :imported_at
       t.timestamp :exported_at
       t.timestamps
@@ -30,9 +55,9 @@ class InitialSchema < ActiveRecord::Migration
     add_index :aquatic_activity_methods, [:aquatic_activity_id]
 
     create_table :instruments do |t|
-      t.string :name,           :limit => 100
-      t.string :category,       :limit => 100
-      t.timestamp :imported_at
+      t.string    :name,        :limit => 100
+      t.string    :category,    :limit => 100
+      t.timestamp :imported_at  
       t.timestamp :exported_at
       t.timestamps
     end
@@ -69,56 +94,50 @@ class InitialSchema < ActiveRecord::Migration
 
     add_index "cdoandmvalues", ["oandmcd"], :name => "index_cdOandMValues_on_oandmcd"
 
-    create_table :measurement_units do |t|
-      t.string :name,           :limit => 100
-      t.string :unit,           :limit => 20
-      t.timestamp :imported_at
+    create_table :units_of_measure do |t|
+      t.string    :name,        :limit => 100
+      t.string    :unit,        :limit => 20
+      t.timestamp :imported_at  
       t.timestamp :exported_at
       t.timestamps
     end
     
-    create_table "tblaquaticactivity", :primary_key => "aquaticactivityid", :force => true do |t|
-      t.integer  "tempaquaticactivityid"
-      t.string   "project",                  :limit => 200
-      t.string   "permitno",                 :limit => 40
-      t.integer  "aquaticprogramid"
-      t.integer  "aquaticactivitycd"
-      t.integer  "aquaticmethodcd"
-      t.integer  "oldaquaticsiteid"
-      t.integer  "aquaticsiteid"
-      t.string   "aquaticactivitystartdate", :limit => 20
-      t.string   "aquaticactivityenddate",   :limit => 20
-      t.string   "aquaticactivitystarttime", :limit => 12
-      t.string   "aquaticactivityendtime",   :limit => 12
-      t.string   "year",                     :limit => 8
-      t.string   "agencycd",                 :limit => 8
-      t.string   "agency2cd",                :limit => 8
-      t.string   "agency2contact",           :limit => 100
-      t.string   "aquaticactivityleader",    :limit => 100
-      t.string   "crew",                     :limit => 100
-      t.string   "weatherconditions",        :limit => 100
-      t.float    "watertemp_c"
-      t.float    "airtemp_c"
-      t.string   "waterlevel",               :limit => 12
-      t.string   "waterlevel_cm",            :limit => 100
-      t.string   "waterlevel_am_cm",         :limit => 100
-      t.string   "waterlevel_pm_cm",         :limit => 100
-      t.string   "siltation",                :limit => 100
-      t.boolean  "primaryactivityind"
-      t.string   "comments",                 :limit => 500
-      t.datetime "dateentered"
-      t.boolean  "incorporatedind"
-      t.datetime "datetransferred"
-      t.string   "rainfall_last24"
+    create_table :aquatic_activity_events do |t|
+      t.string    :project,                    :limit => 200
+      t.string    :permit_no,                  :limit => 40
+      t.integer   :aquatic_program_id  
+      t.integer   :aquatic_activity_id         
+      t.integer   :aquatic_activity_method_id  
+      t.integer   :aquatic_site_id             
+      t.timestamp :start_date            
+      t.timestamp :end_date
+      t.integer   :agency_id
+      t.integer   :agency2_id
+      t.string    :agency2_contact,            :limit => 100
+      t.string    :activity_leader,            :limit => 100
+      t.string    :crew,                       :limit => 100
+      t.string    :weather_conditions,         :limit => 100
+      t.float     :water_temperature_c
+      t.float     :air_temperature_c
+      t.string    :water_level,                :limit => 12
+      t.string    :water_level_cm,             :limit => 100
+      t.string    :morning_water_level_cm,     :limit => 100
+      t.string    :evening_water_level_cm,     :limit => 100
+      t.string    :siltation,                  :limit => 100
+      t.boolean   :primary_activity
+      t.string    :comments,                   :limit => 500      
+      t.string    :rainfall_last24
+      t.timestamp :imported_at
+      t.timestamp :exported_at
+      t.timestamps
     end
 
-    add_index "tblaquaticactivity", ["aquaticprogramid"], :name => "index_tblAquaticActivity_on_aquaticprogramid"
-    add_index "tblaquaticactivity", ["aquaticactivitycd"], :name => "index_tblAquaticActivity_on_aquaticactivitycd"
-    add_index "tblaquaticactivity", ["aquaticmethodcd"], :name => "index_tblAquaticActivity_on_aquaticmethodcd"
-    add_index "tblaquaticactivity", ["oldaquaticsiteid"], :name => "index_tblAquaticActivity_on_oldaquaticsiteid"
-    add_index "tblaquaticactivity", ["aquaticsiteid"], :name => "index_tblAquaticActivity_on_aquaticsiteid"
-    add_index "tblaquaticactivity", ["agencycd"], :name => "index_tblAquaticActivity_on_agencycd"
-    add_index "tblaquaticactivity", ["agency2cd"], :name => "index_tblAquaticActivity_on_agency2cd"
+    add_index :aquatic_activity_events, [:aquatic_program_id]
+    add_index :aquatic_activity_events, [:aquatic_activity_id]
+    add_index :aquatic_activity_events, [:aquatic_activity_method_id]
+    add_index :aquatic_activity_events, [:aquatic_site_id]
+    add_index :aquatic_activity_events, [:agency_id]
+    add_index :aquatic_activity_events, [:agency2_id]
 
     create_table :aquatic_sites do |t|
       t.string    :name,              :limit => 200
@@ -201,21 +220,18 @@ class InitialSchema < ActiveRecord::Migration
 
     add_index "tblsitemeasurement", ["aquaticactivityid"], :name => "index_tblSiteMeasurement_on_aquaticactivityid"
 
-    create_table "tblwaterbody", :primary_key => "waterbodyid", :force => true do |t|
-      t.string   "cgndb_key",              :limit => 20
-      t.string   "cgndb_key_alt",          :limit => 20
-      t.string   "drainagecd",             :limit => 34
-      t.string   "waterbodytypecd",        :limit => 8
-      t.string   "waterbodyname",          :limit => 110
-      t.string   "waterbodyname_abrev",    :limit => 80
-      t.string   "waterbodyname_alt",      :limit => 80
-      t.integer  "waterbodycomplexid"
-      t.string   "surveyed_ind",           :limit => 2
-      t.float    "flowsintowaterbodyid"
-      t.string   "flowsintowaterbodyname", :limit => 80
-      t.string   "flowintodrainagecd",     :limit => 34
-      t.datetime "dateentered"
-      t.datetime "datemodified"
+    create_table :waterbodies do |t|
+      t.string    :drainage_code,           :limit => 17
+      t.string    :waterbody_type,          :limit => 8
+      t.string    :name,                    :limit => 110
+      t.string    :abbreviated_name,        :limit => 80
+      t.string    :alt_name,                :limit => 80
+      t.integer   :waterbody_complex_id     
+      t.boolean   :surveyed                 
+      t.integer   :flows_into_waterbody_id    
+      t.timestamp :imported_at
+      t.timestamp :exported_at
+      t.timestamps
     end
 
     create_table "tblwatermeasurement", :primary_key => "watermeasurementid", :force => true do |t|
@@ -245,9 +261,26 @@ class InitialSchema < ActiveRecord::Migration
     add_index "tblwatermeasurement", ["oandmcd"], :name => "index_tblWaterMeasurement_on_oandmcd"
     add_index "tblwatermeasurement", ["instrumentcd"], :name => "index_tblWaterMeasurement_on_instrumentcd"
     add_index "tblwatermeasurement", ["unitofmeasurecd"], :name => "index_tblWaterMeasurement_on_unitofmeasurecd"
+    
+    create_table :parameters do |t|
+      t.string :name
+      t.string :code
+      t.timestamps
+    end
+    
+    create_table :sample_results do |t|
+      t.integer :sample_id,    :null => false
+      t.integer :parameter_id, :null => false
+      t.float   :value
+      t.string  :qualifier
+      t.timestamps
+    end
   end
 
   def self.down
+    drop_table :users
+    drop_table :roles
+    drop_table :permissions
     drop_table :agencies
     drop_table :aquatic_activities
     drop_table :aquatic_activity_methods
@@ -256,15 +289,17 @@ class InitialSchema < ActiveRecord::Migration
     drop_table "cdmeasureunit"
     drop_table "cdoandm"
     drop_table "cdoandmvalues"
-    drop_table :measurement_units
-    drop_table "tblaquaticactivity"
+    drop_table :units_of_measure
+    drop_table :aquatic_activity_events
     drop_table :aquatic_sites
     drop_table "tblaquaticsiteagencyuse"
     drop_table "tblenvironmentalobservations"
     drop_table "tblobservations"
     drop_table "tblsample"
     drop_table "tblsitemeasurement"
-    drop_table "tblwaterbody"
+    drop_table :waterbodies
     drop_table "tblwatermeasurement"
+    drop_table :parameters
+    drop_table :sample_results    
   end
 end

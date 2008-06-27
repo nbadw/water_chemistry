@@ -11,8 +11,8 @@ class DataEntryController < ApplicationController
   end
   
   def explore    
-    @aquatic_sites = TblAquaticSite.paginate :page => (params[:page] || 1), :per_page => 20, 
-      :conditions => ["#{TblAquaticSite.table_name}.wgs84_lat != 0 AND #{TblAquaticSite.table_name}.wgs84_lon != 0"], :include => :waterbody
+    @aquatic_sites = AquaticSite.paginate :page => (params[:page] || 1), :per_page => 20, 
+      :conditions => ["#{AquaticSite.table_name}.wgs84_lat != 0 AND #{AquaticSite.table_name}.wgs84_lon != 0"], :include => :waterbody
     @site_markers = @aquatic_sites.collect do |aquatic_site|
       if aquatic_site.latitude && aquatic_site.longitude
         { :id => aquatic_site.id, :latitude => aquatic_site.latitude, :longitude => aquatic_site.longitude, 

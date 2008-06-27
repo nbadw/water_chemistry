@@ -1,7 +1,7 @@
 # ETL Control file
 src_columns = [:unitofmeasurecd, :unitofmeasure, :unitofmeasureabv]
 dst_columns = [:id, :name, :unit, :imported_at, :exported_at, :created_at, :updated_at]
-outfile = "output/measurement_units.csv"
+outfile = "output/units_of_measure.csv"
 
 source :in, { 
   :database => "dataWarehouse",
@@ -12,7 +12,7 @@ source :in, {
 rename :unitofmeasurecd, :id
 rename :unitofmeasure, :name
 rename :unitofmeasureabv, :unit
-before_write :check_exist, :target => RAILS_ENV, :table => "measurement_units", :columns => [:id]
+before_write :check_exist, :target => RAILS_ENV, :table => "units_of_measure", :columns => [:id]
 
 destination :out, { 
   :file => outfile
@@ -30,5 +30,5 @@ post_process :bulk_import, {
   :columns => dst_columns, 
   :field_separator => ",", 
   :target => RAILS_ENV, 
-  :table => "measurement_units"
+  :table => "units_of_measure"
 }

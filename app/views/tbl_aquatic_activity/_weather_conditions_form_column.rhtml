@@ -5,7 +5,7 @@
   <dd>
     <select name="record[<%= column.name %>]">   
       <option></option>
-      <% TblAquaticActivity.weather_conditions_options.each do |value| %>
+      <% AquaticActivityEvent.weather_conditions_options.each do |value| %>
         <option><%=h value %> </option>
       <% end %>
     </select>

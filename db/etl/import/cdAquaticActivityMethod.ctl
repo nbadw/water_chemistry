@@ -1,25 +1,34 @@
 # ETL Control file
-model = CdAquaticActivityMethod
-table = model.table_name.to_s.downcase
-columns = model.columns.collect { |col| col.name.to_sym }
-outfile = "output/#{model.to_s.underscore}.txt"
+src_columns = [:aquaticmethodcd, :aquaticactivitycd, :aquaticmethod]
+dst_columns = [:id, :aquatic_activity_id, :method, :imported_at, :exported_at, :created_at, :updated_at]
+outfile = "output/aquatic_activity_methods.csv"
 
 source :in, { 
-  :database => "dataWarehouse",
+  :database => "datawarehouse",
   :target => :aquatic_data_warehouse, 
-  :table => table
-},  columns
+  :table => "cdAquaticActivityMethod"
+},  src_columns
+
+rename :aquaticmethodcd, :id
+rename :aquaticactivitycd, :aquatic_activity_id
+rename :aquaticmethod, :method
+before_write :check_exist, :target => RAILS_ENV, :table => "aquatic_activity_methods", :columns => [:id]
 
 destination :out, { 
   :file => outfile
 }, { 
-  :order => columns 
+  :order => dst_columns,
+  :virtual => { 
+    :created_at => Time.now,
+    :updated_at => Time.now,
+    :imported_at => Time.now
+  }
 } 
 
 post_process :bulk_import, { 
   :file => outfile, 
-  :columns => columns, 
+  :columns => dst_columns, 
   :field_separator => ",", 
-  :target => RAILS_ENV.to_sym, 
-  :table => table
+  :target => RAILS_ENV, 
+  :table => "aquatic_activity_methods"
 }

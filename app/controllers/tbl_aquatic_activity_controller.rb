@@ -36,18 +36,18 @@
   
   alias_method :active_scaffold_new, :new
   def new
-    @aquatic_activity_method_codes = CdAquaticActivityMethod.find_all_by_aquaticactivitycd active_scaffold_session_storage[:constraints][:aquaticactivitycd]
+    @aquatic_activity_method_codes = AquaticActivityMethod.find_all_by_aquaticactivitycd active_scaffold_session_storage[:constraints][:aquaticactivitycd]
     active_scaffold_new
   end
   
   alias_method :active_scaffold_create, :create
   def create
-    @aquatic_activity_method_codes = CdAquaticActivityMethod.find_all_by_aquaticactivitycd active_scaffold_session_storage[:constraints][:aquaticactivitycd]
+    @aquatic_activity_method_codes = AquaticActivityMethod.find_all_by_aquaticactivitycd active_scaffold_session_storage[:constraints][:aquaticactivitycd]
     active_scaffold_create
   end
   
   def edit
-    aquatic_activity = TblAquaticActivity.find params[:id], :include => :aquatic_activity_code
+    aquatic_activity = AquaticActivityEvent.find params[:id], :include => :aquatic_activity_code
     activity_name = aquatic_activity.aquatic_activity_code.name
     activity_controller = activity_name.gsub(' ', '_').downcase
     redirect_to :controller => activity_controller, :action => 'edit', 
@@ -55,7 +55,7 @@
   end
   
   def show
-    aquatic_activity = TblAquaticActivity.find params[:id], :include => :aquatic_activity_code
+    aquatic_activity = AquaticActivityEvent.find params[:id], :include => :aquatic_activity_code
     activity_name = aquatic_activity.aquatic_activity_code.name
     activity_controller = activity_name.gsub(' ', '_').downcase
     redirect_to :controller => activity_controller, :action => 'show', 
@@ -69,7 +69,7 @@
   end
   
   def aquatic_activity_details
-    @record = TblAquaticActivity.find params[:aquatic_activity_id]
+    @record = AquaticActivityEvent.find params[:aquatic_activity_id]
     render :action => 'show', :layout => false
   end
   

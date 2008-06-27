@@ -1,29 +1,14 @@
-class TblAquaticSite < ActiveRecord::Base
+class AquaticSite < ActiveRecord::Base
   class AquaticSiteInUse < ActiveRecord::ActiveRecordError;end      
   class RecordIsIncorporated < ActiveRecord::ActiveRecordError;end
   
   DEGREES_MINUTES_SECONDS_REGEXP = /^(-?\d{2}\d?)[:d°](\d\d?)[:'](\d\d?[.]?\d*)"?([NSEW]?)$/
   #DECIMAL_DEGREES_REGEXP = //
   DECIMAL_REGEXP = /^(-?\d+[.]?\d*)$/
-  
-  set_table_name  'tblAquaticSite'
-  set_primary_key 'aquaticsiteid'
-  
-  alias_attribute :name, :aquaticsitename
-  alias_attribute :description, :aquaticsitedesc
-  alias_attribute :waterbody_id, :waterbodyid
-  alias_attribute :waterbody_name, :waterbodyname    
-  alias_attribute :latitude, :wgs84_lat
-  alias_attribute :longitude, :wgs84_lon
-  alias_attribute :incorporated, :incorporatedind
-  alias_attribute :coordinate_source, :coordinatesource
-  alias_attribute :coordinate_system, :coordinatesystem
-  alias_attribute :x_coordinate, :xcoordinate
-  alias_attribute :y_coordinate, :ycoordinate
-  
-  belongs_to :waterbody, :class_name => 'TblWaterbody', :foreign_key => 'waterbodyid'  
+    
+  belongs_to :waterbody 
   has_many   :aquatic_site_agency_usages, :class_name => 'TblAquaticSiteAgencyUse', :foreign_key => 'aquaticsiteid'
-  has_many   :aquatic_activity_codes, :through => :aquatic_site_agency_usages, :uniq => true
+  has_many   :aquatic_activities, :through => :aquatic_site_agency_usages, :uniq => true
   has_many   :agencies, :through => :aquatic_site_agency_usages, :uniq => true
         
   before_destroy :check_if_incorporated, :check_if_aquatic_site_agency_usages_attached
@@ -48,14 +33,14 @@ class TblAquaticSite < ActiveRecord::Base
     end
   end
   
-  validates_each :coordinate_system do |record, attr, val|
+  validates_each :coordinate_srs_id do |record, attr, val|
     if any_coordinate_attribute_present?(record)
-      record.errors.add :coordinate_system, "can't be empty" if val.to_s.empty?
+      record.errors.add :coordinate_srs_id, "can't be empty" if val.to_s.empty?
     end
   end
   
   def self.any_coordinate_attribute_present?(record)
-    coordinate_attributes = [:x_coordinate, :y_coordinate, :coordinate_source, :coordinate_system]
+    coordinate_attributes = [:x_coordinate, :y_coordinate, :coordinate_source, :coordinate_srs_id]
     coordinate_attributes.any? { |attribute| !record.send(attribute).to_s.empty? }
   end
   
@@ -72,7 +57,7 @@ class TblAquaticSite < ActiveRecord::Base
   end
   
   def incorporated?
-    !!read_attribute(:incorporatedind)        
+    !!read_attribute(:exported_at)        
   end    
   
   private

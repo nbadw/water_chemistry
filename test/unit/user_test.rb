@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class UserTest < Test::Unit::TestCase     
   should_belong_to :agency
-  should_require_attributes :login, :email, :password, :password_confirmation, :agency_code
+  should_require_attributes :login, :email, :password, :password_confirmation, :agency_id
   
   context "with a new user" do
     setup { @user = User.generate! }
@@ -55,9 +55,9 @@ class UserTest < Test::Unit::TestCase
     end  
 
     should "allow agency to be set" do
-      a = CdAgency.generate!
+      a = Agency.generate!
       @user.agency = a
-      assert_equal a.code, @user.agency_code
+      assert_equal a.id, @user.agency_id
     end
   end
   

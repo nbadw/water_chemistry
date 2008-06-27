@@ -16,10 +16,10 @@ class TblAquaticSiteController < ApplicationController
     config.columns[:aquatic_activity_codes].clear_link
     
     # list config
-    config.columns[:id].sort_by :sql => "#{TblAquaticSite.table_name}.#{TblAquaticSite.primary_key}"
-    config.columns[:drainage_code].sort_by :sql => "#{TblWaterbody.table_name}.drainagecd"
-    config.columns[:waterbody_id].sort_by :sql => "#{TblWaterbody.table_name}.#{TblWaterbody.primary_key}"
-    config.columns[:waterbody_name].sort_by :sql => "#{TblWaterbody.table_name}.waterbodyname"
+    config.columns[:id].sort_by :sql => "#{AquaticSite.table_name}.#{AquaticSite.primary_key}"
+    config.columns[:drainage_code].sort_by :sql => "#{Waterbody.table_name}.drainagecd"
+    config.columns[:waterbody_id].sort_by :sql => "#{Waterbody.table_name}.#{Waterbody.primary_key}"
+    config.columns[:waterbody_name].sort_by :sql => "#{Waterbody.table_name}.waterbodyname"
     config.list.columns.exclude :name, :coordinates
     config.list.sorting =[{ :drainage_code => :asc }]
     
@@ -34,7 +34,7 @@ class TblAquaticSiteController < ApplicationController
       waterbody.add :waterbody
     end
     config.create.columns.add_subgroup "Location" do |location|
-      location.add :coordinate_source, :coordinate_system, :x_coordinate, :y_coordinate
+      location.add :coordinate_source, :coordinate_srs_id, :x_coordinate, :y_coordinate
     end
     
     # update config
@@ -43,21 +43,21 @@ class TblAquaticSiteController < ApplicationController
       waterbody.add :waterbody
     end
     config.update.columns.add_subgroup "Location" do |location|
-      location.add :coordinate_source, :coordinate_system, :x_coordinate, :y_coordinate
+      location.add :coordinate_source, :coordinate_srs_id, :x_coordinate, :y_coordinate
     end
         
     # search config
-    config.columns[:name].search_sql = "#{TblAquaticSite.table_name}.aquaticsitename"
-    config.columns[:waterbody_id].search_sql = "#{TblWaterbody.table_name}.waterbodyid"
-    config.columns[:waterbody].search_sql = "#{TblWaterbody.table_name}.waterbodyname"
-    config.columns[:drainage_code].search_sql = "#{TblWaterbody.table_name}.drainagecd"  
-    config.columns[:aquatic_activity_codes].search_sql = "#{CdAquaticActivity.table_name}.aquaticactivity"
+    config.columns[:name].search_sql = "#{AquaticSite.table_name}.aquaticsitename"
+    config.columns[:waterbody_id].search_sql = "#{Waterbody.table_name}.waterbodyid"
+    config.columns[:waterbody].search_sql = "#{Waterbody.table_name}.waterbodyname"
+    config.columns[:drainage_code].search_sql = "#{Waterbody.table_name}.drainagecd"  
+    config.columns[:aquatic_activity_codes].search_sql = "#{AquaticActivity.table_name}.aquaticactivity"
     config.columns[:agencies].search_sql = "#{TblAquaticSiteAgencyUse.table_name}.agencycd"
     config.search.columns = [:name, :waterbody_id, :waterbody, :drainage_code, :aquatic_activity_codes, :agencies]
   end
   
   def conditions_for_collection
-    ["#{TblAquaticSite.table_name}.waterbodyid != 0"]
+    ["#{AquaticSite.table_name}.waterbodyid != 0"]
   end
   
   def active_scaffold_joins
@@ -66,12 +66,12 @@ class TblAquaticSiteController < ApplicationController
  
   def auto_complete_for_waterbody_search
     query = params[:waterbody][:search]
-    @waterbodies = TblWaterbody.search(query) unless query.blank?
+    @waterbodies = Waterbody.search(query) unless query.blank?
     render :partial => "autocomplete" 
   end
   
   def gmap_max_content    
-    render :inline => "<%= render :active_scaffold => 'tbl_aquatic_site', :conditions => ['#{TblAquaticSite.table_name}.aquaticsiteid = ?', params[:id]], :label => '' %>"
+    render :inline => "<%= render :active_scaffold => 'tbl_aquatic_site', :conditions => ['#{AquaticSite.table_name}.aquaticsiteid = ?', params[:id]], :label => '' %>"
   end
   
   def do_search

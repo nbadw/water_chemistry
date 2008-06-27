@@ -21,14 +21,15 @@ rename :xcoordinate, :x_coordinate
 rename :ycoordinate, :y_coordinate
 rename :coordinatesource, :coordinate_source
 rename :coordinatesystem, :coordinate_srs_id
-rename :dateentered, :created_at
-rename :incorporatedind, :exported_at
 
 before_write do |row| 
     return nil unless row[:id].to_i > 0
-    row[:created_at] = Date.parse(row[:created_at]) rescue Time.now
-    row[:exported_at] = row[:exported_at].to_s == 'true' ? Time.now : nil
+
+    row[:created_at] = Date.parse(row[:dateentered]) rescue Time.now
+    row[:exported_at] = row[:incorporatedind].to_s == 'true' ? Time.now : nil    
     row[:coordinate_srs_id] = 0 
+    row[:gmap_srs_id] = 4326 # WGS84
+
     row
 end
 before_write :check_exist, :target => RAILS_ENV, :table => "aquatic_sites", :columns => [:id]

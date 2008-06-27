@@ -21,7 +21,7 @@ class UsersController < ApplicationController
   
   def create
     cookies.delete :auth_token    
-    agency = CdAgency.find params.delete(:agency_code)
+    agency = Agency.find params.delete(:agency_id)
     @user = User.new(params[:user])
     @user.agency = agency
     @user.save!

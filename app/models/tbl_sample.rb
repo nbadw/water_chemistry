@@ -12,10 +12,9 @@ class TblSample < ActiveRecord::Base
     ["Field Kit", "Lab"]
   end
   
-  belongs_to :aquatic_activity, :class_name => 'TblAquaticActivity', :foreign_key => 'aquaticactivityid'
-  has_many :sample_results, :foreign_key => 'sample_id'
-  has_many :parameters, :through => :sample_results, :uniq => true
-  #has_many :results, :class_name => 'TblWaterMeasurement', :foreign_key => 'sampleid'
+  belongs_to :aquatic_activity, :foreign_key => 'aquaticactivityid'
+  has_many   :sample_results, :foreign_key => 'sample_id'
+  has_many   :parameters, :through => :sample_results, :uniq => true
   
   validates_inclusion_of :collection_method, :in => self.collection_method_options
         

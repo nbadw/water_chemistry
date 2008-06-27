@@ -1,4 +1,4 @@
-class CdAgencyController < ApplicationController
+class AgencyController < ApplicationController
   active_scaffold do |config| 
     config.label = "Agencies"
     config.columns = [:agency, :agencytype]
