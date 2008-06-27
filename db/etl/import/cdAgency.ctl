@@ -13,6 +13,9 @@ rename :agencycd, :code
 rename :agency, :name
 rename :agencytype, :type
 rename :datarulesind, :data_rules
+
+transform(:data_rules) { |name, val, row| val.to_s.upcase == 'Y' ? 1 : 0 }
+
 before_write { |row| row[:code] != "`" ? row : nil }
 before_write :check_exist, :target => RAILS_ENV, :table => "agencies", :columns => [:code]
 

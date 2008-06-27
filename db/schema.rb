@@ -12,10 +12,10 @@
 ActiveRecord::Schema.define(:version => 1) do
 
   create_table "agencies", :force => true do |t|
-    t.string   "code",        :limit => 10,  :default => "", :null => false
+    t.string   "code",        :limit => 10,  :default => "",    :null => false
     t.string   "name",        :limit => 120
     t.string   "type",        :limit => 8
-    t.string   "data_rules",  :limit => 2
+    t.boolean  "data_rules",                 :default => false
     t.datetime "imported_at"
     t.datetime "exported_at"
     t.datetime "created_at"
@@ -80,6 +80,25 @@ ActiveRecord::Schema.define(:version => 1) do
   end
 
   add_index "aquatic_activity_methods", ["aquatic_activity_id"], :name => "index_aquatic_activity_methods_on_aquatic_activity_id"
+
+  create_table "aquatic_site_usages", :force => true do |t|
+    t.integer  "aquatic_site_id"
+    t.integer  "aquatic_activity_id"
+    t.string   "aquatic_site_type",   :limit => 60
+    t.string   "agency_id",           :limit => 8
+    t.string   "agency_site_id",      :limit => 32
+    t.string   "start_year",          :limit => 4
+    t.string   "end_year",            :limit => 4
+    t.string   "years_active",        :limit => 40
+    t.datetime "imported_at"
+    t.datetime "exported_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "aquatic_site_usages", ["aquatic_site_id"], :name => "index_aquatic_site_usages_on_aquatic_site_id"
+  add_index "aquatic_site_usages", ["aquatic_activity_id"], :name => "index_aquatic_site_usages_on_aquatic_activity_id"
+  add_index "aquatic_site_usages", ["agency_id"], :name => "index_aquatic_site_usages_on_agency_id"
 
   create_table "aquatic_sites", :force => true do |t|
     t.string   "name",              :limit => 200
@@ -156,6 +175,9 @@ ActiveRecord::Schema.define(:version => 1) do
     t.datetime "updated_at"
   end
 
+  add_index "permissions", ["role_id"], :name => "index_permissions_on_role_id"
+  add_index "permissions", ["user_id"], :name => "index_permissions_on_user_id"
+
   create_table "roles", :force => true do |t|
     t.string   "rolename"
     t.datetime "created_at"
@@ -170,22 +192,6 @@ ActiveRecord::Schema.define(:version => 1) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "tblaquaticsiteagencyuse", :primary_key => "aquaticsiteuseid", :force => true do |t|
-    t.integer "aquaticsiteid"
-    t.integer "aquaticactivitycd"
-    t.string  "aquaticsitetype",   :limit => 60
-    t.string  "agencycd",          :limit => 8
-    t.string  "agencysiteid",      :limit => 32
-    t.string  "startyear",         :limit => 8
-    t.string  "endyear",           :limit => 8
-    t.string  "yearsactive",       :limit => 40
-    t.boolean "incorporatedind"
-  end
-
-  add_index "tblaquaticsiteagencyuse", ["aquaticsiteid"], :name => "index_tblAquaticSiteAgencyUse_on_aquaticsiteid"
-  add_index "tblaquaticsiteagencyuse", ["aquaticactivitycd"], :name => "index_tblAquaticSiteAgencyUse_on_aquaticactivitycd"
-  add_index "tblaquaticsiteagencyuse", ["agencycd"], :name => "index_tblAquaticSiteAgencyUse_on_agencycd"
 
   create_table "tblenvironmentalobservations", :primary_key => "envobservationid", :force => true do |t|
     t.integer "aquaticactivityid"
@@ -285,6 +291,8 @@ ActiveRecord::Schema.define(:version => 1) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "users", ["agency_id"], :name => "index_users_on_agency_id"
 
   create_table "waterbodies", :force => true do |t|
     t.string   "drainage_code",           :limit => 17

@@ -2,9 +2,9 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class AquaticSiteTest < ActiveSupport::TestCase
   should_belong_to :waterbody 
-  should_have_many :aquatic_site_agency_usages
-  should_have_many :aquatic_activities, :through => :aquatic_site_agency_usages
-  should_have_many :agencies, :through => :aquatic_site_agency_usages
+  should_have_many :aquatic_site_usages
+  should_have_many :aquatic_activities, :through => :aquatic_site_usages
+  should_have_many :agencies, :through => :aquatic_site_usages
    
   should_require_attributes :description, :waterbody
   
@@ -58,7 +58,7 @@ class AquaticSiteTest < ActiveSupport::TestCase
   context "when activity events are attached to aquatic site" do
     setup do
       @aquatic_site = AquaticSite.generate!
-      @aquatic_site.aquatic_site_agency_usages << TblAquaticSiteAgencyUse.generate!
+      @aquatic_site.aquatic_site_usages << AquaticSiteUsage.generate!
       @aquatic_site.save
     end
     

@@ -7,11 +7,11 @@ class AquaticSite < ActiveRecord::Base
   DECIMAL_REGEXP = /^(-?\d+[.]?\d*)$/
     
   belongs_to :waterbody 
-  has_many   :aquatic_site_agency_usages, :class_name => 'TblAquaticSiteAgencyUse', :foreign_key => 'aquaticsiteid'
-  has_many   :aquatic_activities, :through => :aquatic_site_agency_usages, :uniq => true
-  has_many   :agencies, :through => :aquatic_site_agency_usages, :uniq => true
+  has_many   :aquatic_site_usages
+  has_many   :aquatic_activities, :through => :aquatic_site_usages, :uniq => true
+  has_many   :agencies, :through => :aquatic_site_usages, :uniq => true
         
-  before_destroy :check_if_incorporated, :check_if_aquatic_site_agency_usages_attached
+  before_destroy :check_if_incorporated, :check_if_in_use
     
   validates_presence_of :description, :waterbody  
   
@@ -65,11 +65,11 @@ class AquaticSite < ActiveRecord::Base
     raise(RecordIsIncorporated, "Incorporated records cannot be deleted") if incorporated?
   end
     
-  def check_if_aquatic_site_agency_usages_attached
+  def check_if_in_use
     raise(
       AquaticSiteInUse, 
-      "Site usages are attached, record cannot be deleted"
-    ) unless self.aquatic_site_agency_usages.empty?
+      "Site is in use, record cannot be deleted"
+    ) unless self.aquatic_site_usages.empty?
   end
   
 #   #region Coordinate Parsing

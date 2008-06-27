@@ -52,7 +52,7 @@ class TblAquaticSiteController < ApplicationController
     config.columns[:waterbody].search_sql = "#{Waterbody.table_name}.waterbodyname"
     config.columns[:drainage_code].search_sql = "#{Waterbody.table_name}.drainagecd"  
     config.columns[:aquatic_activity_codes].search_sql = "#{AquaticActivity.table_name}.aquaticactivity"
-    config.columns[:agencies].search_sql = "#{TblAquaticSiteAgencyUse.table_name}.agencycd"
+    config.columns[:agencies].search_sql = "#{AquaticSiteUsage.table_name}.agencycd"
     config.search.columns = [:name, :waterbody_id, :waterbody, :drainage_code, :aquatic_activity_codes, :agencies]
   end
   

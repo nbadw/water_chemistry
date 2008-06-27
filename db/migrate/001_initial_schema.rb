@@ -15,21 +15,27 @@ class InitialSchema < ActiveRecord::Migration
       t.timestamps
     end
     
+    add_index :users, [:agency_id]
+    
     create_table :roles do |t|
       t.string :rolename
       t.timestamps
     end
     
     create_table :permissions do |t|
-      t.integer :role_id, :user_id, :null => false
+      t.integer :role_id, :null => false
+      t.integer :user_id, :null => false
       t.timestamps
     end
+    
+    add_index :permissions, [:role_id]
+    add_index :permissions, [:user_id]
     
     create_table :agencies do |t|
       t.string    :code,       :limit => 10,  :null => false, :unique => true
       t.string    :name,       :limit => 120
       t.string    :type,       :limit => 8
-      t.string    :data_rules, :limit => 2
+      t.boolean   :data_rules, :default => false
       t.timestamp :imported_at
       t.timestamp :exported_at
       t.timestamps
@@ -158,21 +164,23 @@ class InitialSchema < ActiveRecord::Migration
 
     add_index :aquatic_sites, [:waterbody_id]
 
-    create_table "tblaquaticsiteagencyuse", :primary_key => "aquaticsiteuseid", :force => true do |t|
-      t.integer "aquaticsiteid"
-      t.integer "aquaticactivitycd"
-      t.string  "aquaticsitetype",   :limit => 60
-      t.string  "agencycd",          :limit => 8
-      t.string  "agencysiteid",      :limit => 32
-      t.string  "startyear",         :limit => 8
-      t.string  "endyear",           :limit => 8
-      t.string  "yearsactive",       :limit => 40
-      t.boolean "incorporatedind"
+    create_table :aquatic_site_usages do |t|
+      t.integer   :aquatic_site_id
+      t.integer   :aquatic_activity_id
+      t.string    :aquatic_site_type,   :limit => 60
+      t.string    :agency_id,           :limit => 8
+      t.string    :agency_site_id,      :limit => 32
+      t.string    :start_year,          :limit => 4
+      t.string    :end_year,            :limit => 4
+      t.string    :years_active,        :limit => 40      
+      t.timestamp :imported_at
+      t.timestamp :exported_at
+      t.timestamps
     end
 
-    add_index "tblaquaticsiteagencyuse", ["aquaticsiteid"], :name => "index_tblAquaticSiteAgencyUse_on_aquaticsiteid"
-    add_index "tblaquaticsiteagencyuse", ["aquaticactivitycd"], :name => "index_tblAquaticSiteAgencyUse_on_aquaticactivitycd"
-    add_index "tblaquaticsiteagencyuse", ["agencycd"], :name => "index_tblAquaticSiteAgencyUse_on_agencycd"
+    add_index :aquatic_site_usages, [:aquatic_site_id]
+    add_index :aquatic_site_usages, [:aquatic_activity_id]
+    add_index :aquatic_site_usages, [:agency_id]
 
     create_table "tblenvironmentalobservations", :primary_key => "envobservationid", :force => true do |t|
       t.integer "aquaticactivityid"
@@ -292,7 +300,7 @@ class InitialSchema < ActiveRecord::Migration
     drop_table :units_of_measure
     drop_table :aquatic_activity_events
     drop_table :aquatic_sites
-    drop_table "tblaquaticsiteagencyuse"
+    drop_table :aquatic_site_usages
     drop_table "tblenvironmentalobservations"
     drop_table "tblobservations"
     drop_table "tblsample"
