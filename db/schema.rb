@@ -12,7 +12,7 @@
 ActiveRecord::Schema.define(:version => 1) do
 
   create_table "agencies", :force => true do |t|
-    t.string   "code",        :limit => 10,                     :null => false
+    t.string   "code",        :limit => 10,  :default => "",    :null => false
     t.string   "name",        :limit => 120
     t.string   "type",        :limit => 8
     t.boolean  "data_rules",                 :default => false
@@ -120,41 +120,61 @@ ActiveRecord::Schema.define(:version => 1) do
 
   add_index "aquatic_sites", ["waterbody_id"], :name => "index_aquatic_sites_on_waterbody_id"
 
-  create_table "cdmeasureinstrument", :primary_key => "measureinstrumentcd", :force => true do |t|
-    t.integer "oandmcd"
-    t.integer "instrumentcd"
-  end
-
-  add_index "cdmeasureinstrument", ["oandmcd"], :name => "index_cdMeasureInstrument_on_oandmcd"
-  add_index "cdmeasureinstrument", ["instrumentcd"], :name => "index_cdMeasureInstrument_on_instrumentcd"
-
-  create_table "cdmeasureunit", :primary_key => "measureunitcd", :force => true do |t|
-    t.integer "oandmcd"
-    t.integer "unitofmeasurecd"
-  end
-
-  add_index "cdmeasureunit", ["oandmcd"], :name => "index_cdMeasureUnit_on_oandmcd"
-  add_index "cdmeasureunit", ["unitofmeasurecd"], :name => "index_cdMeasureUnit_on_unitofmeasurecd"
-
-  create_table "cdoandm", :primary_key => "oandmcd", :force => true do |t|
-    t.string  "oandm_type",        :limit => 32
-    t.string  "oandm_category",    :limit => 80
-    t.string  "oandm_group",       :limit => 100
-    t.string  "oandm_parameter",   :limit => 100
-    t.string  "oandm_parametercd", :limit => 60
-    t.boolean "oandm_valuesind",                  :null => false
-  end
-
-  create_table "cdoandmvalues", :primary_key => "oandmvaluescd", :force => true do |t|
-    t.integer "oandmcd"
-    t.string  "value",   :limit => 40
-  end
-
-  add_index "cdoandmvalues", ["oandmcd"], :name => "index_cdOandMValues_on_oandmcd"
-
   create_table "instruments", :force => true do |t|
     t.string   "name",        :limit => 100
     t.string   "category",    :limit => 100
+    t.datetime "imported_at"
+    t.datetime "exported_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "measurables", :force => true do |t|
+    t.string   "name"
+    t.string   "group"
+    t.string   "category"
+    t.datetime "imported_at"
+    t.datetime "exported_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "measurements", :force => true do |t|
+    t.integer  "measurement_id"
+    t.string   "measurement_type"
+    t.integer  "instrument_id"
+    t.integer  "unit_of_measure_id"
+    t.string   "value_measured"
+    t.datetime "imported_at"
+    t.datetime "exported_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "observable_values", :force => true do |t|
+    t.integer  "observable_id"
+    t.string   "value"
+    t.datetime "imported_at"
+    t.datetime "exported_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "observables", :force => true do |t|
+    t.string   "name"
+    t.string   "group"
+    t.string   "category"
+    t.datetime "imported_at"
+    t.datetime "exported_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "observations", :force => true do |t|
+    t.integer  "observable_id"
+    t.integer  "observation_id"
+    t.string   "observation_type"
+    t.string   "value_observed"
     t.datetime "imported_at"
     t.datetime "exported_at"
     t.datetime "created_at"

@@ -59,6 +59,11 @@ namespace :data_warehouse do
       process File.join(ETL_ROOT, 'import', 'instruments.ctl')
     end
     
+    desc "import observables"
+    task :observables => :init do
+      process File.join(ETL_ROOT, 'import', 'observables.ctl')
+    end
+    
     desc "import cdMeasureInstrument"
     task :cdMeasureInstrument => :init do
       process File.join(ETL_ROOT, 'import', 'cdMeasureInstrument.ctl')

@@ -51,8 +51,8 @@ etl_execution:
 
 aquatic_data_warehouse:
   adapter: sqlserver
-  database: dataWarehouse
-  host: localhost
+  database: dataWarehouse_dev
+  host: localhost\SQLEXPRESS
   provider: SQLNCLI
   windows_auth: true
 

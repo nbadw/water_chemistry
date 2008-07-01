@@ -1,4 +1,4 @@
-(in C:/Documents and Settings/nbdata/My Documents/NetBeansProjects/WaterChemistry)
+(in C:/Documents and Settings/colin/My Documents/NetBeansProjects/WaterChemistry/trunk)
 rake asset:packager:build_all                        # Merge and compress a...
 rake asset:packager:create_yml                       # Generate asset_packa...
 rake asset:packager:delete_all                       # Delete all asset builds
@@ -15,6 +15,7 @@ rake data_warehouse:import:cdMeasureUnit             # import cdMeasureUnit
 rake data_warehouse:import:cdOandM                   # import cdOandM
 rake data_warehouse:import:cdOandMValues             # import cdOandMValues
 rake data_warehouse:import:instruments               # import instruments
+rake data_warehouse:import:observables               # import observables
 rake data_warehouse:import:units_of_measure          # import waterbodies
 rake data_warehouse:import:waterbodies               # import waterbodies
 rake db:abort_if_pending_migrations                  # Raises an error if t...

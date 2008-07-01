@@ -1,17 +1,17 @@
 class InitialSchema < ActiveRecord::Migration
   def self.up
     create_table :users, :force => true do |t|
-      t.string :login                   
-      t.string :email                  
-      t.string :crypted_password,             :limit => 40
-      t.string :salt,                         :limit => 40
-      t.string :remember_token         
+      t.string    :login                   
+      t.string    :email                  
+      t.string    :crypted_password,             :limit => 40
+      t.string    :salt,                         :limit => 40
+      t.string    :remember_token         
       t.timestamp :remember_token_expires_at  
-      t.string :activation_code,              :limit => 40
+      t.string    :activation_code,              :limit => 40
       t.timestamp :activated_at         
-      t.string :password_reset_code,          :limit => 40
-      t.boolean :enabled,                     :default => true   
-      t.integer :agency_id
+      t.string    :password_reset_code,          :limit => 40
+      t.boolean   :enabled,                      :default => true   
+      t.integer   :agency_id
       t.timestamps
     end
     
@@ -67,38 +67,83 @@ class InitialSchema < ActiveRecord::Migration
       t.timestamp :exported_at
       t.timestamps
     end
-
-    create_table "cdmeasureinstrument", :primary_key => "measureinstrumentcd", :force => true do |t|
-      t.integer "oandmcd"
-      t.integer "instrumentcd"
+    
+    create_table :observations do |t|
+      t.references :observable
+      t.references :observation, :polymorphic => true
+      t.string     :value_observed
+      t.timestamp  :imported_at  
+      t.timestamp  :exported_at
+      t.timestamps
     end
-
-    add_index "cdmeasureinstrument", ["oandmcd"], :name => "index_cdMeasureInstrument_on_oandmcd"
-    add_index "cdmeasureinstrument", ["instrumentcd"], :name => "index_cdMeasureInstrument_on_instrumentcd"
-
-    create_table "cdmeasureunit", :primary_key => "measureunitcd", :force => true do |t|
-      t.integer "oandmcd"
-      t.integer "unitofmeasurecd"
+    
+    create_table :observables do |t|      
+      t.string    :name
+      t.string    :group
+      t.string    :category
+      t.timestamp :imported_at  
+      t.timestamp :exported_at
+      t.timestamps
     end
-
-    add_index "cdmeasureunit", ["oandmcd"], :name => "index_cdMeasureUnit_on_oandmcd"
-    add_index "cdmeasureunit", ["unitofmeasurecd"], :name => "index_cdMeasureUnit_on_unitofmeasurecd"
-
-    create_table "cdoandm", :primary_key => "oandmcd", :force => true do |t|
-      t.string  "oandm_type",        :limit => 32
-      t.string  "oandm_category",    :limit => 80
-      t.string  "oandm_group",       :limit => 100
-      t.string  "oandm_parameter",   :limit => 100
-      t.string  "oandm_parametercd", :limit => 60
-      t.boolean "oandm_valuesind",                  :null => false
+    
+    create_table :observable_values do |t|
+      t.references :observable
+      t.string     :value
+      t.timestamp  :imported_at  
+      t.timestamp  :exported_at
+      t.timestamps
     end
-
-    create_table "cdoandmvalues", :primary_key => "oandmvaluescd", :force => true do |t|
-      t.integer "oandmcd"
-      t.string  "value",   :limit => 40
+        
+    create_table :measurements do |t|
+      t.references :measurement, :polymorphic => true
+      t.references :instrument
+      t.references :unit_of_measure
+      t.string     :value_measured
+      t.timestamp  :imported_at  
+      t.timestamp  :exported_at
+      t.timestamps
     end
-
-    add_index "cdoandmvalues", ["oandmcd"], :name => "index_cdOandMValues_on_oandmcd"
+    
+    create_table :measurables do |t|
+      t.string :name
+      t.string :group
+      t.string :category
+      t.timestamp :imported_at  
+      t.timestamp :exported_at
+      t.timestamps
+    end
+    
+#    create_table "cdmeasureinstrument", :primary_key => "measureinstrumentcd", :force => true do |t|
+#      t.integer "oandmcd"
+#      t.integer "instrumentcd"
+#    end
+#
+#    add_index "cdmeasureinstrument", ["oandmcd"], :name => "index_cdMeasureInstrument_on_oandmcd"
+#    add_index "cdmeasureinstrument", ["instrumentcd"], :name => "index_cdMeasureInstrument_on_instrumentcd"
+#
+#    create_table "cdmeasureunit", :primary_key => "measureunitcd", :force => true do |t|
+#      t.integer "oandmcd"
+#      t.integer "unitofmeasurecd"
+#    end
+#
+#    add_index "cdmeasureunit", ["oandmcd"], :name => "index_cdMeasureUnit_on_oandmcd"
+#    add_index "cdmeasureunit", ["unitofmeasurecd"], :name => "index_cdMeasureUnit_on_unitofmeasurecd"
+#
+#    create_table "cdoandm", :primary_key => "oandmcd", :force => true do |t|
+#      t.string  "oandm_type",        :limit => 32
+#      t.string  "oandm_category",    :limit => 80
+#      t.string  "oandm_group",       :limit => 100
+#      t.string  "oandm_parameter",   :limit => 100
+#      t.string  "oandm_parametercd", :limit => 60
+#      t.boolean "oandm_valuesind",                  :null => false
+#    end
+#
+#    create_table "cdoandmvalues", :primary_key => "oandmvaluescd", :force => true do |t|
+#      t.integer "oandmcd"
+#      t.string  "value",   :limit => 40
+#    end
+#
+#    add_index "cdoandmvalues", ["oandmcd"], :name => "index_cdOandMValues_on_oandmcd"
 
     create_table :units_of_measure do |t|
       t.string    :name,        :limit => 100
@@ -293,10 +338,11 @@ class InitialSchema < ActiveRecord::Migration
     drop_table :aquatic_activities
     drop_table :aquatic_activity_methods
     drop_table :instruments
-    drop_table "cdmeasureinstrument"
-    drop_table "cdmeasureunit"
-    drop_table "cdoandm"
-    drop_table "cdoandmvalues"
+    drop_table :observables
+    drop_table :observable_values
+    drop_table :observations
+    drop_table :measurables
+    drop_table :measurements
     drop_table :units_of_measure
     drop_table :aquatic_activity_events
     drop_table :aquatic_sites
