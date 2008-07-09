@@ -7,7 +7,7 @@ class AquaticSiteController < ApplicationController
     
     config.columns[:incorporated].label = ''
     config.columns[:id].label = 'Site Id'
-    config.columns[:agencies].label = 'Agency'
+    config.columns[:agencies].label = 'Agency (Agency Site ID)'
     config.columns[:waterbody_id].label = 'Waterbody Id'
     config.columns[:drainage_code].label = 'Watershed Code'
     config.columns[:name].label = 'Site Name'
@@ -47,13 +47,14 @@ class AquaticSiteController < ApplicationController
     end
         
     # search config
+    config.columns[:id].search_sql = "#{AquaticSite.table_name}.#{AquaticSite.primary_key}"
     config.columns[:name].search_sql = "#{AquaticSite.table_name}.name"
     config.columns[:waterbody_id].search_sql = "#{Waterbody.table_name}.#{Waterbody.primary_key}"
     config.columns[:waterbody].search_sql = "#{Waterbody.table_name}.name"
     config.columns[:drainage_code].search_sql = "#{Waterbody.table_name}.drainage_code"  
     config.columns[:aquatic_activities].search_sql = "#{AquaticActivity.table_name}.name"
     config.columns[:agencies].search_sql = "#{Agency.table_name}.code"
-    config.search.columns = [:name, :waterbody_id, :waterbody, :drainage_code, :aquatic_activities, :agencies]
+    config.search.columns = [:id, :name, :waterbody_id, :waterbody, :drainage_code, :aquatic_activities, :agencies]
   end
   
   def conditions_for_collection
@@ -76,17 +77,44 @@ class AquaticSiteController < ApplicationController
   
   def do_search
     @query = params[:search].to_s.strip rescue ''
+    return if @query.empty?
+    
+    columns = active_scaffold_config.search.columns
+    query_terms = @query.split('+').collect{ |query_term| query_term.strip }
+    query_terms.each { |query_term| construct_finder_conditions(query_term, columns) }      
 
-    unless @query.empty?
-      columns = active_scaffold_config.search.columns
-      # if just a number, match exact
-      like_pattern = @query.match(/^\d[-\d]*$/) ? '?%' : '%?%'
-      self.active_scaffold_conditions = merge_conditions(self.active_scaffold_conditions, ActiveScaffold::Finder.create_conditions_for_columns(@query, columns, like_pattern))
+    includes_for_search_columns = columns.collect{ |column| column.includes}.flatten.uniq.compact
+    self.active_scaffold_joins.concat includes_for_search_columns
 
-      includes_for_search_columns = columns.collect{ |column| column.includes}.flatten.uniq.compact
-      self.active_scaffold_joins.concat includes_for_search_columns
-
-      active_scaffold_config.list.user.page = nil
+    active_scaffold_config.list.user.page = nil
+  end
+  
+  private
+  def construct_finder_conditions(query_term, columns)    
+    if query_term.match(/ watershed$/i)
+      finder_conditions = ActiveScaffold::Finder.create_conditions_for_columns(create_watershed_query_terms(query_term), columns, '?')
+    else
+      finder_conditions = ActiveScaffold::Finder.create_conditions_for_columns(query_term, columns, like_pattern(query_term))
+    end    
+    self.active_scaffold_conditions = merge_conditions(self.active_scaffold_conditions, finder_conditions)
+  end
+  
+  def create_watershed_query_terms(query_term)
+    query_term = "%#{query_term.sub(/watershed$/i, '').strip}%"
+    find_drainage_codes(query_term).collect{ |drainage_code| drainage_code.gsub('00', '%') }    
+  end
+  
+  def find_drainage_codes(query_term)
+    drainage_codes = Waterbody.find(:all, :select => "drainage_code", :conditions => ["name LIKE ?", query_term.strip]).collect { |waterbody| waterbody.drainage_code }    
+  end
+  
+  def like_pattern(query_term)
+    if query_term.match(/^[1-9][\d]*$/) # id match
+      '?'
+    elsif query_term.match(/^\d[-\d]*$/) # drainage code match
+      '?%'
+    else
+      '%?%'
     end
   end
 end

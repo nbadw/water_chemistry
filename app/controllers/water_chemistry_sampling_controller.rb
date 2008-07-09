@@ -1,4 +1,5 @@
 class WaterChemistrySamplingController < ApplicationController 
+  #before_filter :obtain_model
   before_filter :create_aquatic_site_map, :except => [:show, :edit]
   
   def show
@@ -26,7 +27,7 @@ class WaterChemistrySamplingController < ApplicationController
   end
   
   def results    
-    samples = TblSample.find_all_by_aquaticactivityid params[:aquatic_activity_id], :include => [:sample_results, :parameters]
+    samples = WaterChemistrySample.find_all_by_aquaticactivityid params[:aquatic_activity_id], :include => [:sample_results, :parameters]
     
     @columns = samples.collect { |sample| sample.parameters }.flatten.uniq.collect { |parameter| parameter.code }
     @rows = samples.collect do |sample|
@@ -41,6 +42,13 @@ class WaterChemistrySamplingController < ApplicationController
   end
   
   private
+  def obtain_model
+    @water_chemistry_sampling = WaterChemistrySampling do
+      aquatic_site AquaticSite.find(params[:aquatic_site_id], :include => :waterbody)
+      aquatic_activity_event AquaticActivityEvent.find(params[:aquatic_activity_event_id])
+    end
+  end
+  
   def create_aquatic_site_map
     @aquatic_site = AquaticSite.find params[:aquatic_site_id], :include => :waterbody
     @aquatic_site_map = GMap.new("aquatic-site-map")

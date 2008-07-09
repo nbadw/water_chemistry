@@ -12,7 +12,7 @@
 ActiveRecord::Schema.define(:version => 1) do
 
   create_table "agencies", :force => true do |t|
-    t.string   "code",        :limit => 10,  :default => "",    :null => false
+    t.string   "code",        :limit => 10,                     :null => false
     t.string   "name",        :limit => 120
     t.string   "type",        :limit => 8
     t.boolean  "data_rules",                 :default => false
@@ -85,7 +85,7 @@ ActiveRecord::Schema.define(:version => 1) do
     t.integer  "aquatic_site_id"
     t.integer  "aquatic_activity_id"
     t.string   "aquatic_site_type",   :limit => 60
-    t.string   "agency_id",           :limit => 8
+    t.integer  "agency_id"
     t.string   "agency_site_id",      :limit => 32
     t.string   "start_year",          :limit => 4
     t.string   "end_year",            :limit => 4
@@ -129,22 +129,20 @@ ActiveRecord::Schema.define(:version => 1) do
     t.datetime "updated_at"
   end
 
-  create_table "measurables", :force => true do |t|
-    t.string   "name"
-    t.string   "group"
-    t.string   "category"
-    t.datetime "imported_at"
-    t.datetime "exported_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "measurement_instrument", :force => true do |t|
+    t.integer "measurement_id"
+    t.integer "instrument_id"
+  end
+
+  create_table "measurement_unit", :force => true do |t|
+    t.integer "measurement_id"
+    t.integer "unit_of_measure_id"
   end
 
   create_table "measurements", :force => true do |t|
-    t.integer  "measurement_id"
-    t.string   "measurement_type"
-    t.integer  "instrument_id"
-    t.integer  "unit_of_measure_id"
-    t.string   "value_measured"
+    t.string   "name"
+    t.string   "grouping"
+    t.string   "category"
     t.datetime "imported_at"
     t.datetime "exported_at"
     t.datetime "created_at"
@@ -152,7 +150,7 @@ ActiveRecord::Schema.define(:version => 1) do
   end
 
   create_table "observable_values", :force => true do |t|
-    t.integer  "observable_id"
+    t.integer  "observation_id"
     t.string   "value"
     t.datetime "imported_at"
     t.datetime "exported_at"
@@ -160,30 +158,12 @@ ActiveRecord::Schema.define(:version => 1) do
     t.datetime "updated_at"
   end
 
-  create_table "observables", :force => true do |t|
+  create_table "observations", :force => true do |t|
     t.string   "name"
-    t.string   "group"
+    t.string   "grouping"
     t.string   "category"
     t.datetime "imported_at"
     t.datetime "exported_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "observations", :force => true do |t|
-    t.integer  "observable_id"
-    t.integer  "observation_id"
-    t.string   "observation_type"
-    t.string   "value_observed"
-    t.datetime "imported_at"
-    t.datetime "exported_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "parameters", :force => true do |t|
-    t.string   "name"
-    t.string   "code"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -204,88 +184,30 @@ ActiveRecord::Schema.define(:version => 1) do
     t.datetime "updated_at"
   end
 
-  create_table "sample_results", :force => true do |t|
-    t.integer  "sample_id",    :null => false
-    t.integer  "parameter_id", :null => false
-    t.float    "value"
-    t.string   "qualifier"
+  create_table "site_measurements", :force => true do |t|
+    t.integer  "aquatic_site_id"
+    t.integer  "aquatic_activity_event_id"
+    t.integer  "measurement_id"
+    t.integer  "instrument_id"
+    t.integer  "unit_of_measure_id"
+    t.string   "value_measured"
+    t.datetime "imported_at"
+    t.datetime "exported_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "tblenvironmentalobservations", :primary_key => "envobservationid", :force => true do |t|
-    t.integer "aquaticactivityid"
-    t.string  "observationgroup",          :limit => 100
-    t.string  "observation",               :limit => 100
-    t.string  "observationsupp",           :limit => 100
-    t.integer "pipesize_cm"
-    t.boolean "fishpassageobstructionind"
+  create_table "site_observations", :force => true do |t|
+    t.integer  "aquatic_site_id"
+    t.integer  "aquatic_activity_event_id"
+    t.integer  "observation_id"
+    t.string   "value_observed"
+    t.boolean  "fish_passage_blocked",      :default => false
+    t.datetime "imported_at"
+    t.datetime "exported_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
-
-  add_index "tblenvironmentalobservations", ["aquaticactivityid"], :name => "index_tblEnvironmentalObservations_on_aquaticactivityid"
-
-  create_table "tblobservations", :primary_key => "observationid", :force => true do |t|
-    t.integer "aquaticactivityid"
-    t.integer "oandmcd"
-    t.string  "oandm_other",               :limit => 50
-    t.string  "oandmvaluescd"
-    t.integer "pipesize_cm"
-    t.boolean "fishpassageobstructionind"
-  end
-
-  add_index "tblobservations", ["aquaticactivityid"], :name => "index_tblObservations_on_aquaticactivityid"
-
-  create_table "tblsample", :primary_key => "sampleid", :force => true do |t|
-    t.integer "aquaticactivityid"
-    t.integer "tempaquaticactivityid"
-    t.string  "agencysampleno",           :limit => 20
-    t.float   "sampledepth_m"
-    t.string  "watersourcetype",          :limit => 40
-    t.string  "samplecollectionmethodcd"
-    t.string  "analyzedby",               :limit => 510
-  end
-
-  add_index "tblsample", ["aquaticactivityid"], :name => "index_tblSample_on_aquaticactivityid"
-
-  create_table "tblsitemeasurement", :primary_key => "sitemeasurementid", :force => true do |t|
-    t.integer "aquaticactivityid"
-    t.integer "oandmcd"
-    t.string  "oandm_other"
-    t.string  "bank"
-    t.integer "instrumentcd"
-    t.integer "measurement",       :limit => 10
-    t.integer "unitofmeasurecd"
-  end
-
-  add_index "tblsitemeasurement", ["aquaticactivityid"], :name => "index_tblSiteMeasurement_on_aquaticactivityid"
-
-  create_table "tblwatermeasurement", :primary_key => "watermeasurementid", :force => true do |t|
-    t.integer "aquaticactivityid"
-    t.integer "tempaquaticactivityid"
-    t.integer "tempdataid"
-    t.integer "temperatureloggerid"
-    t.integer "habitatunitid"
-    t.integer "sampleid"
-    t.string  "watersourcetype",       :limit => 100
-    t.float   "waterdepth_m"
-    t.string  "timeofday",             :limit => 10
-    t.integer "oandmcd"
-    t.integer "instrumentcd"
-    t.float   "measurement"
-    t.integer "unitofmeasurecd"
-    t.boolean "detectionlimitind",                    :null => false
-    t.string  "comment",               :limit => 510
-  end
-
-  add_index "tblwatermeasurement", ["aquaticactivityid"], :name => "index_tblWaterMeasurement_on_aquaticactivityid"
-  add_index "tblwatermeasurement", ["tempaquaticactivityid"], :name => "index_tblWaterMeasurement_on_tempaquaticactivityid"
-  add_index "tblwatermeasurement", ["tempdataid"], :name => "index_tblWaterMeasurement_on_tempdataid"
-  add_index "tblwatermeasurement", ["temperatureloggerid"], :name => "index_tblWaterMeasurement_on_temperatureloggerid"
-  add_index "tblwatermeasurement", ["habitatunitid"], :name => "index_tblWaterMeasurement_on_habitatunitid"
-  add_index "tblwatermeasurement", ["sampleid"], :name => "index_tblWaterMeasurement_on_sampleid"
-  add_index "tblwatermeasurement", ["oandmcd"], :name => "index_tblWaterMeasurement_on_oandmcd"
-  add_index "tblwatermeasurement", ["instrumentcd"], :name => "index_tblWaterMeasurement_on_instrumentcd"
-  add_index "tblwatermeasurement", ["unitofmeasurecd"], :name => "index_tblWaterMeasurement_on_unitofmeasurecd"
 
   create_table "units_of_measure", :force => true do |t|
     t.string   "name",        :limit => 100
@@ -313,6 +235,36 @@ ActiveRecord::Schema.define(:version => 1) do
   end
 
   add_index "users", ["agency_id"], :name => "index_users_on_agency_id"
+
+  create_table "water_chemistry_parameters", :force => true do |t|
+    t.string   "name"
+    t.string   "code"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "water_chemistry_samples", :force => true do |t|
+    t.integer  "aquatic_activity_event_id"
+    t.string   "agency_sample_no",          :limit => 10
+    t.float    "sample_depth_in_m"
+    t.string   "water_source_type",         :limit => 20
+    t.string   "sample_collection_method"
+    t.string   "analyzed_by"
+    t.datetime "imported_at"
+    t.datetime "exported_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "water_chemistry_sample_results", :force => true do |t|
+    t.integer "water_chemistry_sample_id"
+    t.integer "water_chemistry_parameter_id"
+    t.integer "instrument_id"
+    t.integer "unit_of_measure_id"
+    t.float   "value"
+    t.string  "qualifier"
+    t.string  "comment"
+  end
 
   create_table "waterbodies", :force => true do |t|
     t.string   "drainage_code",           :limit => 17

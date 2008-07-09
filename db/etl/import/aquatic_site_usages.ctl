@@ -21,7 +21,7 @@ rename :startyear, :start_year
 rename :endyear, :end_year
 rename :yearsactive, :years_active
 
-transform :agency_id, :decode, :decode_table_path => 'decode/agency_table.txt', :default_value => ''
+transform :agency_id, :decode, :decode_table_path => 'decode/agency_code_to_id.txt', :default_value => ''
 transform(:exported_at) { |name, val, row| DateTime.now if row[:incorporatedind] == 'true' }
 
 before_write :check_exist, :target => RAILS_ENV, :table => "aquatic_site_usages", :columns => [:id]

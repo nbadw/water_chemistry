@@ -1,0 +1,27 @@
+<% if observation.needs_input? %>
+<div style="padding-top: 4px">
+  <dl>
+    <dt>
+      <label for="record[observed_value]">Observed Value</label>
+    </dt>
+    <dd>
+      <% if observation.needs_text_input? %>
+        <input name="record[value_observed]" type="text" class="text-input"/>   
+      <% else %>
+        <select name="record[value_observed]">
+          <%= options_from_collection_for_select(observation.observable_values, :value, :value) %>
+        </select>
+      <% end %>
+    </dd>
+  </dl>
+</div>
+<% end %>
+
+<% if observation.fish_passage_blocked_observation? %>
+<div style="padding-top: 6px">
+  <dl>
+    <dt></dt>
+    <dd><input name="record[fish_passage_blocked]" type="checkbox"/><span>Fish Passage Blocked?</span></dd>
+  </dl>
+</div>
+<% end %>

@@ -4,7 +4,23 @@ module AquaticSiteHelper
   end
   
   def agencies_column(record)
-    record.agencies.collect { |agency| agency.code }.uniq.sort.join('<br/><br/>')
+    #record.agencies.collect { |agency| agency.code }.uniq.sort.join('<br/><br/>')
+    agency_code_to_agency_site_ids = {}
+    record.aquatic_site_usages.each do |aquatic_site_usage|
+      agency = aquatic_site_usage.agency
+      site_ids = agency_code_to_agency_site_ids[agency.code] || []
+      site_ids << aquatic_site_usage.agency_site_id unless aquatic_site_usage.agency_site_id.empty?
+      agency_code_to_agency_site_ids[agency.code] = site_ids
+    end
+    
+    column_text = ''
+    agency_code_to_agency_site_ids.each do |agency_code, agency_site_ids|
+      column_text << "#{agency_code}"
+      column_text << " (#{agency_site_ids.uniq.join(',')})" unless agency_site_ids.empty?
+      column_text << "<br/>"
+    end
+    
+    column_text
   end
   
   def waterbody_name_column(record)

@@ -59,6 +59,54 @@ class InitialSchema < ActiveRecord::Migration
     end
 
     add_index :aquatic_activity_methods, [:aquatic_activity_id]
+    
+    create_table :observations do |t|      
+      t.string    :name
+      t.string    :grouping
+      t.string    :category
+      t.timestamp :imported_at  
+      t.timestamp :exported_at
+      t.timestamps
+    end
+    
+    create_table :observable_values do |t|
+      t.references :observation
+      t.string     :value
+      t.timestamp  :imported_at  
+      t.timestamp  :exported_at
+      t.timestamps
+    end
+    
+    create_table :site_observations do |t|
+      t.references :aquatic_site
+      t.references :aquatic_activity_event
+      t.references :observation
+      t.string     :value_observed
+      t.timestamp  :imported_at  
+      t.timestamp  :exported_at
+      t.timestamps
+    end
+    
+    create_table :measurements do |t|
+      t.string :name
+      t.string :grouping
+      t.string :category
+      t.timestamp :imported_at  
+      t.timestamp :exported_at
+      t.timestamps
+    end
+        
+    create_table :site_measurements do |t|
+      t.references :aquatic_site
+      t.references :aquatic_activity_event
+      t.references :measurement
+      t.references :instrument
+      t.references :unit_of_measure
+      t.string     :value_measured
+      t.timestamp  :imported_at  
+      t.timestamp  :exported_at
+      t.timestamps
+    end
 
     create_table :instruments do |t|
       t.string    :name,        :limit => 100
@@ -68,89 +116,22 @@ class InitialSchema < ActiveRecord::Migration
       t.timestamps
     end
     
-    create_table :observations do |t|
-      t.references :observable
-      t.references :observation, :polymorphic => true
-      t.string     :value_observed
-      t.timestamp  :imported_at  
-      t.timestamp  :exported_at
-      t.timestamps
-    end
-    
-    create_table :observables do |t|      
-      t.string    :name
-      t.string    :group
-      t.string    :category
-      t.timestamp :imported_at  
-      t.timestamp :exported_at
-      t.timestamps
-    end
-    
-    create_table :observable_values do |t|
-      t.references :observable
-      t.string     :value
-      t.timestamp  :imported_at  
-      t.timestamp  :exported_at
-      t.timestamps
-    end
-        
-    create_table :measurements do |t|
-      t.references :measurement, :polymorphic => true
-      t.references :instrument
-      t.references :unit_of_measure
-      t.string     :value_measured
-      t.timestamp  :imported_at  
-      t.timestamp  :exported_at
-      t.timestamps
-    end
-    
-    create_table :measurables do |t|
-      t.string :name
-      t.string :group
-      t.string :category
-      t.timestamp :imported_at  
-      t.timestamp :exported_at
-      t.timestamps
-    end
-    
-#    create_table "cdmeasureinstrument", :primary_key => "measureinstrumentcd", :force => true do |t|
-#      t.integer "oandmcd"
-#      t.integer "instrumentcd"
-#    end
-#
-#    add_index "cdmeasureinstrument", ["oandmcd"], :name => "index_cdMeasureInstrument_on_oandmcd"
-#    add_index "cdmeasureinstrument", ["instrumentcd"], :name => "index_cdMeasureInstrument_on_instrumentcd"
-#
-#    create_table "cdmeasureunit", :primary_key => "measureunitcd", :force => true do |t|
-#      t.integer "oandmcd"
-#      t.integer "unitofmeasurecd"
-#    end
-#
-#    add_index "cdmeasureunit", ["oandmcd"], :name => "index_cdMeasureUnit_on_oandmcd"
-#    add_index "cdmeasureunit", ["unitofmeasurecd"], :name => "index_cdMeasureUnit_on_unitofmeasurecd"
-#
-#    create_table "cdoandm", :primary_key => "oandmcd", :force => true do |t|
-#      t.string  "oandm_type",        :limit => 32
-#      t.string  "oandm_category",    :limit => 80
-#      t.string  "oandm_group",       :limit => 100
-#      t.string  "oandm_parameter",   :limit => 100
-#      t.string  "oandm_parametercd", :limit => 60
-#      t.boolean "oandm_valuesind",                  :null => false
-#    end
-#
-#    create_table "cdoandmvalues", :primary_key => "oandmvaluescd", :force => true do |t|
-#      t.integer "oandmcd"
-#      t.string  "value",   :limit => 40
-#    end
-#
-#    add_index "cdoandmvalues", ["oandmcd"], :name => "index_cdOandMValues_on_oandmcd"
-
     create_table :units_of_measure do |t|
       t.string    :name,        :limit => 100
       t.string    :unit,        :limit => 20
       t.timestamp :imported_at  
       t.timestamp :exported_at
       t.timestamps
+    end
+    
+    create_table :measurement_instrument do |t|
+      t.references :measurement
+      t.references :instrument
+    end
+    
+    create_table :measurement_unit do |t|
+      t.references :measurement
+      t.references :unit_of_measure
     end
     
     create_table :aquatic_activity_events do |t|
@@ -191,88 +172,70 @@ class InitialSchema < ActiveRecord::Migration
     add_index :aquatic_activity_events, [:agency2_id]
 
     create_table :aquatic_sites do |t|
-      t.string    :name,              :limit => 200
-      t.string    :description,       :limit => 500
-      t.string    :comments,          :limit => 300
-      t.integer   :waterbody_id
-      t.string    :coordinate_source, :limit => 100
-      t.integer   :coordinate_srs_id
-      t.string    :x_coordinate,      :limit => 100
-      t.string    :y_coordinate,      :limit => 100
-      t.integer   :gmap_srs_id
-      t.decimal   :gmap_latitude,     :precision => 15, :scale => 10
-      t.decimal   :gmap_longitude,    :precision => 15, :scale => 10
-      t.timestamp :imported_at
-      t.timestamp :exported_at
+      t.string     :name,              :limit => 200
+      t.string     :description,       :limit => 500
+      t.string     :comments,          :limit => 300
+      t.references :waterbody
+      t.string     :coordinate_source, :limit => 100
+      t.integer    :coordinate_srs_id
+      t.string     :x_coordinate,      :limit => 100
+      t.string     :y_coordinate,      :limit => 100
+      t.integer    :gmap_srs_id
+      t.decimal    :gmap_latitude,     :precision => 15, :scale => 10
+      t.decimal    :gmap_longitude,    :precision => 15, :scale => 10
+      t.timestamp  :imported_at
+      t.timestamp  :exported_at
       t.timestamps
     end
 
     add_index :aquatic_sites, [:waterbody_id]
 
     create_table :aquatic_site_usages do |t|
-      t.integer   :aquatic_site_id
-      t.integer   :aquatic_activity_id
-      t.string    :aquatic_site_type,   :limit => 60
-      t.string    :agency_id,           :limit => 8
-      t.string    :agency_site_id,      :limit => 32
-      t.string    :start_year,          :limit => 4
-      t.string    :end_year,            :limit => 4
-      t.string    :years_active,        :limit => 40      
-      t.timestamp :imported_at
-      t.timestamp :exported_at
+      t.references :aquatic_site
+      t.references :aquatic_activity
+      t.string     :aquatic_site_type,   :limit => 60
+      t.references :agency
+      t.string     :agency_site_id,      :limit => 32
+      t.string     :start_year,          :limit => 4
+      t.string     :end_year,            :limit => 4
+      t.string     :years_active,        :limit => 40      
+      t.timestamp  :imported_at
+      t.timestamp  :exported_at
       t.timestamps
     end
 
     add_index :aquatic_site_usages, [:aquatic_site_id]
     add_index :aquatic_site_usages, [:aquatic_activity_id]
     add_index :aquatic_site_usages, [:agency_id]
-
-    create_table "tblenvironmentalobservations", :primary_key => "envobservationid", :force => true do |t|
-      t.integer "aquaticactivityid"
-      t.string  "observationgroup",          :limit => 100
-      t.string  "observation",               :limit => 100
-      t.string  "observationsupp",           :limit => 100
-      t.integer "pipesize_cm"
-      t.boolean "fishpassageobstructionind"
+    
+    create_table :water_chemistry_samples do |t|
+      t.references :aquatic_activity_event
+      t.string     :agency_sample_no,         :limit => 10
+      t.float      :sample_depth_in_m
+      t.string     :water_source_type,        :limit => 20
+      t.string     :sample_collection_method
+      t.string     :analyzed_by
+      t.timestamp  :imported_at
+      t.timestamp  :exported_at
+      t.timestamps
     end
-
-    add_index "tblenvironmentalobservations", ["aquaticactivityid"], :name => "index_tblEnvironmentalObservations_on_aquaticactivityid"
-
-    create_table "tblobservations", :primary_key => "observationid", :force => true do |t|
-      t.integer "aquaticactivityid"
-      t.integer "oandmcd"
-      t.string  "oandm_other",               :limit => 50
-      t.string  "oandmvaluescd"
-      t.integer "pipesize_cm"
-      t.boolean "fishpassageobstructionind"
+    
+    create_table :water_chemistry_sample_results do |t|
+      t.references :water_chemistry_sample
+      t.references :water_chemistry_parameter
+      t.references :instrument
+      t.references :unit_of_measure      
+      t.float      :value
+      t.string     :qualifier
+      t.string     :comment
     end
-
-    add_index "tblobservations", ["aquaticactivityid"], :name => "index_tblObservations_on_aquaticactivityid"
-
-    create_table "tblsample", :primary_key => "sampleid", :force => true do |t|
-      t.integer "aquaticactivityid"
-      t.integer "tempaquaticactivityid"
-      t.string  "agencysampleno",           :limit => 20
-      t.float   "sampledepth_m"
-      t.string  "watersourcetype",          :limit => 40
-      t.string  "samplecollectionmethodcd"
-      t.string  "analyzedby",               :limit => 510
+    
+    create_table :water_chemistry_parameters do |t|
+      t.string :name
+      t.string :code
+      t.timestamps
     end
-
-    add_index "tblsample", ["aquaticactivityid"], :name => "index_tblSample_on_aquaticactivityid"
-
-    create_table "tblsitemeasurement", :primary_key => "sitemeasurementid", :force => true do |t|
-      t.integer "aquaticactivityid"
-      t.integer "oandmcd"
-      t.string  "oandm_other"
-      t.string  "bank"
-      t.integer "instrumentcd"
-      t.integer "measurement",       :limit => 10, :precision => 10, :scale => 0
-      t.integer "unitofmeasurecd"
-    end
-
-    add_index "tblsitemeasurement", ["aquaticactivityid"], :name => "index_tblSiteMeasurement_on_aquaticactivityid"
-
+    
     create_table :waterbodies do |t|
       t.string    :drainage_code,           :limit => 17
       t.string    :waterbody_type,          :limit => 8
@@ -286,48 +249,6 @@ class InitialSchema < ActiveRecord::Migration
       t.timestamp :exported_at
       t.timestamps
     end
-
-    create_table "tblwatermeasurement", :primary_key => "watermeasurementid", :force => true do |t|
-      t.integer "aquaticactivityid"
-      t.integer "tempaquaticactivityid"
-      t.integer "tempdataid"
-      t.integer "temperatureloggerid"
-      t.integer "habitatunitid"
-      t.integer "sampleid"
-      t.string  "watersourcetype",       :limit => 100
-      t.float   "waterdepth_m"
-      t.string  "timeofday",             :limit => 10
-      t.integer "oandmcd"
-      t.integer "instrumentcd"
-      t.float   "measurement"
-      t.integer "unitofmeasurecd"
-      t.boolean "detectionlimitind",                    :null => false
-      t.string  "comment",               :limit => 510
-    end
-
-    add_index "tblwatermeasurement", ["aquaticactivityid"], :name => "index_tblWaterMeasurement_on_aquaticactivityid"
-    add_index "tblwatermeasurement", ["tempaquaticactivityid"], :name => "index_tblWaterMeasurement_on_tempaquaticactivityid"
-    add_index "tblwatermeasurement", ["tempdataid"], :name => "index_tblWaterMeasurement_on_tempdataid"
-    add_index "tblwatermeasurement", ["temperatureloggerid"], :name => "index_tblWaterMeasurement_on_temperatureloggerid"
-    add_index "tblwatermeasurement", ["habitatunitid"], :name => "index_tblWaterMeasurement_on_habitatunitid"
-    add_index "tblwatermeasurement", ["sampleid"], :name => "index_tblWaterMeasurement_on_sampleid"
-    add_index "tblwatermeasurement", ["oandmcd"], :name => "index_tblWaterMeasurement_on_oandmcd"
-    add_index "tblwatermeasurement", ["instrumentcd"], :name => "index_tblWaterMeasurement_on_instrumentcd"
-    add_index "tblwatermeasurement", ["unitofmeasurecd"], :name => "index_tblWaterMeasurement_on_unitofmeasurecd"
-    
-    create_table :parameters do |t|
-      t.string :name
-      t.string :code
-      t.timestamps
-    end
-    
-    create_table :sample_results do |t|
-      t.integer :sample_id,    :null => false
-      t.integer :parameter_id, :null => false
-      t.float   :value
-      t.string  :qualifier
-      t.timestamps
-    end
   end
 
   def self.down
@@ -337,23 +258,21 @@ class InitialSchema < ActiveRecord::Migration
     drop_table :agencies
     drop_table :aquatic_activities
     drop_table :aquatic_activity_methods
-    drop_table :instruments
-    drop_table :observables
-    drop_table :observable_values
     drop_table :observations
-    drop_table :measurables
+    drop_table :observable_values
+    drop_table :site_observations
     drop_table :measurements
+    drop_table :site_measurements
+    drop_table :instruments
+    drop_table :measurement_instrument
+    drop_table :measurement_unit
     drop_table :units_of_measure
     drop_table :aquatic_activity_events
     drop_table :aquatic_sites
     drop_table :aquatic_site_usages
-    drop_table "tblenvironmentalobservations"
-    drop_table "tblobservations"
-    drop_table "tblsample"
-    drop_table "tblsitemeasurement"
+    drop_table :water_chemistry_samples
+    drop_table :water_chemistry_sample_results
+    drop_table :water_chemistry_parameters
     drop_table :waterbodies
-    drop_table "tblwatermeasurement"
-    drop_table :parameters
-    drop_table :sample_results    
   end
 end

@@ -61,3 +61,4 @@ end
 
 ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(:adw => "%Y/%m/%d")
 require 'gchart'
+require 'doodle'

@@ -84,3 +84,27 @@ td.incorporated-column {
     font-size: 16px;
     letter-spacing: -1px;
 }
+
+#water_chemistry_observation--observation-subform dt {
+    float: left; 
+    padding: 6px 0; 
+    width: 12em;
+}
+#water_chemistry_observation--observation-subform label {
+    display: block;
+}
+#water_chemistry_observation--observation-subform select,
+#water_chemistry_observation--observation-subform input {
+    font-size: 16px;
+    letter-spacing: -1px;
+}
+#water_chemistry_observation--observation-subform dd span {
+    font-family: arial;
+    font-size: 14px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: bold;
+    line-height: normal;
+    margin-bottom: 5px;
+    padding-left: 5px;
+}

@@ -3,6 +3,6 @@ class Waterbody < ActiveRecord::Base
     
   def self.search(query)
     search_conditions = ['name LIKE ? OR drainage_code LIKE ? OR id LIKE ?', "%#{query}%", "#{query}%", "#{query}%"]
-    self.find :all, :limit => 10, :conditions => search_conditions, :order => "name ASC"
+    self.find :all, :conditions => search_conditions, :order => "name ASC"
   end
 end

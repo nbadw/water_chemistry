@@ -16,7 +16,8 @@ namespace :data_warehouse do
     end
     
     task :all => [:agencies, :aquatic_activities, :aquatic_activity_events, :aquatic_activity_methods,
-      :aquatic_site_usages, :aquatic_sites, :instruments, :units_of_measure, :waterbodies
+      :aquatic_site_usages, :aquatic_sites, :instruments, :observations, :observable_values,
+      :measurements, :units_of_measure, :waterbodies
     ]
 
     desc "import agencies"
@@ -36,7 +37,7 @@ namespace :data_warehouse do
     
     desc "import aquatic activity events"
     task :aquatic_activity_events => :agency_code_to_id do
-      process File.join(ETL_ROOT, 'import', 'aquatic_activities.ctl')
+      process File.join(ETL_ROOT, 'import', 'aquatic_activity_events.ctl')
     end
     
     desc "import aquatic activity methods"
@@ -59,29 +60,19 @@ namespace :data_warehouse do
       process File.join(ETL_ROOT, 'import', 'instruments.ctl')
     end
     
-    desc "import observables"
-    task :observables => :init do
-      process File.join(ETL_ROOT, 'import', 'observables.ctl')
-    end
+    desc "import observations"
+    task :observations => :init do
+      process File.join(ETL_ROOT, 'import', 'observations.ctl')
+    end   
+
+    desc "import observable values"
+    task :observable_values => :init do
+      process File.join(ETL_ROOT, 'import', 'observable_values.ctl')
+    end 
     
-    desc "import cdMeasureInstrument"
-    task :cdMeasureInstrument => :init do
-      process File.join(ETL_ROOT, 'import', 'cdMeasureInstrument.ctl')
-    end
-    
-    desc "import cdMeasureUnit"
-    task :cdMeasureUnit => :init do
-      process File.join(ETL_ROOT, 'import', 'cdMeasureUnit.ctl')
-    end
-    
-    desc "import cdOandM"
-    task :cdOandM => :init do
-      process File.join(ETL_ROOT, 'import', 'cdOandM.ctl')
-    end
-    
-    desc "import cdOandMValues"
-    task :cdOandMValues => :init do
-      process File.join(ETL_ROOT, 'import', 'cdOandMValues.ctl')
+    desc "import measurables"
+    task :measurements => :init do
+      process File.join(ETL_ROOT, 'import', 'measurements.ctl')
     end
         
     desc "import waterbodies"
@@ -94,18 +85,6 @@ namespace :data_warehouse do
       process File.join(ETL_ROOT, 'import', 'waterbodies.ctl')
     end
   end
-  
-
-  #  desc "transform water chemistry analysis row into water measurement rows"  
-  #  task :samples => :environment do
-  #    init_etl
-  #    ETL::Engine.process File.join(RAILS_ROOT, 'db', 'etl', 'samples.ebf')
-  #  end  
-  #  
-  #  desc "export all"
-  #  task :export => :environment do 
-  #    
-  #  end
 end
 
 def initialize_etl_engine(options = {})

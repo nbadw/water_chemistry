@@ -1,29 +1,32 @@
-# ETL Control file
-table = 'parameters'
-source_columns = [:name, :code]
-destination_columns = [:id, :name, :code, :created_at, :updated_at]
-outfile = "output/parameters.csv"
+src_columns = [:oandmvaluescd, :oandmcd, :value]
+dst_columns = [:id, :observable_id, :value, :created_at, :updated_at, :imported_at, :exported_at]
+outfile = "output/observable_values.txt"
 
-source :in, {  
-  :file => "input/DENV_parameter_list.csv",  
-  :parser => :delimited  
-}, source_columns
+source :in, { 
+  :database => "dataWarehouse",
+  :target => :aquatic_data_warehouse, 
+  :table => "cdOAndMValues"
+}, src_columns
+
+rename :oandmvaluescd, :id
+rename :oandmcd, :observable_id
+before_write :check_exist, :target => RAILS_ENV, :table => "observable_values", :columns => [:id]
 
 destination :out, { 
   :file => outfile
 }, { 
-  :order => destination_columns, 
+  :order => dst_columns,
   :virtual => { 
-    :id => :surrogate_key,
     :created_at => Time.now,
-    :updated_at => Time.now
-  }
+    :updated_at => Time.now,
+    :imported_at => Time.now
+  } 
 } 
 
 post_process :bulk_import, { 
   :file => outfile, 
-  :columns => destination_columns, 
+  :columns => columns, 
   :field_separator => ",", 
-  :target => RAILS_ENV.to_sym, 
-  :table => table
+  :target => RAILS_ENV, 
+  :table => "observable_values"
 }
