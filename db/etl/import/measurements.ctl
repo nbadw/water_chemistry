@@ -13,7 +13,7 @@ rename :oandm_category, :category
 rename :oandm_group, :grouping
 rename :oandm_parameter, :name
 
-before_write { |row| row if row[:oandm_type] == 'Measurement' }
+before_write { |row| row if row[:oandm_type] == 'Measurement' && row[:grouping] != 'Chemical' }
 before_write :check_exist, :target => RAILS_ENV, :table => "measurements", :columns => [:id]
 
 destination :out, { 

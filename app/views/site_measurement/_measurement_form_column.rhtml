@@ -1,0 +1,16 @@
+<dl>
+  <dt>
+    <label for="record[<%= column.name %>]"><%= column.label %></label>
+  </dt>
+  <dd>
+    <select id="measurement" name="record[<%= column.name %>]">
+      <option></option>
+      <% groups(@measurements).each do |group| %>
+        <optgroup label="<%= group == '' ? 'Misc.' : group %>">
+          <%= options_from_collection_for_select(measurements_grouped_by(group, @measurements), :id, :name) %>
+        </optgroup>
+      <% end %>
+    </select>
+  </dd>
+</dl>
+<%= observe_field :measurement, :on => :change, :with => 'measurement_id', :url => { :action => :on_measurement_change } %>

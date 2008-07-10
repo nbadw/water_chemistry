@@ -51,54 +51,28 @@ td.incorporated-column {
     padding: 6px 0; 
     width: 12em;
 }
-#tbl_aquatic_site_agency_use-create--form #tbl_aquatic_site_agency_use--aquatic_activity_code-subform label {
+#aquatic_site_agency_use-create--form #tbl_aquatic_site_agency_use--aquatic_activity_code-subform label {
     display: block;
 }
-#tbl_aquatic_site_agency_use-create--form #tbl_aquatic_site_agency_use--aquatic_activity_code-subform select {
+#aquatic_site_agency_use-create--form #tbl_aquatic_site_agency_use--aquatic_activity_code-subform select {
     font-size: 16px;
     letter-spacing: -1px;
 }
 
-#tbl_observation-create--form #tbl_observation--observation_code-subform dt {
+#observation--observation-subform dt {
     float: left; 
     padding: 6px 0; 
     width: 12em;
 }
-#tbl_observation-create--form #tbl_observation--observation_code-subform label {
+#observation--observation-subform label {
     display: block;
 }
-#tbl_observation-create--form #tbl_observation--observation_code-subform select {
+#observation--observation-subform select,
+#observation--observation-subform input {
     font-size: 16px;
     letter-spacing: -1px;
 }
-
-#tbl_site_measurement-create--form #tbl_site_measurement--measurement_code-subform dt {
-    float: left; 
-    padding: 6px 0; 
-    width: 12em;
-}
-#tbl_site_measurement-create--form #tbl_site_measurement--measurement_code-subform label {
-    display: block;
-}
-#tbl_site_measurement-create--form #tbl_site_measurement--measurement_code-subform select {
-    font-size: 16px;
-    letter-spacing: -1px;
-}
-
-#water_chemistry_observation--observation-subform dt {
-    float: left; 
-    padding: 6px 0; 
-    width: 12em;
-}
-#water_chemistry_observation--observation-subform label {
-    display: block;
-}
-#water_chemistry_observation--observation-subform select,
-#water_chemistry_observation--observation-subform input {
-    font-size: 16px;
-    letter-spacing: -1px;
-}
-#water_chemistry_observation--observation-subform dd span {
+#observation--observation-subform dd span {
     font-family: arial;
     font-size: 14px;
     font-style: normal;
@@ -107,4 +81,20 @@ td.incorporated-column {
     line-height: normal;
     margin-bottom: 5px;
     padding-left: 5px;
+}
+
+#site_measurement-create--form .sub-form {
+    padding-left: 0;
+}
+#site_measurement-create--form .sub-form dt {
+    float: left; 
+    padding: 6px 0; 
+    width: 12em;
+}
+#site_measurement-create--form .sub-form label {
+    display: block;
+}
+#site_measurement-create--form .sub-form select {
+    font-size: 16px;
+    letter-spacing: -1px;
 }

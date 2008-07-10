@@ -1,10 +1,10 @@
-class WaterChemistryObservationController < ApplicationController
+class ObservationController < ApplicationController
   active_scaffold :site_observation do |config|
     config.label = "Observations"
     config.actions = [:list, :create, :delete]
     config.columns = [:observation, :group, :value_observed, :fish_passage_blocked]
     config.columns[:value_observed].label = "Observed Value"
-    config.columns[:fish_passage_blocked].label = "Fish Passage Blocked?"
+    config.columns[:fish_passage_blocked].label = "Fish Passage Blocked?"    
     
     config.list.sorting =[{ :group => :asc }]
     
@@ -23,8 +23,8 @@ class WaterChemistryObservationController < ApplicationController
     active_scaffold_new
   end
   
-  def observation_selected
-    render :partial => 'form_for_selected_observation', :locals => { :observation => Observation.find(params[:observation_id]) }
+  def on_observation_change
+    render :partial => 'on_observation_change', :locals => { :observation => Observation.find(params[:observation_id]) }
   end
   
   def before_create_save(record)

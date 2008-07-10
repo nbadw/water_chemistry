@@ -1,0 +1,8 @@
+<dl>
+  <dt>
+    <label for="record[<%= column.name %>]"><%= column.label %></label>
+  </dt>
+  <dd>
+    <%= select("record", column.name, UnitOfMeasure.find(:all).collect{ |i| [i.name_and_unit, i.id] }, { :include_blank => true }, { :id => column.name }) %>
+  </dd>
+</dl>

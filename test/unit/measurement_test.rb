@@ -1,8 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class MeasurementTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  def test_truth
-    assert true
-  end
+  should_have_and_belong_to_many :instruments, :units_of_measure
+  should_have_instance_methods :bank_measurement?
 end

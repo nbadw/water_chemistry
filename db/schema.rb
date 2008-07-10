@@ -147,6 +147,7 @@ ActiveRecord::Schema.define(:version => 1) do
     t.datetime "exported_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "bank_measurement", :default => false
   end
 
   create_table "observable_values", :force => true do |t|
@@ -166,6 +167,7 @@ ActiveRecord::Schema.define(:version => 1) do
     t.datetime "exported_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "fish_passage_blocked_observation", :default => false
   end
 
   create_table "permissions", :force => true do |t|
@@ -190,11 +192,12 @@ ActiveRecord::Schema.define(:version => 1) do
     t.integer  "measurement_id"
     t.integer  "instrument_id"
     t.integer  "unit_of_measure_id"
-    t.string   "value_measured"
+    t.float    "value_measured"
     t.datetime "imported_at"
     t.datetime "exported_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "bank"
   end
 
   create_table "site_observations", :force => true do |t|
@@ -202,11 +205,11 @@ ActiveRecord::Schema.define(:version => 1) do
     t.integer  "aquatic_activity_event_id"
     t.integer  "observation_id"
     t.string   "value_observed"
-    t.boolean  "fish_passage_blocked",      :default => false
     t.datetime "imported_at"
     t.datetime "exported_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "fish_passage_blocked",      :default => false
   end
 
   create_table "units_of_measure", :force => true do |t|
@@ -243,6 +246,16 @@ ActiveRecord::Schema.define(:version => 1) do
     t.datetime "updated_at"
   end
 
+  create_table "water_chemistry_sample_results", :force => true do |t|
+    t.integer "water_chemistry_sample_id"
+    t.integer "water_chemistry_parameter_id"
+    t.integer "instrument_id"
+    t.integer "unit_of_measure_id"
+    t.float   "value"
+    t.string  "qualifier"
+    t.string  "comment"
+  end
+
   create_table "water_chemistry_samples", :force => true do |t|
     t.integer  "aquatic_activity_event_id"
     t.string   "agency_sample_no",          :limit => 10
@@ -254,16 +267,6 @@ ActiveRecord::Schema.define(:version => 1) do
     t.datetime "exported_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "water_chemistry_sample_results", :force => true do |t|
-    t.integer "water_chemistry_sample_id"
-    t.integer "water_chemistry_parameter_id"
-    t.integer "instrument_id"
-    t.integer "unit_of_measure_id"
-    t.float   "value"
-    t.string  "qualifier"
-    t.string  "comment"
   end
 
   create_table "waterbodies", :force => true do |t|

@@ -1,4 +1,4 @@
-module WaterChemistryObservationHelper
+module ObservationHelper
   def group_column(record)
     record.observation.grouping
   end

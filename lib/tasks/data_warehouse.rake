@@ -17,7 +17,7 @@ namespace :data_warehouse do
     
     task :all => [:agencies, :aquatic_activities, :aquatic_activity_events, :aquatic_activity_methods,
       :aquatic_site_usages, :aquatic_sites, :instruments, :observations, :observable_values,
-      :measurements, :units_of_measure, :waterbodies
+      :measurements, :measurement_instrument, :measurement_unit, :units_of_measure, :waterbodies
     ]
 
     desc "import agencies"
@@ -70,9 +70,19 @@ namespace :data_warehouse do
       process File.join(ETL_ROOT, 'import', 'observable_values.ctl')
     end 
     
-    desc "import measurables"
+    desc "import measurements"
     task :measurements => :init do
       process File.join(ETL_ROOT, 'import', 'measurements.ctl')
+    end
+    
+    desc "import measurement->instrument join table"
+    task :measurement_instrument => [:measurements, :instruments] do
+      process File.join(ETL_ROOT, 'import', 'measurement_instrument.ctl')
+    end
+    
+    desc "import measurement->unit join table"
+    task :measurement_unit => [:measurements, :units_of_measure] do
+      process File.join(ETL_ROOT, 'import', 'measurement_unit.ctl')
     end
         
     desc "import waterbodies"
