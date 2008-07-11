@@ -10,13 +10,21 @@ class SiteMeasurement < ActiveRecord::Base
   validates_numericality_of :value_measured
   
   class << self
-    def substrate_accounted_for(aquatic_activity_event_id)
-      site_measurements = self.find_all_by_aquatic_activity_event_id(aquatic_activity_event_id, :include => :measurement)
-      site_measurements.inject(0) do |sum, site_measurement|
-        group = site_measurement.measurement.grouping.to_s
-        sum += site_measurement.value_measured.to_f if group == 'Substrate Type'
-        sum
-      end
+    def calculate_substrate_accounted_for(aquatic_activity_event_id)
+      sum_values_observed_in_measurement_group_for_aquatic_activity_event(aquatic_activity_event_id, Measurement.grouping_for_substrate_measurements)
+    end
+    
+    def calculate_stream_accounted_for(aquatic_activity_event_id)
+      sum_values_observed_in_measurement_group_for_aquatic_activity_event(aquatic_activity_event_id, Measurement.grouping_for_stream_measurements)
+    end
+    
+    def sum_values_observed_in_measurement_group_for_aquatic_activity_event(aquatic_activity_event_id, group)
+      conditions = [
+        "#{self.table_name}.aquatic_activity_event_id = ? AND #{Measurement.table_name}.grouping = ?", 
+        aquatic_activity_event_id,
+        group
+      ]
+      self.find(:all, :include => :measurement, :conditions => conditions).inject(0) { |sum, site_measurement| sum + site_measurement.value_measured.to_f }
     end
   end
 end
