@@ -1,0 +1,9 @@
+<% @parameters << @record.water_chemistry_parameter if @record.water_chemistry_parameter %>
+<dl>
+  <dt>
+    <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
+  </dt>
+  <dd>
+    <%= select("record", column.name, @parameters.collect{ |parameter| [parameter.name, parameter.id] }) %>
+  </dd>
+</dl>

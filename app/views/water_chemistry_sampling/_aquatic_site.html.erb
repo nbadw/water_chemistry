@@ -1,30 +1,49 @@
 <div id="aquatic-site" class="active-scaffold">
-  <%= @aquatic_site_map.div %>
-  <h3 class="name"><%= @aquatic_site.name %></h3>
+  <h3 class="name" style="border-bottom: 1px solid black;">Aquatic Site</h3>
   <div class="show-view">
+    <dl>
+      <dt>Site Name</dt>
+      <dd><%= @aquatic_site.name || '-' %></dd>
+    </dl>
+    <dl>
+      <dt>Waterbody Name</dt>
+      <dd><%= @aquatic_site.waterbody ? @aquatic_site.waterbody.name : '-' %></dd>
+    </dl>
+    <dl>
+      <dt>Waterbody ID</dt>
+      <dd><%= @aquatic_site.waterbody ? @aquatic_site.waterbody.id : '-' %></dd>
+    </dl>
+    <dl>
+      <dt>Drainage Code</dt>
+      <dd><%= @aquatic_site.waterbody ? @aquatic_site.waterbody.drainage_code : '-' %></dd>
+    </dl>
+    <dl>
+      <dt>Description</dt>
+      <dd><%= @aquatic_site.description || '-' %></dd>
+    </dl>
+  </div>  
+  
+  <div style="clear: both;"></div>
+  
+  <div class="show-view" style="margin-top: 1em;">
+    <h3 class="name" style="border-bottom: 1px solid black;">Location</h3>
+    <% if @aquatic_site.latitude == 0 && @aquatic_site.longitude == 0 %>
+      <p style="font-size: 11px; font-family: Verdana; font-style: italic; padding-left: 5px; color: #555;">No coordinate information for this aquatic site.</p>
+    <% else %>
       <dl>
-        <dt>Waterbody Name</dt>
-        <dd><%= @aquatic_site.waterbody ? @aquatic_site.waterbody.name : '-' %></dd>
-      </dl>
-      <dl>
-        <dt>Waterbody ID</dt>
-        <dd><%= @aquatic_site.waterbody ? @aquatic_site.waterbody.id : '-' %></dd>
-      </dl>
-      <dl>
-        <dt>Drainage Code</dt>
-        <dd><%= @aquatic_site.waterbody ? @aquatic_site.waterbody.drainage_code : '-' %></dd>
-      </dl>
-      <dl>
-        <dt>Latitude (WGS 84)</dt>
+        <dt>Latitude</dt>
         <dd><%= @aquatic_site.latitude || '-' %></dd>
       </dl>
       <dl>
-        <dt>Longitude (WGS 84)</dt>
+        <dt>Longitude</dt>
         <dd><%= @aquatic_site.longitude || '-' %></dd>
       </dl>
       <dl>
-        <dt>Description</dt>
-        <dd><%= @aquatic_site.description || '-' %></dd>
-      </dl>
-  </div>
+        <dt>Coordinate System</dt>
+        <dd>WGS 84</dd>
+      </dl>        
+      <div style="clear: both;"></div>    
+      <%= @aquatic_site_map.div %>
+    <% end %>
+  </div>  
 </div>

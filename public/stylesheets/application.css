@@ -38,6 +38,9 @@ body {
     color: #B3D5E1;
 }
 #session .user {
+    padding-left: 20px;
+    background: transparent no-repeat url(../images/vcard.png);
+    background-position: 0 -3px;
 }
 #session .actions {
     margin-top: 7px;
@@ -103,7 +106,7 @@ body {
 #navigation .location .back a:hover {
     text-decoration: underline;
 }
-#navigation ul.tabs {
+#navigation div.tabs ul {
     margin: 0 25px;
 }
 #navigation li.tab {
@@ -139,6 +142,22 @@ body {
 #navigation li.tab.active a:hover {
     background-color: #fff;
     color: #001E20;
+}
+#navigation li.tab.browse-tab a,
+#navigation li.tab.explore-tab a,
+#navigation li.tab.help-tab a {
+    padding-left: 24px;
+    background-position: 5px 50%;
+    background-repeat: no-repeat;
+}
+#navigation li.tab.browse-tab a {
+    background-image: url(../images/table.png);
+}
+#navigation li.tab.explore-tab a {
+    background-image: url(../images/world.png);
+}
+#navigation li.tab.help-tab a {
+    background-image: url(../images/information.png);
 }
 
 #content {

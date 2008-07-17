@@ -1,8 +1,12 @@
-<dl>
+<% 
+instruments = @record.measurement ? @record.measurement.instruments.collect{ |instrument| [instrument.name, instrument.instrument_id] } : [] 
+selected = @record.instrument ? @record.instrument.id : nil
+%>
+<dl id="<%= column.name %>" style="display: <%= @record.measurement ? 'block' : 'none' %>">
   <dt>
     <label for="record[<%= column.name %>]"><%= column.label %></label>
   </dt>
   <dd>
-    <%= select("record", column.name, Instrument.find(:all).collect{ |i| [i.name, i.id] }, { :include_blank => true }, { :id => column.name }) %>    
+    <%= select("record", column.name, instruments, { }, { :id => "record[#{column.name}]" }) %>    
   </dd>
 </dl>

@@ -1,6 +1,6 @@
 module ObservationHelper
-  def group_column(record)
-    record.observation.grouping
+  def observation_group_column(record)
+    record.observation.grouping || '-'
   end
   
   def fish_passage_blocked_column(record)

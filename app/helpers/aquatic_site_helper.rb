@@ -1,15 +1,14 @@
 module AquaticSiteHelper
-  def incorporated_column(record)
-    '<img class="incorporated" src="' + (record.incorporated? ? '/images/lock.png' : '/images/lock_open.png') +  '"/>' 
+  def incorporated_column(record)    
+    '<img class="incorporated" src="/images/lock_delete.png"/>' if record.incorporated?
   end
   
   def agencies_column(record)
-    #record.agencies.collect { |agency| agency.code }.uniq.sort.join('<br/><br/>')
     agency_code_to_agency_site_ids = {}
     record.aquatic_site_usages.each do |aquatic_site_usage|
       agency = aquatic_site_usage.agency
       site_ids = agency_code_to_agency_site_ids[agency.code] || []
-      site_ids << aquatic_site_usage.agency_site_id unless aquatic_site_usage.agency_site_id.empty?
+      site_ids << aquatic_site_usage.agency_site_id unless aquatic_site_usage.agency_site_id.to_s.empty?
       agency_code_to_agency_site_ids[agency.code] = site_ids
     end
     
@@ -39,6 +38,7 @@ module AquaticSiteHelper
   def aquatic_activities_column(record)
     options = { :_method => 'get', :action => 'aquatic_site_activities',
       :aquatic_site_id => record.id, :controller => 'aquatic_activity_event' }
+    
     html_options = { :class => 'nested action', :position => 'after',
       :id => "aquatic_sites-nested-#{record.id}-link" }
     

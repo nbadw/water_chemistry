@@ -9,24 +9,12 @@
   <% end %>
 <% end %>
 
-<% if substrate_accounted_for != 0 && substrate_accounted_for != 100 %>
-  <p id="substrate-warning-message" class="warning-message message">
-    All '<%= Measurement.grouping_for_substrate_measurements %>' measurements must add up to 100%.
-    <% if substrate_accounted_for < 100 %>
-      There is currently <%= "#{100 - substrate_accounted_for}%" %> unaccounted for.
-    <% else %>
-      You are currently <%= "#{substrate_accounted_for - 100}%" %> over that limit.
+<% measurement_checks.each do |check, messages| %>
+  <% unless messages.nil? %>
+    <% for message in [messages].flatten %>
+      <p class="warning-message message <%= "#{check}-message" %>">
+        <%=h message %>
+      </p>
     <% end %>
-  </p>
-<% end %>
-
-<% if stream_accounted_for != 0 && stream_accounted_for != 100 %>
-  <p id="substrate-warning-message" class="warning-message message">
-    All '<%= Measurement.grouping_for_stream_measurements %>' measurements must add up to 100%.
-    <% if stream_accounted_for < 100 %>
-      There is currently <%= "#{100 - stream_accounted_for}%" %> unaccounted for.
-    <% else %>
-      You are currently <%= "#{stream_accounted_for - 100}%" %> over that limit.
-    <% end %>
-  </p>
+  <% end %>
 <% end %>

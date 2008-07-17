@@ -1,3 +1,3 @@
 class WaterChemistrySample < ActiveRecord::Base
-  generator_for :collection_method => WaterChemistrySample.collection_method_options.first
+  generator_for :sample_collection_method => WaterChemistrySample.sample_collection_methods.first
 end

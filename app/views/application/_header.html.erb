@@ -1,0 +1,12 @@
+<div id="header">
+  <%= render :partial => 'application/session' %>
+  
+  <div id="application">
+    <img class="logo" src="#" alt="IMG"/>
+    <h1 class="name">Aquatic Data Warehouse</span></a></h1>
+  </div>     
+  
+  <div id="agency">
+    <h3><%= "#{current_user.agency.name} (#{current_user.agency.code})" if current_user.agency %></h3>
+  </div>
+</div>

@@ -13,25 +13,7 @@
   </head>
   <body id="water-chemistry-sampling">
     
-    <div id="header">
-      <div id="session">
-        <p>Logged in as <a href="#"><span class="user"><%= current_user.login %></span></a></p> <% #= link_to h(current_user.login.capitalize), user_path(current_user) %>
-        <div class="actions">
-          <a href="#">Profile</a>  <% #= link_to 'Edit Profile', edit_user_path(current_user) %>
-          <span class="pipe">|</span>
-          <%= link_to 'Logout', logout_path %>
-        </div>
-      </div>
-      
-      <div id="application">
-        <img class="logo" src="#" alt="IMG"/>
-        <h1 class="name">Aquatic Data Warehouse: Data Entry</h1>
-      </div>    
-      
-      <div id="agency">
-        <h3><%= "#{current_user.agency.name} (#{current_user.agency.code})" if current_user.agency %></h3>
-      </div>    
-    </div>
+    <%= render :partial => 'application/header' %>
     
     <div id="navigation">
       <h2 class="location">

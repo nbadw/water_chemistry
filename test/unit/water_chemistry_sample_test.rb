@@ -1,15 +1,15 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class WaterChemistrySampleTest < ActiveSupport::TestCase
-#  should_belong_to :aquatic_activity
-#  should_have_many :sample_results
-#  should_have_many :parameters, :through => :sample_results
-#  
-#  context "with an existing record" do
-#    setup do
-#      @tbl_sample = WaterChemistrySample.generate!
-#    end
-#    
-#    should_allow_values_for :collection_method, WaterChemistrySample.collection_method_options
-#  end
+  should_belong_to :aquatic_activity_event
+  should_have_many :water_chemistry_sample_results
+  should_have_many :water_chemistry_parameters, :through => :water_chemistry_sample_results
+  
+  context "with an existing record" do
+    setup do
+      @water_chemistry_sample = WaterChemistrySample.generate!
+    end
+    
+    should_allow_values_for :sample_collection_method, WaterChemistrySample.sample_collection_methods
+  end
 end

@@ -1,8 +1,8 @@
-<dl id="bank_measurement" style="display: none;">
+<dl id="<%= column.name %>" style="display: <%= (@record.measurement && @record.measurement.bank_measurement?) ? 'block' : 'none' %>">
   <dt>
     <label for="record[<%= column.name %>]"><%= column.label %></label>
   </dt>
   <dd>
-    <%= select("record", column.name, ["N/A", "Left", "Right"], { :include_blank => true }, { :id => column.name }) %>
+    <%= select("record", column.name, ["Left", "Right"], { }, { :id => "record[#{column.name}]" }) %>
   </dd>
 </dl>

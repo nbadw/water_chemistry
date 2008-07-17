@@ -1,4 +1,4 @@
-class AquaticSiteController < ApplicationController
+class AquaticSiteController < ApplicationController  
   active_scaffold do |config|    
     # base config
     config.label = "Aquatic Sites"    
@@ -89,7 +89,7 @@ class AquaticSiteController < ApplicationController
     active_scaffold_config.list.user.page = nil
   end
   
-  private
+  private  
   def construct_finder_conditions(query_term, columns)    
     if query_term.match(/ watershed$/i)
       finder_conditions = ActiveScaffold::Finder.create_conditions_for_columns(create_watershed_query_terms(query_term), columns, '?')

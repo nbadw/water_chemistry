@@ -1,4 +1,4 @@
-  class AquaticActivityEventController < ApplicationController  
+class AquaticActivityEventController < ApplicationController  
   active_scaffold do |config|
     # base config 
     config.label = "Aquatic Activities"    
@@ -34,16 +34,14 @@
     config.show.link.inline = false
   end
   
-  alias_method :active_scaffold_new, :new
   def new
     @aquatic_activity_methods = AquaticActivityMethod.find_all_by_aquatic_activity_id active_scaffold_session_storage[:constraints][:aquatic_activity_id]
-    active_scaffold_new
+    super
   end
   
-  alias_method :active_scaffold_create, :create
   def create
     @aquatic_activity_methods = AquaticActivityMethod.find_all_by_aquatic_activity_id active_scaffold_session_storage[:constraints][:aquatic_activity_id]
-    active_scaffold_create
+    super
   end
   
   def edit

@@ -1,7 +1,11 @@
 class WaterChemistrySampleResult < ActiveRecord::Base
-  #belongs_to :parameter
-  #belongs_to :sample, :class_name => 'TblSample', :foreign_key => 'sample_id'
+  belongs_to :water_chemistry_parameter
+  belongs_to :water_chemistry_sample
   
-  #validates_presence_of :parameter, :sample, :value
-  #validates_uniqueness_of :parameter_id, :scope => :sample_id
+  validates_presence_of   :water_chemistry_parameter, :water_chemistry_sample, :value
+  validates_uniqueness_of :water_chemistry_parameter_id, :scope => :water_chemistry_sample_id
+  
+  def to_label
+    'Parameter'
+  end
 end

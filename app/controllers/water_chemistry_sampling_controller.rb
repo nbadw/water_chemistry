@@ -1,5 +1,4 @@
 class WaterChemistrySamplingController < ApplicationController 
-  #before_filter :obtain_model
   before_filter :create_aquatic_site_map, :except => [:show, :edit]
   
   def show
@@ -13,8 +12,6 @@ class WaterChemistrySamplingController < ApplicationController
   end
   
   def samples   
-    # parameters come from OandM table, DENV parameters list
-    # parameter values: parameter, value, unit of measure
   end
   
   def details
@@ -27,28 +24,21 @@ class WaterChemistrySamplingController < ApplicationController
   end
   
   def results    
-    samples = WaterChemistrySample.find_all_by_aquaticactivityid params[:aquatic_activity_id], :include => [:sample_results, :parameters]
+    samples = WaterChemistrySample.find_all_by_aquatic_activity_event_id params[:aquatic_activity_event_id], :include => [:water_chemistry_sample_results, :water_chemistry_parameters]
     
-    @columns = samples.collect { |sample| sample.parameters }.flatten.uniq.collect { |parameter| parameter.code }
+    @columns = samples.collect{ |sample| sample.water_chemistry_parameters }.flatten.uniq.collect{ |parameter| parameter.code }
     @rows = samples.collect do |sample|
       row = []
-      results = sample.sample_results.to_a
+      results = sample.water_chemistry_sample_results.to_a
       @columns.each do |column|
-        result = results.find { |result| result.parameter.code == column }
+        result = results.find { |result| result.water_chemistry_parameter.code == column }
         row << (result ? result.value : nil)
       end
       row
     end    
   end
   
-  private
-  def obtain_model
-    @water_chemistry_sampling = WaterChemistrySampling do
-      aquatic_site AquaticSite.find(params[:aquatic_site_id], :include => :waterbody)
-      aquatic_activity_event AquaticActivityEvent.find(params[:aquatic_activity_event_id])
-    end
-  end
-  
+  private  
   def create_aquatic_site_map
     @aquatic_site = AquaticSite.find params[:aquatic_site_id], :include => :waterbody
     @aquatic_site_map = GMap.new("aquatic-site-map")

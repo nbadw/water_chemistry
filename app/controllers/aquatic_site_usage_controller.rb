@@ -17,8 +17,8 @@ class AquaticSiteUsageController < ApplicationController
     false
   end
   
-  def before_create_save(record)
-    record.agency_id = current_user.agency.id
-    record.aquatic_site_id = params[:aquatic_site_id]
+  def before_create_save(aquatic_site_usage)
+    aquatic_site_usage.agency_id = current_user.agency.id
+    aquatic_site_usage.aquatic_site_id = params[:aquatic_site_id]
   end
 end

@@ -1,3 +1,13 @@
+function include_javascript(src) {
+    if (document.createElement && document.getElementsByTagName) {
+        var head = document.getElementsByTagName('head')[0];
+        var script = document.createElement('script');
+        script.setAttribute('type', 'text/javascript');
+        script.setAttribute('src', src);
+        head.appendChild(script);
+    }
+}
+
 var map = null;
 var site2marker = {};
         

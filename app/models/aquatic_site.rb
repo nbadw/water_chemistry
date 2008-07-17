@@ -13,6 +13,9 @@ class AquaticSite < ActiveRecord::Base
   has_many   :aquatic_site_usages
   has_many   :aquatic_activities, :through => :aquatic_site_usages, :uniq => true
   has_many   :agencies, :through => :aquatic_site_usages, :uniq => true
+  
+  #composed_of :recorded_location, :class_name => 'Location', :mapping => []
+  #composed_of :gmap_location, :class_name => 'Location', :mapping => []
         
   before_destroy :check_if_incorporated, :check_if_in_use
     
@@ -73,6 +76,18 @@ class AquaticSite < ActiveRecord::Base
       AquaticSiteInUse, 
       "Site is in use, record cannot be deleted"
     ) unless self.aquatic_site_usages.empty?
+  end
+  
+  def coordinate_is_decimal_degrees?
+    
+  end
+  
+  def coordinate_is_degrees_minutes_seconds?
+    
+  end
+  
+  def coordinate_is_decimal?
+    
   end
   
 #   #region Coordinate Parsing
