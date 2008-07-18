@@ -16,6 +16,8 @@ module SiteMeasurementHelper
   end
   
   def do_measurement_checks
+    return [] unless aquatic_activity_event_id 
+    
     measurement_checks = [:check_substrate_accounted_for, :check_stream_accounted_for, :check_bank_measurements]    
     measurement_checks.inject(Hash.new) do |messages, check|
       messages[check] = self.send(check)
@@ -55,6 +57,8 @@ module SiteMeasurementHelper
     
   def aquatic_activity_event_id
     active_scaffold_session_storage = session["as:#{params[:eid]}"]
-    active_scaffold_session_storage[:constraints][:aquatic_activity_event_id]    
+    if active_scaffold_session_storage && active_scaffold_session_storage[:constraints]
+      active_scaffold_session_storage[:constraints][:aquatic_activity_event_id]    
+    end
   end
 end

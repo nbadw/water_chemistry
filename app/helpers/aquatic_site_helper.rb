@@ -6,6 +6,7 @@ module AquaticSiteHelper
   def agencies_column(record)
     agency_code_to_agency_site_ids = {}
     record.aquatic_site_usages.each do |aquatic_site_usage|
+      next unless aquatic_site_usage.agency
       agency = aquatic_site_usage.agency
       site_ids = agency_code_to_agency_site_ids[agency.code] || []
       site_ids << aquatic_site_usage.agency_site_id unless aquatic_site_usage.agency_site_id.to_s.empty?
