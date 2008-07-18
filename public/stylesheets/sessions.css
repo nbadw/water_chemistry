@@ -70,3 +70,17 @@ body {
     display: block;
     margin: 10px 0 20px;
 }
+
+#errorExplanation h2 { 
+    color: black; 
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+#errorExplanation p { 
+    color: black;
+}
+#errorExplanation ul li {
+    list-style-type: disc;
+    margin: 3px 0 2px 20px;
+}

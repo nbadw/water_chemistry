@@ -16,7 +16,7 @@
   <% form_for :user, :url => users_path do |f| %>
     <dl>
       <dt><label for="agency">Agency:</label></dt>
-      <dd><select name="agency"></select></dd>
+      <dd><%= select 'user', 'agency_id', Agency.find(:all, :order => 'name ASC').collect{ |agency| [agency.name, agency.id] } %></dd>
     
       <dt><label for="login">Username:</label></dt>
       <dd><%= f.text_field :login %></dd>

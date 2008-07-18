@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class UserTest < Test::Unit::TestCase     
   should_belong_to :agency
-  should_require_attributes :login, :email, :password, :password_confirmation, :agency_id
+  should_require_attributes :login, :email, :password, :password_confirmation, :agency
   
   context "with a new user" do
     setup { @user = User.generate! }
@@ -63,11 +63,11 @@ class UserTest < Test::Unit::TestCase
   
   context "with an activated user account" do
     setup do
-      @user = User.generate
+      @user = User.generate!
       @user.update_attribute(:activated_at, DateTime.now)
       assert @user.active?
-    end
-    
+    end    
+        
     should "be able to authenticate" do
       assert_equal @user, User.authenticate(@user.login, @user.password)
     end
