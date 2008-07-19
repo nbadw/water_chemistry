@@ -9,6 +9,8 @@ class SiteMeasurementController < ApplicationController
     
     config.create.persistent = true
     config.create.columns.exclude :measurement_group
+    
+    config.update.columns.exclude :measurement_group
         
     config.columns[:measurement_group].sort = { :sql => "#{Measurement.table_name}.grouping" }
     config.list.sorting =[{ :measurement_group => :asc }]

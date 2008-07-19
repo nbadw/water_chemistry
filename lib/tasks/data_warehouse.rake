@@ -19,6 +19,11 @@ namespace :data_warehouse do
       :aquatic_site_usages, :aquatic_sites, :instruments, :observations, :observable_values,
       :measurements, :measurement_instrument, :measurement_unit, :units_of_measure, :waterbodies
     ]
+    
+    desc "access test"
+    task :access_test => :init do 
+      process File.join(ETL_ROOT, 'agency_access.ctl')
+    end
 
     desc "import agencies"
     task :agencies => :init do
@@ -101,6 +106,7 @@ def initialize_etl_engine(options = {})
   require File.join(RAILS_ROOT, 'vendor', 'plugins', 'etl', 'lib', 'etl')
   require File.join(ETL_ROOT, 'lib', 'coordinate_import_processor')
   require File.join(ETL_ROOT, 'lib', 'nullify_processor')
+  require File.join(ETL_ROOT, 'lib', 'access_source')
   require File.join('active_record', 'connection_adapters', 'sqlserver_adapter') 
   require 'etl_engine_logger_mod'
   

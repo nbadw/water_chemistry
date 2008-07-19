@@ -3,6 +3,6 @@
     <label for="record[<%= column.name %>]"><%= column.label %></label>
   </dt>
   <dd>
-    <%= select("record", column.name, ["Left", "Right"], { }, { :id => "record[#{column.name}]" }) %>
+    <%= select("record", column.name, ["Left", "Right"], { :selected => @record.bank }, { :id => "record[#{column.name}]" }) %>
   </dd>
 </dl>

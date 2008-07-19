@@ -192,7 +192,7 @@ ActiveRecord::Schema.define(:version => 1) do
     t.integer  "measurement_id"
     t.integer  "instrument_id"
     t.integer  "unit_of_measure_id"
-    t.float    "value_measured"
+    t.string   "value_measured"
     t.datetime "imported_at"
     t.datetime "exported_at"
     t.datetime "created_at"

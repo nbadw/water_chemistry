@@ -1,3 +1,4 @@
+<% @observations << @record.observation if @record.observation %>
 <dl>
   <dt>
     <label for="record[<%= column.name %>]"><%= column.label %></label>
@@ -7,12 +8,29 @@
       <option></option>
       <% groups(@observations).each do |group| %>
         <optgroup label="<%= group == '' ? 'Misc.' : group %>">
-          <%= options_from_collection_for_select(observations_grouped_by(group, @observations), :id, :name) %>
+          <%= options_from_collection_for_select(observations_grouped_by(group, @observations), :id, :name, @record.observation ? @record.observation.id : nil) %>
         </optgroup>
       <% end %>
     </select>    
   </dd>
 </dl>
-<div id="selected_observation_form"></div>
 
 <%= observe_field(:selected_observation, :update => :selected_observation_form, :on => :change, :with => "observation_id", :url => { :action => :on_observation_change }) %>     
+
+<div id="value_observed" style="display: <%= @record.observation ? 'block' : 'none' %>; padding-top: 4px;" >
+  <dl>
+    <dt>
+      <label for="record[value_observed]">Observed Value</label>
+    </dt>
+    <dd id="value_observed_input">
+      <%= value_observed_input(@record) %>
+    </dd>
+  </dl>
+</div>
+
+<div id="fish_passage_blocked" style="display: <%= @record.observation && @record.observation.fish_passage_blocked_observation? ? 'block' : 'none' %>; padding-top: 6px">
+  <dl>
+    <dt></dt>
+    <dd><input name="record[fish_passage_blocked]" type="checkbox"/><span>Fish Passage Blocked?</span></dd>
+  </dl>
+</div>

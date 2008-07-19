@@ -3,7 +3,7 @@ class ObservationController < ApplicationController
   
   active_scaffold :site_observation do |config|
     config.label = "Observations"
-    config.actions = [:list, :create, :delete]
+    config.actions = [:list, :create, :update, :delete]
     config.columns = [:observation, :observation_group, :value_observed, :fish_passage_blocked]
     config.columns[:observation_group].label = "Group"
     config.columns[:value_observed].label = "Observed Value"
@@ -11,10 +11,12 @@ class ObservationController < ApplicationController
     
     config.columns[:observation_group].sort = { :sql => "#{Observation.table_name}.grouping" }
     config.list.sorting =[{ :observation_group => :asc }]
-    
+        
     config.create.persistent = true
     config.create.label = "Record an Observation"
     config.create.columns = [:observation]
+    
+    config.update.columns = [:observation]
   end
   
   def find_observations
@@ -26,7 +28,13 @@ class ObservationController < ApplicationController
   end
   
   def on_observation_change
-    render :partial => 'on_observation_change', :locals => { :observation => Observation.find(params[:observation_id]) }
+    observation = Observation.find params[:observation_id]
+    @record = SiteObservation.new(:observation => observation)
+    render :update do |page|   
+      page.replace_html 'value_observed_input', :inline => '<%= value_observed_input(@record) %>'  
+      page.show 'value_observed'
+      observation.fish_passage_blocked_observation? ? page.show('fish_passage_blocked') : page.hide('fish_passage_blocked')
+    end   
   end
   
   def before_create_save(site_observation)
