@@ -197,19 +197,55 @@ class AccessConnection
   
   def tables
     begin
-      puts 'accessing tables'
       connection = WIN32OLE.new('ADODB.Connection')
       connection.Open(connection_string)
             
       catalog = WIN32OLE.new("ADOX.Catalog")
       catalog.ActiveConnection = connection
       
-      catalog.Tables.each do |table|
-        puts "Name: #{table.Name}"
-        puts "Type: #{table.Type}\n"
-      end      
+      tables = []
+      catalog.Tables.each do |table|        
+        tables << table.Name if table.Type == 'TABLE' || table.Type == 'LINK'
+      end
+      tables
     ensure
       connection.Close if connection
+    end
+  end
+  
+  def columns(table_name)
+    begin
+      connection = WIN32OLE.new('ADODB.Connection')
+      connection.Open(connection_string)
+            
+      catalog = WIN32OLE.new("ADOX.Catalog")
+      catalog.ActiveConnection = connection
+      
+      table = catalog.Tables(table_name)
+      columns = []
+      table.Columns.each do |column| 
+        columns << { :name => column.Name, :type => adox_type_2_rails(column.Type) }
+        #        column.Properties.each do |property|
+        #          puts " - :name => #{property.Name}, :value => #{property.Value}, :type => #{property.Type}"
+        #        end
+      end
+      columns
+    ensure
+      connection.Close if connection
+    end    
+  end
+  
+  def adox_type_2_rails(type)
+    case type
+    when 2   then :integer
+    when 3   then :integer
+    when 4   then :float
+    when 5   then :decimal
+    when 7   then :timestamp
+    when 11  then :boolean
+    when 202 then :string
+    else
+      raise "Unknown ADOX data type: #{type} - http://msdn.microsoft.com/en-us/library/ms675318(VS.85).aspx"
     end
   end
     
@@ -249,16 +285,35 @@ class AccessConnection
   end
 end
 
-#def load_mdb_schema(mdb_file, options = {})
-#  connection = AccessConnection.new(mdb_file)
-#  tables = connection.tables
-##  
-##  begin
-##    ActiveRecord::Schema.drop_table(table)
-##  rescue
-##  end 
-##
-##  #empty block : the columns will be added afterwards
-##  ActiveRecord::Schema.create_table(table_name,:options => options){}
-#
-#end
+def load_mdb_schema(mdb_file, options = {})
+  connection = AccessConnection.new(mdb_file)
+  tables = options[:only] ? options[:only] : connection.tables - (options[:except] || [])          
+  ActiveRecord::Migration.verbose = false
+  
+  tables.each do |table|
+    puts "creating table: #{table}"
+    begin
+      ActiveRecord::Schema.drop_table(table)
+    rescue
+    end   
+    #empty block : the columns will be added afterwards
+    ActiveRecord::Schema.create_table(table) { }
+    connection.columns(table).each { |col| ActiveRecord::Schema.add_column(table, col[:name], col[:type]) }
+  end
+end
+
+module ETL
+  module Control
+    class Control
+      class << self
+        def parse_dynamic(mdb_file, table, dynamic_control_file)
+          control = ETL::Control::Control.new(File.new(dynamic_control_file).path)
+          text = File.read(dynamic_control_file)
+          eval("mdb_file = '#{mdb_file}'\ntable = '#{table}'\n#{text}", Context.create(control), 'inline')
+          control.validate
+          control   
+        end
+      end
+    end
+  end
+end

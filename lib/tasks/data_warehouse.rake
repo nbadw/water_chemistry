@@ -22,7 +22,7 @@ namespace :data_warehouse do
     
     desc "access test"
     task :access_test => :init do 
-      process File.join(ETL_ROOT, 'agency_access.ctl')
+      require File.join(ETL_ROOT, 'import_from_access')
     end
 
     desc "import agencies"
