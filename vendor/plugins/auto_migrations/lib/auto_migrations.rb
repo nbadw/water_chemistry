@@ -117,7 +117,7 @@ module AutoMigrations
     end
   
     def drop_unused_tables
-      (ActiveRecord::Base.connection.tables - tables_in_schema - ["schema_info"]).each do |table|
+      (ActiveRecord::Base.connection.tables - tables_in_schema - ["schema_migrations"]).each do |table|
         drop_table table
       end
     end
