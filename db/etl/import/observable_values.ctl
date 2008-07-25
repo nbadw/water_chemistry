@@ -10,7 +10,6 @@ source :in, {
 
 rename :oandmvaluescd, :id
 rename :oandmcd, :observation_id
-before_write :check_exist, :target => RAILS_ENV, :table => "observable_values", :columns => [:id]
 
 destination :out, { 
   :file => outfile

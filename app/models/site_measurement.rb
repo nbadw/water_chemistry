@@ -12,6 +12,10 @@ class SiteMeasurement < ActiveRecord::Base
   validates_inclusion_of :bank, :in => [LEFT_BANK, RIGHT_BANK], :if => Proc.new { |site_measurement| site_measurement.measurement.bank_measurement? if site_measurement.measurement }
   validates_numericality_of :value_measured
   
+  def to_label
+    self.measurement.name if self.measurement
+  end
+  
   class << self    
     def calculate_bank_accounted_for(aquatic_activity_event_id)
       conditions = ["#{self.table_name}.aquatic_activity_event_id = ? && #{Measurement.table_name}.bank_measurement = ?", aquatic_activity_event_id, true]

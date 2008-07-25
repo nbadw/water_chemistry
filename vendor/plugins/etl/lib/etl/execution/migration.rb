@@ -6,9 +6,12 @@ module ETL #:nodoc:
       class << self
         # Execute the migrations
         def migrate
-          connection.initialize_schema_information
-          v = connection.select_value("SELECT version FROM #{schema_info_table_name}").to_i
-          v.upto(target - 1) do |i| 
+          connection.initialize_schema_migrations_table
+          v = connection.select_value("SELECT version FROM #{schema_info_table_name}")
+          unless v
+            connection.execute("INSERT INTO #{schema_info_table_name} VALUES (0)")
+          end
+          v.to_i.upto(target - 1) do |i| 
             __send__("migration_#{i+1}".to_sym)
             update_schema_info(i+1)
           end
@@ -16,7 +19,7 @@ module ETL #:nodoc:
         protected
         # Get the schema info table name
         def schema_info_table_name
-          ETL::Execution::Base.table_name_prefix + "schema_info" + 
+          ETL::Execution::Base.table_name_prefix + "schema_migrations" + 
             ETL::Execution::Base.table_name_suffix
         end
         

@@ -13,7 +13,6 @@ source :in, {
 rename :measureunitcd, :id
 rename :oandmcd, :measurement_id
 rename :unitofmeasurecd, :unit_of_measure_id
-before_write :check_exist, :target => RAILS_ENV, :table => dst_table, :columns => [:id]
 
 destination :out, { 
   :file => outfile

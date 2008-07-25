@@ -40,3 +40,24 @@ class Test::Unit::TestCase
 
   # Add more helper methods to be used by all tests here...
 end
+
+module ThoughtBot
+  module Shoulda 
+    module ActiveRecord
+      def should_define_timestamps
+        should_define_attributes :imported_at, :exported_at, :created_at, :updated_at
+      end
+    
+      def should_define_attributes(*attrs)
+        attrs.each do |attr|      
+          should_have_instance_methods attr, "#{attr.to_s}=".to_sym
+        end
+      end
+    
+      def should_alias_attribute(old_name, new_name)
+        should_define_attributes old_name, new_name
+        klass = model_class
+      end
+    end
+  end
+end

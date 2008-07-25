@@ -44,6 +44,11 @@
       </dl>        
       <div style="clear: both;"></div>    
       <%= @aquatic_site_map.div %>
+      
+      <script type="text/javascript">
+        include_gmap_scripts('<%= GMap.header %>');
+        <% # = @aquatic_site_map.to_html %>
+      </script>
     <% end %>
   </div>  
 </div>

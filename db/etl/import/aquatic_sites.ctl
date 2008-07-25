@@ -1,10 +1,11 @@
 # ETL Control file
 src_columns = [:aquaticsiteid, :oldaquaticsiteid, :riversystemid, :waterbodyid, :waterbodyname, :aquaticsitename,
-    :aquaticsitedesc, :habitatdesc, :reachno, :startdesc, :enddesc, :startroutemeas, :endroutemeas, :sitetype,
-    :specificsiteind, :georeferencedind, :dateentered, :incorporatedind, :coordinatesource, :coordinatesystem,
-    :xcoordinate, :ycoordinate, :coordinateunits, :comments]
-dst_columns = [:id, :name, :description, :comments, :waterbody_id, :x_coordinate, :y_coordinate, :coordinate_srs_id, 
-    :coordinate_source, :gmap_srs_id, :gmap_latitude, :gmap_longitude, :imported_at, :exported_at, :created_at, :updated_at]
+  :aquaticsitedesc, :habitatdesc, :reachno, :startdesc, :enddesc, :startroutemeas, :endroutemeas, :sitetype,
+  :specificsiteind, :georeferencedind, :dateentered, :incorporatedind, :coordinatesource, :coordinatesystem,
+  :xcoordinate, :ycoordinate, :coordinateunits, :comments]
+dst_columns = [:id, :name, :description, :comments, :waterbody_id, :coordinate_system_id,  :coordinate_source_id,
+  :raw_latitude, :raw_longitude, :latitude, :longitude, :gmap_coordinate_system_id, :gmap_latitude, :gmap_longitude, 
+  :imported_at, :exported_at, :created_at, :updated_at]
 outfile = "output/aquatic_sites.csv"
 
 source :in, { 
@@ -17,20 +18,22 @@ rename :aquaticsiteid, :id
 rename :aquaticsitename, :name
 rename :aquaticsitedesc, :description
 rename :waterbodyid, :waterbody_id
-rename :xcoordinate, :x_coordinate
-rename :ycoordinate, :y_coordinate
-rename :coordinatesource, :coordinate_source
-rename :coordinatesystem, :coordinate_srs_id
+rename :xcoordinate, :raw_latitude
+rename :ycoordinate, :raw_longitude
+rename :coordinatesource, :coordinate_source_id
+rename :coordinatesystem, :coordinate_system_id
+
+transform :gmap_coordinate_system_id, :default, :default_value => "WGS84"
+transform :coordinate_source_id, :decode, :decode_table_path => 'decode/coordinate_source_to_id.txt', :default_value => ''
+transform :coordinate_system_id, :decode, :decode_table_path => 'decode/coordinate_system_text_to_id.txt', :default_value => ''
+transform :gmap_coordinate_system_id, :decode, :decode_table_path => 'decode/coordinate_system_text_to_id.txt', :default_value => ''
 
 before_write do |row| 
-    return nil unless row[:id].to_i > 0
-
-    row[:created_at] = Date.parse(row[:dateentered]) rescue Time.now
-    row[:exported_at] = row[:incorporatedind].to_s == 'true' ? Time.now : nil    
-    row[:coordinate_srs_id] = 0 
-    row[:gmap_srs_id] = 4326 # WGS84
-
-    row
+  return nil if row[:id].to_i <= 0  
+  row[:created_at] = DateTime.parse(row[:dateentered]) rescue DateTime.now
+  row[:exported_at] = row[:incorporatedind].to_s == 'true' ? DateTime.now : nil 
+  puts "id=#{row[:id]}, created_at=#{row[:created_at]}, exported_at=#{row[:exported_at]}"   
+  row
 end
 before_write :check_exist, :target => RAILS_ENV, :table => "aquatic_sites", :columns => [:id]
 

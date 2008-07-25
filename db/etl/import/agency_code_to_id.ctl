@@ -11,5 +11,5 @@ destination :out, {
   :file => "decode/agency_code_to_id.txt",
   :separator => ':'
 }, { 
-  :order => columns,
+  :order => columns
 } 

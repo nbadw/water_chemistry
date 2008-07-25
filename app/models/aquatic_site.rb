@@ -1,76 +1,67 @@
 class AquaticSite < ActiveRecord::Base
-  class AquaticSiteInUse < ActiveRecord::ActiveRecordError;end      
-  class RecordIsIncorporated < ActiveRecord::ActiveRecordError;end
+  include AquaticDataWarehouse::IncorporatedModel
   
+  class AquaticSiteInUse < ActiveRecord::ActiveRecordError;end  
+    
   DEGREES_MINUTES_SECONDS_REGEXP = /^(-?\d{2}\d?)[:d°](\d\d?)[:'](\d\d?[.]?\d*)"?([NSEW]?)$/
   #DECIMAL_DEGREES_REGEXP = //
   DECIMAL_REGEXP = /^(-?\d+[.]?\d*)$/
-  
-  alias_attribute :latitude,  :gmap_latitude
-  alias_attribute :longitude, :gmap_longitude
-  
+    
   belongs_to :waterbody 
   has_many   :aquatic_site_usages
   has_many   :aquatic_activities, :through => :aquatic_site_usages, :uniq => true
   has_many   :agencies, :through => :aquatic_site_usages, :uniq => true
   
-  #composed_of :recorded_location, :class_name => 'Location', :mapping => []
-  #composed_of :gmap_location, :class_name => 'Location', :mapping => []
+  #composed_of :actual_location
+  #composed_of :balance, :class_name => 'Money', :mapping => [%w(balance amount), %w(currency currency)] do |params|
+#    Money.new params[:balance], params[:currency]
+#  end
+  composed_of :recorded_location, :class_name => 'Location', :mapping => [%w(raw_latitude latitude), %w(raw_longitude longitude), %w(coordinate_system_id coordinate_system_id)]
+  composed_of :gmap_location, :class_name => 'Location', :mapping => [%w(gmap_latitude latitude), %w(gmap_longitude longitude), %w(gmap_coordinate_system_id coordinate_system_id)]
         
-  before_destroy :check_if_incorporated, :check_if_in_use
+  before_destroy :destroy_allowed?
     
   validates_presence_of :description, :waterbody  
   
-  validates_each :x_coordinate do |record, attr, val|
-    if any_coordinate_attribute_present?(record)
-      record.errors.add :x_coordinate, "can't be empty" if val.to_s.empty?
-    end    
-  end
-  
-  validates_each :y_coordinate do |record, attr, val|
-    if any_coordinate_attribute_present?(record)
-      record.errors.add :y_coordinate, "can't be empty" if val.to_s.empty?
-    end
-  end  
-  
-  validates_each :coordinate_source do |record, attr, val|
-    if any_coordinate_attribute_present?(record)
-      record.errors.add :coordinate_source, "can't be empty" if val.to_s.empty?
-    end
-  end
-  
-  validates_each :coordinate_srs_id do |record, attr, val|
-    if any_coordinate_attribute_present?(record)
-      record.errors.add :coordinate_srs_id, "can't be empty" if val.to_s.empty?
-    end
-  end
-  
-  def self.any_coordinate_attribute_present?(record)
-    coordinate_attributes = [:x_coordinate, :y_coordinate, :coordinate_source, :coordinate_srs_id]
-    coordinate_attributes.any? { |attribute| !record.send(attribute).to_s.empty? }
-  end
-  
-  def authorized_for_destroy?
-    !incorporated?
-  end
-  
-  def authorized_for_update?
-    !incorporated?
-  end
+#  validates_each :raw_latitude do |record, attr, val|
+#    if any_coordinate_attribute_present?(record)
+#      record.errors.add :raw_latitude, "can't be empty" if val.to_s.empty?
+#    end    
+#  end
+#  
+#  validates_each :raw_longitude do |record, attr, val|
+#    if any_coordinate_attribute_present?(record)
+#      record.errors.add :raw_latitude, "can't be empty" if val.to_s.empty?
+#    end
+#  end  
+#  
+#  validates_each :coordinate_sourc_d do |record, attr, val|
+#    if any_coordinate_attribute_present?(record)
+#      record.errors.add :coordinate_source, "can't be empty" if val.to_s.empty?
+#    end
+#  end
+#  
+#  validates_each :coordinate_srs_id do |record, attr, val|
+#    if any_coordinate_attribute_present?(record)
+#      record.errors.add :coordinate_srs_id, "can't be empty" if val.to_s.empty?
+#    end
+#  end
+#  
+#  def self.any_coordinate_attribute_present?(record)
+#    coordinate_attributes = [:x_coordinate, :y_coordinate, :coordinate_source, :coordinate_srs_id]
+#    coordinate_attributes.any? { |attribute| !record.send(attribute).to_s.empty? }
+#  end
   
   def drainage_code
     self.waterbody.drainage_code if self.waterbody
+  end  
+  
+  private   
+  def destroy_allowed?
+    check_if_incorporated
+    check_if_in_use
   end
   
-  def incorporated?
-    !!read_attribute(:exported_at)        
-  end    
-  
-  private
-  def check_if_incorporated
-    raise(RecordIsIncorporated, "Incorporated records cannot be deleted") if incorporated?
-  end
-    
   def check_if_in_use
     raise(
       AquaticSiteInUse, 

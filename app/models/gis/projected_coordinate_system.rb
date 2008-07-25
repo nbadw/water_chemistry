@@ -1,0 +1,2 @@
+class ProjectedCoordinateSystem < CoordinateSystem
+end

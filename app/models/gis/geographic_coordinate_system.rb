@@ -1,0 +1,2 @@
+class GeographicCoordinateSystem < CoordinateSystem
+end

@@ -1,7 +1,7 @@
 <ul class="waterbodies" style="overflow: auto; height: 300px;">
 <% for waterbody in @waterbodies do -%>
   <li class="waterbody">
-    <div><span class="name"><%=h waterbody.name %></span></div>
+    <div><span class="name"><%=h waterbody.name.to_s.empty? ? 'Unnamed Waterbody' : waterbody.name %></span></div>
     <div>ID: <span class="id"><%=h waterbody.id -%></span></div>
     <div>Drainage Code: <span class="drainage-code"><%=h waterbody.drainage_code -%></span></div>
   </li>

@@ -1,6 +1,8 @@
+# ETL Control file
+table = 'water_chemistry_parameters'
 src_columns = [:oandmcd, :oandm_type, :oandm_category, :oandm_group, :oandm_parameter, :oandm_parametercd, :oandm_valuesind, :oandm_detailsind, :fishpassageind, :bankind]
-dst_columns = [:id, :name, :grouping, :category, :bank_measurement, :imported_at, :exported_at, :created_at, :updated_at]
-outfile = "output/measurements.csv"
+dst_columns = [:id, :name, :code, :imported_at, :exported_at, :created_at, :updated_at]
+outfile = "output/#{table}.csv"
 
 source :in, { 
   :database => "dataWarehouse",
@@ -8,15 +10,11 @@ source :in, {
   :table => "cdOandM"
 }, src_columns
 
-transform(:bankind) { |name, val, row| val == 'true' ? 1 : 0 }
-
 rename :oandmcd, :id
-rename :oandm_category, :category
-rename :oandm_group, :grouping
 rename :oandm_parameter, :name
-rename :bankind, :bank_measurement
+rename :oandm_parametercd, :code
 
-before_write { |row| row if row[:oandm_type] == 'Measurement' && row[:grouping] != 'Chemical' }
+before_write { |row| row if row[:oandm_type] == 'Measurement' && row[:oandm_group] == 'Chemical' }
 
 destination :out, { 
   :file => outfile
@@ -34,5 +32,5 @@ post_process :bulk_import, {
   :columns => dst_columns, 
   :field_separator => ",", 
   :target => RAILS_ENV, 
-  :table => "measurements"
+  :table => table
 }

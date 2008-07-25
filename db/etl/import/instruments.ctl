@@ -11,7 +11,6 @@ source :in, {
 rename :instrumentcd, :id
 rename :instrument, :name
 rename :instrument_category, :category
-before_write :check_exist, :target => RAILS_ENV, :table => "instruments", :columns => [:id]
 
 destination :out, { 
   :file => outfile

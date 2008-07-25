@@ -51,7 +51,7 @@ etl_execution:
 
 aquatic_data_warehouse:
   adapter: sqlserver
-  database: dataWarehouse
+  database: WaterChemTablesSQL
   host: localhost
   provider: SQLNCLI
   windows_auth: true

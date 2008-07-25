@@ -12,7 +12,6 @@ source :in, {
 rename :unitofmeasurecd, :id
 rename :unitofmeasure, :name
 rename :unitofmeasureabv, :unit
-before_write :check_exist, :target => RAILS_ENV, :table => "units_of_measure", :columns => [:id]
 
 destination :out, { 
   :file => outfile

@@ -17,13 +17,9 @@ namespace :data_warehouse do
     
     task :all => [:agencies, :aquatic_activities, :aquatic_activity_events, :aquatic_activity_methods,
       :aquatic_site_usages, :aquatic_sites, :instruments, :observations, :observable_values,
-      :measurements, :measurement_instrument, :measurement_unit, :units_of_measure, :waterbodies
+      :measurements, :measurement_instrument, :measurement_unit, :units_of_measure, :waterbodies,
+      :water_chemistry_parameters
     ]
-    
-    desc "access test"
-    task :access_test => :init do 
-      require File.join(ETL_ROOT, 'import_from_access')
-    end
 
     desc "import agencies"
     task :agencies => :init do
@@ -98,6 +94,21 @@ namespace :data_warehouse do
     desc "import waterbodies"
     task :waterbodies => :init do
       process File.join(ETL_ROOT, 'import', 'waterbodies.ctl')
+    end
+    
+    desc "import water chemistry parameters"
+    task :water_chemistry_parameters => :init do
+      process File.join(ETL_ROOT, 'import', 'water_chemistry_parameters.ctl')
+    end
+    
+    desc "build text->id decode file for aquatic site coordinate systems"
+    task :coordinate_system_text_to_id => :init do
+      process File.join(ETL_ROOT, 'import', 'coordinate_system_text_to_id.ctl')
+    end
+    
+    desc "build name->id decode file for coordinate sources"
+    task :coordinate_source_to_id => :init do
+      process File.join(ETL_ROOT, 'import', 'coordinate_source_to_id.ctl')
     end
   end
 end

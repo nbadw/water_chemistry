@@ -1,5 +1,5 @@
-src_columns = [:oandmcd, :oandm_type, :oandm_category, :oandm_group, :oandm_parameter, :oandm_valuesind]
-dst_columns = [:id, :name, :grouping, :category, :imported_at, :exported_at, :created_at, :updated_at]
+src_columns = [:oandmcd, :oandm_type, :oandm_category, :oandm_group, :oandm_parameter, :oandm_parametercd, :oandm_valuesind, :oandm_detailsind, :fishpassageind, :bankind]
+dst_columns = [:id, :name, :grouping, :category, :fish_passage_blocked_observation, :imported_at, :exported_at, :created_at, :updated_at]
 outfile = "output/observations.csv"
 
 source :in, { 
@@ -8,13 +8,16 @@ source :in, {
   :table => "cdOandM"
 }, src_columns
 
+
+transform(:fishpassageind) { |name, val, row| val == 'true' ? 1 : 0 }
+
 rename :oandmcd, :id
 rename :oandm_category, :category
 rename :oandm_group, :grouping
 rename :oandm_parameter, :name
+rename :fishpassageind, :fish_passage_blocked_observation
 
 before_write { |row| row if row[:oandm_type] == 'Observation' }
-before_write :check_exist, :target => RAILS_ENV, :table => "observations", :columns => [:id]
 
 destination :out, { 
   :file => outfile

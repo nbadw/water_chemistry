@@ -3,11 +3,6 @@
     <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
   </dt>
   <dd>
-    <select name="record[<%= column.name %>]">           
-        <option></option>
-        <option>GIS</option>
-        <option>GPS</option>
-        <option>Topographic Map</option>
-    </select>
+    <%= select("record", column.name, CoordinateSource.find(:all).collect { |source| [source.name, source.id]}, { :include_blank => true}) %>
   </dd>
 </dl>

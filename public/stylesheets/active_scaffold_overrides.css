@@ -83,18 +83,18 @@ td.incorporated-column {
     padding-left: 5px;
 }
 
-#site_measurement-create--form .sub-form {
+#site_measurement-active-scaffold form .sub-form {
     padding-left: 0;
 }
-#site_measurement-create--form .sub-form dt {
+#site_measurement-active-scaffold form .sub-form dt {
     float: left; 
     padding: 6px 0; 
     width: 12em;
 }
-#site_measurement-create--form .sub-form label {
+#site_measurement-active-scaffold form .sub-form label {
     display: block;
 }
-#site_measurement-create--form .sub-form select {
+#site_measurement-active-scaffold form .sub-form select {
     font-size: 16px;
     letter-spacing: -1px;
 }

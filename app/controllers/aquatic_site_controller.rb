@@ -34,7 +34,7 @@ class AquaticSiteController < ApplicationController
       waterbody.add :waterbody
     end
     config.create.columns.add_subgroup "Location" do |location|
-      location.add :coordinate_source, :coordinate_srs_id, :x_coordinate, :y_coordinate
+      location.add :coordinate_source, :coordinate_system, :x_coordinate, :y_coordinate
     end
     
     # update config
@@ -43,7 +43,7 @@ class AquaticSiteController < ApplicationController
       waterbody.add :waterbody
     end
     config.update.columns.add_subgroup "Location" do |location|
-      location.add :coordinate_source, :coordinate_srs_id, :x_coordinate, :y_coordinate
+      location.add :coordinate_source, :coordinate_system, :x_coordinate, :y_coordinate
     end
         
     # search config

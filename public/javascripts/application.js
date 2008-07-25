@@ -8,6 +8,10 @@ function include_javascript(src) {
     }
 }
 
+function include_gmap_scripts(gmap_header) {
+    console.log(gmap_header);
+}
+
 var map = null;
 var site2marker = {};
         

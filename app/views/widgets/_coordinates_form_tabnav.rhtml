@@ -1,10 +1,13 @@
 <%    
 systems = [ 
   { :epsg => 4326,  :title => 'WGS84',            :name => "GCS_WGS_1984" },
-  { :epsg => 2036,  :title => 'NAD83',            :name => "NAD_1983_CSRS98_New_Brunswick_Stereographic" },
-  { :epsg => 2200,  :title => 'ATS77',            :name => "ATS_1977_New_Brunswick_Stereographic" },
-  { :epsg => 26719, :title => 'NAD27 (Zone 19N)', :name => "NAD_1927_UTM_Zone_19N" },
-  { :epsg => 26720, :title => 'NAD27 (Zone 20N)', :name => "NAD_1927_UTM_Zone_20N" }
+  { :epsg => 4269,  :title => 'NAD83',            :name => "GCS_North_American_1983" },
+  { :epsg => 2953,  :title => 'NAD83 (CSRS) NB Stereographic', :name => 'NAD_1983_CSRS_New_Brunswick_Stereographic' },
+  { :epsg => 2200,  :title => 'ATS77 NB Stereographic',        :name => "ATS_1977_New_Brunswick_Stereographic" },
+  { :epsg => 26919, :title => 'NAD83 / UTM zone 19N', :name => '' },
+  { :epsg => 26920, :title => 'NAD83 / UTM zone 20N', :name => '' },
+  { :epsg => 26719, :title => 'NAD27 / UTM zone 19N', :name => "NAD_1927_UTM_Zone_19N" },
+  { :epsg => 26720, :title => 'NAD27 / UTM zone 20N', :name => "NAD_1927_UTM_Zone_20N" }
 ]
 %>
 <%=
