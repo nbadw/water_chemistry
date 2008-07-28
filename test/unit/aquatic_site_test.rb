@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + '/../test_helper'
+require 'mocha'
 
 class AquaticSiteTest < ActiveSupport::TestCase
   should_belong_to :waterbody 
@@ -8,45 +9,45 @@ class AquaticSiteTest < ActiveSupport::TestCase
    
   should_require_attributes :description, :waterbody
   
-#  should "be valid if all coordinate parameters are nil" do
-#    aquatic_site = AquaticSite.spawn
-#    assert_nil aquatic_site.x_coordinate
-#    assert_nil aquatic_site.y_coordinate
-#    assert_nil aquatic_site.coordinate_srs_id
-#    assert_nil aquatic_site.coordinate_source
-#    assert_valid aquatic_site
-#  end
-#  
-#  should "be valid if all coordinate parameters are blank" do
-#    aquatic_site = AquaticSite.spawn
-#    aquatic_site.attributes.update(:x_coordinate => '', :y_coordinate => '', :coordinate_srs_id => '', :coordinate_source => '')
-#    assert_valid aquatic_site
-#  end
-#  
-#  should "be invalid if only x_coordinate parameter is present" do 
-#    aquatic_site = AquaticSite.spawn
-#    aquatic_site.x_coordinate = '45.347'
-#    assert !aquatic_site.valid?
-#  end
-#  
-#  should "be invalid if only y_coordinate parameter is present" do 
-#    aquatic_site = AquaticSite.spawn
-#    aquatic_site.y_coordinate = '78.9464'
-#    assert !aquatic_site.valid?
-#  end
-#  
-#  should "be invalid if only coordinate_system parameter is present" do 
-#    aquatic_site = AquaticSite.spawn
-#    aquatic_site.coordinate_srs_id = 'WGS84'
-#    assert !aquatic_site.valid?
-#  end
-#  
-#  should "be invalid if only coordinate_source parameter is present" do 
-#    aquatic_site = AquaticSite.spawn
-#    aquatic_site.coordinate_source = 'GPS'
-#    assert !aquatic_site.valid?
-#  end
-     
+  should "not validate location value objects when they are blank" do
+    aquatic_site = AquaticSite.spawn
+    location = mock('dummy_location') do
+      expects(:blank?).at_least(3).returns(true)      
+      expects(:valid?).never
+    end
+    aquatic_site.expects(:actual_location).returns(location)
+    aquatic_site.expects(:recorded_location).returns(location)
+    aquatic_site.expects(:gmap_location).returns(location)
+    assert aquatic_site.valid?
+  end
+  
+  should "be valid if all location value objects are valid" do
+    aquatic_site = AquaticSite.spawn
+    location = mock('dummy_location') do
+      expects(:blank?).at_least(3).returns(false)
+      expects(:valid?).at_least(3).returns(true)
+    end
+    aquatic_site.expects(:actual_location).returns(location)
+    aquatic_site.expects(:recorded_location).returns(location)
+    aquatic_site.expects(:gmap_location).returns(location)    
+    assert aquatic_site.valid?
+  end
+  
+  should "report errors on location value objects when they are not valid" do
+    aquatic_site = AquaticSite.spawn
+    location = mock('dummy_location') do
+      expects(:blank?).at_least(3).returns(false)
+      expects(:valid?).at_least(3).returns(false)
+    end
+    aquatic_site.expects(:actual_location).returns(location)
+    aquatic_site.expects(:recorded_location).returns(location)
+    aquatic_site.expects(:gmap_location).returns(location)    
+    assert !aquatic_site.valid?
+    assert aquatic_site.errors.invalid?(:actual_location)
+    assert aquatic_site.errors.invalid?(:recorded_location)
+    assert aquatic_site.errors.invalid?(:gmap_location)
+  end
+  
   context "when site has been incorporated into the data warehouse" do
     setup { @aquatic_site = AquaticSite.generate!(:exported_at => DateTime.now) }
       

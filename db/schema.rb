@@ -12,7 +12,7 @@
 ActiveRecord::Schema.define(:version => 1) do
 
   create_table "agencies", :force => true do |t|
-    t.string   "code",        :limit => 10,                     :null => false
+    t.string   "code",        :limit => 10,  :default => "",    :null => false
     t.string   "name",        :limit => 120
     t.string   "type",        :limit => 8
     t.boolean  "data_rules",                 :default => false
@@ -111,19 +111,19 @@ ActiveRecord::Schema.define(:version => 1) do
     t.datetime "exported_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "gmap_coordinate_system_id", :limit => 11
-    t.integer  "coordinate_system_id",      :limit => 11
     t.decimal  "latitude",                                 :precision => 15, :scale => 10
     t.string   "raw_longitude",             :limit => 20
+    t.integer  "gmap_coordinate_system_id", :limit => 11
     t.integer  "coordinate_source_id",      :limit => 11
     t.string   "raw_latitude",              :limit => 20
     t.decimal  "longitude",                                :precision => 15, :scale => 10
+    t.integer  "coordinate_system_id",      :limit => 11
   end
 
   add_index "aquatic_sites", ["waterbody_id"], :name => "index_aquatic_sites_on_waterbody_id"
 
   create_table "coordinate_sources", :force => true do |t|
-    t.string "name", :limit => 30, :null => false
+    t.string "name", :limit => 30, :default => "", :null => false
   end
 
   create_table "coordinate_sources_coordinate_systems", :id => false, :force => true do |t|
@@ -132,9 +132,9 @@ ActiveRecord::Schema.define(:version => 1) do
   end
 
   create_table "coordinate_systems", :force => true do |t|
-    t.integer "epsg", :limit => 11, :null => false
-    t.string  "name",               :null => false
-    t.string  "type",               :null => false
+    t.integer "epsg", :limit => 11,                 :null => false
+    t.string  "name",               :default => "", :null => false
+    t.string  "type",               :default => "", :null => false
   end
 
   create_table "instruments", :force => true do |t|
@@ -157,34 +157,34 @@ ActiveRecord::Schema.define(:version => 1) do
   end
 
   create_table "measurements", :force => true do |t|
-    t.string   "name"
-    t.string   "grouping"
-    t.string   "category"
     t.datetime "imported_at"
     t.datetime "exported_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name"
+    t.string   "category"
+    t.string   "grouping"
     t.boolean  "bank_measurement", :default => false
   end
 
   create_table "observable_values", :force => true do |t|
-    t.integer  "observation_id", :limit => 11
     t.string   "value"
     t.datetime "imported_at"
     t.datetime "exported_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "observation_id", :limit => 11
   end
 
   create_table "observations", :force => true do |t|
-    t.string   "name"
-    t.string   "grouping"
-    t.string   "category"
     t.datetime "imported_at"
     t.datetime "exported_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name"
     t.boolean  "fish_passage_blocked_observation", :default => false
+    t.string   "category"
+    t.string   "grouping"
   end
 
   create_table "permissions", :force => true do |t|
