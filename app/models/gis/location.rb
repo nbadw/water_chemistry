@@ -1,7 +1,7 @@
 class Location  
-  DEGREES_MINUTES_SECONDS_REGEXP = /^(-?\d{2}\d?)[:d°](\d\d?)[:'](\d\d?[.]?\d*)"?([NSEW]?)$/
+  DEGREES_MINUTES_SECONDS_FORMAT = /^(-?\d{2}\d?)[:d°](\d\d?)[:'](\d\d?[.]?\d*)"?([NSEW]?)$/
   #DECIMAL_DEGREES_REGEXP = //
-  DECIMAL_REGEXP = /^(-?\d+[.]?\d*)$/
+  DECIMAL_FORMAT = /^(-?\d+[.]?\d*)$/
   
   attr_reader :latitude, :longitude, :coordinate_system_id, :errors
   
@@ -21,10 +21,46 @@ class Location
   end
   
   def blank?
-    latitude.nil? && longitude.nil? && coordinate_system_id.nil?
+    latitude.to_s.blank? && longitude.to_s.blank? && coordinate_system_id.to_s.blank?
+  end  
+  
+  def decimal_degrees_latitude?
+    decimal_degrees_format?(latitude)
+  end
+  
+  def degrees_minutes_seconds_latitude?
+    degrees_minutes_seconds_format?(latitude)
+  end
+  
+  def decimal_latitude?
+    decimal_format?(latitude)
+  end
+  
+  def decimal_degrees_longitude?
+    decimal_degrees_format?(longitude)
+  end
+  
+  def degrees_minutes_seconds_longitude?
+    degrees_minutes_seconds_format?(longitude)
+  end
+  
+  def decimal_longitude?
+    decimal_format?(longitude)
   end
   
   private
+  def decimal_format?(value)
+    !value.to_s.match(DECIMAL_FORMAT).nil?
+  end
+  
+  def decimal_degrees_format?(value)
+    false
+  end
+  
+  def degrees_minutes_seconds_format?(value)
+    !value.to_s.match(DEGREES_MINUTES_SECONDS_FORMAT).nil?
+  end
+  
   def validate
     errors.clear
     validate_coordinate_system_id
@@ -33,74 +69,36 @@ class Location
   end 
   
   def validate_latitude  
-    if latitude
+    unless latitude.to_s.blank?
       validate_coordinate_format(:latitude)
     else      
-      errors.add :latitude, "latitude cannot be blank"
+      errors.add_on_blank :latitude
     end
   end
   
   def validate_longitude
-    if latitude
+    unless longitude.to_s.blank?
       validate_coordinate_format(:longitude)
     else      
-      errors.add :longitude, "longitude cannot be blank"
+      errors.add_on_blank :longitude
     end
   end
   
   def validate_coordinate_system_id
-    errors.add :coordinate_system_id, "coordinate system with id=#{coordinate_system_id} cannot be found" unless CoordinateSystem.exists?(coordinate_system_id)
+    unless coordinate_system_id.to_s.blank?
+      errors.add :coordinate_system_id, "not found" unless CoordinateSystem.exists?(coordinate_system_id)
+    else
+      errors.add_on_blank :coordinate_system_id
+    end
   end
   
-  def validate_coordinate_format(coordinate)
-    val = self.send(coordinate)
+  def validate_coordinate_format(attr)
+    value = self.send(attr)
+    unless decimal_format?(value) || decimal_degrees_format?(value) || degrees_minutes_seconds_format?(value)
+      errors.add attr, "is in a bad format"
+    end
   end  
   
-  def coordinate_is_decimal_degrees?
-    
-  end
-  
-  def coordinate_is_degrees_minutes_seconds?
-    
-  end
-  
-  def coordinate_is_decimal?
-    
-  end
-  
-#   #region Coordinate Parsing
-#
-#        private double Parse(string input)
-#        {
-#            if (IsNumber(input))
-#            {
-#                return ParseNumber(input);
-#            }
-#            else if (IsDegreesDecimalMinutes(input))
-#            {
-#                return ParseDegreesDecimalMinutes(input);
-#            }
-#            else if (IsDegreesMinutesSeconds(input))
-#            {
-#                return ParseDegreesMinutesSeconds(input);
-#            }
-#            else
-#            {
-#                throw new Exception(String.Format(
-#                    "Input value {0} is not in a known format", input
-#                ));
-#            }
-#        }
-#
-#        private bool IsDegreesMinutesSeconds(string input)
-#        {
-#            // possible formats
-#            // # 40:26:46.302N, 79:56:55.903W
-#            // # 40°26'21"N, 79°58'36"W
-#            // # 40d26'21"N, 79d58'36"W
-#            return Regex.IsMatch(input, DEGREES_MINUTES_SECONDS_REGEXP);
-#        }
-#
 #        private double ParseDegreesMinutesSeconds(string input)
 #        {
 #            Match match = Regex.Match(input, DEGREES_MINUTES_SECONDS_REGEXP);
@@ -136,20 +134,5 @@ class Location
 #            // # 40.446195, -79.948862
 #            // # 40° 26.7717, -79° 56.93172
 #            return false;
-#        }
-#
-#        private double ParseDegreesDecimalMinutes(string input)
-#        {
-#            throw new NotImplementedException();
-#        }
-#
-#        private bool IsNumber(string input)
-#        {
-#            return Regex.IsMatch(input, NUMBER_REGEXP);
-#        }
-#
-#        private double ParseNumber(string input)
-#        {
-#            return double.Parse(input);
 #        }
 end

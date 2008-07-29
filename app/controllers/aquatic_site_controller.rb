@@ -34,7 +34,10 @@ class AquaticSiteController < ApplicationController
       waterbody.add :waterbody
     end
     config.create.columns.add_subgroup "Location" do |location|
-      location.add :coordinate_source, :coordinate_system, :x_coordinate, :y_coordinate
+      location.add :coordinate_source, :coordinate_system_id, :raw_latitude, :raw_longitude
+      location.columns[:coordinate_system_id].label = 'Coordinate System'
+      location.columns[:raw_latitude].label = 'Latitude'
+      location.columns[:raw_longitude].label = 'Longitude'
     end
     
     # update config
@@ -43,7 +46,11 @@ class AquaticSiteController < ApplicationController
       waterbody.add :waterbody
     end
     config.update.columns.add_subgroup "Location" do |location|
-      location.add :coordinate_source, :coordinate_system, :x_coordinate, :y_coordinate
+      location.add :coordinate_source, :coordinate_system_id, :raw_latitude, :raw_longitude
+      location.columns[:coordinate_system_id].label = 'Coordinate System'
+      location.columns[:raw_latitude].label = 'Latitude'
+      location.columns[:raw_longitude].label = 'Longitude'
+    
     end
         
     # search config
@@ -88,6 +95,26 @@ class AquaticSiteController < ApplicationController
 
     active_scaffold_config.list.user.page = nil
   end
+  
+  def on_coordinate_source_change
+    if params[:coordinate_source_id].blank?
+      render :update do |page|   
+        #page.replace_html 'coordinate_system_input', :inline => '<%= recorded_location_coordinate_system_input(@record) %>'  
+        page << "$('record_coordinate_system_id').disabled = true;"
+        page << "$('record_raw_latitude').disabled = true;" 
+        page << "$('record_raw_longitude').disabled = true;"
+      end
+    else
+      coordinate_source = CoordinateSource.find(params[:coordinate_source_id], :include => [:coordinate_systems])  
+      choices = coordinate_source.coordinate_systems.collect { |source| [source.display_name, source.id] }
+      render :update do |page|   
+        page.replace_html 'record_coordinate_system_id', :inline => '<%= options_for_select choices %>', :locals => { :choices => choices }  
+        page << "$('record_coordinate_system_id').disabled = false;"
+        page << "$('record_raw_latitude').disabled = false;" 
+        page << "$('record_raw_longitude').disabled = false;"
+      end
+    end
+  end    
   
   private  
   def construct_finder_conditions(query_term, columns)    

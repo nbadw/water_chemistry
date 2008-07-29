@@ -1,8 +1,0 @@
-<dl>
-  <dt>
-    <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
-  </dt>
-  <dd>
-    <%= select("record", column.name, [], { :include_blank => false}, { :enabled => false }) %>
-  </dd>
-</dl>

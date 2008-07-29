@@ -15,7 +15,7 @@
   </dd>
 </dl>
 
-<%= observe_field(:selected_observation, :update => :selected_observation_form, :on => :change, :with => "observation_id", :url => { :action => :on_observation_change }) %>     
+<%= observe_field(:selected_observation, :on => :change, :with => "observation_id", :url => { :action => :on_observation_change }) %>     
 
 <div id="value_observed" style="display: <%= @record.observation ? 'block' : 'none' %>; padding-top: 4px;" >
   <dl>
