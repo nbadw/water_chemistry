@@ -1,29 +1,24 @@
 # ETL Control file
-outfile = "output/agencies.csv"
-src_columns = [:agencycd, :agency, :agencytype, :datarulesind]
-dst_columns = [:id, :code, :name, :type, :data_rules, :imported_at, :exported_at, :created_at, :updated_at]
+model = Agency
+table = model.table_name.to_s
+outfile = "output/#{table}.csv"
+columns = model.columns.collect { |column| column.name.to_sym }
 
 source :in, { 
-  :database => "datawarehouse",
-  :target => :aquatic_data_warehouse, 
-  :table => "cdAgency"
-}, src_columns
+  :type => :access,
+  :mdb => "C:/Documents and Settings/nbdata/Desktop/data entry/WaterChemTables.mdb", 
+  :table => table
+}, columns
 
-rename :agencycd, :code
-rename :agency, :name
-rename :agencytype, :type
-rename :datarulesind, :data_rules
-
-transform(:data_rules) { |name, val, row| val.to_s.upcase == 'Y' ? 1 : 0 }
-
-before_write { |row| row[:code] != "`" ? row : nil }
-before_write :check_exist, :target => RAILS_ENV, :table => "agencies", :columns => [:code]
+before_write { |row| row[Agency.code_column] != "`" ? row : nil }
+before_write :check_exist, :target => RAILS_ENV, :table => table, :columns => [Agency.code_column]
 
 destination :out, { 
   :file => outfile
 }, { 
-  :order => dst_columns,
+  :order => columns,
   :virtual => { 
+    :id => :surrogate_key,
     :created_at => Time.now,
     :updated_at => Time.now,
     :imported_at => Time.now
@@ -32,8 +27,8 @@ destination :out, {
 
 post_process :bulk_import, { 
   :file => outfile, 
-  :columns => dst_columns, 
+  :columns => columns, 
   :field_separator => ",", 
   :target => RAILS_ENV, 
-  :table => "agencies"
+  :table => table
 }

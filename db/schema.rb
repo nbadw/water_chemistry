@@ -11,27 +11,6 @@
 
 ActiveRecord::Schema.define(:version => 1) do
 
-  create_table "agencies", :force => true do |t|
-    t.string   "code",        :limit => 10,                     :null => false
-    t.string   "name",        :limit => 120
-    t.string   "type",        :limit => 8
-    t.boolean  "data_rules",                 :default => false
-    t.datetime "imported_at"
-    t.datetime "exported_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "aquatic_activities", :force => true do |t|
-    t.string   "name",        :limit => 100
-    t.string   "category",    :limit => 60
-    t.string   "duration",    :limit => 40
-    t.datetime "imported_at"
-    t.datetime "exported_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "aquatic_activity_events", :force => true do |t|
     t.string   "project",                    :limit => 200
     t.string   "permit_no",                  :limit => 40
@@ -119,6 +98,27 @@ ActiveRecord::Schema.define(:version => 1) do
   end
 
   add_index "aquatic_sites", ["waterbody_id"], :name => "index_aquatic_sites_on_waterbody_id"
+
+  create_table "cdagency", :force => true do |t|
+    t.datetime "imported_at"
+    t.datetime "exported_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "agency",       :limit => 60
+    t.string   "agencycd",     :limit => 5,                   :null => false
+    t.string   "agencytype",   :limit => 4
+    t.string   "datarulesind", :limit => 1,  :default => "N"
+  end
+
+  create_table "cdaquaticactivity", :primary_key => "aquaticactivitycd", :force => true do |t|
+    t.string   "aquaticactivity",         :limit => 50
+    t.string   "aquaticactivitycategory", :limit => 30
+    t.string   "duration",                :limit => 20
+    t.datetime "imported_at"
+    t.datetime "exported_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "coordinate_sources", :force => true do |t|
     t.string "name", :limit => 30, :null => false
@@ -300,5 +300,7 @@ ActiveRecord::Schema.define(:version => 1) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "waterbodies", ["drainage_code"], :name => "index_waterbodies_on_drainage_code"
 
 end

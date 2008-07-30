@@ -258,7 +258,7 @@ class AccessConnection
   def select_all(sql)
     execute_query(sql) do |recordset|
       fields = []
-      recordset.Fields.each { |field| fields << field.Name }
+      recordset.Fields.each { |field| fields << field.Name.downcase }
 
       rows = recordset.GetRows.transpose.collect do |row_data|
         record = {}

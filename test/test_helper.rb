@@ -44,19 +44,44 @@ end
 module ThoughtBot
   module Shoulda 
     module ActiveRecord
+      def should_use_table(table_name)
+        klass = model_class
+        should "use table #{table_name}" do
+          assert_equal table_name.to_s, klass.table_name
+        end
+      end
+      
+      def should_use_primary_key(primary_key)
+        klass = model_class
+        should "use primary key #{primary_key}" do
+          assert_equal primary_key.to_s, klass.primary_key
+        end
+      end
+      
       def should_define_timestamps
         should_define_attributes :imported_at, :exported_at, :created_at, :updated_at
       end
     
       def should_define_attributes(*attrs)
         attrs.each do |attr|      
-          should_have_instance_methods attr, "#{attr.to_s}=".to_sym
+          should_have_instance_methods attr, "#{attr}="
         end
       end
     
-      def should_alias_attribute(old_name, new_name)
-        should_define_attributes old_name, new_name
-        klass = model_class
+      def should_alias_attribute(old_attr, new_attr)
+        old_getter, old_setter = old_attr, "#{old_attr}="
+        new_getter, new_setter = new_attr, "#{new_attr}="
+        
+        should_have_instance_methods new_getter, new_setter
+        
+        model = model_class.new
+        
+        should "alias #{old_attr} as #{new_attr}" do
+          model.send(old_setter, 'old')
+          assert_equal('old', model.send(new_getter))
+          model.send(new_setter, 'new')
+          assert_equal('new', model.send(old_getter))
+        end
       end
     end
   end
