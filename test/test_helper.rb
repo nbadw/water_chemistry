@@ -75,12 +75,20 @@ module ThoughtBot
         should_have_instance_methods new_getter, new_setter
         
         model = model_class.new
+        column = model.column_for_attribute(old_attr)
+        old_value, new_value = case column.type
+        when :integer  then [0, 1]
+        when :float    then [0.1, 1.0]
+        when :string   then ['old', 'new']
+        when :boolean  then [true, false]
+        when :datetime then [DateTime.now, DateTime.now + 1]
+        end
         
         should "alias #{old_attr} as #{new_attr}" do
-          model.send(old_setter, 'old')
-          assert_equal('old', model.send(new_getter))
-          model.send(new_setter, 'new')
-          assert_equal('new', model.send(old_getter))
+          model.send(old_setter, old_value)
+          assert_equal(old_value, model.send(new_getter))
+          model.send(new_setter, new_value)
+          assert_equal(new_value, model.send(old_getter))
         end
       end
     end

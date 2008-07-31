@@ -1,10 +1,10 @@
-class AquaticActivityMethod < ActiveRecord::Base
-  alias_attribute :name, :method
-  def name
-    self.read_attribute(:method)
-  end
+class AquaticActivityMethod < ActiveRecord::Base  
+  set_table_name  :cdaquaticactivitymethod
+  set_primary_key :aquaticmethodcd
   
-  def name=(val)
-    self.write_attribute(:method, val)
-  end
+  belongs_to :aquatic_activity
+  
+  alias_attribute :method, :aquaticmethod
+  alias_attribute :name, :aquaticmethod
+  alias_attribute :aquatic_activity_id, :aquaticactivitycd    
 end

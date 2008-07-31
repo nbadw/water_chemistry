@@ -2,7 +2,7 @@ class AquaticActivity < ActiveRecord::Base
   set_table_name  :cdaquaticactivity
   set_primary_key :aquaticactivitycd
   
-  has_many :aquatic_activity_events
+  has_many :aquatic_activity_events, :foreign_key => AquaticActivityEvent.aquatic_activity_id_column
   
   alias_attribute :name, :aquaticactivity
   alias_attribute :category, :aquaticactivitycategory

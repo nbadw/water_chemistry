@@ -94,8 +94,9 @@ module AutoMigrations
       end
       
       # Change field type if schema is different from db
+      primary_key = options[:primary_key] || "id"
       (fields_in_schema.keys & fields_in_db.keys).each do |field|
-        if (field != 'id') && (fields_in_schema[field].type.to_sym != fields_in_db[field].type.to_sym)
+        if (field != primary_key) && (fields_in_schema[field].type.to_sym != fields_in_db[field].type.to_sym)
           change_column table_name, fields_in_schema[field].name.to_sym, fields_in_schema[field].type.to_sym
         end
       end

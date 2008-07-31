@@ -11,55 +11,6 @@
 
 ActiveRecord::Schema.define(:version => 1) do
 
-  create_table "aquatic_activity_events", :force => true do |t|
-    t.string   "project",                    :limit => 200
-    t.string   "permit_no",                  :limit => 40
-    t.integer  "aquatic_program_id",         :limit => 11
-    t.integer  "aquatic_activity_id",        :limit => 11
-    t.integer  "aquatic_activity_method_id", :limit => 11
-    t.integer  "aquatic_site_id",            :limit => 11
-    t.datetime "start_date"
-    t.datetime "end_date"
-    t.integer  "agency_id",                  :limit => 11
-    t.integer  "agency2_id",                 :limit => 11
-    t.string   "agency2_contact",            :limit => 100
-    t.string   "activity_leader",            :limit => 100
-    t.string   "crew",                       :limit => 100
-    t.string   "weather_conditions",         :limit => 100
-    t.float    "water_temperature_c"
-    t.float    "air_temperature_c"
-    t.string   "water_level",                :limit => 12
-    t.string   "water_level_cm",             :limit => 100
-    t.string   "morning_water_level_cm",     :limit => 100
-    t.string   "evening_water_level_cm",     :limit => 100
-    t.string   "siltation",                  :limit => 100
-    t.boolean  "primary_activity"
-    t.string   "comments",                   :limit => 500
-    t.string   "rainfall_last24"
-    t.datetime "imported_at"
-    t.datetime "exported_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "aquatic_activity_events", ["aquatic_program_id"], :name => "index_aquatic_activity_events_on_aquatic_program_id"
-  add_index "aquatic_activity_events", ["aquatic_activity_id"], :name => "index_aquatic_activity_events_on_aquatic_activity_id"
-  add_index "aquatic_activity_events", ["aquatic_activity_method_id"], :name => "index_aquatic_activity_events_on_aquatic_activity_method_id"
-  add_index "aquatic_activity_events", ["aquatic_site_id"], :name => "index_aquatic_activity_events_on_aquatic_site_id"
-  add_index "aquatic_activity_events", ["agency_id"], :name => "index_aquatic_activity_events_on_agency_id"
-  add_index "aquatic_activity_events", ["agency2_id"], :name => "index_aquatic_activity_events_on_agency2_id"
-
-  create_table "aquatic_activity_methods", :force => true do |t|
-    t.integer  "aquatic_activity_id", :limit => 11
-    t.string   "method",              :limit => 60
-    t.datetime "imported_at"
-    t.datetime "exported_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "aquatic_activity_methods", ["aquatic_activity_id"], :name => "index_aquatic_activity_methods_on_aquatic_activity_id"
-
   create_table "aquatic_site_usages", :force => true do |t|
     t.integer  "aquatic_site_id",     :limit => 11
     t.integer  "aquatic_activity_id", :limit => 11
@@ -74,10 +25,6 @@ ActiveRecord::Schema.define(:version => 1) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "aquatic_site_usages", ["aquatic_site_id"], :name => "index_aquatic_site_usages_on_aquatic_site_id"
-  add_index "aquatic_site_usages", ["aquatic_activity_id"], :name => "index_aquatic_site_usages_on_aquatic_activity_id"
-  add_index "aquatic_site_usages", ["agency_id"], :name => "index_aquatic_site_usages_on_agency_id"
 
   create_table "aquatic_sites", :force => true do |t|
     t.string   "name",                      :limit => 200
@@ -97,8 +44,6 @@ ActiveRecord::Schema.define(:version => 1) do
     t.string   "raw_latitude",              :limit => 20
   end
 
-  add_index "aquatic_sites", ["waterbody_id"], :name => "index_aquatic_sites_on_waterbody_id"
-
   create_table "cdagency", :force => true do |t|
     t.datetime "imported_at"
     t.datetime "exported_at"
@@ -114,6 +59,15 @@ ActiveRecord::Schema.define(:version => 1) do
     t.string   "aquaticactivity",         :limit => 50
     t.string   "aquaticactivitycategory", :limit => 30
     t.string   "duration",                :limit => 20
+    t.datetime "imported_at"
+    t.datetime "exported_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "cdaquaticactivitymethod", :primary_key => "aquaticmethodcd", :force => true do |t|
+    t.integer  "aquaticactivitycd", :limit => 11
+    t.string   "aquaticmethod",     :limit => 30
     t.datetime "imported_at"
     t.datetime "exported_at"
     t.datetime "created_at"
@@ -225,6 +179,49 @@ ActiveRecord::Schema.define(:version => 1) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "fish_passage_blocked",                    :default => false
+  end
+
+  create_table "tblaquaticactivity", :primary_key => "aquaticactivityid", :force => true do |t|
+    t.integer  "tempaquaticactivityid",    :limit => 11
+    t.string   "project",                  :limit => 100
+    t.string   "permitno",                 :limit => 20
+    t.integer  "aquaticprogramid",         :limit => 11
+    t.integer  "aquaticactivitycd",        :limit => 11
+    t.integer  "aquaticmethodcd",          :limit => 11
+    t.integer  "oldaquaticsiteid",         :limit => 11
+    t.integer  "aquaticsiteid",            :limit => 11
+    t.string   "aquaticactivitystartdate", :limit => 10
+    t.string   "aquaticactivityenddate",   :limit => 10
+    t.string   "aquaticactivitystarttime", :limit => 6
+    t.string   "aquaticactivityendtime",   :limit => 6
+    t.string   "year",                     :limit => 4
+    t.string   "agencycd",                 :limit => 4
+    t.string   "agency2cd",                :limit => 4
+    t.string   "agency2contact",           :limit => 50
+    t.string   "aquaticactivityleader",    :limit => 50
+    t.string   "crew",                     :limit => 50
+    t.string   "weatherconditions",        :limit => 50
+    t.float    "watertemp_c"
+    t.float    "airtemp_c"
+    t.string   "waterlevel",               :limit => 6
+    t.string   "waterlevel_cm",            :limit => 50
+    t.string   "waterlevel_am_cm",         :limit => 50
+    t.string   "waterlevel_pm_cm",         :limit => 50
+    t.string   "siltation",                :limit => 50
+    t.boolean  "primaryactivityind"
+    t.string   "comments"
+    t.datetime "dateentered"
+    t.boolean  "incorporatedind"
+    t.datetime "datetransferred"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.string   "rainfall_last24",          :limit => 15
+    t.datetime "imported_at"
+    t.datetime "exported_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "agency2_id",               :limit => 11
+    t.integer  "agency_id",                :limit => 11
   end
 
   create_table "units_of_measure", :force => true do |t|

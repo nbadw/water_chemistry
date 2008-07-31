@@ -27,20 +27,20 @@
   
   <div class="show-view" style="margin-top: 1em;">
     <h3 class="name" style="border-bottom: 1px solid black;">Location</h3>
-    <% if @aquatic_site.latitude == 0 && @aquatic_site.longitude == 0 %>
+    <% if @aquatic_site.gmap_location.blank? %>
       <p style="font-size: 11px; font-family: Verdana; font-style: italic; padding-left: 5px; color: #555;">No coordinate information for this aquatic site.</p>
     <% else %>
       <dl>
         <dt>Latitude</dt>
-        <dd><%= @aquatic_site.latitude || '-' %></dd>
+        <dd><%= @aquatic_site.gmap_location.latitude %></dd>
       </dl>
       <dl>
         <dt>Longitude</dt>
-        <dd><%= @aquatic_site.longitude || '-' %></dd>
+        <dd><%= @aquatic_site.gmap_location.longitude %></dd>
       </dl>
       <dl>
         <dt>Coordinate System</dt>
-        <dd>WGS 84</dd>
+        <dd><%= @aquatic_site.gmap_location.coordinate_system.display_name %> </dd>
       </dl>        
       <div style="clear: both;"></div>    
       <%= @aquatic_site_map.div %>
