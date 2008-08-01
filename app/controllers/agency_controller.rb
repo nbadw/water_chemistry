@@ -1,8 +1,10 @@
 class AgencyController < ApplicationController
   active_scaffold do |config| 
     config.label = "Agencies"
-    config.columns = [:agency, :agencytype]
-    config.columns[:agency].label = 'Name'
-    config.columns[:agencytype].label = 'Agency Type'
+    config.actions.exclude :search
+    config.show.link.popup = true
+    config.columns = [:code, :name, :agency_type]
+    config.columns[:code].label = 'Agency Code'
+    config.columns[:agency_type].label = 'Agency Type'
   end
 end

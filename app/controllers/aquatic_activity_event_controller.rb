@@ -62,7 +62,7 @@ class AquaticActivityEventController < ApplicationController
   
   def aquatic_site_activities    
     @label = params[:label]       
-    @constraints = { :aquatic_site_id => params[:aquatic_site_id], :aquatic_activity_id => params[:aquatic_activity_id] }  
+    @constraints = { AquaticActivityEvent.aquatic_site_id_column => params[:aquatic_site_id], AquaticActivityEvent.aquatic_activity_id_column => params[:aquatic_activity_id] }  
     render :layout => false
   end
   

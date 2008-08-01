@@ -1,6 +1,12 @@
-class AquaticActivity < ActiveRecord::Base
+class AquaticActivity < ActiveRecord::Base  
   set_table_name  :cdaquaticactivity
   set_primary_key :aquaticactivitycd
+  
+  class << self
+    def name_column
+      :aquaticactivity
+    end
+  end
   
   has_many :aquatic_activity_events, :foreign_key => AquaticActivityEvent.aquatic_activity_id_column
   

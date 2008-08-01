@@ -26,6 +26,8 @@ ActiveRecord::Schema.define(:version => 1) do
   end
   
   add_index "aquatic_site_usages", "aquatic_site_id"
+  add_index "aquatic_site_usages", "aquatic_activity_id"
+  add_index "aquatic_site_usages", "agency_id"
 
   create_table "aquatic_sites", :force => true do |t|
     t.string   "name",                      :limit => 200
@@ -226,6 +228,9 @@ ActiveRecord::Schema.define(:version => 1) do
     t.integer  "agency2_id",               :limit => 11
     t.integer  "agency_id",                :limit => 11
   end
+  
+  add_index "tblaquaticactivity", "aquaticsiteid"
+  add_index "tblaquaticactivity", "agency_id"
 
   create_table "units_of_measure", :force => true do |t|
     t.string   "name",        :limit => 100

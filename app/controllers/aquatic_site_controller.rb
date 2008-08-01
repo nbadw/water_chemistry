@@ -17,9 +17,9 @@ class AquaticSiteController < ApplicationController
     
     # list config
     config.columns[:id].sort_by :sql => "#{AquaticSite.table_name}.#{AquaticSite.primary_key}"
-    config.columns[:drainage_code].sort_by :sql => "#{Waterbody.table_name}.drainage_code"
+    config.columns[:drainage_code].sort_by :sql => "#{Waterbody.table_name}.#{Waterbody.drainage_code_column}"
     config.columns[:waterbody_id].sort_by :sql => "#{Waterbody.table_name}.#{Waterbody.primary_key}"
-    config.columns[:waterbody_name].sort_by :sql => "#{Waterbody.table_name}.name"
+    config.columns[:waterbody_name].sort_by :sql => "#{Waterbody.table_name}.#{Waterbody.name_column}"
     config.list.columns.exclude :name, :coordinates
     config.list.sorting =[{ :drainage_code => :asc }]
     
@@ -55,17 +55,17 @@ class AquaticSiteController < ApplicationController
         
     # search config
     config.columns[:id].search_sql = "#{AquaticSite.table_name}.#{AquaticSite.primary_key}"
-    config.columns[:name].search_sql = "#{AquaticSite.table_name}.name"
+    config.columns[:name].search_sql = "#{AquaticSite.table_name}.#{AquaticSite.name_column}"
     config.columns[:waterbody_id].search_sql = "#{Waterbody.table_name}.#{Waterbody.primary_key}"
-    config.columns[:waterbody].search_sql = "#{Waterbody.table_name}.name"
-    config.columns[:drainage_code].search_sql = "#{Waterbody.table_name}.drainage_code"  
-    config.columns[:aquatic_activities].search_sql = "#{AquaticActivity.table_name}.name"
-    config.columns[:agencies].search_sql = "#{Agency.table_name}.code"
+    config.columns[:waterbody].search_sql = "#{Waterbody.table_name}.#{Waterbody.name_column}"
+    config.columns[:drainage_code].search_sql = "#{Waterbody.table_name}.#{Waterbody.drainage_code_column}"  
+    config.columns[:aquatic_activities].search_sql = "#{AquaticActivity.table_name}.#{AquaticActivity.name_column}"
+    config.columns[:agencies].search_sql = "#{Agency.table_name}.#{Agency.code_column}"
     config.search.columns = [:id, :name, :waterbody_id, :waterbody, :drainage_code, :aquatic_activities, :agencies]
   end
   
   def conditions_for_collection
-    ["#{AquaticSite.table_name}.waterbody_id != 0"]
+    ["#{AquaticSite.table_name}.#{AquaticSite.waterbody_id_column} != 0"]
   end
   
   def active_scaffold_joins
@@ -132,7 +132,10 @@ class AquaticSiteController < ApplicationController
   end
   
   def find_drainage_codes(query_term)
-    drainage_codes = Waterbody.find(:all, :select => "drainage_code", :conditions => ["name LIKE ?", query_term.strip]).collect { |waterbody| waterbody.drainage_code }    
+    drainage_codes = Waterbody.find(:all, 
+      :select => "#{Waterbody.drainage_code_column}", 
+      :conditions => ["#{Waterbody.name_column} LIKE ?", query_term.strip]
+    ).collect { |waterbody| waterbody.drainage_code }  
   end
   
   def like_pattern(query_term)

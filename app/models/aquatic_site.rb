@@ -1,4 +1,14 @@
 class AquaticSite < ActiveRecord::Base
+  class << self
+    def name_column
+      :name
+    end
+    
+    def waterbody_id_column
+      :waterbody_id
+    end
+  end
+  
   include AquaticDataWarehouse::IncorporatedModel
   
   class AquaticSiteInUse < ActiveRecord::ActiveRecordError; end  

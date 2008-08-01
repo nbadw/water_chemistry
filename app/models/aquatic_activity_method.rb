@@ -6,5 +6,9 @@ class AquaticActivityMethod < ActiveRecord::Base
   
   alias_attribute :method, :aquaticmethod
   alias_attribute :name, :aquaticmethod
-  alias_attribute :aquatic_activity_id, :aquaticactivitycd    
+  alias_attribute :aquatic_activity_id, :aquaticactivitycd  
+
+#  class << self
+#    def find
+#  end
 end

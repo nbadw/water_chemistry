@@ -10,7 +10,7 @@ source :in, {
   :table => table
 }, columns
 
-before_write :check_exist, :target => RAILS_ENV, :table => table, :columns => [AquaticActivity.primary_key.to_sym]
+before_write :check_exist, :target => RAILS_ENV, :table => table, :columns => [model.primary_key.to_sym]
 
 destination :out, { 
   :file => outfile
