@@ -9,8 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1) do
-
+ActiveRecord::Schema.define(:version => 1) do  
   create_table "aquatic_site_usages", :force => true do |t|
     t.integer  "aquatic_site_id",     :limit => 11
     t.integer  "aquatic_activity_id", :limit => 11
@@ -25,6 +24,8 @@ ActiveRecord::Schema.define(:version => 1) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+  
+  add_index "aquatic_site_usages", "aquatic_site_id"
 
   create_table "aquatic_sites", :force => true do |t|
     t.string   "name",                      :limit => 200
@@ -43,6 +44,8 @@ ActiveRecord::Schema.define(:version => 1) do
     t.integer  "coordinate_source_id",      :limit => 11
     t.string   "raw_latitude",              :limit => 20
   end
+  
+  add_index "aquatic_sites", "waterbody_id"
 
   create_table "cdagency", :force => true do |t|
     t.datetime "imported_at"
@@ -247,6 +250,7 @@ ActiveRecord::Schema.define(:version => 1) do
     t.integer  "agency_id",                 :limit => 11
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "last_login"
   end
 
   add_index "users", ["agency_id"], :name => "index_users_on_agency_id"
