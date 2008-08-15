@@ -34,7 +34,7 @@ module ETL #:nodoc:
       # to_s + '.ctl', or they may be strings in which case they will be used 
       # as is
       def depends_on(*args)
-        dependencies << args
+        (dependencies << args).flatten!
       end
       
       # Get the defined dependencies
@@ -60,12 +60,17 @@ module ETL #:nodoc:
             end
           end
         else
+          source = nil
           source_types.each do |source_type|
             if configuration[source_type]
               source_class = ETL::Control::Source.class_for_name(source_type)
-              sources << source_class.new(self, configuration, definition)
+              source = source_class.new(self, configuration, definition)
               break
             end
+          end
+          if source 
+            sources << source
+          else
             raise ControlError, "A source was specified but no matching type was found"
           end
         end
@@ -115,7 +120,7 @@ module ETL #:nodoc:
         if transformer
           case transformer
           when String, Symbol
-            class_name = "#{transformer.to_s.classify}Transform"
+            class_name = "#{transformer.to_s.camelize}Transform"
             begin
               transform_class = ETL::Transform.const_get(class_name)
               transforms << transform_class.new(self, name, configuration)
@@ -169,12 +174,17 @@ module ETL #:nodoc:
       protected
       # This method is used to define a processor and insert into the specified processor
       # collection.
-      def define_processor(name, processor_collection, configuration)
+      def define_processor(name, processor_collection, configuration, proc)
         case name
-        when String, Symbol
-          class_name = "#{name.to_s.classify}Processor"
+        when String, Symbol, nil
+          name ||= 'block'
+          class_name = "#{name.to_s.camelize}Processor"
           begin
             processor_class = ETL::Processor.const_get(class_name)
+            if name == 'block'
+              raise ControlError, "A block must be passed for block processor" if proc.nil?
+              configuration[:block] = proc
+            end
             processor_collection << processor_class.new(self, configuration)
           rescue NameError => e
             raise ControlError, "Unable to find processor #{class_name}: #{e}"
@@ -182,14 +192,14 @@ module ETL #:nodoc:
         when Class
           processor_collection << name.new(self, configuration)
         else
-          raise ControlError, "The process declaration requires a String, Symbol or Class"
+          raise ControlError, "The process declaration requires a String, Symbol or Class, or a Block to be passed"
         end
       end
       
       public
       # Define an "after read" processor. This must be a row-level processor.
-      def after_read(name, configuration={})
-        define_processor(name, after_read_processors, configuration)
+      def after_read(name='block', configuration={}, &block)
+        define_processor(name, after_read_processors, configuration, block)
       end
       
       # Get the defined "after read" processors
@@ -198,8 +208,8 @@ module ETL #:nodoc:
       end
       
       # Define a "before write" processor. This must be a row-level processor.
-      def before_write(name, configuration={})
-        define_processor(name, before_write_processors, configuration)
+      def before_write(name='block', configuration={}, &block)
+        define_processor(name, before_write_processors, configuration, block)
       end
       
       # Get the defined "before write" processors
@@ -208,8 +218,8 @@ module ETL #:nodoc:
       end
       
       # Define a pre-processor
-      def pre_process(name, configuration={})
-        define_processor(name, pre_processors, configuration)
+      def pre_process(name='block', configuration={}, &block)
+        define_processor(name, pre_processors, configuration, block)
       end
       
       # Get the defined pre-processors
@@ -218,8 +228,8 @@ module ETL #:nodoc:
       end
       
       # Define a post-processor
-      def post_process(name, configuration={})
-        define_processor(name, post_processors, configuration)
+      def post_process(name='block', configuration={}, &block)
+        define_processor(name, post_processors, configuration, block)
       end
       
       # Get the defined post-processors
