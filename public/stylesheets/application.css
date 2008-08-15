@@ -334,11 +334,21 @@ div.aquatic-site-info-window p {
     margin: 5px 0 10px;
     overflow: hidden;
 }
-#aquatic-site .name {
+#aquatic-site .name,
+#activity-details .name {
     font-family: verdana;
     font-size: 16px;
     font-weight: bold;
     margin-bottom: 10px;
+}
+
+#activity-details .active-scaffold .view {
+    background-color: #fff;
+    border: none;
+    padding: 0; 
+}
+#activity-details .active-scaffold .form-footer {
+    display: none;
 }
 
 .active-scaffold .incorporated-message {
@@ -388,4 +398,9 @@ div.aquatic-site-info-window p {
 
 .info-window #tbl_aquatic_site-content {
     margin-top: 25px;
+}
+
+div.tooltip div.tooltip_content {
+    padding: 20px;
+    margin-top: 10px;
 }

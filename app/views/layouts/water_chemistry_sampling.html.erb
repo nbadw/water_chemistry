@@ -18,7 +18,7 @@
     <div id="navigation">
       <h2 class="location">
         <span class="primary">Water Chemistry Sampling</span>
-        <span class="back"><%= link_to 'Back to Main Menu', root_url %></span>
+        <span class="back"><%= link_to 'Back to Data Collection Sites', root_url %></span>
       </h2>            
       <%= tabnav :water_chemistry_sampling %>
     </div>
@@ -31,6 +31,7 @@
       </div>
       <div id="right">
         <div id="right-content">
+          <%= render :partial => 'activity_details'  %>
           <%= render :partial => 'aquatic_site' %>
         </div>
       </div>

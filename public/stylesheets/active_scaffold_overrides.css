@@ -1,3 +1,7 @@
+.active-scaffold-header h2 {
+    font-size: 140%;
+}
+
 div.site-activity-usages div.active-scaffold-header {
     padding: 2px 0 3px;
 }

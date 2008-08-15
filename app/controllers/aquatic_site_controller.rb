@@ -1,17 +1,17 @@
 class AquaticSiteController < ApplicationController  
   active_scaffold do |config|    
     # base config
-    config.label = "Aquatic Sites"    
-    config.columns = [:incorporated, :id, :name, :agencies, :waterbody_id, :waterbody_name, 
-      :drainage_code, :description, :aquatic_activities, :coordinates] 
+    config.label = "Data Collection Sites"    
+    config.columns = [:incorporated, :id, :name, :description, :agencies, :waterbody_id, 
+      :waterbody_name, :drainage_code, :name_and_description, :aquatic_activities] 
     
     config.columns[:incorporated].label = ''
-    config.columns[:id].label = 'Site Id'
+    config.columns[:id].label = 'Site ID'
     config.columns[:agencies].label = 'Agency (Agency Site ID)'
-    config.columns[:waterbody_id].label = 'Waterbody Id'
+    config.columns[:waterbody_id].label = 'Waterbody ID'
     config.columns[:drainage_code].label = 'Watershed Code'
     config.columns[:name].label = 'Site Name'
-    config.columns[:description].label = 'Site Description'  
+    config.columns[:name_and_description].label = 'Site Name & Description'  
     config.columns[:aquatic_activities].label = 'Data'    
     config.columns[:aquatic_activities].clear_link
     
@@ -20,12 +20,12 @@ class AquaticSiteController < ApplicationController
     config.columns[:drainage_code].sort_by :sql => "#{Waterbody.table_name}.#{Waterbody.drainage_code_column}"
     config.columns[:waterbody_id].sort_by :sql => "#{Waterbody.table_name}.#{Waterbody.primary_key}"
     config.columns[:waterbody_name].sort_by :sql => "#{Waterbody.table_name}.#{Waterbody.name_column}"
-    config.list.columns.exclude :name, :coordinates
+    config.list.columns.exclude :name, :description
     config.list.sorting =[{ :drainage_code => :asc }]
     
     # show config
     config.show.label = ''
-    config.show.columns.exclude :incorporated, :name, :aquatic_activities
+    config.show.columns.exclude :incorporated, :name_and_description, :aquatic_activities
     
     # create config
     config.create.label = "Create a New Aquatic Site"
@@ -117,9 +117,17 @@ class AquaticSiteController < ApplicationController
   end    
   
   private  
-  def construct_finder_conditions(query_term, columns)    
+  def construct_finder_conditions(query_term, columns)  
+    # replace occurences of 'st' with 'st.'
+    query_term = query_term.split(' ').collect { |word| word.match(/^(st)$/i) ? "#{$1}." : word }.join(' ')
+    
     if query_term.match(/ watershed$/i)
-      finder_conditions = ActiveScaffold::Finder.create_conditions_for_columns(create_watershed_query_terms(query_term), columns, '?')
+      drainage_code_column = nil
+      columns.each { |column| drainage_code_column = column if column.name == :drainage_code }
+      finder_conditions = [
+        "LOWER(#{drainage_code_column.search_sql}) IN (?)", 
+       create_watershed_query_terms(query_term)        
+      ]
     else
       finder_conditions = ActiveScaffold::Finder.create_conditions_for_columns(query_term, columns, like_pattern(query_term))
     end    
@@ -128,7 +136,7 @@ class AquaticSiteController < ApplicationController
   
   def create_watershed_query_terms(query_term)
     query_term = "%#{query_term.sub(/watershed$/i, '').strip}%"
-    find_drainage_codes(query_term).collect{ |drainage_code| drainage_code.gsub('00', '%') }    
+    find_drainage_codes(query_term)   
   end
   
   def find_drainage_codes(query_term)

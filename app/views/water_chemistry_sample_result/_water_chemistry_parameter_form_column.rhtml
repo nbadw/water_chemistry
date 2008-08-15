@@ -1,6 +1,6 @@
 <% 
 @parameters << @record.water_chemistry_parameter if @record.water_chemistry_parameter 
-options = @parameters.collect{ |parameter| [parameter.name, parameter.id] }
+options = @parameters.collect{ |parameter| [parameter.display_name, parameter.id] }
 selected = @record.water_chemistry_parameter.id if @record.water_chemistry_parameter
 %>
 <dl>

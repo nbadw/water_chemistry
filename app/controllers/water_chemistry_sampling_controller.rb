@@ -13,10 +13,7 @@ class WaterChemistrySamplingController < ApplicationController
   
   def samples   
   end
-  
-  def details
-  end
-  
+    
   def observations
   end
   

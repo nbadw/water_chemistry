@@ -3,6 +3,10 @@ module SiteMeasurementHelper
     site_measurement.measurement.grouping || '-'
   end
   
+  def value_measured_column(site_measurement)
+    "#{site_measurement.value_measured} #{site_measurement.unit_of_measure.unit || site_measurement.unit_of_measure.name}"
+  end
+  
   def groups(measurements)    
     measurements.collect{ |measurement| measurement.grouping.to_s }.uniq.sort
   end

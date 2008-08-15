@@ -8,7 +8,8 @@
     <%= stylesheet_link_merged :base %>
     <!--[if IE]><%= stylesheet_link_merged :ie %><![endif]-->
     <%= javascript_include_merged :base %>
-    <%= GMap.header %>
+    <% # = GMap.header %>
+    <%= javascript_include_tag 'active_scaffold/default/dhtml_history.js', 'active_scaffold/default/form_enhancements.js', 'active_scaffold/default/rico_corner.js'  %>
     <%= calendar_date_select_includes "silver" %>
   </head>
   <body>

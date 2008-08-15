@@ -4,8 +4,11 @@ class SiteMeasurementController < ApplicationController
   active_scaffold do |config|
     config.label = "Measurements"
     config.actions = [:list, :create, :update, :delete]
-    config.columns = [:measurement, :measurement_group, :value_measured, :unit_of_measure, :instrument, :bank]
+    config.columns = [:measurement, :measurement_group, :value_measured, :instrument, :bank]
+    config.columns[:measurement].label = "Parameter Measured"
     config.columns[:measurement_group].label = "Group"    
+    config.columns[:value_measured].label = "Measurement"
+    config.columns[:instrument].label = "Instrument Used"
     
     config.create.persistent = true
     config.create.columns.exclude :measurement_group

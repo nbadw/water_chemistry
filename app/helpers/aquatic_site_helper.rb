@@ -23,7 +23,7 @@ module AquaticSiteHelper
     name.to_s.empty? ? '-' : name
   end
   
-  def description_column(record)
+  def name_and_description_column(record)
     description = [
       ("<span class=\"aquatic-site-name\">#{record.name}</span>" if record.name), 
       ("<span class=\"aquatic-site-description\">#{record.description}</span>" if record.description)
@@ -41,7 +41,7 @@ module AquaticSiteHelper
     # create links to inline site activities
     links = record.aquatic_activities.sort.collect do |aquatic_activity|      
       options[:aquatic_activity_id] = aquatic_activity.id
-      options[:label] = "#{aquatic_activity.name} Activities for #{record.name}"
+      options[:label] = "#{aquatic_activity.name} for Site ##{record.id} - #{record.name}"
       # XXX: limiting to only water chemistry sampling activities, the rest are disabled
       if aquatic_activity.name == 'Water Chemistry Sampling'
         link_to aquatic_activity.name, options, html_options

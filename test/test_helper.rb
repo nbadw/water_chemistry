@@ -39,6 +39,17 @@ class Test::Unit::TestCase
   # fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  def login_as_admin
+    login_as User.generate!(:login => 'admin', :password => 'test', :password_confirmation => 'test')
+  end
+  
+  def with_constraints(constraints = {}) 
+    @request.session["as:#{eid}"] = { :constraints => constraints }
+  end
+  
+  def eid
+    'test_eid'
+  end
 end
 
 module ThoughtBot

@@ -5,7 +5,9 @@ class WaterChemistrySampleResultController < ApplicationController
     config.label = "Parameters"
     config.actions.exclude :search
     config.columns = [:water_chemistry_parameter, :value, :qualifier, :comment]
-    config.columns[:water_chemistry_parameter].label = 'Parameter'    
+    config.columns[:water_chemistry_parameter].label = 'Parameter'  
+
+    config.create.label = "Add Water Chemistry Parameter"
   end
   
   private 

@@ -4,30 +4,24 @@ class AquaticActivityEventController < ApplicationController
     config.label = "Aquatic Activities"    
     config.columns = [:aquatic_activity_method, :start_date, :agency, 
       :weather_conditions, :rain_fall_in_last_24_hours, :water_level]
-    config.columns[:start_date].label = "Start Date (DD/MM/YY)"
+    config.columns[:aquatic_activity_method].label = "Analysis Method"
+    config.columns[:start_date].label = "Date (DD/MM/YY)"
+    config.columns[:rain_fall_in_last_24_hours].label = "Rain Fall In Last 24 Hrs"
     
     # list config    
     config.columns[:start_date].sort_by :method => "#{self.name}.to_s"    
     config.list.sorting = [{ :start_date => :desc }]
         
     # create config  
+    config.create.label = "Create New Sampling Event"
     config.create.columns = []
-    config.create.columns.add_subgroup "Sampling Info" do |sampling_info| 
+    config.create.columns.add_subgroup "Sampling Event Info" do |sampling_info| 
       sampling_info.add :aquatic_activity_method, :start_date, :crew
-      sampling_info.columns[:start_date].label = "Start Date"
+      sampling_info.columns[:start_date].label = "Date"
       sampling_info.columns[:crew].label = "Personnel"
     end
     config.create.columns.add_subgroup "Weather Observations" do |weather_observations|
       weather_observations.add :rain_fall_in_last_24_hours, :weather_conditions
-      weather_observations.collapsed = true
-    end
-    config.create.columns.add_subgroup "Water Observations" do |water_observations|
-      water_observations.add :water_level, :water_clarity, :water_color      
-      water_observations.collapsed = true
-    end
-    config.create.columns.add_subgroup "Environmental Issues" do |environmental_issues|      
-      environmental_issues.add :water_crossing, :point_source, :non_point_source, :watercourse_alteration
-      environmental_issues.collapsed = true
     end
       
     config.update.link.inline = false
@@ -35,12 +29,22 @@ class AquaticActivityEventController < ApplicationController
   end
   
   def new
-    @aquatic_activity_methods = AquaticActivityMethod.find_all_by_aquatic_activity_id active_scaffold_session_storage[:constraints][:aquatic_activity_id]
+    @aquatic_activity_methods = AquaticActivityMethod.find(:all,
+      :conditions => [
+        "#{AquaticActivityMethod.aquatic_activity_column}", 
+        active_scaffold_session_storage[:constraints][:aquatic_activity_id]        
+      ]
+    )
     super
   end
   
   def create
-    @aquatic_activity_methods = AquaticActivityMethod.find_all_by_aquatic_activity_id active_scaffold_session_storage[:constraints][:aquatic_activity_id]
+    @aquatic_activity_methods = AquaticActivityMethod.find(:all,
+      :conditions => [
+        "#{AquaticActivityMethod.aquatic_activity_column}", 
+        active_scaffold_session_storage[:constraints][:aquatic_activity_id]        
+      ]
+    )
     super
   end
   
@@ -72,8 +76,8 @@ class AquaticActivityEventController < ApplicationController
   end
   
   def before_create_save(record)
-    record.aquatic_site_id = active_scaffold_session_storage[:constraints][:aquatic_site_id]
-    record.aquatic_activity_id = active_scaffold_session_storage[:constraints][:aquatic_activity_id]
+    record.aquatic_site_id = active_scaffold_session_storage[:constraints][AquaticActivityEvent.aquatic_site_id_column]
+    record.aquatic_activity_id = active_scaffold_session_storage[:constraints][AquaticActivityEvent.aquatic_activity_id_column]
     record.agency_id = current_user.agency.id
   end
 end
