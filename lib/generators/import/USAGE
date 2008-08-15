@@ -1,0 +1,5 @@
+The import generator creates an ETL control file for importing a table.
+      
+invoke with:  ./script/generate import <table_name> 
+
+# TODO: add optional arguments -source=<config_file>, -destination=<destination>
