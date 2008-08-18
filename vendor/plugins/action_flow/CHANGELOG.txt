@@ -1,0 +1,34 @@
+ActionFlow - Changelog
+
+_______________________________________________
+| Version 0.2 beta 1 /
+---------------------
+
+Fixes bugs :
+
+  * [#10559] flow id collisions not checked
+  * [#10560] Ajax forms not working
+  
+Adds improvements
+
+ * [#10405] Ajax form capabilities
+ * [#10406] Fallback to normal HTML
+ * [#10448] Create Transactional Step
+ * [#10501] Simplify the event returning mechanism.
+ * [#10522] flow_form should use standard form_tag method
+ * [#10664] Flow expired redirect
+ * [#10687] Controller level error handling
+ * [#10688] Specify view name or method definition name
+ * [#10689] Add option to specify method name
+ 
+Known issues with this release
+
+ * [#10558] Flows not cleaned
+ 
+ 
+ 
+Refer to the project tracker for details on these issues.
+http://rubyforge.org/tracker/?group_id=2769
+
+
+
