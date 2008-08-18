@@ -36,7 +36,7 @@ module QueryReviewer
           if !response.content_type || response.content_type.include?("text/html")
             response.body += "<script type=\"text/javascript\">"+query_review_output(true)+"</script>"
           elsif response.content_type && response.content_type.include?("text/javascript")
-            response.body += ";\n"+query_review_output(true)
+            response.body += "\n<script type=\"text/javascript\">"+query_review_output(true)+"</script>"
           end
         end
       else
