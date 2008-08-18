@@ -1,7 +1,7 @@
 class AquaticActivityEvent < ActiveRecord::Base 
   set_table_name  :tblaquaticactivity
   set_primary_key :aquaticactivityid
-   
+  
   class << self
     def aquatic_activity_id_column
       :aquaticactivitycd
@@ -31,14 +31,13 @@ class AquaticActivityEvent < ActiveRecord::Base
       ["Low", "Medium", "High"]
     end
   end
-  
+     
   belongs_to :aquatic_activity, :foreign_key => self.aquatic_activity_id_column
   belongs_to :aquatic_site, :foreign_key => self.aquatic_site_id_column
-  belongs_to :agency
+  belongs_to :agency, :foreign_key => 'agencycd'
   belongs_to :secondary_agency, :class_name => 'Agency', :foreign_key => self.secondary_agency_id_column
   belongs_to :aquatic_activity_method, :foreign_key => self.aquatic_activity_method_id_column
-  
-  
+    
   # TODO: should these be processed before save or made into actual attributes?
   attr_accessor :water_clarity, :water_color, :water_crossing, :point_source, :non_point_source, :watercourse_alteration
   
@@ -113,4 +112,5 @@ class AquaticActivityEvent < ActiveRecord::Base
   validates_inclusion_of :weather_conditions, :in => self.weather_conditions_options, :allow_nil => true, :allow_blank => true
   validates_inclusion_of :water_level, :in => self.water_level_options, :allow_nil => true, :allow_blank => true
   validates_presence_of  :aquatic_site, :aquatic_activity, :agency, :aquatic_activity_method, :start_date     
+  
 end

@@ -2,12 +2,72 @@ require File.dirname(__FILE__) + '/../test_helper'
 require 'mocha'
 
 class AquaticSiteTest < ActiveSupport::TestCase
+  should_use_table :tblaquaticsite
+  should_use_primary_key :aquaticsiteid
+  
   should_belong_to :waterbody, :coordinate_source 
   should_have_many :aquatic_site_usages
   should_have_many :aquatic_activities, :through => :aquatic_site_usages
   should_have_many :agencies, :through => :aquatic_site_usages
    
   should_require_attributes :description, :waterbody
+  
+  context "aquatic site model" do
+    should_have_db_column :aquaticsiteid, :type => :integer, :null => false
+    
+    should_have_db_column :oldaquaticsiteid, :type => :integer
+    
+    should_have_db_column :riversystemid, :type => :integer 
+    
+    should_have_db_column  :waterbodyid, :type => :integer 
+    should_alias_attribute :waterbodyid, :waterbody_id
+
+    should_have_db_column  :waterbodyname, :type => :string, :limit => 50
+    should_alias_attribute :waterbodyname, :waterbody_name
+
+    should_have_db_column  :aquaticsitename, :type => :string, :limit => 100
+    should_alias_attribute :aquaticsitename, :name
+
+    should_have_db_column  :aquaticsitedesc, :type => :string, :limit => 250
+    should_alias_attribute :aquaticsitedesc, :description
+
+    should_have_db_column :habitatdesc, :type => :string, :limit => 50
+    
+    should_have_db_column :reachno, :type => :integer 
+    
+    should_have_db_column :startdesc, :type => :string, :limit => 100
+    
+    should_have_db_column :enddesc, :type => :string, :limit => 100
+    
+    should_have_db_column :startroutemeas, :type => :float
+    
+    should_have_db_column :endroutemeas, :type => :float 
+    
+    should_have_db_column :sitetype, :type => :string, :limit => 20
+    
+    should_have_db_column :specificsiteind, :type => :string, :limit => 1
+    
+    should_have_db_column :georeferencedind, :type => :string, :limit => 1
+    
+    should_have_db_column :dateentered, :type => :datetime
+    
+    should_have_db_column :incorporatedind, :type => :boolean, :default => false
+
+    should_have_db_column :coordinatesource, :type => :string, :limit => 50
+    
+    should_have_db_column :coordinatesystem, :type => :string, :limit => 50
+
+    should_have_db_column  :xcoordinate, :type => :string, :limit => 50
+    should_alias_attribute :xcoordinate, :raw_longitude
+
+    should_have_db_column  :ycoordinate,  :type => :string, :limit => 50
+    should_alias_attribute :ycoordinate, :raw_latitude
+
+    should_have_db_column :coordinateunits, :type => :string, :limit => 50
+
+    should_have_db_column :comments, :type => :string, :limit => 50
+  end
+    
   
   should "not validate location value objects when they are blank" do
     aquatic_site = AquaticSite.spawn

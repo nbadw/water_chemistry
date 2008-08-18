@@ -1,19 +1,19 @@
-class AquaticSite < ActiveRecord::Base
-  class << self
-    def name_column
-      :name
-    end
-    
-    def waterbody_id_column
-      :waterbody_id
-    end
-  end
-  
-  include AquaticDataWarehouse::IncorporatedModel
+class AquaticSite < ActiveRecord::Base  
+  include AquaticDataWarehouse::IncorporatedModel   
   
   class AquaticSiteInUse < ActiveRecord::ActiveRecordError; end  
+  
+  set_table_name  'tblaquaticsite'
+  set_primary_key 'aquaticsiteid'
+  
+  alias_attribute :name, :aquaticsitename
+  alias_attribute :description, :aquaticsitedesc
+  alias_attribute :waterbody_id, :waterbodyid
+  alias_attribute :waterbody_name, :waterbodyname
+  alias_attribute :raw_longitude, :xcoordinate
+  alias_attribute :raw_latitude, :ycoordinate
         
-  belongs_to :waterbody
+  belongs_to :waterbody, :foreign_key => 'waterbodyid'
   belongs_to :coordinate_source
   has_many   :aquatic_site_usages
   has_many   :aquatic_activities, :through => :aquatic_site_usages, :uniq => true
@@ -52,5 +52,17 @@ class AquaticSite < ActiveRecord::Base
   
   def check_if_in_use
     raise(AquaticSiteInUse, "Site is in use, record cannot be deleted") unless self.aquatic_site_usages.empty?
+  end
+  
+  
+  
+  class << self
+    def name_column
+      :name
+    end
+    
+    def waterbody_id_column
+      :waterbody_id
+    end
   end
 end

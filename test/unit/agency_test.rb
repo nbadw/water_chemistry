@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class AgencyTest < ActiveSupport::TestCase
   should_use_table :cdagency
-  should_use_primary_key :id
+  should_use_primary_key :agencycd
   
   should_require_attributes :name
   should_have_many :users, :aquatic_site_usages 

@@ -14,5 +14,5 @@ class Waterbody < ActiveRecord::Base
     end
   end
   
-  has_many :aquatic_sites
+  has_many :aquatic_sites, :foreign_key => 'aquaticsiteid'
 end

@@ -1,5 +1,36 @@
 ETL_ROOT = File.join(RAILS_ROOT, 'db', 'etl')
 
+def define_import_tasks
+  Dir[File.join(ETL_ROOT, 'scripts', 'control', 'import_*.ctl')].each do |import_file|
+    import_file.match(/import_(.*)\.ctl/)
+    name = $1
+    desc "import #{name} table"
+    task name => :etl_environment do
+      puts 'processing import file ' + import_file
+      ETL::Engine.process import_file 
+    end
+  end  
+end
+
+namespace :adw do
+  task :etl_environment => :environment do
+    require File.join(RAILS_ROOT, 'db', 'etl', 'init')
+  end
+  
+  namespace :import do
+    define_import_tasks
+    
+    desc "import all"
+    task :all do
+      Rake::Task['adw:etl_environment'].invoke
+      Dir[File.join(ETL_ROOT, 'scripts', 'control', 'import_*.ctl')].each do |import_file|        
+        puts 'processing import file ' + import_file
+        ETL::Engine.process import_file 
+      end  
+    end    
+  end
+end
+
 namespace :data_warehouse do 
   task :initialize_etl_engine => :environment do    
     initialize_etl_engine
@@ -8,6 +39,14 @@ namespace :data_warehouse do
   desc "run all import scripts"
   task :import do
     Rake::Task['data_warehouse:import:all'].invoke
+  end
+  
+  desc "initial import"
+  task :initial_import do
+    Rake::Task['data_warehouse:initialize_etl_engine'].invoke
+    imports = Dir[File.join(ETL_ROOT, 'initial_import', '*.ctl')]
+    # declare task File.basename(files[0], '.ctl')
+    imports.each { |script| process script }
   end
   
   namespace :import do 
@@ -109,6 +148,16 @@ namespace :data_warehouse do
     desc "build name->id decode file for coordinate sources"
     task :coordinate_source_to_id => :init do
       process File.join(ETL_ROOT, 'import', 'coordinate_source_to_id.ctl')
+    end
+    
+    desc "import tblWaterBody"
+    task :tblWaterBody => :init do
+      process File.join(ETL_ROOT, 'initial_import', 'tblWaterBody.ctl')
+    end
+    
+    desc "import tblDrainageUnit"
+    task :tblDrainageUnit => :init do
+      process File.join(ETL_ROOT, 'initial_import', 'tblDrainageUnit.ctl')
     end
   end
 end

@@ -39,7 +39,7 @@ module ETL #:nodoc:
         @definition = definition
         
         @store_locally = configuration[:store_locally] || true
-        @mdb   = configuration[:mdb]
+        @mdb   = File.join(File.dirname(control.file), configuration[:mdb])
         @table = configuration[:table]
         
         raise "File doesn't exist: #{@mdb}" unless File.exist?(@mdb)

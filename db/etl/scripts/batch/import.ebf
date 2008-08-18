@@ -1,0 +1,6 @@
+puts "*** ETL BATCH IMPORT SCRIPT ***"
+ 
+Dir[ File.join( '..', 'control', 'import_*.ctl' )].each do |import_file|
+    puts "\nControl File: #{import_file}"
+    run import_file
+end

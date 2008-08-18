@@ -1,5 +1,6 @@
 class Agency < ActiveRecord::Base  
-  set_table_name :cdagency
+  set_table_name  :cdagency
+  set_primary_key :agencycd
   
   has_many :users
   has_many :aquatic_site_usages
