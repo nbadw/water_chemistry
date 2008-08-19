@@ -84,6 +84,7 @@ module ETL #:nodoc:
           values.collect! { |v| v.gsub(/\\/, '\\\\\\\\')}
           values.collect! { |v| v.gsub(separator, "\\#{separator}")}
           values.collect! { |v| v.gsub(/\n|\r/, '')}
+          values.collect! { |v| v.gsub(/\\\\N/, "\\N")}
           
           # enclose the value if required
           if !enclose.nil?

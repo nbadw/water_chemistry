@@ -20,7 +20,9 @@ destination :out, {
   :file => outfile
 }, { 
   :order => columns
-}  
+} 
+
+before_write :nullify 
 
 pre_process :truncate, { :target => RAILS_ENV, :table => table }
 

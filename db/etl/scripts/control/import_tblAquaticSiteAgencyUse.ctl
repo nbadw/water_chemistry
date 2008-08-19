@@ -22,6 +22,8 @@ destination :out, {
   :order => columns
 }  
 
+before_write :nullify
+
 pre_process :truncate, { :target => RAILS_ENV, :table => table }
 
 post_process :bulk_import, { 
