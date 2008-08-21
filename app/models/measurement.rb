@@ -1,3 +1,19 @@
+# == Schema Information
+# Schema version: 2
+#
+# Table name: measurements
+#
+#  id               :integer(11)     not null, primary key
+#  name             :string(255)     
+#  grouping         :string(255)     
+#  category         :string(255)     
+#  imported_at      :datetime        
+#  exported_at      :datetime        
+#  created_at       :datetime        
+#  updated_at       :datetime        
+#  bank_measurement :boolean(1)      
+#
+
 class Measurement < ActiveRecord::Base  
   class << self    
     def grouping_for_substrate_measurements

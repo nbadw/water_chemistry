@@ -4,11 +4,19 @@ class Location
   DECIMAL_FORMAT = /^(-?\d+[.]?\d*)$/
   
   attr_reader :latitude, :longitude, :coordinate_system_id, :errors
-  
+    
   def initialize(latitude, longitude, coordinate_system_id)
     @latitude, @longitude, @coordinate_system_id = latitude, longitude, coordinate_system_id  
     @coordinate_system = nil
     @errors = ActiveRecord::Errors.new(self)
+  end
+  
+  def copy_errors_to(record, mapping)    
+    [self.errors.on(:latitude)].flatten.each  { |error| record.errors.add mapping[0], error }
+    [self.errors.on(:longitude)].flatten.each { |error| record.errors.add mapping[1], error }
+    if mapping[2]
+      [self.errors.on(:coordinate_system_id)].flatten.each { |error| record.errors.add mapping[2], error }
+    end
   end
   
   def coordinate_system
@@ -86,7 +94,7 @@ class Location
   
   def validate_coordinate_system_id
     unless coordinate_system_id.to_s.blank?
-      errors.add :coordinate_system_id, "not found" unless CoordinateSystem.exists?(coordinate_system_id)
+      errors.add :coordinate_system_id, "not found" if coordinate_system.nil?
     else
       errors.add_on_blank :coordinate_system_id
     end

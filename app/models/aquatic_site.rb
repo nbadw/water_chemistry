@@ -1,3 +1,43 @@
+# == Schema Information
+# Schema version: 2
+#
+# Table name: tblaquaticsite
+#
+#  aquaticsiteid             :integer(11)     not null, primary key
+#  oldaquaticsiteid          :integer(11)     
+#  riversystemid             :integer(11)     
+#  waterbodyid               :integer(11)     
+#  waterbodyname             :string(50)      
+#  aquaticsitename           :string(100)     
+#  aquaticsitedesc           :string(250)     
+#  habitatdesc               :string(50)      
+#  reachno                   :integer(11)     
+#  startdesc                 :string(100)     
+#  enddesc                   :string(100)     
+#  startroutemeas            :float           
+#  endroutemeas              :float           
+#  sitetype                  :string(20)      
+#  specificsiteind           :string(1)       
+#  georeferencedind          :string(1)       
+#  dateentered               :datetime        
+#  incorporatedind           :boolean(1)      
+#  coordinatesource          :string(50)      
+#  coordinatesystem          :string(50)      
+#  xcoordinate               :string(50)      
+#  ycoordinate               :string(50)      
+#  coordinateunits           :string(50)      
+#  comments                  :string(50)      
+#  gmap_latitude             :decimal(15, 10) 
+#  gmap_longitude            :decimal(15, 10) 
+#  imported_at               :datetime        
+#  exported_at               :datetime        
+#  created_at                :datetime        
+#  updated_at                :datetime        
+#  gmap_coordinate_system_id :integer(11)     
+#  coordinate_system_id      :integer(11)     
+#  coordinate_source_id      :integer(11)     
+#
+
 class AquaticSite < ActiveRecord::Base  
   include AquaticDataWarehouse::IncorporatedModel   
   
@@ -12,32 +52,25 @@ class AquaticSite < ActiveRecord::Base
   alias_attribute :waterbody_name, :waterbodyname
   alias_attribute :raw_longitude, :xcoordinate
   alias_attribute :raw_latitude, :ycoordinate
+  alias_attribute :coordinate_system_id, :coordinatesystem
+  alias_attribute :coordinate_source, :coordinatesource
         
   belongs_to :waterbody, :foreign_key => 'waterbodyid'
-  belongs_to :coordinate_source
   has_many   :aquatic_site_usages
   has_many   :aquatic_activities, :through => :aquatic_site_usages, :uniq => true
   has_many   :agencies, :through => :aquatic_site_usages, :uniq => true
   
   composed_of :recorded_location, :class_name => 'Location', :mapping => [%w(raw_latitude latitude), %w(raw_longitude longitude), %w(coordinate_system_id coordinate_system_id)]
-  composed_of :gmap_location, :class_name => 'Location', :mapping => [%w(gmap_latitude latitude), %w(gmap_longitude longitude), %w(gmap_coordinate_system_id coordinate_system_id)]
+  composed_of :gmap_location, :class_name => 'GmapLocation', :mapping => [%w(gmap_latitude latitude), %w(gmap_longitude longitude)]  
         
   before_destroy :destroy_allowed?
     
   validates_presence_of :description, :waterbody  
   validates_each :recorded_location, :allow_blank => true do |record, attr, recorded_location|
-    unless recorded_location.valid?
-      [recorded_location.errors.on(:latitude)].flatten.each { |error| record.errors.add :raw_latitude, error }
-      [recorded_location.errors.on(:longitude)].flatten.each { |error| record.errors.add :raw_longitude, error }
-      [recorded_location.errors.on(:coordinate_system_id)].flatten.each { |error| record.errors.add :coordinate_system_id, error }
-    end
+    recorded_location.copy_errors_to(record, [:raw_latitude, :raw_longitude, :coordinate_system_id]) unless recorded_location.valid?
   end
   validates_each :gmap_location, :allow_blank => true do |record, attr, gmap_location|
-    unless gmap_location.valid?
-      [gmap_location.errors.on(:latitude)].flatten.each { |error| record.errors.add :gmap_latitude, error }
-      [gmap_location.errors.on(:longitude)].flatten.each { |error| record.errors.add :gmap_longitude, error }
-      [gmap_location.errors.on(:coordinate_system_id)].flatten.each { |error| record.errors.add :gmap_coordinate_system_id, error }
-    end
+    gmap_location.copy_errors_to(record, [:gmap_latitude, :gmap_longitude]) unless gmap_location.valid?
   end
     
   def drainage_code

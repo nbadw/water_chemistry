@@ -19,8 +19,8 @@ class SiteMeasurementControllerTest < ActionController::TestCase
     
     should_render_template 'create.rjs'
     should_assign_to :record
-    should("create the record successfully") { assert @controller.send(:successful?), assigns(:record).errors.full_messages.join(", ") }    
-    should("perform an insert of the new record") { assert_select_rjs :insert, :top, "site_measurement-tbody" }
+    should_eventually("create the record successfully") { assert @controller.send(:successful?), assigns(:record).errors.full_messages.join(", ") }    
+    should_eventually("perform an insert of the new record") { assert_select_rjs :insert, :top, "site_measurement-tbody" }
   end
   
   context "on failed POST to :create" do

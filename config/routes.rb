@@ -1,4 +1,6 @@
-ActionController::Routing::Routes.draw do |map|  
+ActionController::Routing::Routes.draw do |map| 
+  map.resource :data_collection_site, :active_scaffold => true
+  
   map.root :controller => "data_entry", :action => "browse"  
   map.connect '/aquatic_activity/site_aquatic_activities', :controller => 'aquatic_activity', :action => 'site_aquatic_activities'  
   map.connect '/aquatic_activity/aquatic_activity_details', :controller => 'aquatic_activity', :action => 'aquatic_activity_details'  

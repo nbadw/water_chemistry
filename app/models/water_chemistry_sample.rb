@@ -1,3 +1,21 @@
+# == Schema Information
+# Schema version: 2
+#
+# Table name: water_chemistry_samples
+#
+#  id                        :integer(11)     not null, primary key
+#  aquatic_activity_event_id :integer(11)     
+#  agency_sample_no          :string(10)      
+#  sample_depth_in_m         :float           
+#  water_source_type         :string(20)      
+#  sample_collection_method  :string(255)     
+#  analyzed_by               :string(255)     
+#  imported_at               :datetime        
+#  exported_at               :datetime        
+#  created_at                :datetime        
+#  updated_at                :datetime        
+#
+
 class WaterChemistrySample < ActiveRecord::Base 
   class << self    
     def sample_collection_methods

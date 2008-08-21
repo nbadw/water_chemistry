@@ -10,6 +10,6 @@ class WaterChemistrySampleTest < ActiveSupport::TestCase
       @water_chemistry_sample = WaterChemistrySample.generate!
     end
     
-    should_allow_values_for :sample_collection_method, WaterChemistrySample.sample_collection_methods
+    should_allow_values_for :sample_collection_method, *WaterChemistrySample.sample_collection_methods
   end
 end

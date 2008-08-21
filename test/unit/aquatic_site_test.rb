@@ -5,7 +5,7 @@ class AquaticSiteTest < ActiveSupport::TestCase
   should_use_table :tblaquaticsite
   should_use_primary_key :aquaticsiteid
   
-  should_belong_to :waterbody, :coordinate_source 
+  should_belong_to :waterbody
   should_have_many :aquatic_site_usages
   should_have_many :aquatic_activities, :through => :aquatic_site_usages
   should_have_many :agencies, :through => :aquatic_site_usages
@@ -53,7 +53,8 @@ class AquaticSiteTest < ActiveSupport::TestCase
     
     should_have_db_column :incorporatedind, :type => :boolean, :default => false
 
-    should_have_db_column :coordinatesource, :type => :string, :limit => 50
+    should_have_db_column  :coordinatesource, :type => :string, :limit => 50
+    should_alias_attribute :coordinatesource, :coordinate_source
     
     should_have_db_column :coordinatesystem, :type => :string, :limit => 50
 
@@ -91,27 +92,19 @@ class AquaticSiteTest < ActiveSupport::TestCase
     assert aquatic_site.valid?
   end
   
-  should "report errors on location value objects when they are not valid" do
+  should "copy errors from location value objects when they are not valid" do
     aquatic_site = AquaticSite.spawn
-    errors = mock('dummy_errors') do
-      expects(:on).with(:latitude).at_least(2).returns(['error1', 'error2'])
-      expects(:on).with(:longitude).at_least(2).returns('error3')
-      expects(:on).with(:coordinate_system_id).at_least(2).returns(nil)
+    recorded_location = mock('recorded_location') do
+      expects(:valid?).returns(false)
+      expects(:copy_errors_to).with(aquatic_site, [:raw_latitude, :raw_longitude, :coordinate_system_id])
     end
-    location = mock('dummy_location') do
-      expects(:blank?).at_least(2).returns(false)
-      expects(:valid?).at_least(2).returns(false)
-      expects(:errors).at_least_once.returns(errors)
+    gmap_location = mock('gmap_location') do
+      expects(:valid?).returns(false)
+      expects(:copy_errors_to).with(aquatic_site, [:gmap_latitude, :gmap_longitude])
     end
-    aquatic_site.expects(:recorded_location).returns(location)
-    aquatic_site.expects(:gmap_location).returns(location)    
-    assert !aquatic_site.valid?
-    assert_equal ['error1', 'error2'], aquatic_site.errors.on(:raw_latitude)
-    assert_equal 'error3', aquatic_site.errors.on(:raw_longitude)
-    assert_nil aquatic_site.errors.on(:coordinate_system_id)
-    assert_equal ['error1', 'error2'], aquatic_site.errors.on(:gmap_latitude)
-    assert_equal 'error3', aquatic_site.errors.on(:gmap_longitude)
-    assert_nil aquatic_site.errors.on(:gmap_coordinate_system_id)
+    aquatic_site.expects(:recorded_location).returns(recorded_location)
+    aquatic_site.expects(:gmap_location).returns(gmap_location)    
+    aquatic_site.valid?
   end
   
   context "when site has been incorporated into the data warehouse" do

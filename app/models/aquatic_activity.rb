@@ -1,3 +1,18 @@
+# == Schema Information
+# Schema version: 2
+#
+# Table name: cdaquaticactivity
+#
+#  aquaticactivitycd       :integer(11)     default(0), not null, primary key
+#  aquaticactivity         :string(50)      
+#  aquaticactivitycategory :string(30)      
+#  duration                :string(20)      
+#  created_at              :datetime        
+#  updated_at              :datetime        
+#  imported_at             :datetime        
+#  exported_at             :datetime        
+#
+
 class AquaticActivity < ActiveRecord::Base  
   set_table_name  :cdaquaticactivity
   set_primary_key :aquaticactivitycd

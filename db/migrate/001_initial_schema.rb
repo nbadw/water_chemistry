@@ -1,6 +1,6 @@
 class InitialSchema < ActiveRecord::Migration
   def self.up
-    create_table "cdAgency", :id => false, :force => true do |t|
+    create_table "cdAgency", :force => true do |t|
       t.string "agencycd",     :limit => 5,  :null => false
       t.string "agency",       :limit => 60
       t.string "agencytype",   :limit => 4
@@ -12,8 +12,7 @@ class InitialSchema < ActiveRecord::Migration
       t.timestamp :exported_at
     end
   
-    create_table "cdAquaticActivity", :id => false, :force => true do |t|
-      t.integer "aquaticactivitycd",                      :default => 0, :null => false
+    create_table "cdAquaticActivity", :primary_key => "aquaticactivitycd", :force => true do |t|
       t.string  "aquaticactivity",         :limit => 50
       t.string  "aquaticactivitycategory", :limit => 30
       t.string  "duration",                :limit => 20
@@ -24,8 +23,7 @@ class InitialSchema < ActiveRecord::Migration
       t.timestamp :exported_at
     end
   
-    create_table "cdAquaticActivityMethod", :id => false, :force => true do |t|
-      t.integer "aquaticmethodcd",                 :default => 0, :null => false
+    create_table "cdAquaticActivityMethod", :primary_key => "aquaticmethodcd", :force => true do |t|
       t.integer "aquaticactivitycd",               :default => 0
       t.string  "aquaticmethod",     :limit => 30
             
@@ -169,9 +167,6 @@ class InitialSchema < ActiveRecord::Migration
       t.datetime "exported_at"
       t.datetime "created_at"
       t.datetime "updated_at"
-      t.integer  "gmap_coordinate_system_id", :limit => 11
-      t.integer  "coordinate_system_id",      :limit => 11
-      t.integer  "coordinate_source_id",      :limit => 11
     end
   
     create_table "tblAquaticSiteAgencyUse", :id => false, :force => true do |t|
@@ -564,7 +559,7 @@ class InitialSchema < ActiveRecord::Migration
       t.datetime "activated_at"
       t.string   "password_reset_code",       :limit => 40
       t.boolean  "enabled",                                 :default => true
-      t.integer  "agency_id",                 :limit => 11
+      t.string   "agency_id", :limit => 5
       t.datetime "created_at"
       t.datetime "updated_at"
       t.datetime "last_login"

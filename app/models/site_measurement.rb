@@ -1,3 +1,22 @@
+# == Schema Information
+# Schema version: 2
+#
+# Table name: site_measurements
+#
+#  id                        :integer(11)     not null, primary key
+#  aquatic_site_id           :integer(11)     
+#  aquatic_activity_event_id :integer(11)     
+#  measurement_id            :integer(11)     
+#  instrument_id             :integer(11)     
+#  unit_of_measure_id        :integer(11)     
+#  value_measured            :string(255)     
+#  imported_at               :datetime        
+#  exported_at               :datetime        
+#  created_at                :datetime        
+#  updated_at                :datetime        
+#  bank                      :string(255)     
+#
+
 class SiteMeasurement < ActiveRecord::Base
   LEFT_BANK  = "Left"
   RIGHT_BANK = "Right"

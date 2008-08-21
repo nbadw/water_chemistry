@@ -13,11 +13,12 @@ class UsersControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
   end
 
-  def test_should_allow_signup
-    assert_difference 'User.count' do
-      create_user 
+  def test_should_allow_signup    
+      user = mock
+      user.expects(:save!)
+      User.expects(:new).returns(user)
+      post :create, :user => user_params
       assert_response :redirect
-    end
   end
 
   def test_should_require_login_on_signup
@@ -82,6 +83,11 @@ class UsersControllerTest < Test::Unit::TestCase
   end
 
   protected
+    def user_params(options = {})
+      { :login => 'colin', :email => 'test@email.com', :agency_id => '1',
+        :password => 'password', :password_confirmation => 'password' }.merge(options)
+    end
+    
     def create_user(options = {})
       u = User.spawn
       post :create, :user => { :login => u.login, :email => u.email, :agency_id => u.agency.id,

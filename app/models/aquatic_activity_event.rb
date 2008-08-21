@@ -1,3 +1,51 @@
+# == Schema Information
+# Schema version: 2
+#
+# Table name: tblaquaticactivity
+#
+#  aquaticactivityid        :integer(11)     not null, primary key
+#  tempaquaticactivityid    :integer(11)     
+#  project                  :string(100)     
+#  permitno                 :string(20)      
+#  aquaticprogramid         :integer(11)     
+#  aquaticactivitycd        :integer(11)     
+#  aquaticmethodcd          :integer(11)     
+#  oldaquaticsiteid         :integer(11)     
+#  aquaticsiteid            :integer(11)     
+#  aquaticactivitystartdate :string(10)      
+#  aquaticactivityenddate   :string(10)      
+#  aquaticactivitystarttime :string(6)       
+#  aquaticactivityendtime   :string(6)       
+#  year                     :string(4)       
+#  agencycd                 :string(4)       
+#  agency2cd                :string(4)       
+#  agency2contact           :string(50)      
+#  aquaticactivityleader    :string(50)      
+#  crew                     :string(50)      
+#  weatherconditions        :string(50)      
+#  watertemp_c              :float           
+#  airtemp_c                :float           
+#  waterlevel               :string(6)       
+#  waterlevel_cm            :string(50)      
+#  waterlevel_am_cm         :string(50)      
+#  waterlevel_pm_cm         :string(50)      
+#  siltation                :string(50)      
+#  primaryactivityind       :boolean(1)      
+#  comments                 :string(250)     
+#  dateentered              :datetime        
+#  incorporatedind          :boolean(1)      
+#  datetransferred          :datetime        
+#  start_date               :datetime        
+#  end_date                 :datetime        
+#  rainfall_last24          :string(15)      
+#  imported_at              :datetime        
+#  exported_at              :datetime        
+#  created_at               :datetime        
+#  updated_at               :datetime        
+#  agency2_id               :integer(11)     
+#  agency_id                :integer(11)     
+#
+
 class AquaticActivityEvent < ActiveRecord::Base 
   set_table_name  :tblaquaticactivity
   set_primary_key :aquaticactivityid

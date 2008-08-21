@@ -125,8 +125,8 @@ class AquaticActivityEventTest < ActiveSupport::TestCase
       @tbl_aquatic_activity = AquaticActivityEvent.generate!      
     end
     
-    should_allow_values_for :rainfall_last24, AquaticActivityEvent.rainfall_last24_options
-    should_allow_values_for :weather_conditions, AquaticActivityEvent.weather_conditions_options
-    should_allow_values_for :water_level, AquaticActivityEvent.water_level_options
+    should_allow_values_for :rainfall_last24, *AquaticActivityEvent.rainfall_last24_options
+    should_allow_values_for :weather_conditions, *AquaticActivityEvent.weather_conditions_options
+    should_allow_values_for :water_level, *AquaticActivityEvent.water_level_options
   end
 end

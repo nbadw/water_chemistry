@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 2) do
+ActiveRecord::Schema.define(:version => 1) do
 
   create_table "aquatic_site_usages", :force => true do |t|
     t.integer  "aquatic_site_id",     :limit => 11
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(:version => 2) do
     t.string   "raw_latitude",              :limit => 20
   end
 
-  create_table "cdagency", :id => false, :force => true do |t|
+  create_table "cdagency", :force => true do |t|
     t.string   "agencycd",     :limit => 5,                   :null => false
     t.string   "agency",       :limit => 60
     t.string   "agencytype",   :limit => 4
@@ -55,8 +55,7 @@ ActiveRecord::Schema.define(:version => 2) do
     t.datetime "exported_at"
   end
 
-  create_table "cdaquaticactivity", :id => false, :force => true do |t|
-    t.integer  "aquaticactivitycd",       :limit => 11, :default => 0, :null => false
+  create_table "cdaquaticactivity", :primary_key => "aquaticactivitycd", :force => true do |t|
     t.string   "aquaticactivity",         :limit => 50
     t.string   "aquaticactivitycategory", :limit => 30
     t.string   "duration",                :limit => 20
@@ -66,8 +65,7 @@ ActiveRecord::Schema.define(:version => 2) do
     t.datetime "exported_at"
   end
 
-  create_table "cdaquaticactivitymethod", :id => false, :force => true do |t|
-    t.integer  "aquaticmethodcd",   :limit => 11, :default => 0, :null => false
+  create_table "cdaquaticactivitymethod", :primary_key => "aquaticmethodcd", :force => true do |t|
     t.integer  "aquaticactivitycd", :limit => 11, :default => 0
     t.string   "aquaticmethod",     :limit => 30
     t.datetime "created_at"
@@ -281,39 +279,36 @@ ActiveRecord::Schema.define(:version => 2) do
   end
 
   create_table "tblaquaticsite", :id => false, :force => true do |t|
-    t.integer  "aquaticsiteid",             :limit => 11,                                                     :null => false
-    t.integer  "oldaquaticsiteid",          :limit => 11
-    t.integer  "riversystemid",             :limit => 11
-    t.integer  "waterbodyid",               :limit => 11
-    t.string   "waterbodyname",             :limit => 50
-    t.string   "aquaticsitename",           :limit => 100
-    t.string   "aquaticsitedesc",           :limit => 250
-    t.string   "habitatdesc",               :limit => 50
-    t.integer  "reachno",                   :limit => 11
-    t.string   "startdesc",                 :limit => 100
-    t.string   "enddesc",                   :limit => 100
+    t.integer  "aquaticsiteid",    :limit => 11,                                                     :null => false
+    t.integer  "oldaquaticsiteid", :limit => 11
+    t.integer  "riversystemid",    :limit => 11
+    t.integer  "waterbodyid",      :limit => 11
+    t.string   "waterbodyname",    :limit => 50
+    t.string   "aquaticsitename",  :limit => 100
+    t.string   "aquaticsitedesc",  :limit => 250
+    t.string   "habitatdesc",      :limit => 50
+    t.integer  "reachno",          :limit => 11
+    t.string   "startdesc",        :limit => 100
+    t.string   "enddesc",          :limit => 100
     t.float    "startroutemeas"
     t.float    "endroutemeas"
-    t.string   "sitetype",                  :limit => 20
-    t.string   "specificsiteind",           :limit => 1
-    t.string   "georeferencedind",          :limit => 1
+    t.string   "sitetype",         :limit => 20
+    t.string   "specificsiteind",  :limit => 1
+    t.string   "georeferencedind", :limit => 1
     t.datetime "dateentered"
-    t.boolean  "incorporatedind",                                                          :default => false
-    t.string   "coordinatesource",          :limit => 50
-    t.string   "coordinatesystem",          :limit => 50
-    t.string   "xcoordinate",               :limit => 50
-    t.string   "ycoordinate",               :limit => 50
-    t.string   "coordinateunits",           :limit => 50
-    t.string   "comments",                  :limit => 50
-    t.decimal  "gmap_latitude",                            :precision => 15, :scale => 10
-    t.decimal  "gmap_longitude",                           :precision => 15, :scale => 10
+    t.boolean  "incorporatedind",                                                 :default => false
+    t.string   "coordinatesource", :limit => 50
+    t.string   "coordinatesystem", :limit => 50
+    t.string   "xcoordinate",      :limit => 50
+    t.string   "ycoordinate",      :limit => 50
+    t.string   "coordinateunits",  :limit => 50
+    t.string   "comments",         :limit => 50
+    t.decimal  "gmap_latitude",                   :precision => 15, :scale => 10
+    t.decimal  "gmap_longitude",                  :precision => 15, :scale => 10
     t.datetime "imported_at"
     t.datetime "exported_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "gmap_coordinate_system_id", :limit => 11
-    t.integer  "coordinate_system_id",      :limit => 11
-    t.integer  "coordinate_source_id",      :limit => 11
   end
 
   create_table "tblaquaticsiteagencyuse", :id => false, :force => true do |t|
@@ -568,7 +563,7 @@ ActiveRecord::Schema.define(:version => 2) do
     t.datetime "activated_at"
     t.string   "password_reset_code",       :limit => 40
     t.boolean  "enabled",                                 :default => true
-    t.integer  "agency_id",                 :limit => 11
+    t.string   "agency_id",                 :limit => 5
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "last_login"
