@@ -1,9 +1,10 @@
 # == Schema Information
-# Schema version: 2
+# Schema version: 1
 #
 # Table name: cdagency
 #
-#  agencycd     :string(5)       not null, primary key
+#  id           :integer(11)     not null
+#  agencycd     :string(5)       default(""), not null, primary key
 #  agency       :string(60)      
 #  agencytype   :string(4)       
 #  datarulesind :string(1)       default("N")

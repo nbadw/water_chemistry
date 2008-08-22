@@ -22,7 +22,7 @@ module ActiveRecord
         raise 'missing required parameter :class for map method' if options[:class].to_s.empty?
         raise 'missing required parameter :column for map method' if options[:column].to_s.empty?      
         @mappings = {} if @mappings.nil?
-        @mappings[name.to_sym] = { :class => options[:class].to_s, :column => options[:column].to_s }
+        @mappings[name.to_s] = { :class => options[:class].to_s, :column => options[:column].to_s }
       end
     
       def mappings
@@ -101,7 +101,7 @@ module ActiveRecord
     
       # Define an attribute reader method.  Cope with nil column.
       def define_read_method(symbol, attr_name, column)   
-        mapping = mappings[attr_name.to_sym]
+        mapping = mappings[attr_name.to_s]
         mapped_instance = mapping[:class].underscore  
         mapped_attr = mapping[:column]    
         evaluate_attribute_method attr_name, "def #{symbol}; #{mapped_instance}.#{mapped_attr}; end"
@@ -109,14 +109,14 @@ module ActiveRecord
     
       # Defines a predicate method <tt>attr_name?</tt>.
       def define_question_method(attr_name)  
-        mapping = mappings[attr_name]
+        mapping = mappings[attr_name.to_s]
         mapped_instance = mapping[:class].underscore  
         mapped_attr = mapping[:column]
         evaluate_attribute_method attr_name, "def #{attr_name}?; #{mapped_instance}.#{mapped_attr}?; end", "#{attr_name}?"
       end
 
       def define_write_method(attr_name)    
-        mapping = mappings[attr_name]
+        mapping = mappings[attr_name.to_s]
         mapped_instance = mapping[:class].underscore
         mapped_attr = mapping[:column]
         evaluate_attribute_method attr_name, "def #{attr_name}=(new_value); #{mapped_instance}.#{mapped_attr} = new_value; end", "#{attr_name}="

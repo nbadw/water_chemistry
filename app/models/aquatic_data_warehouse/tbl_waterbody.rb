@@ -1,24 +1,28 @@
 # == Schema Information
-# Schema version: 2
+# Schema version: 1
 #
-# Table name: waterbodies
+# Table name: tblwaterbody
 #
-#  id                      :integer(11)     not null, primary key
-#  drainage_code           :string(17)      
-#  waterbody_type          :string(8)       
-#  name                    :string(110)     
-#  abbreviated_name        :string(80)      
-#  alt_name                :string(80)      
-#  waterbody_complex_id    :integer(11)     
-#  surveyed                :boolean(1)      
-#  flows_into_waterbody_id :integer(11)     
-#  imported_at             :datetime        
-#  exported_at             :datetime        
-#  created_at              :datetime        
-#  updated_at              :datetime        
+#  waterbodyid            :integer(11)     not null, primary key
+#  cgndb_key              :string(10)      
+#  cgndb_key_alt          :string(10)      
+#  drainagecd             :string(17)      
+#  waterbodytypecd        :string(4)       
+#  waterbodyname          :string(55)      
+#  waterbodyname_abrev    :string(40)      
+#  waterbodyname_alt      :string(40)      
+#  waterbodycomplexid     :integer(11)     
+#  surveyed_ind           :string(1)       
+#  flowsintowaterbodyid   :float           
+#  flowsintowaterbodyname :string(40)      
+#  flowintodrainagecd     :string(17)      
+#  dateentered            :datetime        
+#  datemodified           :datetime        
 #
 
 class TblWaterbody < ActiveRecord::Base  
   set_table_name  'tblwaterbody'
-  set_primary_key 'waterbodyid'
+  set_primary_key 'waterbodyid'  
+  
+  has_many :aquatic_sites, :foreign_key => 'aquaticsiteid'
 end

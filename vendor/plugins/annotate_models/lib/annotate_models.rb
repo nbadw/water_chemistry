@@ -69,10 +69,10 @@ module AnnotateModels
   # on the columns and their types) and put it at the front
   # of the model and fixture source files.
 
-  def self.annotate(klass, header)
+  def self.annotate(filename, klass, header)
     info = get_schema_info(klass, header)
     
-    model_file_name = File.join(MODEL_DIR, klass.name.underscore + ".rb")
+    model_file_name = File.join(MODEL_DIR, filename)
     annotate_one_file(model_file_name, info)
 
     fixture_file_name = File.join(FIXTURE_DIR, klass.table_name + ".yml")
@@ -109,12 +109,13 @@ module AnnotateModels
     end
     
     self.get_model_names.each do |m|
-      class_name = m.sub(/\.rb$/,'').camelize
+      class_name = File.basename(m, '.rb').camelize
+      #class_name = m.sub(/\.rb$/,'').camelize
       begin
         klass = class_name.split('::').inject(Object){ |klass,part| klass.const_get(part) }
         if klass < ActiveRecord::Base && !klass.abstract_class?
           puts "Annotating #{class_name}"
-          self.annotate(klass, header)
+          self.annotate(m, klass, header)
         else
           puts "Skipping #{class_name}"
         end

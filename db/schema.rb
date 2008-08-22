@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(:version => 1) do
   end
 
   create_table "cdagency", :force => true do |t|
-    t.string   "agencycd",     :limit => 5,                   :null => false
+    t.string   "agencycd",     :limit => 5,  :default => "",  :null => false
     t.string   "agency",       :limit => 60
     t.string   "agencytype",   :limit => 4
     t.string   "datarulesind", :limit => 1,  :default => "N"
@@ -124,13 +124,13 @@ ActiveRecord::Schema.define(:version => 1) do
   end
 
   create_table "cdwatersource", :id => false, :force => true do |t|
-    t.string "watersourcecd",   :limit => 4,  :null => false
+    t.string "watersourcecd",   :limit => 4,  :default => "", :null => false
     t.string "watersource",     :limit => 20
     t.string "watersourcetype", :limit => 20
   end
 
   create_table "coordinate_sources", :force => true do |t|
-    t.string "name", :limit => 30, :null => false
+    t.string "name", :limit => 30, :default => "", :null => false
   end
 
   create_table "coordinate_sources_coordinate_systems", :id => false, :force => true do |t|
@@ -139,10 +139,10 @@ ActiveRecord::Schema.define(:version => 1) do
   end
 
   create_table "coordinate_systems", :force => true do |t|
-    t.integer "epsg",         :limit => 11, :null => false
-    t.string  "name",                       :null => false
+    t.integer "epsg",         :limit => 11,                 :null => false
+    t.string  "name",                       :default => "", :null => false
     t.string  "display_name"
-    t.string  "type",                       :null => false
+    t.string  "type",                       :default => "", :null => false
   end
 
   create_table "instruments", :force => true do |t|
@@ -325,7 +325,7 @@ ActiveRecord::Schema.define(:version => 1) do
   end
 
   create_table "tbldrainageunit", :id => false, :force => true do |t|
-    t.string  "drainagecd",   :limit => 17, :null => false
+    t.string  "drainagecd",   :limit => 17, :default => "", :null => false
     t.string  "level1no",     :limit => 2
     t.string  "level1name",   :limit => 40
     t.string  "level2no",     :limit => 2

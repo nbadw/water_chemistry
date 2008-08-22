@@ -1,9 +1,9 @@
 # == Schema Information
-# Schema version: 2
+# Schema version: 1
 #
 # Table name: cdaquaticactivity
 #
-#  aquaticactivitycd       :integer(11)     default(0), not null, primary key
+#  aquaticactivitycd       :integer(11)     not null, primary key
 #  aquaticactivity         :string(50)      
 #  aquaticactivitycategory :string(30)      
 #  duration                :string(20)      
