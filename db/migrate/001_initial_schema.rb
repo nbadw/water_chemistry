@@ -135,13 +135,13 @@ class InitialSchema < ActiveRecord::Migration
     end
   
     create_table "tblAquaticSite", :id => false, :force => true do |t|
-      t.integer  "aquaticsiteid",                                      :null => false
+      t.integer  "AquaticSiteId",                                      :null => false
       t.integer  "oldaquaticsiteid"
       t.integer  "riversystemid"
-      t.integer  "waterbodyid"
-      t.string   "waterbodyname",    :limit => 50
-      t.string   "aquaticsitename",  :limit => 100
-      t.string   "aquaticsitedesc",  :limit => 250
+      t.integer  "WaterbodyId"
+      t.string   "WaterbodyName",    :limit => 50
+      t.string   "AquaticSiteName",  :limit => 100
+      t.string   "AquaticSiteDesc",  :limit => 250
       t.string   "habitatdesc",      :limit => 50
       t.integer  "reachno"
       t.string   "startdesc",        :limit => 100

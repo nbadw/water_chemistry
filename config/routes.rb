@@ -1,5 +1,6 @@
 ActionController::Routing::Routes.draw do |map| 
-  map.resource :data_collection_site, :active_scaffold => true
+  map.resources :data_collection_site, :active_scaffold => true
+  map.resources :aquatic_site, :path_prefix => '/admin', :active_scaffold => true
   
   map.root :controller => "data_entry", :action => "browse"  
   map.connect '/aquatic_activity/site_aquatic_activities', :controller => 'aquatic_activity', :action => 'site_aquatic_activities'  

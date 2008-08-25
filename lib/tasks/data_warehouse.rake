@@ -163,7 +163,6 @@ namespace :data_warehouse do
 end
 
 def initialize_etl_engine(options = {})
-  require File.join(RAILS_ROOT, 'vendor', 'plugins', 'etl', 'lib', 'etl')
   require File.join(ETL_ROOT, 'lib', 'coordinate_import_processor')
   require File.join(ETL_ROOT, 'lib', 'ms_access')
   require File.join('active_record', 'connection_adapters', 'sqlserver_adapter') 
