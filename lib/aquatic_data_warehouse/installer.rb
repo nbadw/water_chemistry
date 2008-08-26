@@ -6,11 +6,23 @@
 module AquaticDataWarehouse
   class Installer
     def self.install
-      AquaticDataWarehouse::Schema.up
+      if Schema.installed?
+        raise "Aquatic Data Warehouse is already installed"     
+      end
+      
+      puts "installing aquatic data warehouse database"
+      Schema.install
+      puts "install complete"
     end
     
     def self.uninstall
-      AquaticDataWarehouse::Schema.down
+      if Schema.installed?
+        raise "Aquatic Data Warehouse has not been installed" 
+      end
+      
+      puts "uninstalling aquatic data warehouse database"
+      Schema.uninstall
+      puts "uninstall complete"
     end
   end
 end

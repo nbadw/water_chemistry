@@ -6,59 +6,136 @@
 module AquaticDataWarehouse
   class Schema < ActiveRecord::Migration
     private_class_method :new
-        
-    def self.up
-      data_tables.each do |table|
-        columns = connection.columns(table)
-        create table, columns
-      end
+            
+    def self.define(&block)
+      instance_eval(&block)
     end
     
-    def self.down
-      data_tables.each do |table|
-        drop table
+    def self.install
+      unless File.exists?(schema_dir)
+        Dir.mkdir(schema_dir)
       end
-    end
-    
-    def self.create(table_name, columns)
-      if table_name.match(/^tbl\w+$/) 
-        primary_key = table_name[3..-1] + "Id"
-      else
-        primary_key = table_name[2..-1] + "Cd"
-      end
-      columns.delete_if { |column| column.name.downcase == primary_key.downcase }
-      
+      puts "generating schema load script"
+      generate_schema_load_script
+      puts "generating schema drop script"
+      generate_schema_drop_script
+      puts "creating aquatic data warehouse database"  
       ActiveRecord::Base.establish_connection
-      create_table table_name, :primary_key => primary_key do |t|
-        columns.each do |column|
-          t.column column.name, column.sql_type, { :default => column.default, :null => column.null, :limit => column.limit }          
-        end
+      load(schema_load_file)
+    end
+    
+    def self.uninstall
+      puts "removing aquatic data warehouse database"
+      load(schema_drop_file)  
+      File.delete(schema_load_file)
+      File.delete(schema_drop_file)
+    end
+    
+    def self.installed?
+      File.exists?(schema_load_file) && File.exists?(schema_drop_file)
+    end
+    
+    private
+    def self.schema_dir
+      File.join(RAILS_ROOT, 'db', 'aquatic_data_warehouse')
+    end
+    
+    def self.schema_load_file
+      File.join(schema_dir, 'schema_load.rb')
+    end
+    
+    def self.schema_drop_file
+      File.join(schema_dir, 'schema_drop.rb')
+    end
+    
+    def self.generate_schema_load_script
+      f = File.open(schema_load_file, 'w+')
+      f << "AquaticDataWarehouse::Schema.define do\n"
+      
+      tables.each { |table| write table, f }
+      
+      f << "end"
+      f.close
+    end
+    
+    def self.generate_schema_drop_script
+      f = File.open(schema_drop_file, 'w+')
+      f << "AquaticDataWarehouse::Schema.define do\n"
+      
+      tables.each do |table_name|
+        f << "  drop_table \"#{table_name}\"\n"
       end
+      
+      f << "end"
+      f.close
+    end
+    
+    def self.write(table_name, file)  
+      puts "* processing #{table_name}"
+      columns = columns(table_name)
+      primary_key = columns.find do |column|
+        root = table_root(table_name)
+        column.name == "#{root}Id" || column.name == "#{root}Cd"
+      end
+            
+      if primary_key
+        columns.delete(primary_key)
+        id_option = :primary_key
+        id_value  = '"' + primary_key.name + '"'
+      else
+        id_option = :id
+        id_value  = false
+      end
+      
+      file << "  create_table \"#{table_name}\", :#{id_option} => #{id_value} do |t|\n"
+      
+      columns.each do |column|
+        options = {}
+        options[:default] = column.default if column.default
+        options[:null]    = false if !column.null
+        options[:limit]   = column.limit if column.limit
+        file << "    t.#{column.sql_type} \"#{column.name}\""
+        options.each do |option, value|
+          file << ", :#{option} => #{value}"
+        end
+        file << "\n"
+      end
+      
+      file << "  end\n\n"
+    end
+    
+    def self.table_root(table_name)
+      table_name.match(/(tbl|cd)(.*)/)
+      $2
+    end
+    
+    def self.create(table_name, columns)      
     end
     
     def self.drop(table_name)
-      ActiveRecord::Base.establish_connection
-      drop_table table
     end
     
     def self.connection
-      ActiveRecord::Base.establish_connection({
-        :adapter => :ms_access,
-        :database => 'db/nb_aquatic_data_warehouse.mdb'
-      }) 
-      ActiveRecord::Base.connection
+      unless @connection 
+        ActiveRecord::Base.establish_connection({
+          :adapter => :ms_access,
+          :database => 'db/nb_aquatic_data_warehouse.mdb'
+        }) 
+        @connection = ActiveRecord::Base.connection
+      end
+      @connection
     end
     
     def self.tables
-      @tables ||= connection.tables
+      %w(
+        cdAgency cdAquaticActivity cdAquaticActivityMethod tblWaterMeasurement cdInstrument cdMeasureInstrument cdMeasureUnit
+        cdOandM cdOandMValues cdUnitofMeasure cdWaterChemistryQualifier cdWaterParameter cdWaterSource tblAquaticActivity tblObservations    
+        tblAquaticSite tblAquaticSiteAgencyUse tblSiteMeasurement tblEnvironmentalObservations tblDrainageUnit tblWaterBody tblWaterChemistryAnalysis
+      )
     end
     
-    def self.data_tables
-      tables.collect { |table| table if table.match(/^tbl\w+$/) }.compact
-    end
-    
-    def self.code_tables
-      tables.collect { |table| table if table.match(/^cd\w+$/)  }.compact
+    def self.columns(table)
+      connection.columns(table)
     end
   end
 end
