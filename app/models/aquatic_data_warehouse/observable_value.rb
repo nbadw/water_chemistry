@@ -12,5 +12,5 @@
 #  updated_at     :datetime        
 #
 
-class ObservableValue < ActiveRecord::Base
+class ObservableValue < AquaticDataWarehouse::Base
 end

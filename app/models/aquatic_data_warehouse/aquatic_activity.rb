@@ -13,20 +13,11 @@
 #  exported_at             :datetime        
 #
 
-class AquaticActivity < ActiveRecord::Base  
-  set_table_name  :cdaquaticactivity
-  set_primary_key :aquaticactivitycd
+class AquaticActivity < AquaticDataWarehouse::BaseCd  
+  has_many :aquatic_activity_events
   
-  class << self
-    def name_column
-      :aquaticactivity
-    end
-  end
-  
-  has_many :aquatic_activity_events, :foreign_key => AquaticActivityEvent.aquatic_activity_id_column
-  
-  alias_attribute :name, :aquaticactivity
-  alias_attribute :category, :aquaticactivitycategory
+  alias_attribute :name, :aquatic_activity
+  alias_attribute :category, :aquatic_activity_category
   
   def <=>(compare_to)
     compare_to.is_a?(AquaticActivity) ? self.name <=> compare_to.name : self.name <=> compare_to.to_s

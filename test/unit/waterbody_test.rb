@@ -1,5 +1,21 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class WaterbodyTest < ActiveSupport::TestCase
+  should_use_table       'tblWaterBody'
+  should_use_primary_key 'WaterBodyID'
+  
+  should_have_db_column "DateEntered", :type => :datetime
+  should_have_db_column "DateModified", :type => :datetime
+  should_have_db_column "DrainageCd", :limit => 17, :type => :string
+  should_have_db_column "FlowIntoDrainageCd", :limit => 17, :type => :string
+  should_have_db_column "FlowsIntoWaterBodyID", :type => :integer
+  should_have_db_column "FlowsIntoWaterBodyName", :limit => 40, :type => :string
+  should_have_db_column "Surveyed_Ind", :limit => 1, :type => :string
+  should_have_db_column "WaterBodyComplexID", :type => :integer
+  should_have_db_column "WaterBodyName", :limit => 55, :type => :string
+  should_have_db_column "WaterBodyName_Abrev", :limit => 40, :type => :string
+  should_have_db_column "WaterBodyName_Alt", :limit => 40, :type => :string
+  should_have_db_column "WaterBodyTypeCd", :limit => 4, :type => :string
+  
   should_have_many :aquatic_sites
 end

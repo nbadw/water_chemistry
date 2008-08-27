@@ -14,7 +14,6 @@
 #  exported_at  :datetime        
 #
 
-class CdAgency < ActiveRecord::Base  
-  set_table_name  :cdagency
-  set_primary_key :agencycd  
+class DrainageUnit < AquaticDataWarehouse::BaseTbl
+  set_primary_key 'DrainageCd'
 end

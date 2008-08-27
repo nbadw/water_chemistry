@@ -14,7 +14,7 @@
 #  bank_measurement :boolean(1)      
 #
 
-class Measurement < ActiveRecord::Base  
+class Measurement < AquaticDataWarehouse::Base
   class << self    
     def grouping_for_substrate_measurements
       'Substrate Type'

@@ -78,7 +78,8 @@ module ActiveRecord
 
     class MsAccessColumn < Column
       def initialize(ado_column)        
-        super(ado_column.Name, default_value(ado_column), adox_sql_type(ado_column), nullable?(ado_column))
+        super(ado_column.Name, default_value(ado_column), adox_sql_type(ado_column), nullable?(ado_column))        
+        @default = nil if @sql_type == :datetime
         @limit = defined_size(ado_column)
       end
       
@@ -88,7 +89,7 @@ module ActiveRecord
         when 3   then :integer
         when 4   then :float
         when 5   then :decimal
-        when 7   then :timestamp
+        when 7   then :datetime
         when 11  then :boolean
         when 202 then :string
         else
@@ -109,11 +110,9 @@ module ActiveRecord
         property.Value if property
       end
          
-      def default_value(column)
-        unless @sql_type == :datetime
-          property = get_property('Default', column)
-          property.Value if property
-        end
+      def default_value(column)          
+        property = get_property('Default', column)
+        property.Value if property
       end
       
       def get_property(name, column)

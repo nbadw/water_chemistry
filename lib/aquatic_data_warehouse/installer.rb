@@ -16,7 +16,7 @@ module AquaticDataWarehouse
     end
     
     def self.uninstall
-      if Schema.installed?
+      unless Schema.installed?
         raise "Aquatic Data Warehouse has not been installed" 
       end
       

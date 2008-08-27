@@ -17,7 +17,7 @@
 #  bank                      :string(255)     
 #
 
-class SiteMeasurement < ActiveRecord::Base
+class SiteMeasurement < AquaticDataWarehouse::Base
   LEFT_BANK  = "Left"
   RIGHT_BANK = "Right"
   

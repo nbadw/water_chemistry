@@ -15,7 +15,7 @@
 #  fish_passage_blocked      :boolean(1)      
 #
 
-class SiteObservation < ActiveRecord::Base
+class SiteObservation < AquaticDataWarehouse::Base
   belongs_to :aquatic_site
   belongs_to :aquatic_activity_event
   belongs_to :observation

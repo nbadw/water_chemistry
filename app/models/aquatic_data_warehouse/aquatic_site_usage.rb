@@ -18,7 +18,7 @@
 #  updated_at          :datetime        
 #
 
-class AquaticSiteUsage < ActiveRecord::Base  
+class AquaticSiteUsage < AquaticDataWarehouse::BaseTbl 
   belongs_to :aquatic_site
   belongs_to :aquatic_activity
   belongs_to :agency

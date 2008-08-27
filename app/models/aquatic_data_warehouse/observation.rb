@@ -14,7 +14,7 @@
 #  fish_passage_blocked_observation :boolean(1)      
 #
 
-class Observation < ActiveRecord::Base  
+class Observation < AquaticDataWarehouse::Base  
   has_many :observable_values 
   # fish passage blocked observations: 'Man-made dam', 'Habitat enhancement structure', 'Culvert', 'Active beaver dam', 'Inactive beaver dam', 'Large woody debris'
   # observations needing text input:   'Pipe outfall'

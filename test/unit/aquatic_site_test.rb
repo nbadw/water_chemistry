@@ -15,7 +15,7 @@ class AquaticSiteTest < ActiveSupport::TestCase
   should_have_db_column "AquaticSiteId", :type => :integer, :null => false
   should_have_db_column "OldAquaticSiteId", :type => :integer
   should_have_db_column "RiverSystemId", :type => :integer 
-  should_have_db_column :waterbodyid, :type => :integer 
+  should_have_db_column "WaterbodyId", :type => :integer 
   should_have_db_column :waterbodyname, :type => :string, :limit => 50
   should_have_db_column :aquaticsitename, :type => :string, :limit => 100
   should_have_db_column :aquaticsitedesc, :type => :string, :limit => 250

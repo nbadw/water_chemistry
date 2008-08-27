@@ -44,93 +44,73 @@ ActiveRecord::Schema.define(:version => 1) do
     t.string   "raw_latitude",              :limit => 20
   end
 
-  create_table "cdagency", :force => true do |t|
-    t.string   "agencycd",     :limit => 5,  :default => "",  :null => false
-    t.string   "agency",       :limit => 60
-    t.string   "agencytype",   :limit => 4
-    t.string   "datarulesind", :limit => 1,  :default => "N"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "imported_at"
-    t.datetime "exported_at"
+  create_table "cdagency", :primary_key => "AgencyCd", :force => true do |t|
+    t.string "Agency",       :limit => 60
+    t.string "AgencyType",   :limit => 4
+    t.string "DataRulesInd", :limit => 1
   end
 
-  create_table "cdaquaticactivity", :primary_key => "aquaticactivitycd", :force => true do |t|
-    t.string   "aquaticactivity",         :limit => 50
-    t.string   "aquaticactivitycategory", :limit => 30
-    t.string   "duration",                :limit => 20
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "imported_at"
-    t.datetime "exported_at"
+  create_table "cdaquaticactivity", :primary_key => "AquaticActivityCd", :force => true do |t|
+    t.string "AquaticActivity",         :limit => 50
+    t.string "AquaticActivityCategory", :limit => 30
+    t.string "Duration",                :limit => 20
   end
 
-  create_table "cdaquaticactivitymethod", :primary_key => "aquaticmethodcd", :force => true do |t|
-    t.integer  "aquaticactivitycd", :limit => 11, :default => 0
-    t.string   "aquaticmethod",     :limit => 30
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "imported_at"
-    t.datetime "exported_at"
+  create_table "cdaquaticactivitymethod", :primary_key => "AquaticMethodCd", :force => true do |t|
+    t.integer "AquaticActivityCd", :limit => 11, :default => 0
+    t.string  "AquaticMethod",     :limit => 30
   end
 
-  create_table "cdinstrument", :id => false, :force => true do |t|
-    t.integer "instrumentcd",        :limit => 11, :null => false
-    t.string  "instrument",          :limit => 50
-    t.string  "instrument_category", :limit => 50
+  create_table "cdinstrument", :primary_key => "InstrumentCd", :force => true do |t|
+    t.string "Instrument",          :limit => 50
+    t.string "Instrument_Category", :limit => 50
   end
 
-  create_table "cdmeasureinstrument", :id => false, :force => true do |t|
-    t.integer "measureinstrumentcd", :limit => 11,                :null => false
-    t.integer "oandmcd",             :limit => 11, :default => 0
-    t.integer "instrumentcd",        :limit => 11, :default => 0
+  create_table "cdmeasureinstrument", :primary_key => "MeasureInstrumentCd", :force => true do |t|
+    t.integer "InstrumentCd", :limit => 11, :default => 0
+    t.integer "OandMCd",      :limit => 11, :default => 0
   end
 
-  create_table "cdmeasureunit", :id => false, :force => true do |t|
-    t.integer "measureunitcd",   :limit => 11,                :null => false
-    t.integer "oandmcd",         :limit => 11, :default => 0
-    t.integer "unitofmeasurecd", :limit => 11, :default => 0
+  create_table "cdmeasureunit", :primary_key => "MeasureUnitCd", :force => true do |t|
+    t.integer "OandMCd",         :limit => 11, :default => 0
+    t.integer "UnitofMeasureCd", :limit => 11, :default => 0
   end
 
-  create_table "cdoandm", :id => false, :force => true do |t|
-    t.integer "oandmcd",         :limit => 11,                    :null => false
-    t.string  "oandm_type",      :limit => 16
-    t.string  "oandm_category",  :limit => 40
-    t.string  "oandm_group",     :limit => 50
-    t.string  "oandm_parameter", :limit => 50
-    t.boolean "oandm_valuesind",               :default => false
+  create_table "cdoandm", :primary_key => "OandMCd", :force => true do |t|
+    t.string  "OandM_Category",  :limit => 40
+    t.string  "OandM_Group",     :limit => 50
+    t.string  "OandM_Parameter", :limit => 50
+    t.string  "OandM_Type",      :limit => 16
+    t.boolean "OandM_ValuesInd"
   end
 
-  create_table "cdoandmvalues", :id => false, :force => true do |t|
-    t.integer "oandmvaluescd", :limit => 11,                :null => false
-    t.integer "oandmcd",       :limit => 11, :default => 0
-    t.string  "value",         :limit => 20
+  create_table "cdoandmvalues", :primary_key => "OandMValuesCd", :force => true do |t|
+    t.integer "OandMCd", :limit => 11, :default => 0
+    t.string  "Value",   :limit => 20
   end
 
-  create_table "cdunitofmeasure", :id => false, :force => true do |t|
-    t.integer "unitofmeasurecd",  :limit => 11, :default => 0, :null => false
-    t.string  "unitofmeasure",    :limit => 50
-    t.string  "unitofmeasureabv", :limit => 10
+  create_table "cdunitofmeasure", :primary_key => "UnitofMeasureCd", :force => true do |t|
+    t.string "UnitofMeasure",    :limit => 50
+    t.string "UnitofMeasureAbv", :limit => 10
   end
 
   create_table "cdwaterchemistryqualifier", :id => false, :force => true do |t|
-    t.string "qualifiercd", :limit => 4
-    t.string "qualifier",   :limit => 100
+    t.string "Qualifier",   :limit => 100
+    t.string "QualifierCd", :limit => 4
   end
 
-  create_table "cdwaterparameter", :id => false, :force => true do |t|
-    t.integer "waterparametercd", :limit => 11, :default => 0, :null => false
-    t.string  "waterparameter",   :limit => 50
+  create_table "cdwaterparameter", :primary_key => "WaterParameterCd", :force => true do |t|
+    t.string "WaterParameter", :limit => 50
   end
 
   create_table "cdwatersource", :id => false, :force => true do |t|
-    t.string "watersourcecd",   :limit => 4,  :default => "", :null => false
-    t.string "watersource",     :limit => 20
-    t.string "watersourcetype", :limit => 20
+    t.string "WaterSource",     :limit => 20
+    t.string "WaterSourceCd",   :limit => 4
+    t.string "WaterSourceType", :limit => 20
   end
 
   create_table "coordinate_sources", :force => true do |t|
-    t.string "name", :limit => 30, :default => "", :null => false
+    t.string "name", :limit => 30, :null => false
   end
 
   create_table "coordinate_sources_coordinate_systems", :id => false, :force => true do |t|
@@ -139,10 +119,10 @@ ActiveRecord::Schema.define(:version => 1) do
   end
 
   create_table "coordinate_systems", :force => true do |t|
-    t.integer "epsg",         :limit => 11,                 :null => false
-    t.string  "name",                       :default => "", :null => false
+    t.integer "epsg",         :limit => 11, :null => false
+    t.string  "name",                       :null => false
     t.string  "display_name"
-    t.string  "type",                       :default => "", :null => false
+    t.string  "type",                       :null => false
   end
 
   create_table "instruments", :force => true do |t|
@@ -234,313 +214,280 @@ ActiveRecord::Schema.define(:version => 1) do
     t.boolean  "fish_passage_blocked",                    :default => false
   end
 
-  create_table "tblaquaticactivity", :id => false, :force => true do |t|
-    t.integer  "aquaticactivityid",        :limit => 11,                     :null => false
-    t.integer  "tempaquaticactivityid",    :limit => 11
-    t.string   "project",                  :limit => 100
-    t.string   "permitno",                 :limit => 20
-    t.integer  "aquaticprogramid",         :limit => 11
-    t.integer  "aquaticactivitycd",        :limit => 11
-    t.integer  "aquaticmethodcd",          :limit => 11
-    t.integer  "oldaquaticsiteid",         :limit => 11
-    t.integer  "aquaticsiteid",            :limit => 11
-    t.string   "aquaticactivitystartdate", :limit => 10
-    t.string   "aquaticactivityenddate",   :limit => 10
-    t.string   "aquaticactivitystarttime", :limit => 6
-    t.string   "aquaticactivityendtime",   :limit => 6
-    t.string   "year",                     :limit => 4
-    t.string   "agencycd",                 :limit => 4
-    t.string   "agency2cd",                :limit => 4
-    t.string   "agency2contact",           :limit => 50
-    t.string   "aquaticactivityleader",    :limit => 50
-    t.string   "crew",                     :limit => 50
-    t.string   "weatherconditions",        :limit => 50
-    t.float    "watertemp_c"
-    t.float    "airtemp_c"
-    t.string   "waterlevel",               :limit => 6
-    t.string   "waterlevel_cm",            :limit => 50
-    t.string   "waterlevel_am_cm",         :limit => 50
-    t.string   "waterlevel_pm_cm",         :limit => 50
-    t.string   "siltation",                :limit => 50
-    t.boolean  "primaryactivityind",                      :default => false
-    t.string   "comments",                 :limit => 250
-    t.datetime "dateentered"
-    t.boolean  "incorporatedind",                         :default => false
-    t.datetime "datetransferred"
-    t.datetime "start_date"
-    t.datetime "end_date"
-    t.string   "rainfall_last24",          :limit => 15
-    t.datetime "imported_at"
-    t.datetime "exported_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "agency2_id",               :limit => 11
-    t.integer  "agency_id",                :limit => 11
+  create_table "tblaquaticactivity", :primary_key => "AquaticActivityCd", :force => true do |t|
+    t.string   "Agency2Cd",                :limit => 4
+    t.string   "Agency2Contact",           :limit => 50
+    t.string   "AgencyCd",                 :limit => 4
+    t.float    "AirTemp_C"
+    t.string   "AquaticActivityEndDate",   :limit => 10
+    t.string   "AquaticActivityEndTime",   :limit => 6
+    t.integer  "AquaticActivityID",        :limit => 11
+    t.string   "AquaticActivityLeader",    :limit => 50
+    t.string   "AquaticActivityStartDate", :limit => 10
+    t.string   "AquaticActivityStartTime", :limit => 6
+    t.integer  "AquaticMethodCd",          :limit => 11
+    t.integer  "AquaticProgramID",         :limit => 11
+    t.integer  "AquaticSiteID",            :limit => 11
+    t.string   "Comments",                 :limit => 250
+    t.string   "Crew",                     :limit => 50
+    t.datetime "DateEntered"
+    t.datetime "DateTransferred"
+    t.boolean  "IncorporatedInd"
+    t.integer  "oldAquaticSiteID",         :limit => 11
+    t.string   "PermitNo",                 :limit => 20
+    t.boolean  "PrimaryActivityInd"
+    t.string   "Project",                  :limit => 100
+    t.string   "Siltation",                :limit => 50
+    t.integer  "TempAquaticActivityID",    :limit => 11
+    t.string   "WaterLevel",               :limit => 6
+    t.string   "WaterLevel_AM_cm",         :limit => 50
+    t.string   "WaterLevel_cm",            :limit => 50
+    t.string   "WaterLevel_PM_cm",         :limit => 50
+    t.float    "WaterTemp_C"
+    t.string   "WeatherConditions",        :limit => 50
+    t.string   "Year",                     :limit => 4
   end
 
-  create_table "tblaquaticsite", :id => false, :force => true do |t|
-    t.integer  "aquaticsiteid",    :limit => 11,                                                     :null => false
-    t.integer  "oldaquaticsiteid", :limit => 11
-    t.integer  "riversystemid",    :limit => 11
-    t.integer  "waterbodyid",      :limit => 11
-    t.string   "waterbodyname",    :limit => 50
-    t.string   "aquaticsitename",  :limit => 100
-    t.string   "aquaticsitedesc",  :limit => 250
-    t.string   "habitatdesc",      :limit => 50
-    t.integer  "reachno",          :limit => 11
-    t.string   "startdesc",        :limit => 100
-    t.string   "enddesc",          :limit => 100
-    t.float    "startroutemeas"
-    t.float    "endroutemeas"
-    t.string   "sitetype",         :limit => 20
-    t.string   "specificsiteind",  :limit => 1
-    t.string   "georeferencedind", :limit => 1
-    t.datetime "dateentered"
-    t.boolean  "incorporatedind",                                                 :default => false
-    t.string   "coordinatesource", :limit => 50
-    t.string   "coordinatesystem", :limit => 50
-    t.string   "xcoordinate",      :limit => 50
-    t.string   "ycoordinate",      :limit => 50
-    t.string   "coordinateunits",  :limit => 50
-    t.string   "comments",         :limit => 50
-    t.decimal  "gmap_latitude",                   :precision => 15, :scale => 10
-    t.decimal  "gmap_longitude",                  :precision => 15, :scale => 10
-    t.datetime "imported_at"
-    t.datetime "exported_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "tblaquaticsite", :primary_key => "AquaticSiteID", :force => true do |t|
+    t.string   "AquaticSiteDesc",  :limit => 250
+    t.string   "AquaticSiteName",  :limit => 100
+    t.string   "Comments",         :limit => 150
+    t.string   "CoordinateSource", :limit => 50
+    t.string   "CoordinateSystem", :limit => 50
+    t.string   "CoordinateUnits",  :limit => 50
+    t.datetime "DateEntered"
+    t.string   "EndDesc",          :limit => 100
+    t.integer  "EndRouteMeas",     :limit => 10,  :precision => 10, :scale => 0
+    t.string   "GeoReferencedInd", :limit => 1
+    t.string   "HabitatDesc",      :limit => 50
+    t.boolean  "IncorporatedInd"
+    t.integer  "oldAquaticSiteID", :limit => 11
+    t.integer  "ReachNo",          :limit => 11
+    t.integer  "RiverSystemID",    :limit => 11
+    t.string   "SiteType",         :limit => 20
+    t.string   "SpecificSiteInd",  :limit => 1
+    t.string   "StartDesc",        :limit => 100
+    t.integer  "StartRouteMeas",   :limit => 10,  :precision => 10, :scale => 0
+    t.integer  "WaterBodyID",      :limit => 11
+    t.string   "WaterBodyName",    :limit => 50
+    t.string   "XCoordinate",      :limit => 50
+    t.string   "YCoordinate",      :limit => 50
   end
 
-  create_table "tblaquaticsiteagencyuse", :id => false, :force => true do |t|
-    t.integer "aquaticsiteuseid",  :limit => 11,                    :null => false
-    t.integer "aquaticsiteid",     :limit => 11
-    t.integer "aquaticactivitycd", :limit => 11
-    t.string  "aquaticsitetype",   :limit => 30
-    t.string  "agencycd",          :limit => 4
-    t.string  "agencysiteid",      :limit => 16
-    t.string  "startyear",         :limit => 4
-    t.string  "endyear",           :limit => 4
-    t.string  "yearsactive",       :limit => 20
-    t.boolean "incorporatedind",                 :default => false
+  create_table "tblaquaticsiteagencyuse", :primary_key => "AquaticSiteUseID", :force => true do |t|
+    t.string   "AgencyCd",          :limit => 4
+    t.string   "AgencySiteID",      :limit => 16
+    t.integer  "AquaticActivityCd", :limit => 11
+    t.integer  "AquaticSiteID",     :limit => 11
+    t.string   "AquaticSiteType",   :limit => 30
+    t.datetime "DateEntered"
+    t.string   "EndYear",           :limit => 4
+    t.boolean  "IncorporatedInd"
+    t.string   "StartYear",         :limit => 4
+    t.string   "YearsActive",       :limit => 20
   end
 
-  create_table "tbldrainageunit", :id => false, :force => true do |t|
-    t.string  "drainagecd",   :limit => 17, :default => "", :null => false
-    t.string  "level1no",     :limit => 2
-    t.string  "level1name",   :limit => 40
-    t.string  "level2no",     :limit => 2
-    t.string  "level2name",   :limit => 50
-    t.string  "level3no",     :limit => 2
-    t.string  "level3name",   :limit => 50
-    t.string  "level4no",     :limit => 2
-    t.string  "level4name",   :limit => 50
-    t.string  "level5no",     :limit => 2
-    t.string  "level5name",   :limit => 50
-    t.string  "level6no",     :limit => 2
-    t.string  "level6name",   :limit => 50
-    t.string  "unitname",     :limit => 55
-    t.string  "unittype",     :limit => 4
-    t.string  "borderind",    :limit => 1
-    t.integer "streamorder",  :limit => 11
-    t.float   "area_ha"
-    t.float   "area_percent"
-    t.string  "cgndb_key",    :limit => 10
-    t.string  "drainsinto",   :limit => 40
+  create_table "tbldrainageunit", :primary_key => "DrainageCd", :force => true do |t|
+    t.integer "Area_ha",      :limit => 10, :precision => 10, :scale => 0
+    t.integer "Area_percent", :limit => 10, :precision => 10, :scale => 0
+    t.string  "BorderInd",    :limit => 1
+    t.string  "Level1Name",   :limit => 40
+    t.string  "Level1No",     :limit => 2
+    t.string  "Level2Name",   :limit => 50
+    t.string  "Level2No",     :limit => 2
+    t.string  "Level3Name",   :limit => 50
+    t.string  "Level3No",     :limit => 2
+    t.string  "Level4Name",   :limit => 50
+    t.string  "Level4No",     :limit => 2
+    t.string  "Level5Name",   :limit => 50
+    t.string  "Level5No",     :limit => 2
+    t.string  "Level6Name",   :limit => 50
+    t.string  "Level6No",     :limit => 2
+    t.integer "StreamOrder",  :limit => 11
+    t.string  "UnitName",     :limit => 55
+    t.string  "UnitType",     :limit => 4
   end
 
-  create_table "tblenvironmentalobservations", :id => false, :force => true do |t|
-    t.integer  "envobservationid",          :limit => 11,                    :null => false
-    t.integer  "aquaticactivityid",         :limit => 11, :default => 0
-    t.string   "observationgroup",          :limit => 50
-    t.string   "observation",               :limit => 50
-    t.string   "observationsupp",           :limit => 50
-    t.integer  "pipesize_cm",               :limit => 11, :default => 0
-    t.boolean  "fishpassageobstructionind",               :default => false
-    t.datetime "ssma_timestamp",                                             :null => false
+  create_table "tblenvironmentalobservations", :primary_key => "EnvObservationID", :force => true do |t|
+    t.integer "AquaticActivityID",         :limit => 11, :default => 0
+    t.boolean "FishPassageObstructionInd"
+    t.string  "Observation",               :limit => 50
+    t.string  "ObservationGroup",          :limit => 50
+    t.string  "ObservationSupp",           :limit => 50
+    t.integer "PipeSize_cm",               :limit => 11, :default => 0
   end
 
-  create_table "tblobservations", :id => false, :force => true do |t|
-    t.integer  "observationid",             :limit => 11,                    :null => false
-    t.integer  "aquaticactivityid",         :limit => 11
-    t.integer  "oandmcd",                   :limit => 11
-    t.string   "oandm_other",               :limit => 50
-    t.integer  "oandmvaluescd",             :limit => 11
-    t.integer  "pipesize_cm",               :limit => 11
-    t.boolean  "fishpassageobstructionind",               :default => false
-    t.datetime "ssma_timestamp",                                             :null => false
+  create_table "tblobservations", :primary_key => "ObservationID", :force => true do |t|
+    t.integer "AquaticActivityID",         :limit => 11
+    t.boolean "FishPassageObstructionInd"
+    t.string  "OandM_Other",               :limit => 50
+    t.integer "OandMCd",                   :limit => 11
+    t.integer "OandMValuesCd",             :limit => 11
+    t.integer "PipeSize_cm",               :limit => 11
   end
 
-  create_table "tblsitemeasurement", :id => false, :force => true do |t|
-    t.integer  "sitemeasurementid", :limit => 11, :null => false
-    t.integer  "aquaticactivityid", :limit => 11, :null => false
-    t.integer  "oandmcd",           :limit => 11
-    t.string   "oandm_other",       :limit => 20
-    t.string   "bank",              :limit => 10
-    t.integer  "instrumentcd",      :limit => 11
-    t.float    "measurement"
-    t.integer  "unitofmeasurecd",   :limit => 11
-    t.datetime "ssma_timestamp",                  :null => false
+  create_table "tblsitemeasurement", :primary_key => "SiteMeasurementID", :force => true do |t|
+    t.integer "AquaticActivityID", :limit => 11,                                :null => false
+    t.string  "Bank",              :limit => 10
+    t.integer "InstrumentCd",      :limit => 11
+    t.integer "Measurement",       :limit => 10, :precision => 10, :scale => 0
+    t.string  "OandM_Other",       :limit => 20
+    t.integer "OandMCd",           :limit => 11
+    t.integer "UnitofMeasureCd",   :limit => 11
   end
 
-  create_table "tblwaterbody", :id => false, :force => true do |t|
-    t.integer  "waterbodyid",            :limit => 11, :null => false
-    t.string   "cgndb_key",              :limit => 10
-    t.string   "cgndb_key_alt",          :limit => 10
-    t.string   "drainagecd",             :limit => 17
-    t.string   "waterbodytypecd",        :limit => 4
-    t.string   "waterbodyname",          :limit => 55
-    t.string   "waterbodyname_abrev",    :limit => 40
-    t.string   "waterbodyname_alt",      :limit => 40
-    t.integer  "waterbodycomplexid",     :limit => 11
-    t.string   "surveyed_ind",           :limit => 1
-    t.float    "flowsintowaterbodyid"
-    t.string   "flowsintowaterbodyname", :limit => 40
-    t.string   "flowintodrainagecd",     :limit => 17
-    t.datetime "dateentered"
-    t.datetime "datemodified"
+  create_table "tblwaterbody", :primary_key => "WaterBodyID", :force => true do |t|
+    t.datetime "DateEntered"
+    t.datetime "DateModified"
+    t.string   "DrainageCd",             :limit => 17
+    t.string   "FlowIntoDrainageCd",     :limit => 17
+    t.integer  "FlowsIntoWaterBodyID",   :limit => 10, :precision => 10, :scale => 0
+    t.string   "FlowsIntoWaterBodyName", :limit => 40
+    t.string   "Surveyed_Ind",           :limit => 1
+    t.integer  "WaterBodyComplexID",     :limit => 11
+    t.string   "WaterBodyName",          :limit => 55
+    t.string   "WaterBodyName_Abrev",    :limit => 40
+    t.string   "WaterBodyName_Alt",      :limit => 40
+    t.string   "WaterBodyTypeCd",        :limit => 4
   end
 
   create_table "tblwaterchemistryanalysis", :id => false, :force => true do |t|
-    t.integer "aquaticactivityid",     :limit => 11, :default => 0
-    t.integer "tempaquaticactivityid", :limit => 11, :default => 0
-    t.string  "doe_program",           :limit => 14
-    t.string  "doe_projectno",         :limit => 10
-    t.string  "doe_stationno",         :limit => 15
-    t.string  "doe_labno",             :limit => 8
-    t.string  "doe_fieldno",           :limit => 11
-    t.float   "secchidepth_m"
-    t.float   "sampledepth_m"
-    t.float   "watertemp_c"
-    t.float   "do"
-    t.float   "toxic_unit"
-    t.string  "l_hard",                :limit => 1
-    t.float   "hard"
-    t.float   "no3"
-    t.string  "l_al_x",                :limit => 1
-    t.float   "al_x"
-    t.string  "l_al_xgf",              :limit => 1
-    t.float   "al_xgf"
-    t.string  "l_alk_g",               :limit => 1
-    t.float   "alk_g"
-    t.string  "l_alk_p",               :limit => 1
-    t.float   "alk_p"
-    t.string  "l_alk_t",               :limit => 1
-    t.float   "alk_t"
-    t.string  "l_as_xgf",              :limit => 1
-    t.float   "as_xgf"
-    t.string  "l_ba_x",                :limit => 1
-    t.float   "ba_x"
-    t.string  "l_b_x",                 :limit => 1
-    t.float   "b_x"
-    t.string  "l_br",                  :limit => 1
-    t.float   "br"
-    t.string  "l_ca_d",                :limit => 1
-    t.float   "ca_d"
-    t.string  "l_cd_xgf",              :limit => 1
-    t.float   "cd_xgf"
-    t.string  "l_chl_a",               :limit => 1
-    t.float   "chl_a"
-    t.string  "l_cl",                  :limit => 1
-    t.float   "cl"
-    t.string  "l_cl_ic",               :limit => 1
-    t.float   "cl_ic"
-    t.string  "l_clra",                :limit => 1
-    t.float   "clra"
-    t.string  "l_co_x",                :limit => 1
-    t.float   "co_x"
-    t.string  "l_cond",                :limit => 1
-    t.float   "cond"
-    t.float   "cond2",                               :default => 0.0
-    t.string  "l_cr_x",                :limit => 1
-    t.float   "cr_x"
-    t.string  "l_cr_xgf",              :limit => 1
-    t.float   "cr_xgf"
-    t.string  "l_cu_x",                :limit => 1
-    t.float   "cu_x"
-    t.string  "l_cu_xgf",              :limit => 1
-    t.float   "cu_xgf"
-    t.string  "l_doc",                 :limit => 1
-    t.float   "doc"
-    t.string  "l_f",                   :limit => 1
-    t.float   "f"
-    t.string  "l_fe_x",                :limit => 1
-    t.float   "fe_x"
-    t.string  "l_hg_t",                :limit => 1
-    t.float   "hg_t"
-    t.string  "l_k",                   :limit => 1
-    t.float   "k"
-    t.string  "l_mg_d",                :limit => 1
-    t.float   "mg_d"
-    t.string  "l_mn_x",                :limit => 1
-    t.float   "mn_x"
-    t.string  "l_na",                  :limit => 1
-    t.float   "na"
-    t.string  "l_nh3t",                :limit => 1
-    t.float   "nh3t"
-    t.string  "l_ni_x",                :limit => 1
-    t.float   "ni_x"
-    t.string  "l_no2d",                :limit => 1
-    t.float   "no2d"
-    t.string  "l_nox",                 :limit => 1
-    t.float   "nox"
-    t.string  "l_pb_xgf",              :limit => 1
-    t.float   "pb_xgf"
-    t.string  "l_ph",                  :limit => 1
-    t.float   "ph"
-    t.string  "l_ph_gal",              :limit => 1
-    t.float   "ph_gal"
-    t.string  "l_sb_xgf",              :limit => 1
-    t.float   "sb_xgf"
-    t.string  "l_se_xgf",              :limit => 1
-    t.float   "se_xgf"
-    t.float   "silica",                              :default => 0.0
-    t.string  "l_so4",                 :limit => 1
-    t.float   "so4"
-    t.string  "l_so4_ic",              :limit => 1
-    t.float   "so4_ic"
-    t.string  "l_ss",                  :limit => 1
-    t.float   "ss"
-    t.string  "l_tds",                 :limit => 1
-    t.float   "tds"
-    t.string  "l_tkn",                 :limit => 1
-    t.float   "tkn"
-    t.string  "l_tl_xgf",              :limit => 1
-    t.float   "tl_xgf"
-    t.string  "l_toc",                 :limit => 1
-    t.float   "toc"
-    t.string  "l_tp_l",                :limit => 1
-    t.float   "tp_l"
-    t.string  "l_turb",                :limit => 1
-    t.float   "turb"
-    t.string  "l_zn_x",                :limit => 1
-    t.float   "zn_x"
-    t.string  "l_zn_xgf",              :limit => 1
-    t.float   "zn_xgf"
-    t.string  "l_o_phos",              :limit => 1
-    t.float   "o_phos",                              :default => 0.0
-    t.float   "bicarb",                              :default => 0.0
-    t.float   "carb",                                :default => 0.0
-    t.float   "sat_ph",                              :default => 0.0
-    t.float   "sat_ndx",                             :default => 0.0
+    t.integer "AL_X",                  :limit => 10, :precision => 10, :scale => 0
+    t.integer "AL_XGF",                :limit => 10, :precision => 10, :scale => 0
+    t.integer "ALK_G",                 :limit => 10, :precision => 10, :scale => 0
+    t.integer "ALK_P",                 :limit => 10, :precision => 10, :scale => 0
+    t.integer "ALK_T",                 :limit => 10, :precision => 10, :scale => 0
+    t.integer "AquaticActivityID",     :limit => 11,                                :default => 0
+    t.integer "AS_XGF",                :limit => 10, :precision => 10, :scale => 0
+    t.integer "B_X",                   :limit => 10, :precision => 10, :scale => 0
+    t.integer "BA_X",                  :limit => 10, :precision => 10, :scale => 0
+    t.integer "BICARB",                :limit => 10, :precision => 10, :scale => 0, :default => 0
+    t.integer "BR",                    :limit => 10, :precision => 10, :scale => 0
+    t.integer "CA_D",                  :limit => 10, :precision => 10, :scale => 0
+    t.integer "CARB",                  :limit => 10, :precision => 10, :scale => 0, :default => 0
+    t.integer "CD_XGF",                :limit => 10, :precision => 10, :scale => 0
+    t.integer "CHL_A",                 :limit => 10, :precision => 10, :scale => 0
+    t.integer "CL",                    :limit => 10, :precision => 10, :scale => 0
+    t.integer "CL_IC",                 :limit => 10, :precision => 10, :scale => 0
+    t.integer "CLRA",                  :limit => 10, :precision => 10, :scale => 0
+    t.integer "CO_X",                  :limit => 10, :precision => 10, :scale => 0
+    t.integer "COND",                  :limit => 10, :precision => 10, :scale => 0
+    t.integer "COND2",                 :limit => 10, :precision => 10, :scale => 0, :default => 0
+    t.integer "CR_X",                  :limit => 10, :precision => 10, :scale => 0
+    t.integer "CR_XGF",                :limit => 10, :precision => 10, :scale => 0
+    t.integer "CU_X",                  :limit => 10, :precision => 10, :scale => 0
+    t.integer "CU_XGF",                :limit => 10, :precision => 10, :scale => 0
+    t.integer "DO",                    :limit => 10, :precision => 10, :scale => 0
+    t.integer "DOC",                   :limit => 10, :precision => 10, :scale => 0
+    t.string  "DOE_FieldNo",           :limit => 11
+    t.string  "DOE_LabNo",             :limit => 8
+    t.string  "DOE_Program",           :limit => 14
+    t.string  "DOE_ProjectNo",         :limit => 10
+    t.string  "DOE_StationNo",         :limit => 15
+    t.integer "F",                     :limit => 10, :precision => 10, :scale => 0
+    t.integer "FE_X",                  :limit => 10, :precision => 10, :scale => 0
+    t.integer "HARD",                  :limit => 10, :precision => 10, :scale => 0
+    t.integer "HG_T",                  :limit => 10, :precision => 10, :scale => 0
+    t.integer "K",                     :limit => 10, :precision => 10, :scale => 0
+    t.string  "L_AL_X",                :limit => 1
+    t.string  "L_AL_XGF",              :limit => 1
+    t.string  "L_ALK_G",               :limit => 1
+    t.string  "L_ALK_P",               :limit => 1
+    t.string  "L_ALK_T",               :limit => 1
+    t.string  "L_AS_XGF",              :limit => 1
+    t.string  "L_B_X",                 :limit => 1
+    t.string  "L_BA_X",                :limit => 1
+    t.string  "L_BR",                  :limit => 1
+    t.string  "L_CA_D",                :limit => 1
+    t.string  "L_CD_XGF",              :limit => 1
+    t.string  "L_CHL_A",               :limit => 1
+    t.string  "L_CL",                  :limit => 1
+    t.string  "L_CL_IC",               :limit => 1
+    t.string  "L_CLRA",                :limit => 1
+    t.string  "L_CO_X",                :limit => 1
+    t.string  "L_COND",                :limit => 1
+    t.string  "L_CR_X",                :limit => 1
+    t.string  "L_CR_XGF",              :limit => 1
+    t.string  "L_CU_X",                :limit => 1
+    t.string  "L_CU_XGF",              :limit => 1
+    t.string  "L_DOC",                 :limit => 1
+    t.string  "L_F",                   :limit => 1
+    t.string  "L_FE_X",                :limit => 1
+    t.string  "L_HARD",                :limit => 1
+    t.string  "L_HG_T",                :limit => 1
+    t.string  "L_K",                   :limit => 1
+    t.string  "L_MG_D",                :limit => 1
+    t.string  "L_MN_X",                :limit => 1
+    t.string  "L_NA",                  :limit => 1
+    t.string  "L_NH3T",                :limit => 1
+    t.string  "L_NI_X",                :limit => 1
+    t.string  "L_NO2D",                :limit => 1
+    t.string  "L_NOX",                 :limit => 1
+    t.string  "L_O_PHOS",              :limit => 1
+    t.string  "L_PB_XGF",              :limit => 1
+    t.string  "L_PH",                  :limit => 1
+    t.string  "L_PH_GAL",              :limit => 1
+    t.string  "L_SB_XGF",              :limit => 1
+    t.string  "L_SE_XGF",              :limit => 1
+    t.string  "L_SO4",                 :limit => 1
+    t.string  "L_SO4_IC",              :limit => 1
+    t.string  "L_SS",                  :limit => 1
+    t.string  "L_TDS",                 :limit => 1
+    t.string  "L_TKN",                 :limit => 1
+    t.string  "L_TL_XGF",              :limit => 1
+    t.string  "L_TOC",                 :limit => 1
+    t.string  "L_TP_L",                :limit => 1
+    t.string  "L_TURB",                :limit => 1
+    t.string  "L_ZN_X",                :limit => 1
+    t.string  "L_ZN_XGF",              :limit => 1
+    t.integer "MG_D",                  :limit => 10, :precision => 10, :scale => 0
+    t.integer "MN_X",                  :limit => 10, :precision => 10, :scale => 0
+    t.integer "NA",                    :limit => 10, :precision => 10, :scale => 0
+    t.integer "NH3T",                  :limit => 10, :precision => 10, :scale => 0
+    t.integer "NI_X",                  :limit => 10, :precision => 10, :scale => 0
+    t.integer "NO2D",                  :limit => 10, :precision => 10, :scale => 0
+    t.integer "NO3",                   :limit => 10, :precision => 10, :scale => 0
+    t.integer "NOX",                   :limit => 10, :precision => 10, :scale => 0
+    t.integer "O_PHOS",                :limit => 10, :precision => 10, :scale => 0, :default => 0
+    t.integer "PB_XGF",                :limit => 10, :precision => 10, :scale => 0
+    t.integer "PH",                    :limit => 10, :precision => 10, :scale => 0
+    t.integer "PH_GAL",                :limit => 10, :precision => 10, :scale => 0
+    t.integer "SampleDepth_m",         :limit => 10, :precision => 10, :scale => 0
+    t.integer "SAT_NDX",               :limit => 10, :precision => 10, :scale => 0, :default => 0
+    t.integer "SAT_PH",                :limit => 10, :precision => 10, :scale => 0, :default => 0
+    t.integer "SB_XGF",                :limit => 10, :precision => 10, :scale => 0
+    t.integer "SE_XGF",                :limit => 10, :precision => 10, :scale => 0
+    t.integer "SecchiDepth_m",         :limit => 10, :precision => 10, :scale => 0
+    t.integer "SILICA",                :limit => 10, :precision => 10, :scale => 0, :default => 0
+    t.integer "SO4",                   :limit => 10, :precision => 10, :scale => 0
+    t.integer "SO4_IC",                :limit => 10, :precision => 10, :scale => 0
+    t.integer "SS",                    :limit => 10, :precision => 10, :scale => 0
+    t.integer "TDS",                   :limit => 10, :precision => 10, :scale => 0
+    t.integer "TempAquaticActivityID", :limit => 11,                                :default => 0
+    t.integer "TKN",                   :limit => 10, :precision => 10, :scale => 0
+    t.integer "TL_XGF",                :limit => 10, :precision => 10, :scale => 0
+    t.integer "TOC",                   :limit => 10, :precision => 10, :scale => 0
+    t.integer "TOXIC_UNIT",            :limit => 10, :precision => 10, :scale => 0
+    t.integer "TP_L",                  :limit => 10, :precision => 10, :scale => 0
+    t.integer "TURB",                  :limit => 10, :precision => 10, :scale => 0
+    t.integer "WaterTemp_C",           :limit => 10, :precision => 10, :scale => 0
+    t.integer "ZN_X",                  :limit => 10, :precision => 10, :scale => 0
+    t.integer "ZN_XGF",                :limit => 10, :precision => 10, :scale => 0
   end
 
-  create_table "tblwatermeasurement", :id => false, :force => true do |t|
-    t.integer "watermeasurementid",    :limit => 11,                    :null => false
-    t.integer "aquaticactivityid",     :limit => 11
-    t.integer "tempaquaticactivityid", :limit => 11
-    t.integer "tempdataid",            :limit => 11
-    t.integer "temperatureloggerid",   :limit => 11
-    t.integer "habitatunitid",         :limit => 11
-    t.integer "sampleid",              :limit => 11
-    t.string  "watersourcetype",       :limit => 50
-    t.float   "waterdepth_m"
-    t.string  "timeofday",             :limit => 5
-    t.integer "oandmcd",               :limit => 11
-    t.integer "instrumentcd",          :limit => 11
-    t.float   "measurement"
-    t.integer "unitofmeasurecd",       :limit => 11
-    t.boolean "detectionlimitind",                   :default => false, :null => false
-    t.string  "comment"
+  create_table "tblwatermeasurement", :primary_key => "WaterMeasurementID", :force => true do |t|
+    t.integer "AquaticActivityID",     :limit => 11
+    t.integer "HabitatUnitID",         :limit => 11
+    t.integer "InstrumentCd",          :limit => 11
+    t.float   "Measurement"
+    t.integer "OandMCd",               :limit => 11
+    t.integer "TempAquaticActivityID", :limit => 11
+    t.integer "TempDataID",            :limit => 11, :default => 0
+    t.integer "TemperatureLoggerID",   :limit => 11, :default => 0
+    t.string  "TimeofDay",             :limit => 5
+    t.integer "UnitofMeasureCd",       :limit => 11
+    t.float   "WaterDepth_m"
+    t.string  "WaterSourceCd",         :limit => 50
   end
 
   create_table "units_of_measure", :force => true do |t|

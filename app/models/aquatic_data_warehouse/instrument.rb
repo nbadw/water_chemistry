@@ -12,6 +12,6 @@
 #  updated_at  :datetime        
 #
 
-class Instrument < ActiveRecord::Base
+class Instrument < AquaticDataWarehouse::BaseCd
   has_and_belongs_to_many :measurements, :join_table => 'measurement_instrument'
 end
