@@ -49,25 +49,21 @@ module AquaticDataWarehouse
     end
     
     def self.generate_schema_load_script
-      f = File.open(schema_load_file, 'w+')
-      f << "AquaticDataWarehouse::Schema.define do\n"
-      
-      tables.each { |table| write table, f }
-      
-      f << "end"
-      f.close
+      File.open(schema_load_file, 'w+') do |f|
+        f << "AquaticDataWarehouse::Schema.define do\n"
+        tables.each { |table| write table, f }
+        f << "end"
+      end
     end
     
     def self.generate_schema_drop_script
-      f = File.open(schema_drop_file, 'w+')
-      f << "AquaticDataWarehouse::Schema.define do\n"
-      
-      tables.each do |table_name|
-        f << "  drop_table \"#{table_name}\"\n"
+      File.open(schema_drop_file, 'w+') do |f|
+        f << "AquaticDataWarehouse::Schema.define do\n"
+        tables.each do |table_name|
+          f << "  drop_table \"#{table_name}\"\n"
+        end
+        f << "end"
       end
-      
-      f << "end"
-      f.close
     end
     
     def self.write(table_name, file)  
@@ -118,9 +114,9 @@ module AquaticDataWarehouse
     def self.connection
       unless @connection 
         ActiveRecord::Base.establish_connection({
-          :adapter => :ms_access,
-          :database => 'db/nb_aquatic_data_warehouse.mdb'
-        }) 
+            :adapter => :ms_access,
+            :database => 'db/nb_aquatic_data_warehouse.mdb'
+          }) 
         @connection = ActiveRecord::Base.connection
       end
       @connection
@@ -130,7 +126,7 @@ module AquaticDataWarehouse
       %w(
         cdAgency cdAquaticActivity cdAquaticActivityMethod tblWaterMeasurement cdInstrument cdMeasureInstrument cdMeasureUnit
         cdOandM cdOandMValues cdUnitofMeasure cdWaterChemistryQualifier cdWaterParameter cdWaterSource tblAquaticActivity tblObservations    
-        tblAquaticSite tblAquaticSiteAgencyUse tblSiteMeasurement tblEnvironmentalObservations tblDrainageUnit tblWaterBody tblWaterChemistryAnalysis
+        tblAquaticSite tblAquaticSiteAgencyUse tblSiteMeasurement tblEnvironmentalObservations tblDraingeUnit tblWaterBody tblWaterChemistryAnalysis
       )
     end
     
