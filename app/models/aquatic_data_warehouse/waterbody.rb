@@ -22,7 +22,8 @@ class Waterbody < AquaticDataWarehouse::BaseTbl
   set_table_name  'tblWaterBody'
   set_primary_key 'WaterBodyID'  
   
-  has_many :aquatic_sites
+  has_many :aquatic_sites, :foreign_key => 'WaterBodyID'
+  has_many :drainage_units, :foreign_key => 'DrainageCd'
   
   def self.search(query)
     search_conditions = ['name LIKE ? OR drainage_code LIKE ? OR id LIKE ?', "%#{query}%", "#{query}%", "#{query}%"]

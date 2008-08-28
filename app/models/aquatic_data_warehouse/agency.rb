@@ -15,6 +15,8 @@
 #
 
 class Agency < AquaticDataWarehouse::BaseCd  
+  set_primary_key 'AgencyCd'
+  
   has_many :users
   has_many :aquatic_site_usages
   

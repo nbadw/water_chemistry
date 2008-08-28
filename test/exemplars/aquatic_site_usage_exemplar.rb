@@ -1,2 +1,2 @@
-class AquaticSiteUsage < ActiveRecord::Base
+class AquaticSiteUsage
 end

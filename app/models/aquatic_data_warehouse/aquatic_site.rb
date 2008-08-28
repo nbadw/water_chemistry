@@ -39,15 +39,21 @@
 #
 
 class AquaticSite < AquaticDataWarehouse::BaseTbl
+  set_primary_key 'AquaticSiteID'
   
+  belongs_to :waterbody, :foreign_key => 'WaterBodyID'
+  
+  alias_attribute :name, :aquatic_site_name
+  alias_attribute :description, :aquatic_site_desc
+    
   class AquaticSiteInUse < ActiveRecord::ActiveRecordError; end  
-            
+                
 #  composed_of :recorded_location, :class_name => 'Location', :mapping => [%w(raw_latitude latitude), %w(raw_longitude longitude), %w(coordinate_system_id coordinate_system_id)]
 #  composed_of :gmap_location, :class_name => 'GmapLocation', :mapping => [%w(gmap_latitude latitude), %w(gmap_longitude longitude)]  
 #        
 #  before_destroy :destroy_allowed?
 #    
-#  validates_presence_of :description, :waterbody  
+  validates_presence_of :aquatic_site_desc, :waterbody  
 #  validates_each :recorded_location, :allow_blank => true do |record, attr, recorded_location|
 #    recorded_location.copy_errors_to(record, [:raw_latitude, :raw_longitude, :coordinate_system_id]) unless recorded_location.valid?
 #  end
