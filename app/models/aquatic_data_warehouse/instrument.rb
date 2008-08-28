@@ -13,5 +13,6 @@
 #
 
 class Instrument < AquaticDataWarehouse::BaseCd
-  has_and_belongs_to_many :measurements, :join_table => 'measurement_instrument'
+  set_primary_key 'InstrumentCd'
+  #has_and_belongs_to_many :measurements, :join_table => 'measurement_instrument'
 end

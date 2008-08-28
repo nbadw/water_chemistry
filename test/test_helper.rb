@@ -64,7 +64,7 @@ module ThoughtBot
       end
       
       def should_use_primary_key(primary_key, options = nil)
-        options = { :type => :integer, :null => false } unless options        
+        options = { :type => :integer } unless options        
         klass = model_class
         should_have_db_column primary_key, options
         should "use primary key #{primary_key}" do

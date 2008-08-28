@@ -1,15 +1,15 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class AquaticActivityMethodTest < ActiveSupport::TestCase 
-  should_use_table :cdaquaticactivitymethod
-  should_use_primary_key :aquaticmethodcd
+  should_use_table "cdAquaticActivityMethod"
+  should_use_primary_key "AquaticMethodCd"
+    
+  should_have_db_column  "AquaticActivityCd", :type => :integer  
+  should_have_db_column  "AquaticMethod", :type => :string, :limit => 30
   
-  should_have_db_column  :aquaticactivitycd, :type => :integer
-  should_alias_attribute :aquaticactivitycd, :aquatic_activity_id
+  should_have_instance_methods :aquatic_activity_cd, :aquatic_method
   
-  should_have_db_column  :aquaticmethod, :type => :string, :limit => 30
-  should_alias_attribute :aquaticmethod, :method
-  should_alias_attribute :aquaticmethod, :name
+  should_alias_attribute :aquatic_method, :name  
   
-  should_define_timestamps
+  should_belong_to :aquatic_activity
 end

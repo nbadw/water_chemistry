@@ -13,8 +13,10 @@
 #  exported_at             :datetime        
 #
 
-class AquaticActivity < AquaticDataWarehouse::BaseCd  
-  has_many :aquatic_activity_events
+class AquaticActivity < AquaticDataWarehouse::BaseCd 
+  set_primary_key 'AquaticActivityCd'
+  
+  has_many :aquatic_activity_events, :foreign_key => 'AquaticActivityID'
   
   alias_attribute :name, :aquatic_activity
   alias_attribute :category, :aquatic_activity_category

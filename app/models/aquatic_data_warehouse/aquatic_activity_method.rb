@@ -13,9 +13,7 @@
 #
 
 class AquaticActivityMethod < AquaticDataWarehouse::BaseCd
-  set_primary_key 'AquaticMethodCd'
-  
-  belongs_to :aquatic_activity
-  
+  set_primary_key 'AquaticMethodCd'  
+  belongs_to :aquatic_activity, :foreign_key => 'AquaticActivityCd'  
   alias_attribute :name, :aquatic_method
 end

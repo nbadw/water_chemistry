@@ -14,7 +14,7 @@
 #  bank_measurement :boolean(1)      
 #
 
-class Measurement < AquaticDataWarehouse::Base
+class Measurement < OandM
   class << self    
     def grouping_for_substrate_measurements
       'Substrate Type'
@@ -25,8 +25,8 @@ class Measurement < AquaticDataWarehouse::Base
     end
   end
   
-  has_and_belongs_to_many :instruments, :join_table => 'measurement_instrument'
-  has_and_belongs_to_many :units_of_measure, :join_table => 'measurement_unit', :class_name => 'UnitOfMeasure', :association_foreign_key => 'unit_of_measure_id'
+  has_and_belongs_to_many :instruments, :join_table => 'cdMeasureInstrument', :association_foreign_key => 'InstrumentCd'
+  has_and_belongs_to_many :units_of_measure, :join_table => 'cdMeasureUnit', :class_name => 'UnitOfMeasure', :association_foreign_key => 'UnitofMeasureCd'
   
   validates_presence_of   :name
   validates_uniqueness_of :name
