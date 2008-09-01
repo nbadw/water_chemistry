@@ -1,0 +1,9 @@
+<dl>
+  <dt>
+    <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
+  </dt>
+  <dd>
+    <%= select("record", column.name, CoordinateSource.all.collect { |source| [source.name, source.id]}, { :include_blank => true, :selected => @record.coordinate_source_id }) %>
+  </dd>
+</dl>
+<%= observe_field(:record_coordinate_source, :with => :coordinate_source_id, :on => :change, :url => { :action => :on_coordinate_source_change }) %>     

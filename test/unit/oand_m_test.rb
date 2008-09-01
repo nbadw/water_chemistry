@@ -15,6 +15,22 @@ class OandMTest < ActiveSupport::TestCase
   
   should_alias_attribute :oand_m_category, :category
   should_alias_attribute :oand_m_group, :group
+  should_alias_attribute :oand_m_parameter, :name
   should_alias_attribute :oand_m_parameter, :parameter
   should_alias_attribute :oand_m_values_ind, :values
+  
+  should_require_attributes :oand_m_parameter
+  
+  context "with an existing record" do
+    setup do
+      o_and_m = OandM.new
+      o_and_m.oand_m_parameter = 'UniqueName'
+      o_and_m.save!
+    end
+    should_require_unique_attributes :oand_m_parameter
+  end
+  
+  should "use OandM_Type as inheritance column" do
+    assert "OandM_Type", OandM.inheritance_column
+  end
 end

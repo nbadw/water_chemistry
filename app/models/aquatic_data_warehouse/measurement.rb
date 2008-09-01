@@ -25,12 +25,14 @@ class Measurement < OandM
     end
   end
   
-  has_and_belongs_to_many :instruments, :join_table => 'cdMeasureInstrument', :association_foreign_key => 'InstrumentCd'
-  has_and_belongs_to_many :units_of_measure, :join_table => 'cdMeasureUnit', :class_name => 'UnitOfMeasure', :association_foreign_key => 'UnitofMeasureCd'
+  has_and_belongs_to_many :instruments, :join_table => 'cdmeasureinstrument', :foreign_key => 'OandMCd', :association_foreign_key => 'InstrumentCd'
+  has_and_belongs_to_many :units_of_measure, :join_table => 'cdmeasureunit', :class_name => 'UnitOfMeasure', :foreign_key => 'OandMCd', :association_foreign_key => 'UnitofMeasureCd'
   
   validates_presence_of   :name
   validates_uniqueness_of :name
-    
+  
+  alias_attribute :grouping , :oand_m_group
+  
   def substrate_measurement?
     self.grouping.to_s == Measurement.grouping_for_substrate_measurements
   end

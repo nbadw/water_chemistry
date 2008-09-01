@@ -17,6 +17,7 @@ class UsersController < ApplicationController
   # render new.rhtml
   def new
     @user = User.new
+    @agencies = Agency.find(:all, :order => "#{Agency.column_for_attribute(:agency).name} ASC")
   end
   
   def create

@@ -10,7 +10,6 @@ class AquaticActivityEventTest < ActiveSupport::TestCase
   should_have_db_column "AirTemp_C", :type => :float
   should_have_db_column "AquaticActivityEndDate", :limit => 10, :type => :string
   should_have_db_column "AquaticActivityEndTime", :limit => 6, :type => :string
-  should_have_db_column "AquaticActivityID", :type => :integer
   should_have_db_column "AquaticActivityLeader", :limit => 50, :type => :string
   should_have_db_column "AquaticActivityStartDate", :limit => 10, :type => :string
   should_have_db_column "AquaticActivityStartTime", :limit => 6, :type => :string

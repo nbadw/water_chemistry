@@ -6,9 +6,9 @@ class AquaticSiteTest < ActiveSupport::TestCase
   should_use_primary_key "AquaticSiteID"
     
   should_belong_to :waterbody
-  should_eventually '_have_many :aquatic_site_usages'
-  should_eventually '_have_many :aquatic_activities, :through => :aquatic_site_usages'
-  should_eventually '_have_many :agencies, :through => :aquatic_site_usages'
+  should_have_many :aquatic_site_usages
+  should_have_many :aquatic_activities, :through => :aquatic_site_usages
+  should_have_many :agencies, :through => :aquatic_site_usages
    
   should_require_attributes :aquatic_site_desc, :waterbody
   

@@ -82,8 +82,8 @@ module AquaticDataWarehouse
 
             # As MySQL/Postgres don't have case sensitive SELECT queries, we try to find duplicate
             # column in ruby when case sensitive option
-            if configuration[:case_sensitive] && finder_class.columns_hash[attr_name.to_s].text?
-              found = results.any? { |a| a[attr_name.to_s] == value }
+            if configuration[:case_sensitive] && column.text?
+              found = results.any? { |a| a[column.name.to_s] == value }
             end
 
             record.errors.add(attr_name, configuration[:message]) if found

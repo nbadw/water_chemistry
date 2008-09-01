@@ -42,13 +42,17 @@ class AquaticSite < AquaticDataWarehouse::BaseTbl
   set_primary_key 'AquaticSiteID'
   
   belongs_to :waterbody, :foreign_key => 'WaterBodyID'
+  has_many :aquatic_site_usages, :foreign_key => 'AquaticSiteID'
+  has_many :aquatic_activities, :through => :aquatic_site_usages
+  has_many :agencies, :through => :aquatic_site_usages
   
   alias_attribute :name, :aquatic_site_name
   alias_attribute :description, :aquatic_site_desc
+  alias_attribute :incorporated, :incorporated_ind
     
   class AquaticSiteInUse < ActiveRecord::ActiveRecordError; end  
                 
-#  composed_of :recorded_location, :class_name => 'Location', :mapping => [%w(raw_latitude latitude), %w(raw_longitude longitude), %w(coordinate_system_id coordinate_system_id)]
+  composed_of :location, :class_name => 'Location', :mapping => [%w(y_coordinate latitude), %w(x_coordinate longitude), %w(coordinate_system coordinate_system)]
 #  composed_of :gmap_location, :class_name => 'GmapLocation', :mapping => [%w(gmap_latitude latitude), %w(gmap_longitude longitude)]  
 #        
 #  before_destroy :destroy_allowed?
