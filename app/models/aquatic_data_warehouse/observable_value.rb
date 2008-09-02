@@ -12,5 +12,9 @@
 #  updated_at     :datetime        
 #
 
-class ObservableValue < AquaticDataWarehouse::Base
+class ObservableValue < AquaticDataWarehouse::BaseCd
+  set_table_name 'cdOandMValues'
+  set_primary_key 'OandMValuesCd'
+  
+  belongs_to :observation, :foreign_key => 'OandMCd'
 end
