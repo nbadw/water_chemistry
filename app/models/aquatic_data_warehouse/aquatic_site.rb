@@ -53,6 +53,7 @@ class AquaticSite < AquaticDataWarehouse::BaseTbl
   class AquaticSiteInUse < ActiveRecord::ActiveRecordError; end  
                 
   composed_of :location, :class_name => 'Location', :mapping => [%w(y_coordinate latitude), %w(x_coordinate longitude), %w(coordinate_system coordinate_system)]
+  validates_location :location, :allow_blank => true
 #  composed_of :gmap_location, :class_name => 'GmapLocation', :mapping => [%w(gmap_latitude latitude), %w(gmap_longitude longitude)]  
 #        
 #  before_destroy :destroy_allowed?

@@ -36,6 +36,12 @@ class DataCollectionSitesController < ApplicationController
     config.columns[:aquatic_activities].label = 'Data'  
   end
   
+  def auto_complete_for_waterbody_search
+    query = params[:waterbody][:search]
+    @waterbodies = Waterbody.search(query) unless query.blank?
+    render :partial => "autocomplete" 
+  end
+  
   helper do
     def incorporated_column(aquatic_site)    
       '<img class="incorporated" src="/images/lock_delete.png"/>' if aquatic_site.incorporated?

@@ -23,6 +23,20 @@ module AquaticDataWarehouse
         adw_name
       end
       
+      def validates_location(*attr_names)
+        configuration = {}
+        configuration.update(attr_names.extract_options!)
+        
+        validates_each(attr_names, configuration) do |record, attr_name, value|
+          aggregation = reflect_on_aggregation(attr_name)               
+          raise 'validates_location only works on attribute aggregations that compose Location objects' unless aggregation && value.is_a?(Location)
+          
+          mapping = aggregation.options[:mapping]
+          
+          record.errors.add(attr_name, 'error!')
+        end
+      end
+      
       def validates_uniqueness_of(*attr_names)
         configuration = { :message => ActiveRecord::Errors.default_error_messages[:taken], :case_sensitive => true }
         configuration.update(attr_names.extract_options!)

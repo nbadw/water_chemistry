@@ -14,10 +14,10 @@
   <% end %>
   
   <% form_for :user, :url => users_path do |f| %>
-    <dl>
+    <dl>          
       <dt><label for="agency">Agency:</label></dt>
-      <dd><%= select 'user', 'agency_id', @agencies.collect{ |agency| [agency.name, agency.id] } %></dd>
-    
+      <dd><%= agency_dropdown %></dd>
+      
       <dt><label for="login">Username:</label></dt>
       <dd><%= f.text_field :login %></dd>
     
@@ -29,6 +29,9 @@
     
       <dt><label for="password_confirmation">Confirm Password:</label></dt>
       <dd><%= f.password_field :password_confirmation %></dd>
+      
+      <dt><label for="area_of_interest">Area of Interest:</label></dt>
+      <dd><%= render :partial => 'widgets/waterbody_autocomplete', :locals => { :waterbody => nil } %></dd>
     
       <dd><%= submit_tag 'Create Account' %></dd>
     </dl>

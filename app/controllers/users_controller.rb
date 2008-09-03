@@ -5,6 +5,13 @@ class UsersController < ApplicationController
   before_filter :login_required,           :only => [:show, :edit, :update]
   before_filter :check_administrator_role, :only => [:index, :destroy, :enable]
   
+  helper do
+    def agency_dropdown
+      options = Agency.find(:all, :order => "#{Agency.column_for_attribute(:agency).name} ASC").collect{ |agency| [agency.name, agency.id] }
+      select 'user', 'agency_id', options      
+    end
+  end
+  
   def index
     @users = User.find(:all)
   end
@@ -17,15 +24,12 @@ class UsersController < ApplicationController
   # render new.rhtml
   def new
     @user = User.new
-    @agencies = Agency.find(:all, :order => "#{Agency.column_for_attribute(:agency).name} ASC")
   end
   
   def create
     cookies.delete :auth_token    
     @user = User.new(params[:user])
     @user.save!
-    #Uncomment to have the user logged in after creating an account - Not Recommended
-    #self.current_user = @user
     flash[:notice] = "Thanks for signing up! Please check your email to activate your account before logging in."
     redirect_to login_path    
   rescue ActiveRecord::RecordInvalid => exc
