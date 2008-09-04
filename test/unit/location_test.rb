@@ -11,11 +11,11 @@ class LocationTest < ActiveSupport::TestCase
     end
   end
   
-  should "return coordinate system id when it matches an existing coordinate system" do
+  should "return actual coordinate system if it matches an existing coordinate system by name or id" do
     location = Location.new(1, 2, 3)
-    CoordinateSystem.expects(:find).with(location.coordinate_system_id).returns(CoordinateSystem.new)
+    coordinate_system = mock
+    CoordinateSystem.expects(:find).with(location.coordinate_system_id).returns(coordinate_system)
     assert_not_nil location.coordinate_system
-    assert_kind_of CoordinateSystem, location.coordinate_system
   end
   
   should "return nil when coordinate system id doesn't match any coordinate system" do
@@ -40,9 +40,9 @@ class LocationTest < ActiveSupport::TestCase
     assert_match(/blank/, location.errors.on(:coordinate_system_id))
   end
   
-  should "report error on coordinate system id if it doesn't correspond to an exist coordinate system" do     
+  should "report error on coordinate system id if it doesn't correspond to an existing coordinate system" do     
     location = Location.new(1, 2, 3)
-    CoordinateSystem.expects(:exists?).with(location.coordinate_system_id).returns(false)    
+    CoordinateSystem.expects(:find).with(location.coordinate_system_id).returns(nil)    
     assert location.errors.empty?
     location.valid?
     assert location.errors.invalid?(:coordinate_system_id)   
@@ -51,7 +51,8 @@ class LocationTest < ActiveSupport::TestCase
   
   should "not report errors on coordinate system id if it is valid" do
     location = Location.new(1, 2, 3)
-    CoordinateSystem.expects(:exists?).with(location.coordinate_system_id).returns(true)
+    coordinate_system = mock(:nil? => false)
+    CoordinateSystem.expects(:find).with(location.coordinate_system_id).returns(coordinate_system)
     assert location.errors.empty?
     location.valid?
     assert_nil location.errors.on(:coordinate_system_id)

@@ -1,12 +1,12 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class CoordinateSourceTest < ActiveSupport::TestCase
-#  should_have_and_belong_to_many :coordinate_systems
-#  should_require_attributes :name
-#  
-#  context "with an existing record" do 
-#    setup { CoordinateSource.generate! }
-#    
-#    should_require_unique_attributes :name
-#  end
+  should "respond to :id and :name methods" do
+    id, name = 1, 'Test Coordinate Source'
+    coordinate_source = CoordinateSource.new(id, name)
+    assert_equal id, coordinate_source.id
+    assert_equal name, coordinate_source.name
+  end
+  
+  should_have_class_methods :find, :all
 end

@@ -1,10 +1,8 @@
 class DataCollectionSitesController < ApplicationController  
-  layout 'admin'
+  layout 'application'
   
   active_scaffold :aquatic_site do |config|
-    config.label = "Data Collection Sites"
-    config.columns = [:incorporated, :id, :name, :description, :water_body_id, :water_body_name, :drainage_code, :name_and_description, :aquatic_activities, :location]
-        
+    config.columns = [:incorporated, :id, :name, :description, :water_body_id, :water_body_name, :drainage_code, :name_and_description, :aquatic_activities, :location]        
     #config.columns[:aquatic_activities].clear_link
     
     # list configuration
@@ -23,7 +21,8 @@ class DataCollectionSitesController < ApplicationController
       location.add :coordinate_source, :coordinate_system, :x_coordinate, :y_coordinate
     end
         
-    # set i18n labels
+    # set i18n labels    
+    config.label = "Data Collection Sites"
     config.show.label = ''
     config.columns[:incorporated].label = ''
     config.columns[:id].label = 'Site ID'

@@ -18,7 +18,7 @@ class Agency < AquaticDataWarehouse::BaseCd
   set_primary_key 'AgencyCd'
   
   has_many :users
-  has_many :aquatic_site_usages
+  has_many :aquatic_site_usages, :foreign_key => 'AgencyCd'
   
   alias_attribute :code, :agency_cd
   alias_attribute :name, :agency

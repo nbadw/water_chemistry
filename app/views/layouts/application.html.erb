@@ -24,14 +24,8 @@
     </div>
     
     <div id="content"> 
-      <div id="browse">
-        <%= yield if controller.action_name == 'browse' %>
-      </div>
-      <div id="explore">
-        <%= yield if controller.action_name == 'explore' %>
-      </div>
-      <div id="help">
-        <%= yield if controller.action_name == 'help' %>
+      <div id="controller.action_name">
+        <%= yield %>
       </div>
     </div>    
     
