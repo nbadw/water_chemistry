@@ -7,8 +7,13 @@ class DataCollectionSitesControllerTest < ActionController::TestCase
     end
     
     should_eventually "do something on coordinate source change"
-    should_eventually "perform a default search"
     should_eventually "perform a watershed search"    
+    
+    should "allow search action" do
+      get :update_table, :search => 'test'
+      assert_response :success
+      assert_template '_list'
+    end
     
     should "allow index action" do      
       get :index

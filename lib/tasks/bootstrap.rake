@@ -3,27 +3,24 @@ task :bootstrap => %w(bootstrap:admin bootstrap:coordinate_systems)
 
 namespace :bootstrap do
   desc "bootstraps the administrator account"
-  task :admin => :environment do 
-    admin_role = Role.find_by_rolename('administrator')
-    if admin_role.nil?
-      admin_role = Role.create(:rolename => 'administrator')        
-    end
-    
+  task :admin => :environment do    
+    admin_role = Role.find_or_create_by_rolename('administrator')
+
     begin    
       agency = Agency.find('ADW')
     rescue
       agency = Agency.create(:code => 'ADW', :name => 'NB Aquatic Data Warehouse', :agency_type => 'NGO')
-    end    
-     
+    end
+    
     admin = User.find_by_login('admin')
-    if admin.nil?
+    unless admin
       admin = User.new
       admin.login = "admin"
       admin.email = "ccasey@unb.ca"
       admin.password = "colinfcasey"
       admin.password_confirmation = "colinfcasey"
       admin.agency = agency
-      admin.save!
+      admin.save
       admin.send(:activate!)
     end
         

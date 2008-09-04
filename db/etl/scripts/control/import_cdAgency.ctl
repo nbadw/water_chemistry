@@ -12,7 +12,7 @@ columns = model.columns.collect { |column| column.name.to_sym }
 
 source :in, { 
   :type => :access,
-  :mdb => "../../input/nb_aquatic_data_warehouse.mdb", 
+  :mdb => "../../../nb_aquatic_data_warehouse.mdb", 
   :table => table
 }, columns
 

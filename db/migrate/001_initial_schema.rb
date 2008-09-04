@@ -164,37 +164,37 @@ class InitialSchema < ActiveRecord::Migration
       t.datetime "last_login"
     end
 
-    create_table "water_chemistry_parameters", :force => true do |t|
-      t.string   "name"
-      t.string   "code"
-      t.datetime "created_at"
-      t.datetime "updated_at"
-      t.datetime "imported_at"
-      t.datetime "exported_at"
-    end
-
-    create_table "water_chemistry_sample_results", :force => true do |t|
-      t.integer "water_chemistry_sample_id",    :limit => 11
-      t.integer "water_chemistry_parameter_id", :limit => 11
-      t.integer "instrument_id",                :limit => 11
-      t.integer "unit_of_measure_id",           :limit => 11
-      t.float   "value"
-      t.string  "qualifier"
-      t.string  "comment"
-    end
-
-    create_table "water_chemistry_samples", :force => true do |t|
-      t.integer  "aquatic_activity_event_id", :limit => 11
-      t.string   "agency_sample_no",          :limit => 10
-      t.float    "sample_depth_in_m"
-      t.string   "water_source_type",         :limit => 20
-      t.string   "sample_collection_method"
-      t.string   "analyzed_by"
-      t.datetime "imported_at"
-      t.datetime "exported_at"
-      t.datetime "created_at"
-      t.datetime "updated_at"
-    end
+#    create_table "water_chemistry_parameters", :force => true do |t|
+#      t.string   "name"
+#      t.string   "code"
+#      t.datetime "created_at"
+#      t.datetime "updated_at"
+#      t.datetime "imported_at"
+#      t.datetime "exported_at"
+#    end
+#
+#    create_table "water_chemistry_sample_results", :force => true do |t|
+#      t.integer "water_chemistry_sample_id",    :limit => 11
+#      t.integer "water_chemistry_parameter_id", :limit => 11
+#      t.integer "instrument_id",                :limit => 11
+#      t.integer "unit_of_measure_id",           :limit => 11
+#      t.float   "value"
+#      t.string  "qualifier"
+#      t.string  "comment"
+#    end
+#
+#    create_table "water_chemistry_samples", :force => true do |t|
+#      t.integer  "aquatic_activity_event_id", :limit => 11
+#      t.string   "agency_sample_no",          :limit => 10
+#      t.float    "sample_depth_in_m"
+#      t.string   "water_source_type",         :limit => 20
+#      t.string   "sample_collection_method"
+#      t.string   "analyzed_by"
+#      t.datetime "imported_at"
+#      t.datetime "exported_at"
+#      t.datetime "created_at"
+#      t.datetime "updated_at"
+#    end
 
 #    create_table "waterbodies", :force => true do |t|
 #      t.string   "drainage_code",           :limit => 17

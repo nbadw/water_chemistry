@@ -15,12 +15,11 @@
 # And be sure to use new-style password hashing:
 #   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
 development:
-  adapter: mysql
-  encoding: utf8
-  database: waterchemistry_dev
-  username: rails_developer
-  password: developer
+  adapter: sqlserver
+  database: water_chemistry_dev
   host: localhost
+  provider: SQLNCLI
+  windows_auth: true
 
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.

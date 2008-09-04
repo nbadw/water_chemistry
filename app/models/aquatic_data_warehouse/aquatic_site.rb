@@ -42,7 +42,7 @@ class AquaticSite < AquaticDataWarehouse::BaseTbl
   set_primary_key 'AquaticSiteID'
   
   belongs_to :waterbody, :foreign_key => 'WaterBodyID'
-  has_many :aquatic_site_usages, :foreign_key => 'AquaticSiteID'
+  has_many :aquatic_site_usages, :foreign_key => 'AquaticSiteID', :uniq => true
   has_many :aquatic_activities, :through => :aquatic_site_usages
   has_many :agencies, :through => :aquatic_site_usages
   
@@ -65,10 +65,6 @@ class AquaticSite < AquaticDataWarehouse::BaseTbl
 #  validates_each :gmap_location, :allow_blank => true do |record, attr, gmap_location|
 #    gmap_location.copy_errors_to(record, [:gmap_latitude, :gmap_longitude]) unless gmap_location.valid?
 #  end
-#    
-#  def drainage_code
-#    self.waterbody.drainage_code if self.waterbody
-#  end  
 #  
 #  private   
 #  def destroy_allowed?
