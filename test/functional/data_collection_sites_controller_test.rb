@@ -6,6 +6,10 @@ class DataCollectionSitesControllerTest < ActionController::TestCase
       login
     end
     
+    should_eventually "do something on coordinate source change"
+    should_eventually "perform a default search"
+    should_eventually "perform a watershed search"    
+    
     should "allow index action" do      
       get :index
       assert_response :success
