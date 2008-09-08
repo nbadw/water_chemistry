@@ -48,7 +48,6 @@ class AquaticSite < AquaticDataWarehouse::BaseTbl
   
   alias_attribute :name, :aquatic_site_name
   alias_attribute :description, :aquatic_site_desc
-  alias_attribute :incorporated, :incorporated_ind
     
   class AquaticSiteInUse < ActiveRecord::ActiveRecordError; end  
                 
@@ -75,4 +74,8 @@ class AquaticSite < AquaticDataWarehouse::BaseTbl
 #  def check_if_in_use
 #    raise(AquaticSiteInUse, "Site is in use, record cannot be deleted") unless self.aquatic_site_usages.empty?
 #  end
+  def before_save
+    write_attribute('IncorporatedInd', false) if incorporated_ind.nil?
+    return self
+  end
 end

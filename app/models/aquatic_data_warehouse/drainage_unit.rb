@@ -15,5 +15,8 @@
 #
 
 class DrainageUnit < AquaticDataWarehouse::BaseTbl
+  set_table_name  'tblDraingeUnit'
   set_primary_key 'DrainageCd'
+  
+  has_many :waterbodies, :foreign_key => primary_key
 end

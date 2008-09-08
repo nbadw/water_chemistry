@@ -28,4 +28,9 @@ class AquaticSiteUsage < AquaticDataWarehouse::BaseTbl
   
   validates_presence_of :aquatic_site, :aquatic_activity, :agency
   validates_uniqueness_of :aquatic_activity_cd, :scope => :aquatic_site_id
+  
+  def before_save
+    write_attribute('IncorporatedInd', false) if incorporated_ind.nil?
+    return self
+  end
 end

@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require File.dirname(__FILE__) + '/../../test_helper'
 
 class WaterbodyTest < ActiveSupport::TestCase
   should_use_table       'tblWaterBody'
@@ -8,7 +8,7 @@ class WaterbodyTest < ActiveSupport::TestCase
   should_have_db_column "DateModified", :type => :datetime
   should_have_db_column "DrainageCd", :limit => 17, :type => :string
   should_have_db_column "FlowIntoDrainageCd", :limit => 17, :type => :string
-  should_have_db_column "FlowsIntoWaterBodyID", :type => :integer
+  should_have_db_column "FlowsIntoWaterBodyID", :type => :float
   should_have_db_column "FlowsIntoWaterBodyName", :limit => 40, :type => :string
   should_have_db_column "Surveyed_Ind", :limit => 1, :type => :string
   should_have_db_column "WaterBodyComplexID", :type => :integer
@@ -22,7 +22,7 @@ class WaterbodyTest < ActiveSupport::TestCase
     :water_body_name, :water_body_name_abrev, :water_body_name_alt, :water_body_type_cd
   
   should_have_many :aquatic_sites
-  should_have_many :drainage_units
+  should_belong_to :drainage_unit
   
   should_eventually "test the search function"  
 end

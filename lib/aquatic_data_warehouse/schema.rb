@@ -2,12 +2,31 @@
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
 
-
 module AquaticDataWarehouse
   class Schema < ActiveRecord::Migration
     private_class_method :new
     
     class << self
+      def generate_database_scripts
+        AquaticDataWarehouse::Generators::SchemaGenerator.new(tables_hash)
+        tables_hash.each do |table_name, columns| 
+          # AquaticDataWarehouse::Generators::ImportGenerator.new(table_name)            
+        end
+      end
+      
+      def tables_hash
+        unless @tables_hash 
+          puts "reading database information:"
+          t = [tables.first]
+          @tables_hash = t.inject({}) do |hash, table_name|
+            puts " ... #{table_name} ..."
+            hash[table_name] = get_columns(table_name)
+            hash
+          end
+        end
+        @tables_hash
+      end
+            
       def install              
         Dir.mkdir(schema_dir) unless File.exists?(schema_dir)
         puts "generating schema load script"
@@ -185,13 +204,15 @@ module AquaticDataWarehouse
         %w(
         cdAgency cdAquaticActivity cdAquaticActivityMethod tblWaterMeasurement cdInstrument cdMeasureInstrument cdMeasureUnit
         cdOandM cdOandMValues cdUnitofMeasure cdWaterChemistryQualifier cdWaterParameter cdWaterSource tblAquaticActivity tblObservations    
-        tblAquaticSite tblAquaticSiteAgencyUse tblSiteMeasurement tblEnvironmentalObservations tblDrainageUnit tblWaterBody tblWaterChemistryAnalysis
+        tblAquaticSite tblAquaticSiteAgencyUse tblSiteMeasurement tblEnvironmentalObservations tblDraingeUnit tblWaterBody tblWaterChemistryAnalysis
         )
       end
     
       def columns(table)
         connection.columns(table)
       end
+      
+      alias_method :get_columns, :columns
     end    
   end
 end

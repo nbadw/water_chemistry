@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require File.dirname(__FILE__) + '/../../test_helper'
 
 class RoleTest < ActiveSupport::TestCase
   should_require_attributes :rolename

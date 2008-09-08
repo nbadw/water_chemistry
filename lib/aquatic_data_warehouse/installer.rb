@@ -2,10 +2,10 @@
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
  
-
 module AquaticDataWarehouse
   class Installer
-    def self.install
+    def self.install      
+      #Schema.generate_database_scripts
       if Schema.installed?
         raise "Aquatic Data Warehouse is already installed"     
       end

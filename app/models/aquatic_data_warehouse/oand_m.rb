@@ -9,5 +9,10 @@ class OandM < AquaticDataWarehouse::BaseCd
   alias_attribute :values, :oand_m_values_ind
   
   validates_presence_of :oand_m_parameter
-  validates_uniqueness_of :oand_m_parameter
+  validates_uniqueness_of :oand_m_parameter  
+  
+  def before_save
+    write_attribute('OandM_ValuesInd', false) if oand_m_values_ind.nil?
+    return self
+  end
 end

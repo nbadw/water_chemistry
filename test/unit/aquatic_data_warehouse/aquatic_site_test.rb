@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'mocha'
+require File.dirname(__FILE__) + '/../../test_helper'
 
 class AquaticSiteTest < ActiveSupport::TestCase
   should_use_table "tblAquaticSite"
@@ -46,7 +45,7 @@ class AquaticSiteTest < ActiveSupport::TestCase
 
   should "create/read/update/delete" do
     aquatic_site = AquaticSite.spawn
-    assert aquatic_site.save
+    assert aquatic_site.save, aquatic_site.errors.full_messages.to_sentence
     db_record = AquaticSite.find(aquatic_site.id)
     assert_equal aquatic_site.id, db_record.id
     aquatic_site.name = aquatic_site.name.to_s.reverse

@@ -6,25 +6,17 @@ class DataCollectionSitesController < ApplicationController
     config.columns = [:incorporated, :id, :name, :description, :water_body_id, :water_body_name, :drainage_code, :name_and_description, :aquatic_activities, :location]        
     config.list.columns = [:incorporated, :id, :agencies, :water_body_id, :water_body_name, :drainage_code, :name_and_description, :aquatic_activities]    
     config.show.columns = [:id, :name, :description, :water_body_id, :water_body_name, :drainage_code, :location]
-    config.search.columns = [:id, :name, :water_body_id, :water_body_name, :drainage_code] #, :aquatic_activities, :agencies]
-    config.create.columns = [:name, :description]
-    config.create.columns.add_subgroup "Waterbody" do |waterbody| 
-      waterbody.add :waterbody
+    config.search.columns = [:id, :name, :water_body_id, :water_body_name, :drainage_code, :aquatic_activities, :agencies]    
+    [:create, :update].each do |action|  
+      config.send(action).columns = [:name, :description]
+      config.send(action).columns.add_subgroup "Waterbody" do |waterbody| 
+        waterbody.add :waterbody
+      end
+      config.send(action).columns.add_subgroup "Location" do |location|
+        location.add :coordinate_source, :coordinate_system, :x_coordinate, :y_coordinate
+      end
     end
-    config.update.columns.add_subgroup "Location" do |location|
-      location.add :coordinate_source, :coordinate_system, :x_coordinate, :y_coordinate
-    end
-    config.update.columns = [:name, :description]
-    config.update.columns.add_subgroup "Waterbody" do |waterbody| 
-      waterbody.add :waterbody
-    end
-    config.update.columns.add_subgroup "Location" do |location|
-      location.add :coordinate_source, :coordinate_system, :x_coordinate, :y_coordinate
-    end
-        
-    #config.columns[:aquatic_activities].clear_link
-    config.list.sorting =[{ :drainage_code => :asc }]
-         
+                 
     # set i18n labels    
     config.label = "Data Collection Sites"
     config.show.label = ''
@@ -52,6 +44,25 @@ class DataCollectionSitesController < ApplicationController
     config.columns[:drainage_code].sort_by :sql => "#{Waterbody.table_name}.#{Waterbody.column_for_attribute(:drainage_cd).name}"
     config.columns[:water_body_id].sort_by :sql => "#{Waterbody.table_name}.#{Waterbody.primary_key}"
     config.columns[:water_body_name].sort_by :sql => "#{Waterbody.table_name}.#{Waterbody.column_for_attribute(:water_body_name).name}"
+    
+    config.list.sorting =[{ :drainage_code => :asc }]
+    config.list.per_page = 50
+    #config.columns[:aquatic_activities].clear_link
+    config.columns[:agencies].set_link('nested', :controller => 'agencies', :action => 'test')
+    config.columns[:drainage_code].set_link('nested', :controller => 'data_collection_sites', :action => 'explain_drainage_code')
+  end
+  
+  def explain_drainage_code
+    aquatic_site = AquaticSite.find params[:id]
+    waterbody = aquatic_site.waterbody
+    drainage_unit = waterbody.drainage_unit if waterbody
+    if drainage_unit
+      names = []
+      (1..6).each { |i| names << drainage_unit.send("level#{i}_name") }      
+      render :text => names.compact.join(' - ')
+    else
+      render :text => 'NO DRAINAGE UNIT!'
+    end
   end
   
   def auto_complete_for_waterbody_search

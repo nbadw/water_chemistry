@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require File.dirname(__FILE__) + '/../../test_helper'
 
 class InstrumentTest < ActiveSupport::TestCase
   should_use_table 'cdInstrument'

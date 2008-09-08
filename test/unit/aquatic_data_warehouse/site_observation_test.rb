@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require File.dirname(__FILE__) + '/../../test_helper'
 
 class SiteObservationTest < ActiveSupport::TestCase
   should_eventually '_belong_to :aquatic_site, :aquatic_activity_event, :observation'

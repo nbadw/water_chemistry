@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require File.dirname(__FILE__) + '/../../test_helper'
 
 class AquaticActivityTest < ActiveSupport::TestCase
   should_use_table "cdAquaticActivity"

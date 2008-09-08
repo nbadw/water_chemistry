@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require File.dirname(__FILE__) + '/../../test_helper'
 
 class AquaticSiteUsageTest < ActiveSupport::TestCase
   should_use_table 'tblAquaticSiteAgencyUse'

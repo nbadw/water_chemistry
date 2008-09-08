@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require File.dirname(__FILE__) + '/../../test_helper'
 
 class CoordinateSourceTest < ActiveSupport::TestCase
   should "respond to :id and :name methods" do

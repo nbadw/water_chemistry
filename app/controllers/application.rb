@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
   
   ActiveScaffold.set_defaults do |config| 
     config.ignore_columns.add [:created_at, :updated_at, :lock_version]
-    config.list.per_page = 50
     #config.actions.add :config_list
     #ActiveScaffold::Config::ConfigList.link.label = "Customize"
     #config.actions.add :list_filter    

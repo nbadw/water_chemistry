@@ -44,6 +44,18 @@ class DataCollectionSitesControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'destroy.rjs'
     end
+    
+    should_eventually "allow list to sort by x" do
+      
+    end
+    
+    should "perform autocomplete for waterbody" do
+      query = 'test'
+      Waterbody.expects(:search).with(query).returns([Waterbody.new])
+      post :auto_complete_for_waterbody_search, :waterbody => { :search => query }
+      assert_response :success
+      assert_template '_autocomplete'
+    end
   end
   
   def login(username = 'user', password = 'password')

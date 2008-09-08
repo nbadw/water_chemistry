@@ -291,7 +291,9 @@ namespace :db do
         dbfile = abcs["test"]["database"] || abcs["test"]["dbfile"]
         `#{abcs["test"]["adapter"]} #{dbfile} < db/#{RAILS_ENV}_structure.sql`
       when "sqlserver"
-        `osql -E -S #{abcs["test"]["host"]} -d #{abcs["test"]["database"]} -i db\\#{RAILS_ENV}_structure.sql`
+        osql_exe = "C:\\Program Files\\Microsoft SQL Server\\90\\Tools\\Binn\\osql"
+        `"#{osql_exe}" -E -S #{abcs["test"]["host"]} -d #{abcs["test"]["database"]} -i db\\#{RAILS_ENV}_structure.sql`
+        # osql -E -S #{abcs["test"]["host"]} -d #{abcs["test"]["database"]} -i db\\#{RAILS_ENV}_structure.sql`
       when "oci", "oracle"
         ActiveRecord::Base.establish_connection(:test)
         IO.readlines("db/#{RAILS_ENV}_structure.sql").join.split(";\n\n").each do |ddl|
@@ -321,9 +323,10 @@ namespace :db do
         dbfile = abcs["test"]["database"] || abcs["test"]["dbfile"]
         File.delete(dbfile) if File.exist?(dbfile)
       when "sqlserver"
+        osql_exe = "C:\\Program Files\\Microsoft SQL Server\\90\\Tools\\Binn\\osql"
         dropfkscript = "#{abcs["test"]["host"]}.#{abcs["test"]["database"]}.DP1".gsub(/\\/,'-')
-        `osql -E -S #{abcs["test"]["host"]} -d #{abcs["test"]["database"]} -i db\\#{dropfkscript}`
-        `osql -E -S #{abcs["test"]["host"]} -d #{abcs["test"]["database"]} -i db\\#{RAILS_ENV}_structure.sql`
+        `#{osql_exe} -E -S #{abcs["test"]["host"]} -d #{abcs["test"]["database"]} -i db\\#{dropfkscript}`
+        `#{osql_exe} -E -S #{abcs["test"]["host"]} -d #{abcs["test"]["database"]} -i db\\#{RAILS_ENV}_structure.sql`
       when "oci", "oracle"
         ActiveRecord::Base.establish_connection(:test)
         ActiveRecord::Base.connection.structure_drop.split(";\n\n").each do |ddl|
