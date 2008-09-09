@@ -1,21 +1,21 @@
 # == Schema Information
 # Schema version: 1
 #
-# Table name: waterbodies
+# Table name: tblWaterBody
 #
-#  id                      :integer(11)     not null, primary key
-#  drainage_code           :string(17)      
-#  waterbody_type          :string(8)       
-#  name                    :string(110)     
-#  abbreviated_name        :string(80)      
-#  alt_name                :string(80)      
-#  waterbody_complex_id    :integer(11)     
-#  surveyed                :boolean(1)      
-#  flows_into_waterbody_id :integer(11)     
-#  imported_at             :datetime        
-#  exported_at             :datetime        
-#  created_at              :datetime        
-#  updated_at              :datetime        
+#  WaterBodyID            :integer(10)     not null, primary key
+#  DrainageCd             :string(17)      
+#  WaterBodyTypeCd        :string(4)       
+#  WaterBodyName          :string(55)      
+#  WaterBodyName_Abrev    :string(40)      
+#  WaterBodyName_Alt      :string(40)      
+#  WaterBodyComplexID     :integer(5)      
+#  Surveyed_Ind           :string(1)       
+#  FlowsIntoWaterBodyID   :float(15)       
+#  FlowsIntoWaterBodyName :string(40)      
+#  FlowIntoDrainageCd     :string(17)      
+#  DateEntered            :datetime        
+#  DateModified           :datetime        
 #
 
 class Waterbody < AquaticDataWarehouse::BaseTbl 

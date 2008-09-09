@@ -1,15 +1,11 @@
 # == Schema Information
 # Schema version: 1
 #
-# Table name: units_of_measure
+# Table name: cdUnitofMeasure
 #
-#  id          :integer(11)     not null, primary key
-#  name        :string(100)     
-#  unit        :string(20)      
-#  imported_at :datetime        
-#  exported_at :datetime        
-#  created_at  :datetime        
-#  updated_at  :datetime        
+#  UnitofMeasureCd  :integer(10)     not null, primary key
+#  UnitofMeasure    :string(50)      
+#  UnitofMeasureAbv :string(10)      
 #
 
 class UnitOfMeasure < AquaticDataWarehouse::BaseCd

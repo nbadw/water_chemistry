@@ -1,15 +1,11 @@
 # == Schema Information
 # Schema version: 1
 #
-# Table name: cdaquaticactivitymethod
+# Table name: cdAquaticActivityMethod
 #
-#  aquaticmethodcd   :integer(11)     not null, primary key
-#  aquaticactivitycd :integer(11)     default(0)
-#  aquaticmethod     :string(30)      
-#  created_at        :datetime        
-#  updated_at        :datetime        
-#  imported_at       :datetime        
-#  exported_at       :datetime        
+#  AquaticMethodCd   :integer(5)      not null, primary key
+#  AquaticActivityCd :integer(5)      
+#  AquaticMethod     :string(30)      
 #
 
 class AquaticActivityMethod < AquaticDataWarehouse::BaseCd

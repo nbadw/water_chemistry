@@ -1,17 +1,27 @@
 # == Schema Information
 # Schema version: 1
 #
-# Table name: cdagency
+# Table name: tblDraingeUnit
 #
-#  id           :integer(11)     not null
-#  agencycd     :string(5)       default(""), not null, primary key
-#  agency       :string(60)      
-#  agencytype   :string(4)       
-#  datarulesind :string(1)       default("N")
-#  created_at   :datetime        
-#  updated_at   :datetime        
-#  imported_at  :datetime        
-#  exported_at  :datetime        
+#  DrainageCd   :string(17)      not null, primary key
+#  Level1No     :string(2)       
+#  Level1Name   :string(40)      
+#  Level2No     :string(2)       
+#  Level2Name   :string(50)      
+#  Level3No     :string(2)       
+#  Level3Name   :string(50)      
+#  Level4No     :string(2)       
+#  Level4Name   :string(50)      
+#  Level5No     :string(2)       
+#  Level5Name   :string(50)      
+#  Level6No     :string(2)       
+#  Level6Name   :string(50)      
+#  UnitName     :string(55)      
+#  UnitType     :string(4)       
+#  BorderInd    :string(1)       
+#  StreamOrder  :integer(5)      
+#  Area_ha      :float(15)       
+#  Area_percent :float(15)       
 #
 
 class DrainageUnit < AquaticDataWarehouse::BaseTbl

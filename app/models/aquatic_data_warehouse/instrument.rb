@@ -1,15 +1,11 @@
 # == Schema Information
 # Schema version: 1
 #
-# Table name: instruments
+# Table name: cdInstrument
 #
-#  id          :integer(11)     not null, primary key
-#  name        :string(100)     
-#  category    :string(100)     
-#  imported_at :datetime        
-#  exported_at :datetime        
-#  created_at  :datetime        
-#  updated_at  :datetime        
+#  InstrumentCd        :integer(10)     not null, primary key
+#  Instrument          :string(50)      
+#  Instrument_Category :string(50)      
 #
 
 class Instrument < AquaticDataWarehouse::BaseCd

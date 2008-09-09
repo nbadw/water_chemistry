@@ -1,49 +1,40 @@
 # == Schema Information
 # Schema version: 1
 #
-# Table name: tblaquaticactivity
+# Table name: tblAquaticActivity
 #
-#  aquaticactivityid        :integer(11)     not null, primary key
-#  tempaquaticactivityid    :integer(11)     
-#  project                  :string(100)     
-#  permitno                 :string(20)      
-#  aquaticprogramid         :integer(11)     
-#  aquaticactivitycd        :integer(11)     
-#  aquaticmethodcd          :integer(11)     
-#  oldaquaticsiteid         :integer(11)     
-#  aquaticsiteid            :integer(11)     
-#  aquaticactivitystartdate :string(10)      
-#  aquaticactivityenddate   :string(10)      
-#  aquaticactivitystarttime :string(6)       
-#  aquaticactivityendtime   :string(6)       
-#  year                     :string(4)       
-#  agencycd                 :string(4)       
-#  agency2cd                :string(4)       
-#  agency2contact           :string(50)      
-#  aquaticactivityleader    :string(50)      
-#  crew                     :string(50)      
-#  weatherconditions        :string(50)      
-#  watertemp_c              :float           
-#  airtemp_c                :float           
-#  waterlevel               :string(6)       
-#  waterlevel_cm            :string(50)      
-#  waterlevel_am_cm         :string(50)      
-#  waterlevel_pm_cm         :string(50)      
-#  siltation                :string(50)      
-#  primaryactivityind       :boolean(1)      
-#  comments                 :string(250)     
-#  dateentered              :datetime        
-#  incorporatedind          :boolean(1)      
-#  datetransferred          :datetime        
-#  start_date               :datetime        
-#  end_date                 :datetime        
-#  rainfall_last24          :string(15)      
-#  imported_at              :datetime        
-#  exported_at              :datetime        
-#  created_at               :datetime        
-#  updated_at               :datetime        
-#  agency2_id               :integer(11)     
-#  agency_id                :integer(11)     
+#  AquaticActivityID        :integer(10)     not null, primary key
+#  TempAquaticActivityID    :integer(10)     
+#  Project                  :string(100)     
+#  PermitNo                 :string(20)      
+#  AquaticProgramID         :integer(10)     
+#  AquaticActivityCd        :integer(5)      
+#  AquaticMethodCd          :integer(5)      
+#  oldAquaticSiteID         :integer(10)     
+#  AquaticSiteID            :integer(10)     
+#  AquaticActivityStartDate :string(10)      
+#  AquaticActivityEndDate   :string(10)      
+#  AquaticActivityStartTime :string(6)       
+#  AquaticActivityEndTime   :string(6)       
+#  Year                     :string(4)       
+#  AgencyCd                 :string(4)       
+#  Agency2Cd                :string(4)       
+#  Agency2Contact           :string(50)      
+#  AquaticActivityLeader    :string(50)      
+#  Crew                     :string(50)      
+#  WeatherConditions        :string(50)      
+#  WaterTemp_C              :float(7)        
+#  AirTemp_C                :float(7)        
+#  WaterLevel               :string(6)       
+#  WaterLevel_cm            :string(50)      
+#  WaterLevel_AM_cm         :string(50)      
+#  WaterLevel_PM_cm         :string(50)      
+#  Siltation                :string(50)      
+#  PrimaryActivityInd       :boolean(1)      not null
+#  Comments                 :string(250)     
+#  DateEntered              :datetime        
+#  IncorporatedInd          :boolean(1)      not null
+#  DateTransferred          :datetime        
 #
 
 class AquaticActivityEvent < AquaticDataWarehouse::BaseTbl  

@@ -1,17 +1,18 @@
 # == Schema Information
 # Schema version: 1
 #
-# Table name: observations
+# Table name: cdOandM
 #
-#  id                               :integer(11)     not null, primary key
-#  name                             :string(255)     
-#  grouping                         :string(255)     
-#  category                         :string(255)     
-#  imported_at                      :datetime        
-#  exported_at                      :datetime        
-#  created_at                       :datetime        
-#  updated_at                       :datetime        
-#  fish_passage_blocked_observation :boolean(1)      
+#  OandMCd           :integer(10)     not null, primary key
+#  OandM_Type        :string(16)      
+#  OandM_Category    :string(40)      
+#  OandM_Group       :string(50)      
+#  OandM_Parameter   :string(50)      
+#  OandM_ParameterCd :string(30)      
+#  OandM_ValuesInd   :boolean(1)      not null
+#  OandM_DetailsInd  :boolean(1)      not null
+#  FishPassageInd    :boolean(1)      not null
+#  BankInd           :boolean(1)      not null
 #
 
 class Observation < OandM

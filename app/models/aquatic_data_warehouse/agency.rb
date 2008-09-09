@@ -1,17 +1,12 @@
 # == Schema Information
 # Schema version: 1
 #
-# Table name: cdagency
+# Table name: cdAgency
 #
-#  id           :integer(11)     not null
-#  agencycd     :string(5)       default(""), not null, primary key
-#  agency       :string(60)      
-#  agencytype   :string(4)       
-#  datarulesind :string(1)       default("N")
-#  created_at   :datetime        
-#  updated_at   :datetime        
-#  imported_at  :datetime        
-#  exported_at  :datetime        
+#  AgencyCd     :string(5)       not null, primary key
+#  Agency       :string(60)      
+#  AgencyType   :string(4)       
+#  DataRulesInd :string(1)       
 #
 
 class Agency < AquaticDataWarehouse::BaseCd  
