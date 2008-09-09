@@ -17,9 +17,9 @@
 development:
   adapter: mysql
   encoding: utf8
-  database: nb_aquatic_data_warehouse
-  username: colin
-  password: test
+  database: nb_aquatic_data_warehouse_dev
+  username: developer
+  password: developer
   host: localhost
 
 # Warning: The database defined as 'test' will be erased and
@@ -28,31 +28,16 @@ development:
 test:
   adapter: mysql
   encoding: utf8
-  database: waterchemistry_test
-  username: rails_tester
-  password: tester
+  database: nb_aquatic_data_warehouse_test
+  username: developer
+  password: developer
   host: localhost
 
 production:
   adapter: mysql
   encoding: utf8
-  database: waterchemistry_production
+  database: nb_aquatic_data_warehouse
   username: 
   password: 
   host: localhost
-
-etl_execution:
-  adapter: mysql
-  encoding: utf8
-  database: waterchemistry_etl
-  username: rails_developer
-  password: developer
-  host: localhost
-
-aquatic_data_warehouse:
-  adapter: sqlserver
-  database: WaterChemTablesSQL
-  host: localhost
-  provider: SQLNCLI
-  windows_auth: true
 
