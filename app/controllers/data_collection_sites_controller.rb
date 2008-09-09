@@ -1,5 +1,6 @@
 class DataCollectionSitesController < ApplicationController  
   layout 'application'
+  helper DataCollectionSitesHelper
   
   active_scaffold :aquatic_site do |config|
     # columns
@@ -44,12 +45,46 @@ class DataCollectionSitesController < ApplicationController
     config.columns[:drainage_code].sort_by :sql => "#{Waterbody.table_name}.#{Waterbody.column_for_attribute(:drainage_cd).name}"
     config.columns[:water_body_id].sort_by :sql => "#{Waterbody.table_name}.#{Waterbody.primary_key}"
     config.columns[:water_body_name].sort_by :sql => "#{Waterbody.table_name}.#{Waterbody.column_for_attribute(:water_body_name).name}"
-    
-    config.list.sorting =[{ :drainage_code => :asc }]
-    config.list.per_page = 50
+        
+    # action links
     #config.columns[:aquatic_activities].clear_link
     config.columns[:agencies].set_link('nested', :controller => 'agencies', :action => 'test')
     config.columns[:drainage_code].set_link('nested', :controller => 'data_collection_sites', :action => 'explain_drainage_code')
+    config.action_links.add 'toggle_area_of_interest', :label => 'Toggle Area of Interest'
+    
+    # list customizations
+    config.list.sorting =[{ :drainage_code => :asc }]
+    config.list.per_page = 50
+  end
+  
+  # TODO: this link will have to be rendered in a frontend view override
+  def toggle_area_of_interest
+    # what is the current state?
+    #   session[:area_of_interest_only] = true | false
+    # if true
+    #   set to false
+    #   send javascript to change link class to off
+    # else
+    #   set to true
+    #   send javascript to change link class to on
+    # end
+    state = session[:area_of_interest_only] ? 'on' : 'off'
+    session[:area_of_interest_only] = !session[:area_of_interest_only] # toggle state
+    render :update do |page|
+      page << "$('#{action_link_id('toggle_area_of_interest', nil)}').addClassName('#{state}');"
+    end
+  end
+  
+  def add_data_set
+    unattached_data_sets = AquaticSite.find(params[:id]).unattached_data_sets
+  end
+  
+  def show_data_set_details
+    constraints = { aquatic_site_id => params[:id], aquatic_activity => params[:aquatic_activity_id] }
+  end
+  
+  def gmap_max_content    
+    render :inline => "<%= render :active_scaffold => 'tbl_aquatic_site', :conditions => ['#{AquaticSite.table_name}.aquaticsiteid = ?', params[:id]], :label => '' %>"
   end
   
   def explain_drainage_code
@@ -79,64 +114,77 @@ class DataCollectionSitesController < ApplicationController
     ["#{AquaticSite.table_name}.#{AquaticSite.column_for_attribute(:water_body_id).name} IS NOT NULL"]
   end
   
-  helper do
-    def incorporated_column(aquatic_site)    
-      '<img class="incorporated" src="/images/lock_delete.png"/>' if aquatic_site.incorporated?
-    end
+  def do_search
+    @query = params[:search].to_s.strip rescue ''
+    return if @query.empty?
     
-    def name_and_description_column(aquatic_site)
-      description = [
-        ("<span class=\"aquatic-site-name\">#{aquatic_site.name}</span>" if aquatic_site.name), 
-        ("<span class=\"aquatic-site-description\">#{aquatic_site.description}</span>" if aquatic_site.description)
-      ].compact.join('<br/>')       
-      !description.empty? ? description : '-'
-    end
-    
-    def drainage_code_column(aquatic_site)
-      drainage_code = aquatic_site.waterbody.drainage_cd if aquatic_site.waterbody
-      drainage_code || '-'
-    end
-    
-    def agencies_column(record)      
-      agency_site_id_hash = {}
-      record.aquatic_site_usages.each do |aquatic_site_usage|
-        if agency_cd = aquatic_site_usage.agency_cd      
-          (agency_site_id_hash[agency_cd] ||= []) << aquatic_site_usage.agency_site_id unless aquatic_site_usage.agency_site_id.to_s.empty?
-        end
+    columns = active_scaffold_config.search.columns
+    query_terms = @query.split('+').collect{ |query_term| query_term.strip }
+    query_terms.each { |query_term| construct_finder_conditions(query_term, columns) }      
+
+    includes_for_search_columns = columns.collect{ |column| column.includes}.flatten.uniq.compact
+    self.active_scaffold_joins.concat includes_for_search_columns
+
+    active_scaffold_config.list.user.page = nil
+  end
+  
+  def on_coordinate_source_change
+    if params[:coordinate_source_id].blank?
+      render :update do |page|   
+        #page.replace_html 'coordinate_system_input', :inline => '<%= recorded_location_coordinate_system_input(@record) %>'  
+        page << "$('record_coordinate_system_id').disabled = true;"
+        page << "$('record_raw_latitude').disabled = true;" 
+        page << "$('record_raw_longitude').disabled = true;"
       end
-    
-      record.agencies.uniq.collect do |agency|      
-        agency_site_ids = agency_site_id_hash[agency.id] || []
-        site_id_text = "(" + agency_site_ids.uniq.join(', ') + ")" unless agency_site_ids.empty?
-        ["#{agency.code}", site_id_text, "<br/>"]
-      end.flatten.compact.join(' ')
-    end
-    
-    def aquatic_activities_column(record)
-      options = { :_method => 'get', :action => 'aquatic_site_activities',
-        :aquatic_site_id => record.id, :controller => 'aquatic_activity_event' }
-    
-      html_options = { :class => 'nested action', :position => 'after',
-        :id => "aquatic_sites-nested-#{record.id}-link" }
-    
-      # create links to inline site activities
-      links = record.aquatic_activities.uniq.sort.collect do |aquatic_activity|      
-        options[:aquatic_activity_id] = aquatic_activity.id
-        options[:label] = "#{aquatic_activity.name} for Site ##{record.id} - #{record.name}"
-        # XXX: limiting to only water chemistry sampling activities, the rest are disabled
-        if aquatic_activity.name == 'Water Chemistry Sampling'
-          link_to aquatic_activity.name, options, html_options
-        else
-          '<a href="#" class="disabled">' + aquatic_activity.name + '</a>'
-        end
+    else
+      coordinate_source = CoordinateSource.find(params[:coordinate_source_id], :include => [:coordinate_systems])  
+      choices = coordinate_source.coordinate_systems.collect { |source| [source.display_name, source.id] }
+      render :update do |page|   
+        page.replace_html 'record_coordinate_system_id', :inline => '<%= options_for_select choices %>', :locals => { :choices => choices }  
+        page << "$('record_coordinate_system_id').disabled = false;"
+        page << "$('record_raw_latitude').disabled = false;" 
+        page << "$('record_raw_longitude').disabled = false;"
       end
+    end
+  end    
+  
+  private  
+  def construct_finder_conditions(query_term, columns)  
+    # replace occurences of 'st' with 'st.'
+    query_term = query_term.split(' ').collect { |word| word.match(/^(st)$/i) ? "#{$1}." : word }.join(' ')
     
-      # create default link to create a new activity
-      links << link_to('Add a new data set', { :_method => 'get', :controller => 'aquatic_site_usage',
-          :action => 'new', :aquatic_site_id => record.id, :format => 'js' }, { :class => 'nested action', 
-          :position => 'after', :id => "aquatic_sites-nested-#{record.id}-link" })
-    
-      links.join('<br/><br/>')
+    if query_term.match(/ watershed$/i)
+      drainage_code_column = nil
+      columns.each { |column| drainage_code_column = column if column.name == :drainage_code }
+      finder_conditions = [
+        "LOWER(#{drainage_code_column.search_sql}) IN (?)", 
+       create_watershed_query_terms(query_term)        
+      ]
+    else
+      finder_conditions = ActiveScaffold::Finder.create_conditions_for_columns(query_term, columns, like_pattern(query_term))
+    end    
+    self.active_scaffold_conditions = merge_conditions(self.active_scaffold_conditions, finder_conditions)
+  end
+  
+  def create_watershed_query_terms(query_term)
+    query_term = "%#{query_term.sub(/watershed$/i, '').strip}%"
+    find_drainage_codes(query_term)   
+  end
+  
+  def find_drainage_codes(query_term)
+    drainage_codes = Waterbody.find(:all, 
+      :select => "#{Waterbody.column_for_attribute(:drainage_cd).name}", 
+      :conditions => ["#{Waterbody.column_for_attribute(:water_body_name).name} LIKE ?", query_term.strip]
+    ).collect { |waterbody| waterbody.drainage_cd }  
+  end
+  
+  def like_pattern(query_term)
+    if query_term.match(/^[1-9][\d]*$/) # id match
+      '?'
+    elsif query_term.match(/^\d[-\d]*$/) # drainage code match
+      '?%'
+    else
+      '%?%'
     end
   end
 end

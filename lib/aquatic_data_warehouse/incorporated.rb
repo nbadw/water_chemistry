@@ -4,7 +4,14 @@ module AquaticDataWarehouse
     end
     
     def self.included(base)
-      base.before_destroy :check_if_incorporated
+      base.before_destroy :ensure_record_is_not_incorporated
+      base.extend(ClassMethods)
+    end
+    
+    module ClassMethods      
+      def acts_as_incorporated?
+        !columns.detect { |column| column.name == 'IncorporatedInd' }.nil?
+      end
     end
     
     def authorized_for_destroy?
@@ -16,13 +23,11 @@ module AquaticDataWarehouse
     end
 
     def incorporated?    
-      if self.class.columns.detect { |column| column.name == 'IncorporatedInd' }
-        !!incorporated_ind      
-      end        
-    end    
+      !!incorporated_ind if self.class.acts_as_incorporated?        
+    end       
 
     private
-    def check_if_incorporated
+    def ensure_record_is_not_incorporated
       raise(RecordIsIncorporated, "Incorporated records cannot be deleted") if incorporated?
     end
   end

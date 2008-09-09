@@ -78,4 +78,12 @@ class AquaticSite < AquaticDataWarehouse::BaseTbl
     write_attribute('IncorporatedInd', false) if incorporated_ind.nil?
     return self
   end
+  
+  def attached_data_sets
+    aquatic_activities.uniq
+  end
+  
+  def unattached_data_sets
+    AquaticActivity.find(:all) - attached_data_sets
+  end
 end

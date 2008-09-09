@@ -3,7 +3,7 @@ require 'aquatic_data_warehouse/base_cd'
 require 'aquatic_data_warehouse/base_tbl'
 
 require 'aquatic_data_warehouse/aliases'
-require 'aquatic_data_warehouse/incorporated_model'
+require 'aquatic_data_warehouse/incorporated'
 
 require 'rails_generator'
 require 'rails_generator/scripts/generate'
