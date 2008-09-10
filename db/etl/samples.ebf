@@ -1,6 +1,0 @@
-$:.unshift(File.dirname(__FILE__))
-
-run 'import/tblSample.ctl'
-run 'import/parameters.ctl'
-run 'import/parameter_decodes.ctl'
-run 'import/sample_results.ctl'
