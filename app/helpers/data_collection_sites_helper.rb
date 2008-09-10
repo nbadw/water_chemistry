@@ -31,7 +31,7 @@ module DataCollectionSitesHelper
       end.flatten.compact.join(' ')
     end
     
-    def aquatic_activities_column(aquatic_site)
+    def data_sets_column(aquatic_site)
       attached_data_sets = aquatic_site.attached_data_sets.sort
       
       options = { :_method => 'get', :action => 'aquatic_site_activities',
@@ -53,10 +53,17 @@ module DataCollectionSitesHelper
       end
     
       # default link to create a new activity
-      links << link_to('Add a new data set', { :action => 'add_data_set', :aquatic_site_id => aquatic_site.id, :format => 'js' }, 
-        { :class => 'nested action', :position => 'after', :id => "aquatic_sites-nested-#{aquatic_site.id}-link" })
-      # TODO: make this a popup instead of an inline action
+      links << link_to('Add a new data set', 
+        { :controller => 'data_collection_sites', :action => 'select_data_set', :id => aquatic_site.id, :format => 'html' }, 
+        { :class => 'lightwindow', :params => 'lightwindow_height=80' })
     
       links.join('<br/>')
+    end
+    
+    def unattached_data_sets_select(unattached_data_sets)
+      # TODO: eventually work in the other data sets and present in group -> name dropdown - e.g., options = unattached_data_sets.collect { |activity| [activity.name, activity.id] }
+      water_chemistry_sampling = unattached_data_sets.find { |aquatic_activity| aquatic_activity.id == 17 }
+      options = [water_chemistry_sampling].compact.collect { |aquatic_activity| [aquatic_activity.name, aquatic_activity.id] }
+      select('aquatic_site', 'data_set', options)
     end
 end

@@ -1,13 +1,12 @@
 class DataCollectionSitesController < ApplicationController  
-  layout 'application'
   helper DataCollectionSitesHelper
   
   active_scaffold :aquatic_site do |config|
     # columns
-    config.columns = [:incorporated, :id, :name, :description, :water_body_id, :water_body_name, :drainage_code, :name_and_description, :aquatic_activities, :location]        
-    config.list.columns = [:incorporated, :id, :agencies, :water_body_id, :water_body_name, :drainage_code, :name_and_description, :aquatic_activities]    
+    config.columns = [:incorporated, :id, :name, :description, :water_body_id, :water_body_name, :drainage_code, :name_and_description, :data_sets, :location]        
+    config.list.columns = [:incorporated, :id, :agencies, :water_body_id, :water_body_name, :drainage_code, :name_and_description, :data_sets]    
     config.show.columns = [:id, :name, :description, :water_body_id, :water_body_name, :drainage_code, :location]
-    config.search.columns = [:id, :name, :water_body_id, :water_body_name, :drainage_code, :aquatic_activities, :agencies]    
+    config.search.columns = [:id, :name, :water_body_id, :water_body_name, :drainage_code, :data_sets, :agencies]    
     [:create, :update].each do |action|  
       config.send(action).columns = [:name, :description]
       config.send(action).columns.add_subgroup "Waterbody" do |waterbody| 
@@ -29,7 +28,7 @@ class DataCollectionSitesController < ApplicationController
     config.columns[:drainage_code].label = 'Watershed Code'
     config.columns[:name].label = 'Site Name'
     config.columns[:name_and_description].label = 'Site Name & Description'  
-    config.columns[:aquatic_activities].label = 'Data'  
+    config.columns[:data_sets].label = 'Data'  
     
     # sql for search 
     config.columns[:id].search_sql = "#{AquaticSite.table_name}.#{AquaticSite.primary_key}"
@@ -37,7 +36,7 @@ class DataCollectionSitesController < ApplicationController
     config.columns[:water_body_id].search_sql = "#{Waterbody.table_name}.#{Waterbody.primary_key}"
     config.columns[:water_body_name].search_sql = "#{Waterbody.table_name}.#{Waterbody.column_for_attribute(:water_body_name).name}"
     config.columns[:drainage_code].search_sql = "#{Waterbody.table_name}.#{Waterbody.column_for_attribute(:drainage_cd).name}"  
-    config.columns[:aquatic_activities].search_sql = "#{AquaticActivity.table_name}.#{AquaticActivity.column_for_attribute(:aquatic_activity).name}"
+    config.columns[:data_sets].search_sql = "#{AquaticActivity.table_name}.#{AquaticActivity.column_for_attribute(:aquatic_activity).name}"
     config.columns[:agencies].search_sql = "#{Agency.table_name}.#{Agency.column_for_attribute(:agency_cd).name}"
     
     # sql for sorting 
@@ -75,8 +74,21 @@ class DataCollectionSitesController < ApplicationController
     end
   end
   
+  def select_data_set
+    @unattached_data_sets = AquaticSite.find(params[:id]).unattached_data_sets
+    respond_to do |wants|
+      wants.html { render :layout => false }
+    end
+  end
+  
   def add_data_set
-    unattached_data_sets = AquaticSite.find(params[:id]).unattached_data_sets
+    site     = AquaticSite.find params[:aquatic_site][:id]
+    activity = AquaticActivity.find params[:aquatic_site][:data_set]
+    agency   = current_user.agency   
+    
+  rescue Exception => exc
+    logger.error exc.message
+    render :text => 'An error occured while attempting to process your request.  Please try again later.'
   end
   
   def show_data_set_details

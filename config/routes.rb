@@ -1,5 +1,8 @@
 ActionController::Routing::Routes.draw do |map| 
-  map.resources :data_collection_site, :active_scaffold => true
+  map.resources :data_collection_sites, :active_scaffold => true do |sites|
+    sites.resources :data_sets, :active_scaffold => true
+  end
+  
   map.namespace :admin do |admin|
     admin.resources :aquatic_site, :active_scaffold => true
     admin.resources :agencies, :active_scaffold => true

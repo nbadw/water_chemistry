@@ -25,12 +25,21 @@
       </h2>
       <%= tabnav :main %>
     </div>
-    
+        
     <div id="content"> 
-      <div id="controller.action_name">
-        <%= yield %>
+      <div id="center">
+        <div id="center-content">
+          <%= yield %>
+        </div>
       </div>
-    </div>    
+      <div id="right">
+        <div id="right-content">
+          <h3>Profile</h3>
+          
+          <h3>Filters</h3>
+        </div>
+      </div>
+    </div>   
     
   </body>
 </html>
