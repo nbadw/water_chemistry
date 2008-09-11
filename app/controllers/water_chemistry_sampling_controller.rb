@@ -46,10 +46,10 @@ class WaterChemistrySamplingController < ApplicationController
   private  
   def create_aquatic_site_map
     @aquatic_site = AquaticSite.find params[:aquatic_site_id], :include => :waterbody
-    @aquatic_site_map = GMap.new("aquatic-site-map")
-    @aquatic_site_map.set_map_type_init(GMapType::G_HYBRID_MAP)
-    @aquatic_site_map.control_init(:small_zoom => true)
-    @aquatic_site_map.center_zoom_init([@aquatic_site.gmap_location.latitude, @aquatic_site.gmap_location.longitude], 6)
-    @aquatic_site_map.overlay_init(GMarker.new([@aquatic_site.gmap_location.latitude, @aquatic_site.gmap_location.longitude]))
+    #@aquatic_site_map = GMap.new("aquatic-site-map")
+    #@aquatic_site_map.set_map_type_init(GMapType::G_HYBRID_MAP)
+    #@aquatic_site_map.control_init(:small_zoom => true)
+    #@aquatic_site_map.center_zoom_init([@aquatic_site.gmap_location.latitude, @aquatic_site.gmap_location.longitude], 6)
+    #@aquatic_site_map.overlay_init(GMarker.new([@aquatic_site.gmap_location.latitude, @aquatic_site.gmap_location.longitude]))
   end
 end
