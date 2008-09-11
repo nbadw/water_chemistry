@@ -55,7 +55,7 @@ class AquaticActivityEvent < AquaticDataWarehouse::BaseTbl
     end
   end
      
-  belongs_to :aquatic_activity, :foreign_key => 'AquaticActivityID'
+  belongs_to :aquatic_activity, :foreign_key => 'AquaticActivityCd'
   belongs_to :aquatic_site, :foreign_key => 'AquaticSiteID'
   belongs_to :agency, :foreign_key => 'AgencyCd'
   belongs_to :secondary_agency, :class_name => 'Agency', :foreign_key => 'Agency2Cd'
@@ -66,4 +66,29 @@ class AquaticActivityEvent < AquaticDataWarehouse::BaseTbl
   #validates_inclusion_of :water_level, :in => self.water_level_options, :allow_nil => true, :allow_blank => true
   validates_presence_of  :aquatic_site, :aquatic_activity, :agency, :aquatic_activity_method, :start_date     
   
+  def start_date
+    date = aquatic_activity_start_date        
+    date_str = "#{date}, #{year}" if date && year
+    date_str = "#{date}" if date && year.nil?
+    date_str = "#{year}" if year && date.nil?
+    DateTime.parse(date_str).to_s(:adw) if date_str
+  end
+  
+  def start_date=(value)    
+    if value.is_a?(DateTime)
+      value = value.to_s(:adw)
+    elsif value.is_a?(String)
+      DateTime.parse(value).to_s(:adw)
+    else
+      value = nil
+    end
+    write_attribute("AquaticActivityStartDate", value)    
+  end
+  
+  
+  def before_save
+    write_attribute('IncorporatedInd', false) if incorporated_ind.nil?
+    write_attribute('PrimaryActivityInd', false) if primary_activity_ind.nil?
+    return self
+  end
 end

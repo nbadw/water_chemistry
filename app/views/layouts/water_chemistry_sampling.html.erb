@@ -9,11 +9,11 @@
     <!--[if IE]><%= stylesheet_link_merged :ie %><![endif]-->
     <%= javascript_include_merged :base %>
     <%= GMap.header %>
-    <%= @aquatic_site_map.to_html %>
+    <% # = @aquatic_site_map.to_html %>
   </head>
   <body id="water-chemistry-sampling">
     
-    <%= render :partial => 'application/header' %>
+    <%= render :partial => 'layouts/header' %>
     
     <div id="navigation">
       <h2 class="location">

@@ -1,7 +1,5 @@
-class DataSetsController < ApplicationController
-  before_filter :find_aquatic_site
+class DataSetsController < ApplicationController    
+  layout false
   
-  def index
-    render :text => 'test'
-  end  
+  active_scaffold :aquatic_activities
 end

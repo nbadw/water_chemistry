@@ -17,7 +17,7 @@
   </head>
   <body>
     
-    <%= render :partial => 'application/header' %>
+    <%= render :partial => 'layouts/header' %>
     
     <div id="navigation">
       <h2 class="location">
@@ -27,18 +27,29 @@
     </div>
         
     <div id="content"> 
+      <%= yield %>
+      <!--
       <div id="center">
         <div id="center-content">
-          <%= yield %>
+          
         </div>
       </div>
       <div id="right">
         <div id="right-content">
-          <h3>Profile</h3>
-          
           <h3>Filters</h3>
+          <ul>
+            <li><input type="checkbox"/><label>My Agency Only</label></li>
+            <li><input type="checkbox"/><label>My Area of Interest</label></li>
+          </ul>
+          <br/>
+          <h3>Area of Interest</h3>
+          <ul>
+            <li>None specified.</li>
+          </ul>
+          <a href="#">Edit</a>
         </div>
       </div>
+      -->
     </div>   
     
   </body>

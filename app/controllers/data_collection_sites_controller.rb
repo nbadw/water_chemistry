@@ -44,16 +44,18 @@ class DataCollectionSitesController < ApplicationController
     config.columns[:drainage_code].sort_by :sql => "#{Waterbody.table_name}.#{Waterbody.column_for_attribute(:drainage_cd).name}"
     config.columns[:water_body_id].sort_by :sql => "#{Waterbody.table_name}.#{Waterbody.primary_key}"
     config.columns[:water_body_name].sort_by :sql => "#{Waterbody.table_name}.#{Waterbody.column_for_attribute(:water_body_name).name}"
+    config.columns[:data_sets].sort = false
+    config.columns[:agencies].sort = false
         
     # action links
     #config.columns[:aquatic_activities].clear_link
     config.columns[:agencies].set_link('nested', :controller => 'agencies', :action => 'test')
     config.columns[:drainage_code].set_link('nested', :controller => 'data_collection_sites', :action => 'explain_drainage_code')
-    config.action_links.add 'toggle_area_of_interest', :label => 'Toggle Area of Interest'
+    #config.action_links.add 'toggle_area_of_interest', :label => 'Toggle Area of Interest'
     
     # list customizations
     config.list.sorting =[{ :drainage_code => :asc }]
-    config.list.per_page = 50
+    #config.list.per_page = 50
   end
   
   # TODO: this link will have to be rendered in a frontend view override

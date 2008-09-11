@@ -18,5 +18,5 @@ class Agency < AquaticDataWarehouse::BaseCd
   alias_attribute :code, :agency_cd
   alias_attribute :name, :agency
   
-  validates_presence_of :name
+  validates_presence_of :name  
 end
