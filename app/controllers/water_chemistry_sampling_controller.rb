@@ -11,6 +11,9 @@ class WaterChemistrySamplingController < ApplicationController
       :aquatic_activity_event_id => params[:aquatic_activity_event_id]
   end
   
+  def details    
+  end
+  
   def samples   
   end
     

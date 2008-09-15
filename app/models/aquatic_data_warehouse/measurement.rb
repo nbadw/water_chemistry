@@ -32,8 +32,6 @@ class Measurement < OandM
   validates_presence_of   :name
   validates_uniqueness_of :name
   
-  alias_attribute :grouping , :oand_m_group
-  
   def substrate_measurement?
     self.grouping.to_s == Measurement.grouping_for_substrate_measurements
   end
@@ -41,4 +39,8 @@ class Measurement < OandM
   def stream_measurement?
     self.grouping.to_s == Measurement.grouping_for_stream_measurements
   end
+  
+  named_scope :chemical_parameters, :conditions => { 'OandM_Category' => 'Water', 'OandM_Group' => 'Chemical' }
+  named_scope :water_measurements,  :conditions => { 'OandM_Category' => 'Water', 'OandM_Group' => 'Physical' }
+  named_scope :site_measurements,   :conditions => { 'OandM_Category' => ['Site', 'Aquatic Characteristic'] }
 end

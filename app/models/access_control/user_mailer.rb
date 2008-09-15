@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-  default_url_options[:host] = 'localhost'
+  default_url_options[:host] = 'http://cri.nbwaters.unb.ca'
   default_url_options[:port] = 3000
   
   def signup_notification(user)

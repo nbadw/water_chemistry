@@ -17,8 +17,6 @@
 
 class Observation < OandM
   has_many :observable_values, :foreign_key => 'OandMCd'
-  # fish passage blocked observations: 'Man-made dam', 'Habitat enhancement structure', 'Culvert', 'Active beaver dam', 'Inactive beaver dam', 'Large woody debris'
-  # observations needing text input:   'Pipe outfall'
       
   def other_observation?
     self.name.to_s.downcase == 'other'

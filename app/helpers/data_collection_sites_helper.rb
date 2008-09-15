@@ -12,8 +12,24 @@ module DataCollectionSitesHelper
     end
     
     def drainage_code_column(aquatic_site)
-      drainage_code = aquatic_site.waterbody.drainage_cd if aquatic_site.waterbody
-      drainage_code || '-'
+      return '-' unless aquatic_site.waterbody && aquatic_site.waterbody.drainage_unit
+      
+      waterbody, drainage_unit = aquatic_site.waterbody, aquatic_site.waterbody.drainage_unit      
+      text_id, tooltip_id = "drainage_code-#{aquatic_site.id}", "tooltip_drainage_code-#{aquatic_site.id}"
+      
+      text = "<span id=\"#{text_id}\">#{waterbody.drainage_cd}</span>"
+      
+      tooltip = tag('div', {:id => tooltip_id, :class=>'tooltip', :style => 'display:none'}, true)
+      tooltip << tag('div', {:id => "tooltip_content_#{tooltip_id}", :class=>'tooltip_content'}, true)
+      tooltip << drainage_unit.explain_drainage_code   
+      tooltip << '</div></div>'
+      
+      javascript = tag('script', { :type => 'text/javascript' }, true)
+      javascript << "$('#{text_id}').observe('mouseover', function(evt) { $('#{tooltip_id}').show(); });"
+      javascript << "$('#{text_id}').observe('mouseout',  function(evt) { $('#{tooltip_id}').hide(); });"
+      javascript << '</script>'
+      
+      text + tooltip + tooltip_css + javascript
     end
     
     def agencies_column(record)      

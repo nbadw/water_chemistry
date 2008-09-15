@@ -6,5 +6,4 @@ class MeasurementTest < OandMTest
   should_have_class_methods :grouping_for_substrate_measurements, :grouping_for_stream_measurements
     
   should_eventually "have bank measurement column"
-  should_have_instance_methods :grouping
 end

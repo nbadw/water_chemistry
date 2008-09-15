@@ -16,11 +16,12 @@ module AquaticDataWarehouse
         "#{base_name}Id"
       end
       
-      def reset_table_name
-        original_name = super
-        adw_name = "#{adw_prefix}#{original_name.singularize.camelize}"
-        set_table_name(adw_name)
-        adw_name
+      def reset_table_name        
+        name = super
+        # STI subclasses always use their superclass' table.
+        name = "#{adw_prefix}#{name.singularize.camelize}" if self == base_class
+        set_table_name(name)
+        name
       end
       
       def validates_location(*attr_names)

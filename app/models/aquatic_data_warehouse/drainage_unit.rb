@@ -29,4 +29,8 @@ class DrainageUnit < AquaticDataWarehouse::BaseTbl
   set_primary_key 'DrainageCd'
   
   has_many :waterbodies, :foreign_key => primary_key
+  
+  def explain_drainage_code
+    (1..6).collect{ |i| self.send("level#{i}_name") }.compact.join(' - ')
+  end
 end

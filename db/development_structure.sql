@@ -340,7 +340,7 @@ CREATE TABLE `permissions` (
   `created_at` datetime default NULL,
   `updated_at` datetime default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `roles` (
   `id` int(11) NOT NULL auto_increment,
@@ -348,7 +348,7 @@ CREATE TABLE `roles` (
   `created_at` datetime default NULL,
   `updated_at` datetime default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `rpttblbasinorderingscheme` (
   `Level1No` varchar(2) NOT NULL,
@@ -411,7 +411,7 @@ CREATE TABLE `tblanglinglicensesales` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1401 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tblaquaticactivity` (
-  `AquaticActivityID` int(10) NOT NULL,
+  `AquaticActivityID` int(10) NOT NULL auto_increment,
   `TempAquaticActivityID` int(10) default NULL,
   `Project` varchar(100) default NULL,
   `PermitNo` varchar(20) default NULL,
@@ -455,7 +455,7 @@ CREATE TABLE `tblaquaticactivity` (
   KEY `FisheriesSiteID` (`AquaticSiteID`),
   KEY `OldAquaticActivityID` (`TempAquaticActivityID`),
   KEY `oldAquaticSiteID` (`oldAquaticSiteID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=150641 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tblaquaticprogram` (
   `AquaticProgramID` int(10) NOT NULL,
@@ -1425,7 +1425,7 @@ CREATE TABLE `tblsample` (
   KEY `tblAquaticActivitytblSample` (`AquaticActivityID`),
   KEY `tblSampleWaterSourceType` (`WaterSourceType`),
   KEY `TempAquaticActivityID` (`TempAquaticActivityID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tblsatelliterearing` (
   `AquaticActivityID` int(10) NOT NULL,
@@ -1935,6 +1935,6 @@ CREATE TABLE `users` (
   `updated_at` datetime default NULL,
   `last_login` datetime default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 INSERT INTO schema_migrations (version) VALUES ('1');

@@ -1,0 +1,8 @@
+<dl>
+  <dt>
+    <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
+  </dt>
+  <dd>
+    <%= select("record", column.name, SampleCollectionMethod.find(:all).collect { |method| [method.sample_method, method.id] }) %>
+  </dd>
+</dl>

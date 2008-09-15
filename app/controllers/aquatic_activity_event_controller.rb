@@ -38,7 +38,8 @@ class AquaticActivityEventController < ApplicationController
 #    end
 #      
     config.update.link.inline = false
-    config.show.link.inline = false
+    config.show.link.inline = false    
+    config.action_links.add 'add_site_id', :label => 'Add Site ID'    
   end
   
   def find_aquatic_activity_methods
@@ -73,7 +74,7 @@ class AquaticActivityEventController < ApplicationController
   end
   
   def details
-    @record = AquaticActivityEvent.find params[:aquatic_activity_event_id]
+    @record = AquaticActivityEvent.find params[:aquatic_activity_event_id] 
     render :action => 'show', :layout => false
   end
   
