@@ -11,7 +11,7 @@ class RecordedObservationTest < ActiveSupport::TestCase
   should_have_db_column "FishPassageObstructionInd", :type => :boolean
   
   should_have_instance_methods :observation_id, :aquatic_activity_id, :oand_m_cd,
-    :oand_m_details, :oand_m_values_cd, :fish_passage_obstruction_ind, :observed_value
+    :oand_m_details, :oand_m_values_cd, :fish_passage_obstruction_ind, :value_observed
   
   should_belong_to :aquatic_activity_event
   should_belong_to :observation

@@ -8,8 +8,8 @@ class RecordedObservation < AquaticDataWarehouse::BaseTbl
   
   validates_presence_of :aquatic_activity_event, :observation
   
-  def observed_value
-    
+  def value_observed
+    oand_m_details
   end
   
   named_scope :for_aquatic_activity_event, lambda { |id| { :conditions => ['AquaticActivityID = ?', id], :include => :observation } }

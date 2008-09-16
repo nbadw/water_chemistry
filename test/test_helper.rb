@@ -42,6 +42,10 @@ class Test::Unit::TestCase
   # Add more helper methods to be used by all tests here...
   def login_as_admin
     login_as User.generate!(:login => 'admin', :password => 'test', :password_confirmation => 'test')
+  end  
+  
+  def login(username = 'user', password = 'password')
+    @controller.expects(:current_user).at_least(0).returns(User.new(:login => username, :password => password, :password_confirmation => password))
   end
   
   def with_constraints(constraints = {}) 
@@ -49,7 +53,12 @@ class Test::Unit::TestCase
   end
   
   def eid
-    'test_eid'
+    '0d4f9af30bbd1d13a1f3c480bb2c65f6'
+  end
+  
+  def get_with_eid(action, parameters = nil, session = nil, flash = nil)
+    parameters = { :eid => eid }.merge(parameters || {})
+    get action, parameters, session, flash
   end
 end
 

@@ -35,4 +35,8 @@ class OandM < AquaticDataWarehouse::BaseCd
     write_attribute('OandM_DetailsInd', false) if oand_m_details_ind.nil?
     return self
   end
+  
+  def self.finder_needs_type_condition? 
+    :true
+  end
 end

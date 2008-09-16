@@ -1,4 +1,5 @@
 class RecordedObservationsController < ApplicationController
+  helper RecordedObservationsHelper
   before_filter :find_observations, :only => [:new, :create, :edit, :update]
   
   active_scaffold :recorded_observation do |config|
@@ -35,11 +36,11 @@ class RecordedObservationsController < ApplicationController
   
   def on_observation_change
     observation = Observation.find params[:observation_id]
-    @record = SiteObservation.new(:observation => observation)
+    @record = RecordedObservation.new(:observation => observation)
     render :update do |page|   
       page.replace_html 'value_observed_input', :inline => '<%= value_observed_input(@record) %>'  
       page.show 'value_observed'
-      observation.fish_passage_blocked_observation? ? page.show('fish_passage_blocked') : page.hide('fish_passage_blocked')
+      observation.fish_passage_ind? ? page.show('fish_passage_blocked') : page.hide('fish_passage_blocked')
     end   
   end
   
