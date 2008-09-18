@@ -1,4 +1,8 @@
 <% @observations << @record.observation if @record.observation %>
+
+<% if controller.action_name == 'edit' %>
+  <input type="hidden" name="record[<%= column.name %>]" value="<%= @record.observation.id %>" />
+<% else %>
 <dl>
   <dt>
     <label for="record[<%= column.name %>]"><%= column.label %></label>
@@ -12,6 +16,7 @@
     </select>    
   </dd>
 </dl>
+<% end %>
 
 <%= observe_field(:selected_observation, :on => :change, :with => "observation_id", :url => { :action => :on_observation_change }) %>     
 
@@ -26,7 +31,7 @@
   </dl>
 </div>
 
-<div id="fish_passage_blocked" style="display: <%= @record.observation && @record.observation.fish_passage_blocked_observation? ? 'block' : 'none' %>; padding-top: 6px">
+<div id="fish_passage_blocked" style="display: <%= @record.observation && @record.observation.fish_passage_ind ? 'block' : 'none' %>; padding-top: 6px">
   <dl>
     <dt></dt>
     <dd><input name="record[fish_passage_blocked]" type="checkbox"/><span>Fish Passage Blocked?</span></dd>

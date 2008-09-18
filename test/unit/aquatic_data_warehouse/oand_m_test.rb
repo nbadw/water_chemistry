@@ -23,7 +23,7 @@ class OandMTest < ActiveSupport::TestCase
   should_alias_attribute :oand_m_values_ind, :values
   
   should_require_attributes :oand_m_parameter
-  
+    
   context "with an existing record" do
     setup do
       o_and_m = OandM.new
@@ -35,5 +35,9 @@ class OandMTest < ActiveSupport::TestCase
   
   should "use OandM_Type as inheritance column" do
     assert "OandM_Type", OandM.inheritance_column
+  end
+  
+  should "not be a subclass that needs an STI type condition" do
+    assert !OandM.finder_needs_type_condition?
   end
 end

@@ -27,7 +27,7 @@ class WaterChemistrySamplingControllerTest < ActionController::TestCase
     
     should "list of samples" do 
       AquaticSite.expects(:find).with('1', { :include => :waterbody }).returns(AquaticSite.new)
-      AquaticActivityEvent.expects(:find).times(2).with('1').returns(AquaticActivityEvent.new)      
+      AquaticActivityEvent.expects(:find).with('1').returns(AquaticActivityEvent.new)      
       get :samples, :aquatic_site_id => '1', :aquatic_activity_event_id => '1'
     end
   end

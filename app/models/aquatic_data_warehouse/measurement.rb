@@ -39,8 +39,12 @@ class Measurement < OandM
   def stream_measurement?
     self.grouping.to_s == Measurement.grouping_for_stream_measurements
   end
+    
+  def self.finder_needs_type_condition?
+    true
+  end
   
-  named_scope :chemical_parameters, :conditions => { 'OandM_Category' => 'Water', 'OandM_Group' => 'Chemical' }
+  named_scope :chemical, :conditions => { 'OandM_Category' => 'Water', 'OandM_Group' => 'Chemical' }
   named_scope :water_measurements,  :conditions => { 'OandM_Category' => 'Water', 'OandM_Group' => 'Physical' }
   named_scope :site_measurements,   :conditions => { 'OandM_Category' => ['Site', 'Aquatic Characteristic'] }
 end

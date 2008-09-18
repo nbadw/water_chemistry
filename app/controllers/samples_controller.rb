@@ -18,10 +18,14 @@ class SamplesController < ApplicationController
     config.columns[:water_source_type].label = "Water Source Type"
     config.columns[:analyzed_by].label = "Analyzed By"
     
-    config.columns[:aquatic_activity_id].search_sql = "#{Sample.table_name}.#{Sample.column_for_attribute(:aquatic_activity_id).name}"
-    
+    config.columns[:aquatic_activity_id].search_sql = "#{Sample.table_name}.#{Sample.column_for_attribute(:aquatic_activity_id).name}"    
     config.nested.add_link "Parameters", [:sample_results]
     
     #config.list.sorting =[{ :created_at => :asc }]    
+  end
+  
+  protected
+  def self.active_scaffold_controller_for(klass)
+    klass == WaterMeasurement ? RecordedChemicalsController : super
   end
 end

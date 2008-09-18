@@ -23,7 +23,7 @@ class WaterMeasurementTest < ActiveSupport::TestCase
   should_have_instance_methods :aquatic_activity_id, :temp_aquatic_activity_id, :temp_data_id, :temperature_logger_id, :habitat_unit_id,
     :sample_id, :water_source_cd, :water_depth_m, :timeof_day, :oand_m_cd, :instrument_cd, :measurement, :unitof_measure_cd, :qualifier_cd, :comment
   
-  should_belong_to :oand_m
+  should_belong_to :o_and_m
   should_belong_to :instrument
   should_belong_to :unit_of_measure  
   should_belong_to :sample

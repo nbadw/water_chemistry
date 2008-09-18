@@ -17,4 +17,8 @@ class ObservationTest < OandMTest
     ObservableValue.expects(:find).returns([])
     assert !observation.has_observable_values?
   end
+  
+  should "be a concrete subclass that needs an STI type condition" do
+    assert Observation.finder_needs_type_condition?
+  end
 end

@@ -3,6 +3,8 @@ ActionController::Routing::Routes.draw do |map|
     sites.resources :data_sets, :active_scaffold => true
   end
   
+  map.resources :recorded_chemicals, :active_scaffold => true
+  
   map.namespace :admin do |admin|
     admin.resources :aquatic_site, :active_scaffold => true
     admin.resources :agencies, :active_scaffold => true

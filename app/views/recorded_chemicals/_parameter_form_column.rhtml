@@ -1,0 +1,15 @@
+<% 
+@chemicals << @record.chemical if @record.chemical
+options = @chemicals.collect{ |chemical| [chemical.parameter, chemical.id] }
+selected = @record.chemical.id if @record.chemical
+%>
+<dl>
+  <dt>
+    <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
+  </dt>
+  <dd>
+    <select name="<%= "record_#{column.name}" %>">">
+      <%= options_for_select(options, selected) %>
+    </select>
+  </dd>
+</dl>

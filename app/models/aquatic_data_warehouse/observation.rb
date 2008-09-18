@@ -25,4 +25,12 @@ class Observation < OandM
   def has_observable_values?
     !self.observable_values.empty?
   end
+    
+  def self.finder_needs_type_condition?
+    true
+  end
+  
+  def group
+    oand_m_group || 'Misc.'
+  end
 end

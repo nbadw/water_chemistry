@@ -49,7 +49,7 @@ class DataCollectionSitesController < ApplicationController
         
     # action links
     #config.columns[:aquatic_activities].clear_link
-    config.columns[:agencies].set_link('nested', :controller => 'agencies', :action => 'test')
+    #config.columns[:agencies].set_link('nested', :controller => 'agencies', :action => 'test')
     #config.action_links.add 'Add Site ID', :type => :record
     config.action_links.add 'toggle_area_of_interest', :label => 'Toggle Area of Interest'
     config.action_links.add 'Add Data Set', :type => :record

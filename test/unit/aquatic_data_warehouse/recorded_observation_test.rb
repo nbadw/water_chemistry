@@ -22,4 +22,24 @@ class RecordedObservationTest < ActiveSupport::TestCase
   should "be able to create" do
     RecordedObservation.generate!
   end
+  
+  should "set OandMValuesCd column to value observed if observation has observable values" do
+    recorded_observation = RecordedObservation.new
+    observation = Observation.new
+    observation.expects(:has_observable_values?).returns(true)
+    recorded_observation.observation = observation
+    recorded_observation.value_observed = 5
+    assert_equal 5, recorded_observation.oand_m_values_cd
+    assert_nil recorded_observation.oand_m_details
+  end
+  
+  should "set OandM_Details column to value observed if observation does not has observable values" do
+    recorded_observation = RecordedObservation.new
+    observation = Observation.new
+    observation.expects(:has_observable_values?).returns(false)
+    recorded_observation.observation = observation
+    recorded_observation.value_observed = 5
+    assert_equal 5, recorded_observation.oand_m_details
+    assert_nil recorded_observation.oand_m_values_cd
+  end
 end

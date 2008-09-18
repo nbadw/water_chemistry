@@ -1,11 +1,20 @@
 module RecordedObservationsHelper
-  def observation_group_column(record)
-    record.observation.group || '-'
+  def group_column(recorded_observation)
+    recorded_observation.observation.group || '-'
   end
   
-  def fish_passage_blocked_column(record)
-    if record.observation.fish_passage_blocked_observation?
-      return record.fish_passage_blocked? ? 'Yes' : 'No'
+  def value_observed_column(recorded_observation)
+    if recorded_observation.observable_value 
+      value = recorded_observation.observable_value.value      
+    else
+      value = recorded_observation.value_observed
+    end
+    value || '-'
+  end
+  
+  def fish_passage_obstruction_ind_column(record)
+    if record.observation.fish_passage_ind
+      return record.fish_passage_obstruction_ind ? 'Yes' : 'No'
     end
 
     '-'
@@ -16,8 +25,8 @@ module RecordedObservationsHelper
   end
   
   def option_group_for_observations(group, observations, selected_observation = nil)
-    selected = selected_observation.id if selected_observation
-    optgroup = tag('optgroup', { :label => group.blank? ? 'Misc.' : group }, true)
+    selected = selected_observation.id if selected_observation    
+    optgroup = tag('optgroup', { :label => group }, true)
     optgroup << options_from_collection_for_select(observations_grouped_by(group, observations), :id, :name, selected)
     optgroup << '</optgroup>'
     optgroup
@@ -31,7 +40,7 @@ module RecordedObservationsHelper
     if observation = recorded_observation.observation
       if observation.has_observable_values?
         '<select name="record[value_observed]">' + 
-          options_from_collection_for_select(observation.observable_values, :value, :value, recorded_observation.value_observed) + 
+          options_from_collection_for_select(observation.observable_values, :id, :value, recorded_observation.value_observed) + 
         '</select>'
       else
         '<input name="record[value_observed]" type="text" class="text-input" value="' + recorded_observation.value_observed.to_s + '"/>'
