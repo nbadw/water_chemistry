@@ -105,6 +105,51 @@ module AquaticDataWarehouse
           end
         end
       end
+      
+      def validates_numericality_of(*attr_names)
+        configuration = { :on => :save, :only_integer => false, :allow_nil => false }
+        configuration.update(attr_names.extract_options!)
+
+        numericality_options = ALL_NUMERICALITY_CHECKS.keys & configuration.keys
+
+        (numericality_options - [ :odd, :even ]).each do |option|
+          raise ArgumentError, ":#{option} must be a number" unless configuration[option].is_a?(Numeric)
+        end
+
+        validates_each(attr_names,configuration) do |record, attr_name, value|
+          col_name = record.column_for_attribute(attr_name).name
+          raw_value = record.send("#{col_name}_before_type_cast") || value
+
+          next if configuration[:allow_nil] and raw_value.nil?
+
+          if configuration[:only_integer]
+            unless raw_value.to_s =~ /\A[+-]?\d+\Z/
+              record.errors.add(attr_name, configuration[:message] || ActiveRecord::Errors.default_error_messages[:not_a_number])
+              next
+            end
+            raw_value = raw_value.to_i
+          else
+           begin
+              raw_value = Kernel.Float(raw_value.to_s)
+            rescue ArgumentError, TypeError
+              record.errors.add(attr_name, configuration[:message] || ActiveRecord::Errors.default_error_messages[:not_a_number])
+              next
+            end
+          end
+
+          numericality_options.each do |option|
+            case option
+              when :odd, :even
+                record.errors.add(attr_name, configuration[:message] || ActiveRecord::Errors.default_error_messages[option]) unless raw_value.to_i.method(ALL_NUMERICALITY_CHECKS[option])[]
+              else
+                message = configuration[:message] || ActiveRecord::Errors.default_error_messages[option]
+                message = message % configuration[option] if configuration[option]
+                record.errors.add(attr_name, message) unless raw_value.method(ALL_NUMERICALITY_CHECKS[option])[configuration[option]]
+            end
+          end
+        end
+      end
+      
     end
   end
 end

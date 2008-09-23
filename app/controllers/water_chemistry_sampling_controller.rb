@@ -24,26 +24,19 @@ class WaterChemistrySamplingController < ApplicationController
   end
   
   def results    
-    samples = WaterChemistrySample.find_all_by_aquatic_activity_event_id params[:aquatic_activity_event_id], :include => [:water_chemistry_sample_results, :water_chemistry_parameters]    
-#    columns_hash = {}
-#    column_klass = Struct.new(:name, :rows)
-#    samples.collect do |sample|
-#      sample_no = columns_hash[:sample_no] || []
-#      sample_no << "Sample: #{sample.agency_sample_no || '?'}"
-#      results = sample.water_chemistry_sample_results
-#      
-#    end
+    samples = Sample.for_aquatic_activity_event(params[:aquatic_activity_event_id])    
     
-    @columns = samples.collect{ |sample| sample.water_chemistry_parameters }.flatten.uniq.collect{ |parameter| parameter.code }
+    @columns = samples.collect{ |sample| sample.sample_results }.flatten.uniq.collect{ |result| result.chemical.parameter_cd }
     @rows = samples.collect do |sample|
       row = []
-      results = sample.water_chemistry_sample_results.to_a
+      results = sample.sample_results.to_a
       @columns.each do |column|
-        result = results.find { |result| result.water_chemistry_parameter.code == column }
-        row << (result ? "#{result.value} #{result.qualifier}".strip : nil)
+        result = results.find { |result| result.chemical.parameter_cd == column }
+        row << (result ? "#{result.measurement} #{result.qualifier.id if result.qualifier}".strip : nil)
       end
       row
     end  
+    @qualifiers = samples.collect { |sample| sample.sample_results.collect { |water_meas| water_meas.qualifier } }.flatten.compact.uniq    
   end
   
   private  

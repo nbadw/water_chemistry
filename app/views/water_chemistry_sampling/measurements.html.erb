@@ -1,7 +1,7 @@
 <%= render :active_scaffold => 'site_measurements', :constraints => { 
-  :aquatic_site_id => params[:aquatic_site_id], :aquatic_activity_event_id => params[:aquatic_activity_event_id] 
+  :aquatic_activity_event_id => params[:aquatic_activity_event_id] 
 } %>
 
 <%= render :active_scaffold => 'water_measurements', :constraints => { 
-  :aquatic_site_id => params[:aquatic_site_id], :aquatic_activity_event_id => params[:aquatic_activity_event_id] 
+  :aquatic_activity_event_id => params[:aquatic_activity_event_id] 
 } %>

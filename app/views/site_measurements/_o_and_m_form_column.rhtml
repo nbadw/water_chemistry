@@ -1,0 +1,17 @@
+<% @measurements << @record.o_and_m if @record.o_and_m %>
+<dl class="override">
+  <dt>
+    <label for="record[<%= column.name %>]"><%= column.label %></label>
+  </dt>
+  <dd>
+    <select id="o_and_m" name="record[<%= column.name %>]">
+      <option></option>
+      <% group(@measurements).each do |group| %>
+        <optgroup label="<%= group == '' ? 'Misc.' : group %>">
+          <%= options_from_collection_for_select(measurements_grouped_by(group, @measurements), :id, :name, @record.o_and_m ? @record.o_and_m.id : nil) %>
+        </optgroup>
+      <% end %>
+    </select>
+  </dd>
+</dl>
+<%= observe_field :o_and_m, :on => :change, :with => 'o_and_m_id', :url => { :action => :on_measurement_change } %>

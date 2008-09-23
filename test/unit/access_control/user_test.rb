@@ -4,6 +4,8 @@ class UserTest < Test::Unit::TestCase
   should_belong_to :agency
   should_require_attributes :login, :email, :password, :password_confirmation, :agency
   
+  should_eventually "have a name column"
+  should_eventually "have name instance method"
   should_eventually "have db column :area_of_interest"
   should_eventually "have instance method :area_of_interest"
   

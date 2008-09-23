@@ -17,6 +17,6 @@ class UnitOfMeasure < AquaticDataWarehouse::BaseCd
   alias_attribute :abbrev, :unitof_measure_abv
   
   def name_and_unit
-    "#{name} (#{unit})"
+    "#{name} (#{abbrev})"
   end
 end

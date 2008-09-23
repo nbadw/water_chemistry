@@ -2,13 +2,17 @@ require "fileutils"
 
 namespace :metrics do
   desc "Generate coverage, cyclomatic complexity, flog, and stats reports"
-  task :all => [:coverage, :cyclomatic_complexity, :flog, :stats]
+  task :all => [:coverage, :cyclomatic_complexity, :flog, :stats, :simian]
   
   desc "Generate a coverage report using rcov"
   task :coverage do
     rm_f "coverage.data"
     paths = defined?(TEST_PATHS_FOR_RCOV) ? TEST_PATHS_FOR_RCOV : ['test/**/*_test.rb']
     paths.each { |path| execute_rcov(path) }
+  end
+  
+  task :simian do
+    
   end
   
   def execute_rcov(test_list)

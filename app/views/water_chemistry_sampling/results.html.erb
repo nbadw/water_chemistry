@@ -17,4 +17,17 @@
       <% end %>
     </tbody>
   </table>
+  
+  <div class="qualifier-legend" style="margin-top: 1em;">
+    <h3 class="title" style="font-weight: bold; text-decoration: underline; margin-bottom: 5px;">Qualifiers:</h3>
+    <ul class="qualifiers">
+      <% @qualifiers.each do |qualifier| %>
+        <dl class="qualifier">
+          <dt style="float: left; width: 2em; font-family: monospace; padding: 1px 2px;" class="code"><%= qualifier.id %></dt>
+          <dd style="float: left;" class="desc"><%= qualifier.name %></dd>
+        </dl>
+        <div style="clear: left; margin-bottom: 5px;"></div>
+      <% end %>
+    </ul>
+  </div>
 </div>

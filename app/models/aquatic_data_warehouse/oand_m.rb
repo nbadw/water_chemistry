@@ -24,8 +24,9 @@ class OandM < AquaticDataWarehouse::BaseCd
   alias_attribute :category, :oand_m_category
   alias_attribute :group, :oand_m_group
   alias_attribute :values, :oand_m_values_ind
+  alias_attribute :parameter_cd, :oand_m_parameter_cd
   
-  validates_presence_of :oand_m_parameter
+  validates_presence_of   :oand_m_parameter
   validates_uniqueness_of :oand_m_parameter  
   
 #  def before_save

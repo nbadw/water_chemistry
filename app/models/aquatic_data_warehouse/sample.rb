@@ -20,4 +20,10 @@ class Sample < AquaticDataWarehouse::BaseTbl
   belongs_to :aquatic_activity, :foreign_key => 'AquaticActivityID'
   belongs_to :sample_collection_method, :foreign_key => 'SampleCollectionMethodCd'
   has_many   :sample_results, :class_name => 'WaterMeasurement', :foreign_key => 'SampleID'
+  
+  def to_label
+    "Sample ##{id}"
+  end
+  
+  named_scope :for_aquatic_activity_event, lambda { |id| { :conditions => ['AquaticActivityID = ?', id], :include => [:sample_results] } }
 end

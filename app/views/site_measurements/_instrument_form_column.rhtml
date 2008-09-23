@@ -1,0 +1,12 @@
+<% 
+instruments = @record.o_and_m ? @record.o_and_m.instruments.collect{ |instrument| [instrument.name, instrument.instrument_cd] } : [] 
+selected = @record.instrument ? @record.instrument.id.to_s : nil
+%>
+<dl class="override" id="<%= column.name %>" style="display: <%= @record.o_and_m ? 'block' : 'none' %>">
+  <dt>
+    <label for="record[<%= column.name %>]"><%= column.label %></label>
+  </dt>
+  <dd>
+    <%= select("record", column.name, instruments, { :selected => selected }, { :id => "record[#{column.name}]" }) %>    
+  </dd>
+</dl>

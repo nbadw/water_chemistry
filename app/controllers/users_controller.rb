@@ -38,6 +38,10 @@ class UsersController < ApplicationController
     render :action => 'new'
   end
   
+  def profile
+    @user = current_user
+  end
+  
   def edit
     @user = current_user
   end

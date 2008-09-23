@@ -26,8 +26,8 @@ Rails::Initializer.run do |config|
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "aws-s3", :lib => "aws/s3"  
   config.gem "ZenTest"
-  config.gem "adapter_extensions"
-  config.gem "activewarehouse-etl", :lib => 'etl'
+  config.gem "hpricot", :source => "http://code.whytheluckystiff.net"
+  config.gem "highline"
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.

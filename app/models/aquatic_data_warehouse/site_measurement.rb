@@ -1,68 +1,60 @@
-# == Schema Information
-# Schema version: 1
-#
-# Table name: site_measurements
-#
-#  id                        :integer(11)     not null, primary key
-#  aquatic_site_id           :integer(11)     
-#  aquatic_activity_event_id :integer(11)     
-#  measurement_id            :integer(11)     
-#  instrument_id             :integer(11)     
-#  unit_of_measure_id        :integer(11)     
-#  value_measured            :string(255)     
-#  imported_at               :datetime        
-#  exported_at               :datetime        
-#  created_at                :datetime        
-#  updated_at                :datetime        
-#  bank                      :string(255)     
-#
+class SiteMeasurement < AquaticDataWarehouse::BaseTbl
+  LEFT_BANK  = "Left".freeze
+  RIGHT_BANK = "Right".freeze
 
-class SiteMeasurement < AquaticDataWarehouse::Base
-  LEFT_BANK  = "Left"
-  RIGHT_BANK = "Right"
+  set_primary_key 'SiteMeasurementID'
   
-  belongs_to :aquatic_site
-  belongs_to :aquatic_activity_event
-  belongs_to :measurement
-  belongs_to :instrument
-  belongs_to :unit_of_measure
+  belongs_to :o_and_m, :class_name => 'Measurement', :foreign_key => 'OandMCd'
+  belongs_to :instrument, :foreign_key => 'InstrumentCd'
+  belongs_to :unit_of_measure, :foreign_key => 'UnitofMeasureCd'
+  belongs_to :aquatic_activity_event, :foreign_key => 'AquaticActivityID'
+
+  validates_presence_of :aquatic_activity_event, :o_and_m, :instrument, :unit_of_measure, :measurement
   
-  validates_presence_of :aquatic_site, :aquatic_activity_event, :measurement, :instrument, :unit_of_measure, :value_measured
-  validates_inclusion_of :bank, :in => [LEFT_BANK, RIGHT_BANK], :if => Proc.new { |site_measurement| site_measurement.measurement.bank_measurement? if site_measurement.measurement }
-  validates_numericality_of :value_measured
-  
+  named_scope :for_aquatic_activity_event, lambda { |id| { :conditions => ['AquaticActivityID = ?', id], :include => :o_and_m } }
+    
+  validates_inclusion_of :bank, :in => [LEFT_BANK, RIGHT_BANK], :if => Proc.new { |site_measurement| site_measurement.o_and_m.bank_measurement? if site_measurement.o_and_m }
+  validates_numericality_of :measurement
+
   def to_label
-    self.measurement.name if self.measurement
+    o_and_m.name if o_and_m
   end
   
-  class << self    
+  class << self   
+    def recorded_measurements(aquatic_activity_event_id)
+      site_measurements = self.for_aquatic_activity_event(aquatic_activity_event_id)
+      remove_bank_measurements_with_no_complement(site_measurements)
+      recorded = site_measurements.collect do |site_meas|
+        measurement = Measurement.new(site_meas.o_and_m.attributes)
+        measurement.id = site_meas.o_and_m.oand_m_cd
+        measurement
+      end
+    end
+  
     def calculate_bank_accounted_for(aquatic_activity_event_id)
-      conditions = ["#{self.table_name}.aquatic_activity_event_id = ? && #{Measurement.table_name}.bank_measurement = ?", aquatic_activity_event_id, true]
-      collected_sums = self.sum(:value_measured, :select => :value_measured, :include => :measurement, :conditions => conditions, :group => "#{Measurement.table_name}.name")
+      conditions = [
+        "#{self.table_name}.AquaticActivityID = ? AND #{Measurement.table_name}.BankInd = ?", 
+        aquatic_activity_event_id, true        
+      ]
+      collected_sums = self.sum(:measurement, :select => :measurement, :include => :o_and_m, :conditions => conditions, :group => "#{Measurement.table_name}.OandM_Parameter")
       collected_sums.each { |name, val| collected_sums[name] = val.to_f }
     end
     
     def calculate_substrate_accounted_for(aquatic_activity_event_id)
-      sum_values_observed(aquatic_activity_event_id, Measurement.grouping_for_substrate_measurements)
+      sum_values_observed(aquatic_activity_event_id, Measurement.substrate_measurements_group)
     end
     
     def calculate_stream_accounted_for(aquatic_activity_event_id)
-      sum_values_observed(aquatic_activity_event_id, Measurement.grouping_for_stream_measurements)
+      sum_values_observed(aquatic_activity_event_id, Measurement.stream_measurements_group)
     end
     
     def sum_values_observed(aquatic_activity_event_id, group)
-      conditions = ["#{self.table_name}.aquatic_activity_event_id = ? AND #{Measurement.table_name}.grouping = ?", aquatic_activity_event_id, group]
-      self.sum(:value_measured, :select => :value_measured, :include => :measurement, :conditions => conditions).to_f
+      conditions = ["#{self.table_name}.AquaticActivityID = ? AND #{Measurement.table_name}.OandM_Group = ?", aquatic_activity_event_id, group]
+      self.sum(:measurement, :select => :measurement, :include => :o_and_m, :conditions => conditions).to_f
     end
-    
-    def find_recorded_measurements(aquatic_activity_event_id)
-      site_measurements = SiteMeasurement.find_all_by_aquatic_activity_event_id(aquatic_activity_event_id, :include => :measurement)          
-      recorded_measurements = remove_bank_measurements_with_no_complement(site_measurements)
-      recorded_measurements
-    end   
-        
+            
     def remove_bank_measurements_with_no_complement(site_measurements)
-      recorded_measurements = site_measurements.collect{ |site_measurement| site_measurement.measurement }
+      recorded_measurements = site_measurements.collect{ |site_measurement| site_measurement.o_and_m }
       recorded_bank_measurements = left_bank_measurements(site_measurements) & right_bank_measurements(site_measurements)
       recorded_measurements.collect do |measurement|
         if measurement.bank_measurement?
@@ -82,7 +74,7 @@ class SiteMeasurement < AquaticDataWarehouse::Base
   
     def collect_bank_measurements(side, site_measurements)
       site_measurements.collect do |site_measurement|
-        measurement = site_measurement.measurement
+        measurement = site_measurement.o_and_m
         measurement if measurement.bank_measurement? && site_measurement.bank.to_s == side
       end.compact
     end

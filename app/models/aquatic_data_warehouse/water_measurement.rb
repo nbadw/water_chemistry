@@ -28,8 +28,20 @@ class WaterMeasurement < AquaticDataWarehouse::BaseTbl
   belongs_to :instrument, :foreign_key => 'InstrumentCd'
   belongs_to :unit_of_measure, :foreign_key => 'UnitofMeasureCd'
   belongs_to :sample, :foreign_key => 'SampleID'
+  belongs_to :qualifier, :foreign_key => 'QualifierCd'
+  
+  validates_presence_of :o_and_m, :measurement
+  validates_numericality_of :measurement
   
   named_scope :for_sample, lambda { |id| { :conditions => ['SampleID = ?', id], :include => :o_and_m } }
+  
+  def self.recorded_chemicals(sample_id)
+    self.for_sample(sample_id).collect do |water_meas|
+      chemical = Measurement.new(water_meas.chemical.attributes)
+      chemical.id = water_meas.chemical.oand_m_cd
+      chemical
+    end
+  end
   
   def chemical
     o_and_m

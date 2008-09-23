@@ -27,6 +27,10 @@ class WaterMeasurementTest < ActiveSupport::TestCase
   should_belong_to :instrument
   should_belong_to :unit_of_measure  
   should_belong_to :sample
+  should_belong_to :qualifier
+  
+  should_require_attributes :o_and_m, :measurement
+  should_only_allow_numeric_values_for :measurement
   
   should_eventually "create/read/update/delete" do
 #    agency = Agency.spawn

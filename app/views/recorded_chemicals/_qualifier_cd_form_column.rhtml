@@ -1,0 +1,9 @@
+<% qualifier_options = Qualifier.all.collect { |qualifier| ["#{qualifier.id} - #{qualifier.name}", qualifier.id] } %>
+<dl>
+  <dt>
+    <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
+  </dt>
+  <dd>
+    <%= select('record', column.name, qualifier_options, { :include_blank => true }) %>
+  </dd>
+</dl>

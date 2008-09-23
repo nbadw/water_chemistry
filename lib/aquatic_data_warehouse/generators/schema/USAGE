@@ -1,5 +1,0 @@
-The Aquatic Data Warehouse schema generator creates ruby schema files for both
-loading and dropping the database.  
-
-!!! This should only be used in the installer script, not using the script/generate command
-      

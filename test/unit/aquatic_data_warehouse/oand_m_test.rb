@@ -21,6 +21,7 @@ class OandMTest < ActiveSupport::TestCase
   should_alias_attribute :oand_m_parameter, :name
   should_alias_attribute :oand_m_parameter, :parameter
   should_alias_attribute :oand_m_values_ind, :values
+  should_alias_attribute :oand_m_parameter_cd, :parameter_cd
   
   should_require_attributes :oand_m_parameter
     

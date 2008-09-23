@@ -51,7 +51,6 @@ class RecordedObservationsController < ApplicationController
   # May be overridden to customize the behavior (add default values, for instance)
   def do_new
     @record = active_scaffold_config.model.new
-    #apply_constraints_to_record(@record)
     @record
   end
   

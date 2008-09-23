@@ -17,11 +17,11 @@
 
 class Measurement < OandM
   class << self    
-    def grouping_for_substrate_measurements
+    def substrate_measurements_group
       'Substrate Type'
     end
     
-    def grouping_for_stream_measurements
+    def stream_measurements_group
       'Stream Type'
     end
   end
@@ -29,22 +29,23 @@ class Measurement < OandM
   has_and_belongs_to_many :instruments, :join_table => 'cdmeasureinstrument', :foreign_key => 'OandMCd', :association_foreign_key => 'InstrumentCd'
   has_and_belongs_to_many :units_of_measure, :join_table => 'cdmeasureunit', :class_name => 'UnitOfMeasure', :foreign_key => 'OandMCd', :association_foreign_key => 'UnitofMeasureCd'
   
-  validates_presence_of   :name
-  validates_uniqueness_of :name
-  
   def substrate_measurement?
-    self.grouping.to_s == Measurement.grouping_for_substrate_measurements
+    group.to_s == Measurement.substrate_measurements_group
   end
   
   def stream_measurement?
-    self.grouping.to_s == Measurement.grouping_for_stream_measurements
+    group.to_s == Measurement.stream_measurements_group
+  end
+  
+  def bank_measurement?
+    bank_ind
   end
     
   def self.finder_needs_type_condition?
     true
   end
   
-  named_scope :chemical, :conditions => { 'OandM_Category' => 'Water', 'OandM_Group' => 'Chemical' }
-  named_scope :water_measurements,  :conditions => { 'OandM_Category' => 'Water', 'OandM_Group' => 'Physical' }
-  named_scope :site_measurements,   :conditions => { 'OandM_Category' => ['Site', 'Aquatic Characteristic'] }
+  named_scope :chemicals, :conditions => { 'OandM_Category' => 'Water', 'OandM_Group' => 'Chemical' }
+  named_scope :water,  :conditions => { 'OandM_Category' => 'Water', 'OandM_Group' => 'Physical' }
+  named_scope :site,   :conditions => { 'OandM_Category' => ['Site', 'Aquatic Characteristic'] }
 end
