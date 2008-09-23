@@ -27,7 +27,8 @@ namespace :db do
     AquaticDataWarehouse::Setup.bootstrap(
       :admin_name => ENV['ADMIN_NAME'],
       :admin_username => ENV['ADMIN_USERNAME'],
-      :admin_password => ENV['ADMIN_PASSWORD']
+      :admin_password => ENV['ADMIN_PASSWORD'],
+      :admin_agency => ENV['ADMIN_AGENCY']
     )
   end
 end

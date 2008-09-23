@@ -1,5 +1,6 @@
 require "highline"
 require "forwardable"
+require "agency"
 
 module AquaticDataWarehouse
   class Setup  
@@ -14,21 +15,22 @@ module AquaticDataWarehouse
     attr_accessor :config  
     
     def bootstrap(config) 
-      create_admin_user(config[:admin_name], config[:admin_username], config[:admin_password])
       announce "Populating database tables (this may take awhile...)"
       populate_aquatic_data_warehouse  
       populate_coordinate_systems
-      populate_coordinate_sources    
+      populate_coordinate_sources  
+      create_admin_user(config[:admin_name], config[:admin_username], config[:admin_password], config[:admin_agency])  
       announce "Finished.\n\n"
     end
         
     private   
-    def create_admin_user(name, username, password)
+    def create_admin_user(name, username, password, agency)      
       unless name and username and password
         announce "Create the admin user (press enter for defaults)."
         name = prompt_for_admin_name unless name
         username = prompt_for_admin_username unless username
         password = prompt_for_admin_password unless password
+        agency = prompt_for_admin_agency unless agency
       end
       attributes = {
         :name => name,
@@ -36,7 +38,7 @@ module AquaticDataWarehouse
         :password => password,
         :password_confirmation => password,
         :admin => true,
-        :agency => Agency.create(:agency_cd => 'ADW', :agency => 'NB Aquatic Data Warehouse', :agency_type => 'NGO', :data_rules_ind => 'N')
+        :agency => Agency.find(agency)
       }
       admin = User.find_by_login(username) || User.new      
       admin.update_attributes(attributes)
@@ -86,8 +88,7 @@ module AquaticDataWarehouse
       password = db_config['password']
       database = db_config['database']
       filename = File.expand_path(import_script) 
-      mysql = "C:\\wamp\\bin\\mysql\\mysql5.0.51b\\bin\\mysql"
-      command = "#{mysql} --user=#{username} --password=#{password} #{database} < \"#{filename}\""
+      command = "mysql --user=#{username} --password=#{password} #{database} < \"#{filename}\""
       
       ok = system(command)
       raise "Could not execute command '#{command}'.  Please make sure the command is on your environment PATH." unless ok   
@@ -137,6 +138,16 @@ module AquaticDataWarehouse
       end
       password = "DEapp" if password.blank?
       password
+    end
+    
+    def prompt_for_admin_agency
+      agency = ask('Agency (ADW): ', String) do |q|
+        q.validate = /^.{3,5}$/
+        q.responses[:not_valid] = "Invalid agency code. Must be between 3-5 characters."
+        q.whitespace = :strip
+      end
+      agency = "ADW" if agency.blank?
+      agency
     end
       
     extend Forwardable
