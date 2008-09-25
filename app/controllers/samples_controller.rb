@@ -7,6 +7,7 @@ class SamplesController < ApplicationController
     config.columns = [:id, :aquatic_activity_id, :agency_sample_no, :sample_collection_method, :sample_depth_m, :water_source_type, :analyzed_by, :sample_results]
     config.list.columns = [:id, :agency_sample_no, :sample_collection_method, :sample_depth_m, :water_source_type, :analyzed_by]
     config.show.columns = [:id, :agency_sample_no, :sample_collection_method, :sample_depth_m, :water_source_type, :analyzed_by]    
+    config.create.columns = [:agency_sample_no, :sample_collection_method, :sample_depth_m, :water_source_type, :analyzed_by] 
     
     config.create.columns.exclude :sample_results
     

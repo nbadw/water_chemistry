@@ -1,10 +1,64 @@
-<h2>Edit Your Account</h2>
-<p><%= link_to 'Show Profile', user_path(@user) %> | <%= link_to 'Change Password', change_password_path %></p>
-<%= error_messages_for :user %>
-     
-<% form_for :user, :url => user_url(@user), :html => { :method => :put } do |f| %>
-  <p>Email:<br /><%= f.text_field :email, :size => 60 %></p>
+<div id="edit-user" class="active-scaffold">
+  <% if flash[:error] %>
+    <div class="error">     
+      <%= error_messages_for :user %>
+    </div>
+  <% end %>
+  
+  <% if flash[:notice] %>
+    <div class="notice">
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
+  
+  <% form_for current_user do |f| %>
 
-  <%= submit_tag 'Save' %>
-<% end %>
-
+    <h3 class="name" style="border-bottom: 1px solid black; font-family:verdana; font-size:16px; font-weight:bold; margin-bottom:10px;">Account Details</h3>
+    <ol class="form">
+      <li class="form-element">
+        <dl>
+          <dt><label for="agency">Agency:</label></dt>
+          <dd><%= agency_dropdown %></dd>
+        </dl>
+      </li>
+      <li class="form-element">
+        <dl>
+          <dt><label for="login">Username:</label></dt>
+          <dd><%= f.text_field :login, :class => 'text-input' %></dd>
+        </dl>
+      </li>
+      <li class="form-element">
+        <dl>
+          <dt><label for="email">Email:</label></dt>
+          <dd><%= f.text_field :email, :class => 'text-input' %></dd>
+        </dl>
+      </li>
+      <li class="form-element">
+        <dl>
+          <dt><label for="password">Change Password:</label></dt>
+          <dd><%= f.password_field :password, :class => 'text-input' %></dd>
+        </dl>
+      </li>
+      <li class="form-element">
+        <dl>
+          <dt><label for="password_confirmation">Confirm New Password:</label></dt>
+          <dd><%= f.password_field :password_confirmation, :class => 'text-input' %></dd>
+        </dl>
+      </li>
+    </ol>    
+    <div style="clear: both; padding: 10px;"></div>
+    
+    <h3 class="name" style="border-bottom: 1px solid black; font-family:verdana; font-size:16px; font-weight:bold; margin-bottom:10px;">Watershed(s) of Interest *(help info)</h3>    
+    <ol class="form">
+      <li class="form-element">
+          <%= render :partial => 'widgets/waterbody_autocomplete', :locals => { :waterbody => nil } %>
+      </li>
+    </ol>
+    <div style="clear: both; padding: 5px;"></div>
+    
+    <p class="form-footer">  
+      <%= submit_tag 'Save Changes', :class => 'submit' %>
+      <a class="cancel" href="<%= @previous_location  %>">Cancel</a>
+    </p>
+  <% end %>
+</div>

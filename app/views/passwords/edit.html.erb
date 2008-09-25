@@ -1,8 +1,38 @@
-<% form_tag url_for(:action => "update", :id => params[:id]) do %>
-  New Password:<br />
-  <%= password_field_tag :password %><br />
-  Confirm New Password:<br />
-  <%= password_field_tag :password_confirmation %><br />
-  <%= submit_tag "Reset Your Password" %>
-<% end %>
-
+<div id="reset-password" class="active-scaffold">
+  <h1 style="margin-bottom: 10px;">Password Reset</h1>
+  
+  <% if flash[:error] %>
+    <div class="error">     
+      <%= flash[:error] %>
+    </div>
+  <% end %>
+  
+  <% if flash[:notice] %>
+    <div class="notice">
+      <%= flash[:notice] %>
+    </div>
+  <% end %>  
+  
+  <% form_tag url_for(:action => "update", :id => params[:id]) do %>
+  
+    <ol class="form">
+      <li class="form-element">
+        <dl>
+          <dt><label>New Password</label></dt>
+          <dd><%= password_field_tag :password, nil, :class => 'text-input' %></dd>
+        </dl>
+      </li>
+      <li class="form-element">
+        <dl>
+          <dt><label>Confirm New Password</label></dt>
+          <dd><%= password_field_tag :password_confirmation, nil, :class => 'text-input' %></dd>
+        </dl>
+      </li>
+    </ol>
+  
+    <p class="form-footer">  
+      <%= submit_tag 'Reset Your Password', :class => 'submit' %>
+      <%= link_to 'Cancel', login_url %>
+    </p>
+  <% end %>
+</div>

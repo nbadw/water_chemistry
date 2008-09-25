@@ -1,0 +1,8 @@
+<dl class="override">
+  <dt>
+    <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
+  </dt>
+  <dd>
+    <%= select("record", column.name, WaterSource.all.collect { |source| [source.name, source.id] }) %>
+  </dd>
+</dl>

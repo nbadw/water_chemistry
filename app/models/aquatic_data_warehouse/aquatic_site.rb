@@ -65,10 +65,10 @@ class AquaticSite < AquaticDataWarehouse::BaseTbl
 #  def check_if_in_use
 #    raise(AquaticSiteInUse, "Site is in use, record cannot be deleted") unless self.aquatic_site_usages.empty?
 #  end
-  def before_save
-    write_attribute('IncorporatedInd', false) if incorporated_ind.nil?
-    return self
-  end
+#  def before_save
+#    write_attribute('IncorporatedInd', false) if incorporated_ind.nil?
+#    return self
+#  end
   
   def attached_data_sets
     aquatic_activities.uniq

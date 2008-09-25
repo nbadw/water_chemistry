@@ -48,11 +48,8 @@ class DataCollectionSitesController < ApplicationController
     config.columns[:agencies].sort = false
         
     # action links
-    #config.columns[:aquatic_activities].clear_link
-    #config.columns[:agencies].set_link('nested', :controller => 'agencies', :action => 'test')
-    #config.action_links.add 'Add Site ID', :type => :record
+    config.columns[:aquatic_activities].clear_link
     config.action_links.add 'toggle_area_of_interest', :label => 'Toggle Area of Interest'
-    config.action_links.add 'Add Data Set', :type => :record
     
     # list customizations
     config.list.sorting =[{ :drainage_code => :asc }]
@@ -101,20 +98,7 @@ class DataCollectionSitesController < ApplicationController
   def gmap_max_content    
     render :inline => "<%= render :active_scaffold => 'tbl_aquatic_site', :conditions => ['#{AquaticSite.table_name}.aquaticsiteid = ?', params[:id]], :label => '' %>"
   end
-  
-  def explain_drainage_code
-    aquatic_site = AquaticSite.find params[:id]
-    waterbody = aquatic_site.waterbody
-    drainage_unit = waterbody.drainage_unit if waterbody
-    if drainage_unit
-      names = []
-      (1..6).each { |i| names << drainage_unit.send("level#{i}_name") }      
-      render :text => names.compact.join(' - ')
-    else
-      render :text => 'NO DRAINAGE UNIT!'
-    end
-  end
-  
+    
   def auto_complete_for_waterbody_search
     query = params[:waterbody][:search]
     @waterbodies = Waterbody.search(query) unless query.blank?

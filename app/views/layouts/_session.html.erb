@@ -1,8 +1,7 @@
 <div id="session">
-  <p class="user">Logged in as <a href="#"><span class="name"><%= current_user.login %></span></a></p> 
-  <% #= link_to h(current_user.login.capitalize), user_path(current_user) %>
+  <p class="user">Logged in as <span class="name"><%= current_user.name || current_user.login %></span></p> 
   <div class="actions">
-    <a href="#">Profile</a>  <% #= link_to 'Edit Profile', edit_user_path(current_user) %>
+    <%= link_to 'Profile', edit_user_path(current_user) %>
     <span class="pipe">|</span>
     <%= link_to 'Logout', logout_path %>
   </div>

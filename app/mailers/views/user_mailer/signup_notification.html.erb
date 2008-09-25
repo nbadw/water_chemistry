@@ -1,0 +1,18 @@
+Hello <%= @user.name %>,
+
+You've just created an account for the NB Aquatic Data Warehouse's data entry 
+application.  You're first step should be to activate your account by clicking 
+on the link below or copy & pasting it into your browser:
+
+<%= activate_url(@user.activation_code) %>
+
+You will then be able to login with the username '<%= @user.login %>' and the 
+password you specified.  (Note: the login and password recovery features will
+not work unless you have activated your account)
+
+Also, here are some important URLs for your account:
+- Login: <%= login_url %>
+- Password Recovery: <%= forgot_password_url %>
+- Edit Profile: <%= edit_user_url(@user) %> (you must be logged in to access this)
+
+Thanks for registering! 

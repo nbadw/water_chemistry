@@ -81,8 +81,12 @@ module ThoughtBot
         end
       end
       
-      def should_define_timestamps
-        should_define_attributes :imported_at, :exported_at, :created_at, :updated_at
+      def should_have_audit_fields
+        should_have_db_column :created_at, :type => :datetime        
+        should_have_db_column :updated_at, :type => :datetime        
+        should_have_db_column :created_by, :type => :integer
+        should_have_db_column :updated_by, :type => :integer        
+        should_have_instance_methods :created_at, :updated_at, :created_by, :updated_by
       end
     
       def should_define_attributes(*attrs)

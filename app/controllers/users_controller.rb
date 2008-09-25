@@ -37,20 +37,30 @@ class UsersController < ApplicationController
     flash[:error] = "There was a problem creating your account."
     render :action => 'new'
   end
-  
-  def profile
-    @user = current_user
-  end
-  
+    
   def edit
     @user = current_user
+    @previous_location = request.env["HTTP_REFERER"]
+    session[:previous_location] = @previous_location
+    render :layout => 'profile'
   end
   
   def update
     @user = User.find(current_user)
-    if @user.update_attributes(params[:user])
+    current_attrs = @user.attributes
+    new_attrs = params[:user]
+    updated_attrs = {}
+    
+    # collect only the attributes that have changed    
+    params.each do |attr, value|
+      unless value.to_s.empty? || current_attrs[attr] == value
+        updated_attrs[attr] = value
+      end
+    end
+    
+    if @user.update_attributes(updated_attrs)
       flash[:notice] = "User updated"
-      redirect_to :action => 'show', :id => current_user
+      redirect_to session[:previous_location]
     else
       render :action => 'edit'
     end

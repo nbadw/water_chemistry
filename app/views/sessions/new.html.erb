@@ -4,6 +4,7 @@
   <% if flash[:error] %>
     <div class="error">
       <%= flash[:error] %>
+      <%= error_messages_for :user %>
     </div>
   <% end %>
   

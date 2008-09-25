@@ -4,6 +4,7 @@
   <% if flash[:error] %>
     <div class="error">
       <%= flash[:error] %>
+      <%= error_messages_for :user %>
     </div>
   <% end %>
   
@@ -17,5 +18,6 @@
     <p>What is the email address used to create your account?</p>
     <%= text_field_tag :email %>
     <%= submit_tag 'Reset Password' %>
+    <%= link_to 'Cancel', login_url %>
 <% end %>
 </div>

@@ -48,41 +48,41 @@ module DataCollectionSitesHelper
     end
     
     def data_sets_column(aquatic_site)
+      water_chemistry_sampling = AquaticActivity.find(17)
       attached_data_sets = aquatic_site.attached_data_sets.sort
+      attached_data_sets.delete(water_chemistry_sampling)
       
-      options = { :_method => 'get', :action => 'aquatic_site_activities',
-        :aquatic_site_id => aquatic_site.id, :controller => 'aquatic_activity_event',
-        :aquatic_activity_id => 17, :label => "Water Chemistry Sampling for Site ##{aquatic_site.id} - #{aquatic_site.name}"
-      }
-    
-      html_options = { :class => 'nested action attached-data-set', :position => 'after',
-        :id => "aquatic_sites-nested-#{aquatic_site.id}-link", :style => 'display: block;' }
-    
       links = []
-      # initial link to water chemistry data
-      links << link_to('Water Chemistry Sampling', options, html_options)
+      ## initial link to water chemistry data
+      links << water_chemistry_sampling_link(aquatic_site, water_chemistry_sampling)
+            
       attached_data_sets.each do |aquatic_activity|
-        links << '<a href="#" class="attached-data-set disabled">' + aquatic_activity.name + '</a>' unless aquatic_activity.name == 'Water Chemistry Sampling'
+        link_text = "#{aquatic_activity.name} (#{AquaticActivityEvent.count_attached(aquatic_site, aquatic_activity)})"
+        links << '<a href="#" class="attached-data-set disabled">' + link_text + '</a>'
       end
       
-      # create links to inline site activities
-#      links = attached_data_sets.collect do |aquatic_activity|      
-#        options[:aquatic_activity_id] = aquatic_activity.id
-#        options[:label] = "#{aquatic_activity.name} for Site ##{aquatic_site.id} - #{aquatic_site.name}"
-#        # TODO: limiting to only water chemistry sampling activities, the rest are disabled (this should be in model)
-#        if aquatic_activity.name == 'Water Chemistry Sampling'
-#          link_to aquatic_activity.name, options, html_options
-#        else
-#          '<a href="#" class="attached-data-set disabled">' + aquatic_activity.name + '</a>'
-#        end
-#      end
-    
-      # default link to create a new activity
-#      links << link_to('Add a new data set', 
-#        { :controller => 'data_collection_sites', :action => 'select_data_set', :id => aquatic_site.id, :format => 'html' }, 
-#        { :class => 'lightwindow', :params => 'lightwindow_height=80' })
-    
       links.join('<br/>')
+    end
+    
+    def water_chemistry_sampling_link(aquatic_site, water_chemistry_sampling)      
+      options = { 
+        :_method => 'get', 
+        :action => 'aquatic_site_activities',
+        :aquatic_site_id => aquatic_site.id, 
+        :controller => 'aquatic_activity_event',
+        :aquatic_activity_id => water_chemistry_sampling.id, 
+        :label => "Water Chemistry Sampling for Site ##{aquatic_site.id} - #{aquatic_site.name}"
+      }
+    
+      html_options = { 
+        :class => 'nested action attached-data-set', 
+        :position => 'after',
+        :id => "aquatic_sites-nested-#{aquatic_site.id}-link", 
+        :style => 'display: block;'         
+      }
+    
+      count = AquaticActivityEvent.count_attached(aquatic_site, water_chemistry_sampling)
+      link_to("#{water_chemistry_sampling.name} (#{count})", options, html_options)
     end
     
     def unattached_data_sets_select(unattached_data_sets)

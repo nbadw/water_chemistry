@@ -16,7 +16,7 @@ class PasswordsController < ApplicationController
       flash[:notice] = "A password reset link has been sent to your email address."
       redirect_to login_path
     else
-      flash[:notice] = "Could not find a user with that email address."
+      flash[:error] = "Could not find a user with that email address."
       render :action => 'new'
     end  
   end
@@ -34,9 +34,9 @@ class PasswordsController < ApplicationController
     raise if @user.nil?
   rescue
     logger.error "Invalid Reset Code entered."
-    flash[:notice] = "Sorry - That is an invalid password reset code. Please check your code and try again. (Perhaps your email client inserted a carriage return?)"
+    flash[:error] = "Sorry - That is an invalid password reset code. Please check your code and try again. (Perhaps your email client inserted a carriage return?)"
     #redirect_back_or_default('/')
-    redirect_to new_user_path
+    redirect_to login_url
   end
   
   # Reset password action /reset_password/:id
@@ -47,7 +47,7 @@ class PasswordsController < ApplicationController
       return
     end
     if params[:password].blank?
-      flash[:notice] = "Password field cannot be blank."
+      flash[:error] = "Password field cannot be blank."
       render :action => 'edit', :id => params[:id]
       return
     end
@@ -63,17 +63,21 @@ class PasswordsController < ApplicationController
       #flash[:notice] = current_user.save ? "Password reset" : "Password not reset"
       @user.password_confirmation = params[:password_confirmation]
       @user.password = params[:password]
-      @user.reset_password        
-      flash[:notice] = @user.save ? "Password reset." : "Password not reset."
+      @user.reset_password 
+      if @user.save
+        flash[:notice] = "Password reset."
+      else
+        flash[:error]  = "Password could not be reset because it was invalid."
+      end
     else
-      flash[:notice] = "Password mismatch."
+      flash[:error] = "Password and confirmation are not the same.  Please enter them again."
       render :action => 'edit', :id => params[:id]
       return
     end  
     redirect_to login_path
   rescue
     logger.error "Invalid Reset Code entered"
-    flash[:notice] = "Sorry - That is an invalid password reset code. Please check your code and try again. (Perhaps your email client inserted a carriage return?)"
-    redirect_to new_user_path
+    flash[:error] = "Sorry - That is an invalid password reset code. Please check your code and try again. (Perhaps your email client inserted a carriage return?)"
+    redirect_to login_url
   end
 end

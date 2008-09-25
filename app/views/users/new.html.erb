@@ -1,8 +1,9 @@
-<div id="new-user">
-  <h1>Create New Account:</h1>
+<div id="new-user" class="active-scaffold">
+  <h1>Create New Account</h1>
   
   <% if flash[:error] %>
     <div class="error">     
+      <%= flash[:error] %>
       <%= error_messages_for :user %>
     </div>
   <% end %>
@@ -14,26 +15,57 @@
   <% end %>
   
   <% form_for :user, :url => users_path do |f| %>
-    <dl>          
-      <dt><label for="agency">Agency:</label></dt>
-      <dd><%= agency_dropdown %></dd>
-      
-      <dt><label for="login">Username:</label></dt>
-      <dd><%= f.text_field :login %></dd>
-    
-      <dt><label for="email">Email:</label></dt>
-      <dd><%= f.text_field :email %></dd>
-    
-      <dt><label for="password">Password:</label></dt>
-      <dd><%= f.password_field :password %></dd>
-    
-      <dt><label for="password_confirmation">Confirm Password:</label></dt>
-      <dd><%= f.password_field :password_confirmation %></dd>
-      
-      <dt><label for="area_of_interest">Area of Interest:</label></dt>
-      <dd><%= render :partial => 'widgets/waterbody_autocomplete', :locals => { :waterbody => nil } %></dd>
-    
-      <dd><%= submit_tag 'Create Account' %></dd>
-    </dl>
+    <h3 class="name" style="border-bottom: 1px solid black; font-family:verdana; font-size:16px; font-weight:bold; margin-bottom:10px;">Account Details</h3>
+    <ol class="form">
+      <li class="form-element">
+        <dl>
+          <dt><label for="agency">Agency:</label></dt>
+          <dd><%= agency_dropdown %></dd>
+        </dl>
+      </li>
+      <li class="form-element">
+        <dl>
+          <dt><label for="name">Your Name:</label></dt>
+          <dd><%= f.text_field :name, :class => 'text-input' %></dd>
+        </dl>
+      </li>
+      <li class="form-element">
+        <dl>
+          <dt><label for="login">Username:</label></dt>
+          <dd><%= f.text_field :login, :class => 'text-input' %></dd>
+        </dl>
+      </li>
+      <li class="form-element">
+        <dl>
+          <dt><label for="email">Email:</label></dt>
+          <dd><%= f.text_field :email, :class => 'text-input' %></dd>
+        </dl>
+      </li>
+      <li class="form-element">
+        <dl>
+          <dt><label for="password">Password:</label></dt>
+          <dd><%= f.password_field :password, :class => 'text-input' %></dd>
+        </dl>
+      </li>
+      <li class="form-element">
+        <dl>
+          <dt><label for="password_confirmation">Confirm Password:</label></dt>
+          <dd><%= f.password_field :password_confirmation, :class => 'text-input' %></dd>
+        </dl>
+      </li>
+    </ol>    
+    <div style="clear: both; padding: 10px;"></div>
+  
+    <h3 class="name" style="border-bottom: 1px solid black; font-family:verdana; font-size:16px; font-weight:bold; margin-bottom:10px;">Area of Interest (optional)</h3>
+    <ol class="form">
+      <li class="form-element">
+        <%= render :partial => 'widgets/waterbody_autocomplete', :locals => { :waterbody => nil } %>
+      </li>
+    </ol>
+    <div style="clear: both; padding: 5px;"></div>
+  
+    <p class="form-footer">  
+      <%= submit_tag 'Create Account', :class => 'submit' %>
+    </p>
   <% end %>
 </div>

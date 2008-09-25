@@ -83,12 +83,15 @@ class AquaticActivityEvent < AquaticDataWarehouse::BaseTbl
       value = nil
     end
     write_attribute("AquaticActivityStartDate", value)    
-  end
+  end  
   
-  
-  def before_save
-    write_attribute('IncorporatedInd', false) if incorporated_ind.nil?
-    write_attribute('PrimaryActivityInd', false) if primary_activity_ind.nil?
-    return self
+#  def before_save
+#    write_attribute('IncorporatedInd', false) if incorporated_ind.nil?
+#    write_attribute('PrimaryActivityInd', false) if primary_activity_ind.nil?
+#    return self
+#  end
+    
+  def self.count_attached(aquatic_site, aquatic_activity)
+    self.count :all, :conditions => ['AquaticSiteID = ? AND AquaticActivityCd = ?', aquatic_site.id, aquatic_activity.id]
   end
 end

@@ -12,7 +12,8 @@
 .active-scaffold .sub-form .override dd {
     float: left;
 }
-.active-scaffold .sub-form .override select {
+.active-scaffold .sub-form .override select,
+.active-scaffold .sub-form .override input.text-input {
     font-size: 16px;
     letter-spacing: -1px;
 }

@@ -142,7 +142,7 @@ module AquaticDataWarehouse
     
     def prompt_for_admin_agency
       agency = ask('Agency (ADW): ', String) do |q|
-        q.validate = /^.{3,5}$/
+        q.validate = /^(|.{3,5})$/
         q.responses[:not_valid] = "Invalid agency code. Must be between 3-5 characters."
         q.whitespace = :strip
       end

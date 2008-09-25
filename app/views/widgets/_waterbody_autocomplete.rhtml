@@ -19,7 +19,7 @@ on_select = %q(function(input_el, selected_li) {
     </dt>
     <dd>
       <div id="waterbody-autocomplete">
-        <%= text_field_with_auto_complete :waterbody, :search, { :autocomplete => 'off' }, { :min_chars => 2, :after_update_element => on_select } -%>
+        <%= text_field_with_auto_complete :waterbody, :search, { :autocomplete => 'off' }, { :url => { :controller => 'waterbody', :action => 'autocomplete' }, :min_chars => 2, :after_update_element => on_select } -%>
       </div>      
       <input id="record[waterbody]" name="record[waterbody]" type="hidden" value="<%=h waterbody.id if waterbody -%>"/>
     </dd>

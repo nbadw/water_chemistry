@@ -35,7 +35,12 @@ Rails::Initializer.run do |config|
   # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
 
   # Add additional load paths for your own custom dirs
-  config.load_paths += %W( #{RAILS_ROOT}/app/models/aquatic_data_warehouse #{RAILS_ROOT}/app/models/gis #{RAILS_ROOT}/app/models/access_control )
+  %w(aquatic_data_warehouse gis access_control).each do |dir|
+    config.load_paths << "#{RAILS_ROOT}/app/models/#{dir}"
+  end
+  %w(observers sweepers mailers).each do |dir|
+    config.load_paths << "#{RAILS_ROOT}/app/#{dir}"
+  end
 
   # Force all environments to use the same logger level
   # (by default production uses :info, the others :debug)
@@ -51,7 +56,7 @@ Rails::Initializer.run do |config|
   # Make sure the secret is at least 30 characters and all random, 
   # no regular words or you'll be exposed to dictionary attacks.
   config.action_controller.session = {
-    :session_key => '_GeoRails_session',
+    :session_key => '_nbadw_session',
     :secret      => 'f7ccddb583731efc258fafb8296fdbba8b75cc184856c3b43c351e85f1095aa3f957042e6d17bfcf62c94fc77fbb09fcac45eb0525ed4e369672a15fc46b047f'
   }
 
