@@ -1,0 +1,9 @@
+<ul class="waterbodies" style="overflow: auto; height: 300px;">
+<% for waterbody in @waterbodies do -%>
+  <li class="waterbody">
+    <div><span class="watersheds"><%=h waterbody.drainage_unit ? waterbody.drainage_unit.explain_drainage_code : '-' -%></span></div>
+    <div>Drainage Code: <span class="drainage-code"><%=h waterbody.drainage_unit ? waterbody.drainage_unit.id : '-' -%></span></div>
+    <div class="waterbody-id" style="display: none"><%= waterbody.id %></div>
+  </li>
+<% end -%>
+</ul>

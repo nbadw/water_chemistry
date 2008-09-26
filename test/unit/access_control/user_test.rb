@@ -1,16 +1,24 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 
-class UserTest < Test::Unit::TestCase     
-  should_belong_to :agency
-  should_require_attributes :login, :email, :password, :password_confirmation, :agency
+class UserTest < Test::Unit::TestCase       
+  should_require_attributes :name, :login, :email, :password, :password_confirmation, :agency
   
-  should_eventually "have a name column"
-  should_eventually "have name instance method"
-  should_eventually "have db column :area_of_interest"
-  should_eventually "have instance method :area_of_interest"
+  should_ensure_length_in_range :password, (4..40)
+  should_ensure_length_in_range :login, (3..40)
+  should_ensure_length_in_range :email, (3..100)
+  should_ensure_length_in_range :name, (1..100)
+  
+  should_belong_to :agency
+  should_belong_to :area_of_interest
+  
+  should "create a valid User model from exemplar" do
+    assert User.spawn.valid?
+  end
   
   context "with a new user" do
     setup { @user = User.generate! }
+    
+    should_require_unique_attributes :login, :email
     
     should "set activation code after creation" do
       assert_not_nil @user.activation_code

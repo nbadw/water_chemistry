@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 1
+# Schema version: 20080923163956
 #
 # Table name: tblSample
 #
@@ -12,6 +12,10 @@
 #  WaterSourceType          :string(20)      
 #  SampleCollectionMethodCd :integer(10)     
 #  AnalyzedBy               :string(255)     
+#  created_at               :datetime        
+#  updated_at               :datetime        
+#  created_by               :integer(11)     
+#  updated_by               :integer(11)     
 #
 
 class Sample < AquaticDataWarehouse::BaseTbl

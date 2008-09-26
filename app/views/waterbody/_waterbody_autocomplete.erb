@@ -1,0 +1,39 @@
+<%
+on_select = %q(function(input_el, selected_li) { 
+    var name = $(selected_li).select('span.name')[0].innerHTML;
+    var id   = $(selected_li).select('span.id')[0].innerHTML;
+    var drainage_code = $(selected_li).select('span.drainage-code')[0].innerHTML;
+
+    input_el.value = '';
+    $('record[waterbody]').value = id;
+
+    $('waterbody-id').innerHTML = id;
+    $('waterbody-name').innerHTML = name;
+    $('drainage-code').innerHTML = drainage_code;
+})
+%>
+<div id="waterbody-editor">
+  <dl>
+    <dt class="lookup">
+      <label for="waterbody_seach">Lookup</label>
+    </dt>
+    <dd>
+      <div id="waterbody-autocomplete">
+        <%= text_field_with_auto_complete :waterbody, :search, { :autocomplete => 'off' }, { :url => { :controller => 'waterbody', :action => 'autocomplete' }, :min_chars => 2, :after_update_element => on_select } -%>
+      </div>      
+      <input id="record[waterbody]" name="record[waterbody]" type="hidden" value="<%=h waterbody.id if waterbody -%>"/>
+    </dd>
+  </dl>
+  <dl>
+    <dt>Waterbody ID</dt>
+    <dd id="waterbody-id"><%=h waterbody ? waterbody.id : '-' -%></dd>
+  </dl>
+  <dl>
+    <dt>Waterbody Name</dt>
+    <dd id="waterbody-name"><%=h waterbody ? waterbody.name : '-' -%></dd>
+  </dl>
+  <dl>
+    <dt>Drainage Code</dt>
+    <dd id="drainage-code"><%=h waterbody ? waterbody.drainage_code : '-' -%></dd>
+  </dl>
+</div>

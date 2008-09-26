@@ -29,6 +29,7 @@ class UsersController < ApplicationController
   def create
     cookies.delete :auth_token    
     @user = User.new(params[:user])
+    @user.area_of_interest_id = params[:area_of_interest]
     @user.save!
     flash[:notice] = "Thanks for signing up! Please check your email to activate your account before logging in."
     redirect_to login_path    
@@ -40,30 +41,31 @@ class UsersController < ApplicationController
     
   def edit
     @user = current_user
-    @previous_location = request.env["HTTP_REFERER"]
-    session[:previous_location] = @previous_location
+    previous_location = request.env["HTTP_REFERER"]
+    unless previous_location == edit_user_path(@user) || previous_location == '/users/1'
+      session[:previous_location] = previous_location
+    end
     render :layout => 'profile'
   end
   
   def update
     @user = User.find(current_user)
-    current_attrs = @user.attributes
-    new_attrs = params[:user]
-    updated_attrs = {}
     
-    # collect only the attributes that have changed    
-    params.each do |attr, value|
-      unless value.to_s.empty? || current_attrs[attr] == value
-        updated_attrs[attr] = value
-      end
+    attr_diff = {}
+    params[:user].each do |attr, value|
+      next if value.to_s.blank? #ignore blank values
+      attr_diff[attr] = value if @user.attributes[attr] != value
     end
-    
-    if @user.update_attributes(updated_attrs)
-      flash[:notice] = "User updated"
-      redirect_to session[:previous_location]
+    unless params[:area_of_interest].to_s.blank?
+      attr_diff[:area_of_interest_id] = params[:area_of_interest] if @user.area_of_interest_id != params[:area_of_interest]
+    end
+            
+    if @user.update_attributes(attr_diff)
+      flash[:notice] = 'User profile updated successfully. <a href="' + session[:previous_location] + '">Click here to return to application.</a>'
     else
-      render :action => 'edit'
+      flash[:error]  = "Profile changes could not be saved."
     end
+    render :layout => 'profile', :action => 'edit'
   end
   
   def destroy

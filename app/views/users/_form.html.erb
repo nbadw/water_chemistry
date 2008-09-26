@@ -1,0 +1,53 @@
+<h3 class="name" style="border-bottom: 1px solid black; font-family:verdana; font-size:16px; font-weight:bold; margin-bottom:10px;">Account Details</h3>
+<ol class="form">
+  <li class="form-element">
+    <dl>
+      <dt><label for="agency">Agency</label></dt>
+      <dd><%= agency_dropdown %></dd>
+    </dl>
+  </li>
+  <li class="form-element">
+    <dl>
+      <dt><label for="name">Your Name</label></dt>
+      <dd><%= form.text_field :name, :class => 'text-input' %></dd>
+    </dl>
+  </li>
+  <li class="form-element">
+    <dl>
+      <dt><label for="login">Username</label></dt>
+      <dd><%= form.text_field :login, :class => 'text-input' %></dd>
+    </dl>
+  </li>
+  <li class="form-element">
+    <dl>
+      <dt><label for="email">Email</label></dt>
+      <dd><%= form.text_field :email, :class => 'text-input' %></dd>
+    </dl>
+  </li>
+  <li class="form-element">
+    <dl>
+      <dt><label for="password"><%= action == :new ? 'Password' : 'Change Password' %></label></dt>
+      <dd><%= form.password_field :password, :class => 'text-input' %></dd>
+    </dl>
+  </li>
+  <li class="form-element">
+    <dl>
+      <dt><label for="password_confirmation"><%= action == :new ? 'Confirm Password' : 'Confirm New Password' %></label></dt>
+      <dd><%= form.password_field :password_confirmation, :class => 'text-input' %></dd>
+    </dl>
+  </li>
+</ol>    
+<div style="clear: both; padding: 10px;"></div>
+
+<h3 class="name" style="border-bottom: 1px solid black; font-family:verdana; font-size:16px; font-weight:bold; margin-bottom:10px;">Area of Interest <%= tooltip :id => 'aoi', :partial => 'waterbody/area_of_interest_tooltip' %></h3>    
+<ol class="form">
+  <li class="form-element">
+    <%= render :partial => 'waterbody/area_of_interest_autocomplete', :locals => { :area_of_interest => @user.area_of_interest } %>
+  </li>
+</ol>
+<div style="clear: both; padding: 5px;"></div>
+
+<p class="form-footer">  
+  <%= submit_tag(action == :new ? 'Create Account' : 'Save Changes', :class => 'submit') %>
+  <a class="cancel" href="<%= action == :new ? login_url : session[:previous_location] %>">Cancel</a>
+</p>

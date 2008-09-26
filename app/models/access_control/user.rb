@@ -1,11 +1,13 @@
 # == Schema Information
-# Schema version: 1
+# Schema version: 20080923163956
 #
 # Table name: users
 #
 #  id                        :integer(11)     not null, primary key
-#  login                     :string(255)     
-#  email                     :string(255)     
+#  name                      :string(100)     
+#  login                     :string(100)     
+#  email                     :string(30)      
+#  admin                     :boolean(1)      
 #  crypted_password          :string(40)      
 #  salt                      :string(40)      
 #  remember_token            :string(255)     
@@ -25,26 +27,26 @@ class User < ActiveRecord::Base
   # Virtual attribute for the unencrypted password
   attr_accessor :password
 
-  validates_presence_of     :login, :email, :agency
+  validates_presence_of     :name, :login, :email, :agency
   validates_presence_of     :password,                   :if => :password_required?
   validates_presence_of     :password_confirmation,      :if => :password_required?
   validates_length_of       :password, :within => 4..40, :if => :password_required?
   validates_confirmation_of :password,                   :if => :password_required?
   validates_length_of       :login,    :within => 3..40
   validates_length_of       :email,    :within => 3..100
+  validates_length_of       :name,     :within => 1..100
   validates_uniqueness_of   :login, :email, :case_sensitive => false
   validates_format_of       :email, :with => /(^([^@\s]+)@((?:[-_a-z0-9]+\.)+[a-z]{2,})$)|(^$)/i
   
-  has_many   :permissions
-  has_many   :roles, :through => :permissions
   belongs_to :agency
+  belongs_to :area_of_interest, :class_name => 'Waterbody'
   
   before_save   :encrypt_password
   before_create :make_activation_code 
   
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :name, :login, :email, :password, :password_confirmation, :agency_id, :agency, :admin
+  attr_accessible :name, :login, :email, :password, :password_confirmation, :agency_id, :agency, :admin, :area_of_interest, :area_of_interest_id
   
   class ActivationCodeNotFound < StandardError  
   end

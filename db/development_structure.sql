@@ -2328,6 +2328,7 @@ CREATE TABLE `users` (
   `created_at` datetime default NULL,
   `updated_at` datetime default NULL,
   `last_login` datetime default NULL,
+  `area_of_interest_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
@@ -2340,3 +2341,5 @@ INSERT INTO schema_migrations (version) VALUES ('20080923163742');
 INSERT INTO schema_migrations (version) VALUES ('20080923163935');
 
 INSERT INTO schema_migrations (version) VALUES ('20080923163956');
+
+INSERT INTO schema_migrations (version) VALUES ('20080926150102');

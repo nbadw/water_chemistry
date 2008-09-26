@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 1
+# Schema version: 20080923163956
 #
 # Table name: cdOandM
 #
@@ -13,6 +13,10 @@
 #  OandM_DetailsInd  :boolean(1)      not null
 #  FishPassageInd    :boolean(1)      not null
 #  BankInd           :boolean(1)      not null
+#  created_at        :datetime        
+#  updated_at        :datetime        
+#  created_by        :integer(11)     
+#  updated_by        :integer(11)     
 #
 
 class OandM < AquaticDataWarehouse::BaseCd  

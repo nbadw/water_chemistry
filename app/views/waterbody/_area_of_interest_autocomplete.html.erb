@@ -1,0 +1,34 @@
+<%
+drainage_unit = area_of_interest.drainage_unit if area_of_interest
+on_select = %q(function(input_el, selected_li) { 
+    var id = $(selected_li).select('div.waterbody-id')[0].innerHTML;
+    var watersheds = $(selected_li).select('span.watersheds')[0].innerHTML;
+    var drainage_code = $(selected_li).select('span.drainage-code')[0].innerHTML;
+
+    input_el.value = '';
+    $('area-of-interest').value = id;
+    $('watersheds').innerHTML = watersheds;
+    $('drainage-code').innerHTML = drainage_code;
+})
+%>
+<div id="waterbody-editor">
+  <dl>
+    <dt class="lookup">
+      <label for="waterbody_seach">Lookup</label>
+    </dt>
+    <dd>
+      <div id="area-of-interest-autocomplete">
+        <%= text_field_with_auto_complete :waterbody, :search, { :autocomplete => 'off' }, { :url => { :controller => 'waterbody', :action => 'area_of_interest_autocomplete' }, :min_chars => 2, :after_update_element => on_select } -%>
+      </div>      
+      <input id="area-of-interest" name="area_of_interest" type="hidden" value="<%= area_of_interest.id if area_of_interest -%>"/>
+    </dd>
+  </dl>
+  <dl>
+    <dt>Watershed(s)</dt>
+    <dd id="watersheds"><%=h drainage_unit ? drainage_unit.explain_drainage_code : '-' -%></dd>
+  </dl>
+  <dl>
+    <dt>Drainage Code</dt>
+    <dd id="drainage-code"><%=h drainage_unit ? drainage_unit.id : '-' -%></dd>
+  </dl>
+</div>

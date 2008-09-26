@@ -19,17 +19,18 @@ module AquaticDataWarehouse
       populate_aquatic_data_warehouse  
       populate_coordinate_systems
       populate_coordinate_sources  
-      create_admin_user(config[:admin_name], config[:admin_username], config[:admin_password], config[:admin_agency])  
+      create_admin_user(config[:admin_name], config[:admin_username], config[:admin_password], config[:admin_email], config[:admin_agency])  
       announce "Finished.\n\n"
     end
         
     private   
-    def create_admin_user(name, username, password, agency)      
+    def create_admin_user(name, username, password, email, agency)      
       unless name and username and password
         announce "Create the admin user (press enter for defaults)."
         name = prompt_for_admin_name unless name
         username = prompt_for_admin_username unless username
         password = prompt_for_admin_password unless password
+        email = prompt_for_admin_email unless email
         agency = prompt_for_admin_agency unless agency
       end
       attributes = {
@@ -37,6 +38,7 @@ module AquaticDataWarehouse
         :login => username,
         :password => password,
         :password_confirmation => password,
+        :email => email,
         :admin => true,
         :agency => Agency.find(agency)
       }
@@ -111,7 +113,7 @@ module AquaticDataWarehouse
     
     def prompt_for_admin_name
       username = ask('Name (Administrator): ', String) do |q|
-        q.validate = /^.{0,100}$/
+        q.validate = /^(|.{1,100})$/
         q.responses[:not_valid] = "Invalid name. Must be at less than 100 characters long."
         q.whitespace = :strip
       end
@@ -132,12 +134,21 @@ module AquaticDataWarehouse
     def prompt_for_admin_password
       password = ask('Password (DEapp): ', String) do |q|
         q.echo = false
-        q.validate = /^(|.{5,40})$/
+        q.validate = /^(|.{4,40})$/
         q.responses[:not_valid] = "Invalid password. Must be at least 5 characters long."
         q.whitespace = :strip
       end
       password = "DEapp" if password.blank?
       password
+    end
+    
+    def prompt_for_admin_email
+      email = ask('Email: ', String) do |q|
+        q.validate = /^.{3,100}$/
+        q.responses[:not_valid] = "Invalid email. Must be at least 3 characters long."
+        q.whitespace = :strip
+      end
+      email
     end
     
     def prompt_for_admin_agency

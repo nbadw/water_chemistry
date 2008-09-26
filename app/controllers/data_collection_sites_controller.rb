@@ -49,29 +49,18 @@ class DataCollectionSitesController < ApplicationController
         
     # action links
     config.columns[:aquatic_activities].clear_link
-    config.action_links.add 'toggle_area_of_interest', :label => 'Toggle Area of Interest'
     
     # list customizations
     config.list.sorting =[{ :drainage_code => :asc }]
     #config.list.per_page = 50
   end
   
-  # TODO: this link will have to be rendered in a frontend view override
   def toggle_area_of_interest
-    # what is the current state?
-    #   session[:area_of_interest_only] = true | false
-    # if true
-    #   set to false
-    #   send javascript to change link class to off
-    # else
-    #   set to true
-    #   send javascript to change link class to on
-    # end
-    state = session[:area_of_interest_only] ? 'on' : 'off'
-    session[:area_of_interest_only] = !session[:area_of_interest_only] # toggle state
-    render :update do |page|
-      page << "$('#{action_link_id('toggle_area_of_interest', nil)}').addClassName('#{state}');"
-    end
+    state = !session[:filter_area_of_interest] # toggle state
+    session[:filter_area_of_interest] = state
+    # update table listing
+    do_list
+    render(:partial => 'list', :layout => false)
   end
   
   def select_data_set
@@ -84,8 +73,7 @@ class DataCollectionSitesController < ApplicationController
   def add_data_set
     site     = AquaticSite.find params[:aquatic_site][:id]
     activity = AquaticActivity.find params[:aquatic_site][:data_set]
-    agency   = current_user.agency   
-    
+    agency   = current_user.agency     
   rescue Exception => exc
     logger.error exc.message
     render :text => 'An error occured while attempting to process your request.  Please try again later.'

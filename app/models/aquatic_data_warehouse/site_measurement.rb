@@ -1,3 +1,22 @@
+# == Schema Information
+# Schema version: 20080923163956
+#
+# Table name: tblSiteMeasurement
+#
+#  SiteMeasurementID :integer(10)     not null, primary key
+#  AquaticActivityID :integer(10)     
+#  OandMCd           :integer(10)     
+#  OandM_Other       :string(20)      
+#  Bank              :string(10)      
+#  InstrumentCd      :integer(10)     
+#  Measurement       :float(15)       
+#  UnitofMeasureCd   :integer(10)     
+#  created_at        :datetime        
+#  updated_at        :datetime        
+#  created_by        :integer(11)     
+#  updated_by        :integer(11)     
+#
+
 class SiteMeasurement < AquaticDataWarehouse::BaseTbl
   LEFT_BANK  = "Left".freeze
   RIGHT_BANK = "Right".freeze

@@ -1,3 +1,12 @@
+# == Schema Information
+# Schema version: 20080923163956
+#
+# Table name: coordinate_sources
+#
+#  id   :integer(11)     not null, primary key
+#  name :string(30)      
+#
+
 class CoordinateSource < ActiveRecord::Base
 #  attr_reader :id, :name
 #    

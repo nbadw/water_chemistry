@@ -91,4 +91,15 @@ module DataCollectionSitesHelper
       options = [water_chemistry_sampling].compact.collect { |aquatic_activity| [aquatic_activity.name, aquatic_activity.id] }
       select('aquatic_site', 'data_set', options)
     end
+       
+    def area_of_interest_toggle_link
+      url_options = { :controller => 'data_collection_sites', :action => 'toggle_area_of_interest' }
+      id = area_of_interest_toggle_link_id
+      #link_to_remote(session[:filter_area_of_interest] ? 'Show All' : 'Show Area of Interest', { :url => url_options, :evalJS => 'force' }, { :id => id } )
+      '<a id="area-of-interest-toggle" onclick="new Ajax.Request(\'/data_collection_sites/toggle_area_of_interest\', {asynchronous:true, evalScripts:true, evalJS:\'force\'}); return false;" href="#">' + (session[:filter_area_of_interest] ? 'Show All' : 'Show Area of Interest') + '</a>'
+    end
+    
+    def area_of_interest_toggle_link_id
+      'area-of-interest-toggle'
+    end
 end

@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 1
+# Schema version: 20080923163956
 #
 # Table name: cdAquaticActivity
 #
@@ -7,6 +7,10 @@
 #  AquaticActivity         :string(50)      
 #  AquaticActivityCategory :string(30)      
 #  Duration                :string(20)      
+#  created_at              :datetime        
+#  updated_at              :datetime        
+#  created_by              :integer(11)     
+#  updated_by              :integer(11)     
 #
 
 class AquaticActivity < AquaticDataWarehouse::BaseCd 

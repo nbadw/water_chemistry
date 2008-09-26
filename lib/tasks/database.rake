@@ -28,6 +28,7 @@ namespace :db do
       :admin_name => ENV['ADMIN_NAME'],
       :admin_username => ENV['ADMIN_USERNAME'],
       :admin_password => ENV['ADMIN_PASSWORD'],
+      :admin_email => ENV['ADMIN_EMAIL'],
       :admin_agency => ENV['ADMIN_AGENCY']
     )
   end

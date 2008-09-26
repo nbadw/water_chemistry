@@ -485,7 +485,8 @@ body.sessions {
     margin-bottom: 20px;
     padding: 10px;
 }
-#dialog .notice {
+#dialog .notice,
+#edit-user .notice {
     background-color: #e0ecff;
     border: 1px solid #a5c9ff;
     color: #135;

@@ -1,4 +1,5 @@
 class User
+  generator_for :name => 'Test User'
   generator_for(:login, :start => 'user0') { |prev| prev.succ }
   generator_for(:email, :start => 'email0@test.com') do |prev|
     user, domain = prev.split('@')

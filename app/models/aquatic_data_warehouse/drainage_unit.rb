@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 1
+# Schema version: 20080923163956
 #
 # Table name: tblDraingeUnit
 #
@@ -22,6 +22,10 @@
 #  StreamOrder  :integer(5)      
 #  Area_ha      :float(15)       
 #  Area_percent :float(15)       
+#  created_at   :datetime        
+#  updated_at   :datetime        
+#  created_by   :integer(11)     
+#  updated_by   :integer(11)     
 #
 
 class DrainageUnit < AquaticDataWarehouse::BaseTbl
