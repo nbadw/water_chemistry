@@ -8,7 +8,9 @@
   
     <a href="#">Create Report</a>
     <a href="#">Download</a>
-    <%= area_of_interest_toggle_link %>
+    <% if current_user.area_of_interest %>
+      <%= area_of_interest_toggle_link %>
+    <% end %>
   
     <%= loading_indicator_tag(:action => :table) %>
   </div>

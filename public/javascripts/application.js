@@ -1,3 +1,19 @@
+function doToggleAreaOfInterest(url, update, error, loader) {
+    new Ajax.Updater(update, url, {
+        asynchronous: true, 
+        evalScripts: true, 
+        method: 'post', 
+        onComplete: function(request) {
+            $(loader).style.visibility = 'hidden';
+        }, 
+        onFailure: function(request) {
+            ActiveScaffold.report_500_response(error);
+        }
+    }); 
+    $(loader).style.visibility = 'visible';
+    return false;
+}
+
 function include_javascript(src) {
     if (document.createElement && document.getElementsByTagName) {
         var head = document.getElementsByTagName('head')[0];

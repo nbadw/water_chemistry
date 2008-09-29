@@ -56,11 +56,10 @@ class DataCollectionSitesController < ApplicationController
   end
   
   def toggle_area_of_interest
-    state = !session[:filter_area_of_interest] # toggle state
-    session[:filter_area_of_interest] = state
+    session[:filter_area_of_interest] = !session[:filter_area_of_interest] # toggle state
     # update table listing
     do_list
-    render(:partial => 'list', :layout => false)
+    render(:partial => 'list', :layout => false, :content_type => 'text/javascript')
   end
   
   def select_data_set
@@ -98,7 +97,14 @@ class DataCollectionSitesController < ApplicationController
   end
   
   def conditions_for_collection
-    ["#{AquaticSite.table_name}.#{AquaticSite.column_for_attribute(:water_body_id).name} IS NOT NULL"]
+    conditions = ["#{AquaticSite.table_name}.#{AquaticSite.column_for_attribute(:water_body_id).name} IS NOT NULL"]
+    if session[:filter_area_of_interest] && current_user.area_of_interest && current_user.area_of_interest.drainage_cd
+      conditions.first << " AND #{Waterbody.table_name}.#{Waterbody.column_for_attribute(:drainage_cd).name} LIKE ?"
+      aoi = current_user.area_of_interest.drainage_cd.split('-').collect { |unit_no| unit_no unless unit_no == '00' }.compact
+      aoi << '%' if aoi.length < 6
+      conditions << aoi.join('-')
+    end
+    conditions
   end
   
   def do_search

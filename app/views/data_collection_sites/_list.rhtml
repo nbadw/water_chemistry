@@ -35,8 +35,9 @@
 
 <% if request.xhr? %>
 <script type="text/javascript">
-    var elm = $('<%= area_of_interest_toggle_link_id %>');
-    console.log(elm);
-    Element.replace(elm, '<a>test</a>');
+  var elm = $('<%= area_of_interest_toggle_link_id %>');
+  if(elm) {
+    Element.replace(elm, '<%= area_of_interest_toggle_link.gsub(/'/) { |c| "\\" + c } %>');    
+  }
 </script>
 <% end %>
