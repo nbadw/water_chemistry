@@ -1,33 +1,3 @@
 <div class="active-scaffold">
-  <table cellpadding="0" cellspacing="0">
-    <thead>
-      <tr>
-        <% @columns.each do |column| %>
-          <th><p><%=h column %></p></th>
-        <% end %>
-      </tr>
-    </thead>
-    <tbody class="records">
-      <% @rows.each do |row| %>
-        <tr class="record">
-          <% row.each do |value| %>
-            <td><%=h value %></td>
-          <% end %>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-  
-  <div class="qualifier-legend" style="margin-top: 1em;">
-    <h3 class="title" style="font-weight: bold; text-decoration: underline; margin-bottom: 5px;">Qualifiers:</h3>
-    <ul class="qualifiers">
-      <% @qualifiers.each do |qualifier| %>
-        <dl class="qualifier">
-          <dt style="float: left; width: 2em; font-family: monospace; padding: 1px 2px;" class="code"><%= qualifier.id %></dt>
-          <dd style="float: left;" class="desc"><%= qualifier.name %></dd>
-        </dl>
-        <div style="clear: left; margin-bottom: 5px;"></div>
-      <% end %>
-    </ul>
-  </div>
+  <%= @report_html %>
 </div>

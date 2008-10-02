@@ -1,0 +1,42 @@
+<% url_options = params_for(:action => :update_agency_site_id) -%>
+<%= 
+form_remote_tag :url => url_options,
+  :after => "$('#{loading_indicator_id(:action => :edit_agency_site_id, :id => params[:id])}').style.visibility = 'visible'; Form.disable('#{element_form_id(:action => :edit_agency_site_id)}');",
+  :complete => "$('#{loading_indicator_id(:action => :edit_agency_site_id, :id => params[:id])}').style.visibility = 'hidden'; Form.enable('#{element_form_id(:action => :edit_agency_site_id)}');",
+  :failure => "ActiveScaffold.report_500_response('#{active_scaffold_id}')",
+  :html => {
+  :href => url_for(url_options),
+  :id => element_form_id(:action => :edit_agency_site_id),
+  :class => 'create'
+}
+%>
+
+<h4><%= active_scaffold_config.action_links['edit_agency_site_id'].label -%></h4>
+
+<div id="<%= element_messages_id(:action => :edit_agency_site_id) %>" class="messages-container">
+  <% if flash[:error] %>
+    <p class="error-message message">
+      <%= h flash[:error] %>
+    </p>
+  <% end %>
+</div>  
+
+<ol class="form">
+  <li class="form-element">
+    <dl>
+      <dt>Site ID</dt>
+      <dd><input name="agency_site_id" type="text" class="text-input" value="<%= @aquatic_site_usage.agency_site_id.to_s %>" /></dd>
+    </dl>
+  </li>
+</ol>  
+
+<p class="form-footer">
+  <%= submit_tag 'Save', :class => "submit" %>
+  <%= link_to as_('Cancel'), params_for(:action => 'list'), :class => 'cancel' %>
+  <%= loading_indicator_tag(:action => :edit_agency_site_id, :id => params[:id]) %>
+</p>
+
+</form>
+<script type="text/javascript">
+    Form.focusFirstElement('<%= element_form_id(:action => :edit_agency_site_id) -%>');
+</script>

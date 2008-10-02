@@ -1,0 +1,12 @@
+cancel_selector = "##{element_form_id(:action => :edit_agency_site_id)} a.cancel".to_json
+
+unless flash[:error]
+  page.replace_html action_link_id(:edit_agency_site_id, nil), active_scaffold_config.action_links['edit_agency_site_id'].label
+  page << "ActiveScaffold.stripe($('#{active_scaffold_tbody_id}'))"
+  page << "ActiveScaffold.hide_empty_message('#{active_scaffold_tbody_id}','#{empty_message_id}');"
+  page << "$$(#{cancel_selector}).first().link.close();"  
+else
+  page << "l = $$(#{cancel_selector}).first().link;"
+  page.replace element_form_id(:action => :edit_agency_site_id), :partial => 'edit_agency_site_id_form'
+  page << "l.register_cancel_hooks();"
+end

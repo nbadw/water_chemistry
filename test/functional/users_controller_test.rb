@@ -7,6 +7,7 @@ class UsersControllerTest < ActionController::TestCase
   def test_should_allow_signup    
     user = mock
     user.expects(:save!)
+    user.expects(:area_of_interest_id=)
     User.expects(:new).returns(user)
     post :create, :user => user_params
     assert_response :redirect
@@ -80,7 +81,7 @@ class UsersControllerTest < ActionController::TestCase
     
   def create_user(options = {})
     u = User.spawn
-    post :create, :user => { :login => u.login, :email => u.email, :agency_id => u.agency.id,
+    post :create, :user => { :name => u.name, :login => u.login, :email => u.email, :agency_id => u.agency.id,
       :password => u.password, :password_confirmation => u.password_confirmation }.merge(options)
   end
 end

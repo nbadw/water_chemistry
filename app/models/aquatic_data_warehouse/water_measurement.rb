@@ -37,7 +37,7 @@ class WaterMeasurement < AquaticDataWarehouse::BaseTbl
   validates_presence_of :o_and_m, :measurement
   validates_numericality_of :measurement
   
-  named_scope :for_sample, lambda { |id| { :conditions => ['SampleID = ?', id], :include => :o_and_m } }
+  named_scope :for_sample, lambda { |id| { :conditions => ['SampleID = ?', id], :include => [:o_and_m, :qualifier] } }
   
   def self.recorded_chemicals(sample_id)
     self.for_sample(sample_id).collect do |water_meas|

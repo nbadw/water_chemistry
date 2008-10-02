@@ -1,19 +1,11 @@
 class WaterChemistrySamplingController < ApplicationController 
   before_filter :create_aquatic_site_map, :except => [:show, :edit]
-  
-  def show
-    redirect_to :action => 'details', :aquatic_site_id => params[:aquatic_site_id],
-      :aquatic_activity_event_id => params[:aquatic_activity_event_id]
-  end
-  
+    
   def edit
     redirect_to :action => 'samples', :aquatic_site_id => params[:aquatic_site_id],
       :aquatic_activity_event_id => params[:aquatic_activity_event_id]
   end
-  
-  def details    
-  end
-  
+    
   def samples   
   end
     
@@ -24,19 +16,20 @@ class WaterChemistrySamplingController < ApplicationController
   end
   
   def results    
-    samples = Sample.for_aquatic_activity_event(params[:aquatic_activity_event_id])    
-    
-    @columns = samples.collect{ |sample| sample.sample_results }.flatten.uniq.collect{ |result| result.chemical.parameter_cd }
-    @rows = samples.collect do |sample|
-      row = []
-      results = sample.sample_results.to_a
-      @columns.each do |column|
-        result = results.find { |result| result.chemical.parameter_cd == column }
-        row << (result ? "#{result.measurement} #{result.qualifier.id if result.qualifier}".strip : nil)
-      end
-      row
-    end  
-    @qualifiers = samples.collect { |sample| sample.sample_results.collect { |water_meas| water_meas.qualifier } }.flatten.compact.uniq    
+    @report_html = Reports::WaterChemistrySampling.render_html(:aquatic_activity_event_id => params[:aquatic_activity_event_id]) 
+#    samples = Sample.for_aquatic_activity_event(params[:aquatic_activity_event_id])    
+#    
+#    @columns = samples.collect{ |sample| sample.sample_results }.flatten.uniq.collect{ |result| result.chemical.parameter_cd }
+#    @rows = samples.collect do |sample|
+#      row = []
+#      results = sample.sample_results.to_a
+#      @columns.each do |column|
+#        result = results.find { |result| result.chemical.parameter_cd == column }
+#        row << (result ? "#{result.measurement} #{result.qualifier.id if result.qualifier}".strip : nil)
+#      end
+#      row
+#    end  
+#    @qualifiers = samples.collect { |sample| sample.sample_results.collect { |water_meas| water_meas.qualifier } }.flatten.compact.uniq    
   end
   
   private  

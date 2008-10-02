@@ -3,11 +3,6 @@
     <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
   </dt>
   <dd>
-    <select name="record[<%= column.name %>]">   
-      <option></option>
-      <% AquaticActivityEvent.weather_conditions_options.each do |value| %>
-        <option><%=h value %> </option>
-      <% end %>
-    </select>
+    <%= select('record', column.name, Observation.weather_conditions.observable_values.collect { |obs_val| [obs_val.value, obs_val.id] }, { :include_blank => true }) %>
   </dd>
 </dl>

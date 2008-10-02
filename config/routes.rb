@@ -15,6 +15,8 @@ ActionController::Routing::Routes.draw do |map|
   map.connect '/aquatic_activity/aquatic_activity_details', :controller => 'aquatic_activity', :action => 'aquatic_activity_details'  
   map.connect '/aquatic_site/:aquatic_site_id/water_chemistry_sampling/:aquatic_activity_event_id/:action', :controller => 'water_chemistry_sampling'  
   
+  map.connect '/aquatic_site/report/:id', :controller => 'data_collection_sites', :action => 'water_chemistry_sampling_report'
+  
   map.browse   '/browse',       :controller => 'data_entry', :action => 'browse'
   map.explore  '/explore',      :controller => 'data_entry', :action => 'explore'
   

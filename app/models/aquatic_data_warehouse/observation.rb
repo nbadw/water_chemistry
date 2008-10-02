@@ -37,4 +37,16 @@ class Observation < OandM
   def group
     oand_m_group || 'Misc.'
   end
+  
+  def self.water_level
+    find(114)
+  end
+  
+  def self.weather_conditions
+    find(175)
+  end
+  
+  def self.rainfall_in_last_24_hours
+    find(176) 
+  end
 end

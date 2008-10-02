@@ -1,12 +1,8 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 
 class CoordinateSourceTest < ActiveSupport::TestCase
-  should "respond to :id and :name methods" do
-    id, name = 1, 'Test Coordinate Source'
-    coordinate_source = CoordinateSource.new(id, name)
-    assert_equal id, coordinate_source.id
-    assert_equal name, coordinate_source.name
-  end
+  should_use_table :coordinate_sources
+  should_use_primary_key :id
   
-  should_have_class_methods :find, :all
+  should_have_db_column :name, :type => :string, :limit => 30
 end

@@ -91,7 +91,40 @@ class DataCollectionSitesController < ApplicationController
     @waterbodies = Waterbody.search(query) unless query.blank?
     render :partial => "autocomplete" 
   end
+    
+  def on_coordinate_source_change
+    if params[:coordinate_source_id].blank?
+      render :update do |page|   
+        #page.replace_html 'coordinate_system_input', :inline => '<%= recorded_location_coordinate_system_input(@record) %>'  
+        page << "$('record_coordinate_system_id').disabled = true;"
+        page << "$('record_raw_latitude').disabled = true;" 
+        page << "$('record_raw_longitude').disabled = true;"
+      end
+    else
+      coordinate_source = CoordinateSource.find(params[:coordinate_source_id], :include => [:coordinate_systems])  
+      choices = coordinate_source.coordinate_systems.collect { |source| [source.display_name, source.id] }
+      render :update do |page|   
+        page.replace_html 'record_coordinate_system_id', :inline => '<%= options_for_select choices %>', :locals => { :choices => choices }  
+        page << "$('record_coordinate_system_id').disabled = false;"
+        page << "$('record_raw_latitude').disabled = false;" 
+        page << "$('record_raw_longitude').disabled = false;"
+      end
+    end
+  end 
   
+  def download
+    do_list
+    stream_csv do |csv|
+      @records.each { |aquatic_site| aquatic_site.generate_report(csv) }
+    end
+  end
+  
+  def water_chemistry_sampling_report
+    aquatic_site = AquaticSite.find params[:id]
+    
+  end
+  
+  protected
   def active_scaffold_joins
     [:waterbody, :aquatic_site_usages, :agencies, :aquatic_activities]
   end
@@ -119,29 +152,8 @@ class DataCollectionSitesController < ApplicationController
     self.active_scaffold_joins.concat includes_for_search_columns
 
     active_scaffold_config.list.user.page = nil
-  end
-  
-  def on_coordinate_source_change
-    if params[:coordinate_source_id].blank?
-      render :update do |page|   
-        #page.replace_html 'coordinate_system_input', :inline => '<%= recorded_location_coordinate_system_input(@record) %>'  
-        page << "$('record_coordinate_system_id').disabled = true;"
-        page << "$('record_raw_latitude').disabled = true;" 
-        page << "$('record_raw_longitude').disabled = true;"
-      end
-    else
-      coordinate_source = CoordinateSource.find(params[:coordinate_source_id], :include => [:coordinate_systems])  
-      choices = coordinate_source.coordinate_systems.collect { |source| [source.display_name, source.id] }
-      render :update do |page|   
-        page.replace_html 'record_coordinate_system_id', :inline => '<%= options_for_select choices %>', :locals => { :choices => choices }  
-        page << "$('record_coordinate_system_id').disabled = false;"
-        page << "$('record_raw_latitude').disabled = false;" 
-        page << "$('record_raw_longitude').disabled = false;"
-      end
-    end
-  end    
-  
-  private  
+  end  
+    
   def construct_finder_conditions(query_term, columns)  
     # replace occurences of 'st' with 'st.'
     query_term = query_term.split(' ').collect { |word| word.match(/^(st)$/i) ? "#{$1}." : word }.join(' ')

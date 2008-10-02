@@ -94,10 +94,11 @@ module DataCollectionSitesHelper
        
     def area_of_interest_toggle_link
       url = url_for(:controller => 'data_collection_sites', :action => 'toggle_area_of_interest')
-      link_to(session[:filter_area_of_interest] ? 'Show All' : 'Show Area of Interest', url,
+      link_to('Filter by Area of Interest', url,
         { 
           :id => area_of_interest_toggle_link_id, 
-          :onclick => "doToggleAreaOfInterest('#{url}', '#{active_scaffold_content_id}', '#{active_scaffold_id}', 'data_collection_sites-table-loading-indicator');return false;"
+          :class => (session[:filter_area_of_interest] ? 'active' : 'inactive'),
+          :onclick => "doToggleAreaOfInterest('#{url}', '#{active_scaffold_content_id}', '#{active_scaffold_id}', 'data_collection_sites-table-loading-indicator');return false;"         
         }
       )     
     end

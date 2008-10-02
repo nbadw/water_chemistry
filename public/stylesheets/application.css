@@ -396,6 +396,29 @@ div.aquatic-site-info-window p {
     margin: 5px 5px 3px; 
 }
 
+a#area-of-interest-toggle {
+    background-image: url(../images/active_scaffold/default/filter.png);
+    background-position: 1px 50%;
+    background-repeat:no-repeat;
+    padding-left:19px;
+}
+a#area-of-interest-toggle.inactive {
+    color: #666;
+    opacity: 0.5;
+}
+a#area-of-interest-toggle.inactive:hover {
+    color: #06c;
+    opacity: 1.0;
+}
+a#area-of-interest-toggle.active {
+    color: #06c;
+    opacity: 1.0;
+}
+a#area-of-interest-toggle.active:hover {
+    color: #666;
+    opacity: 0.5;
+}
+
 .info-window #tbl_aquatic_site-content {
     margin-top: 25px;
 }

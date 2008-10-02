@@ -81,4 +81,8 @@ class AquaticSite < AquaticDataWarehouse::BaseTbl
   def unattached_data_sets
     AquaticActivity.find(:all) - attached_data_sets
   end
+  
+  def generate_report(csv)
+    
+  end
 end
