@@ -3,10 +3,10 @@ class Location
   #DECIMAL_DEGREES_REGEXP = //
   DECIMAL_FORMAT = /^(-?\d+[.]?\d*)$/
   
-  attr_reader :latitude, :longitude, :coordinate_system_id, :errors
+  attr_reader :latitude, :longitude, :coordinate_system_name, :errors
     
-  def initialize(latitude, longitude, coordinate_system_id)
-    @latitude, @longitude, @coordinate_system_id = latitude, longitude, coordinate_system_id  
+  def initialize(latitude, longitude, coordinate_system_name)
+    @latitude, @longitude, @coordinate_system_name = latitude, longitude, coordinate_system_name  
     @coordinate_system = nil
     @errors = ActiveRecord::Errors.new(self)
   end
@@ -15,12 +15,12 @@ class Location
     [self.errors.on(:latitude)].flatten.each  { |error| record.errors.add mapping[0], error }
     [self.errors.on(:longitude)].flatten.each { |error| record.errors.add mapping[1], error }
     if mapping[2]
-      [self.errors.on(:coordinate_system_id)].flatten.each { |error| record.errors.add mapping[2], error }
+      [self.errors.on(:coordinate_system)].flatten.each { |error| record.errors.add mapping[2], error }
     end
   end
   
   def coordinate_system
-    @coordinate_system ||= CoordinateSystem.find(coordinate_system_id)
+    @coordinate_system ||= CoordinateSystem.find_by_display_name(coordinate_system_name)
   end
   
   def valid?
@@ -29,7 +29,7 @@ class Location
   end
   
   def blank?
-    latitude.to_s.blank? && longitude.to_s.blank? && coordinate_system_id.to_s.blank?
+    latitude.to_s.blank? && longitude.to_s.blank? && coordinate_system_name.to_s.blank?
   end  
   
   def decimal_degrees_latitude?
@@ -71,7 +71,7 @@ class Location
   
   def validate
     errors.clear
-    validate_coordinate_system_id
+    validate_coordinate_system
     validate_latitude
     validate_longitude
   end 
@@ -92,11 +92,11 @@ class Location
     end
   end
   
-  def validate_coordinate_system_id
-    unless coordinate_system_id.to_s.blank?
-      errors.add :coordinate_system_id, "not found" if coordinate_system.nil?
+  def validate_coordinate_system
+    unless coordinate_system_name.to_s.blank?
+      errors.add :coordinate_system, "not found" if coordinate_system.nil?
     else
-      errors.add_on_blank :coordinate_system_id
+      errors.add_on_blank :coordinate_system
     end
   end
   

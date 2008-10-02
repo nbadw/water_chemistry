@@ -44,30 +44,14 @@
 class AquaticActivityEvent < AquaticDataWarehouse::BaseTbl  
   set_table_name  "tblAquaticActivity"
   set_primary_key "AquaticActivityID"
-  
-  class << self 
-    def rainfall_last24_options
-      ["None", "Light", "Heavy"]
-    end
-
-    def weather_conditions_options
-      ["Sunny", "Partly Cloudy", "Cloudy", "Raining"]
-    end
-
-    def water_level_options
-      ["Low", "Medium", "High"]
-    end
-  end
      
   belongs_to :aquatic_activity, :foreign_key => 'AquaticActivityCd'
   belongs_to :aquatic_site, :foreign_key => 'AquaticSiteID'
   belongs_to :agency, :foreign_key => 'AgencyCd'
   belongs_to :secondary_agency, :class_name => 'Agency', :foreign_key => 'Agency2Cd'
   belongs_to :aquatic_activity_method, :foreign_key => 'AquaticMethodCd'
+  has_many   :recorded_observations, :foreign_key => 'AquaticActivityID', :dependent => :destroy
          
-  #validates_inclusion_of :rainfall_last24, :in => self.rainfall_last24_options, :allow_nil => true, :allow_blank => true
-  #validates_inclusion_of :weather_conditions, :in => self.weather_conditions_options, :allow_nil => true, :allow_blank => true
-  #validates_inclusion_of :water_level, :in => self.water_level_options, :allow_nil => true, :allow_blank => true
   validates_presence_of  :aquatic_site, :aquatic_activity, :agency, :aquatic_activity_method, :start_date     
   
   def start_date
@@ -78,24 +62,40 @@ class AquaticActivityEvent < AquaticDataWarehouse::BaseTbl
     DateTime.parse(date_str).to_s(:adw) if date_str
   end
   
-  def start_date=(value)    
+  def start_date=(value)        
     if value.is_a?(DateTime)
       value = value.to_s(:adw)
     elsif value.is_a?(String)
-      DateTime.parse(value).to_s(:adw)
+      value = value.empty? ? nil : DateTime.parse(value).to_s(:adw)
     else
       value = nil
     end
     write_attribute("AquaticActivityStartDate", value)    
   end  
   
-#  def before_save
-#    write_attribute('IncorporatedInd', false) if incorporated_ind.nil?
-#    write_attribute('PrimaryActivityInd', false) if primary_activity_ind.nil?
-#    return self
-#  end
+  def water_level
+    recorded_observations.to_a.find { |rec_obs| rec_obs.observation == Observation.water_level }
+  end
+  
+  def water_level=(value)  
+    rec_obs = RecordedObservation.new(:observation => Observation.water_level)
+    rec_obs.value_observed = value
+    recorded_observations << rec_obs
+  end
+  
+  def weather_conditions
+    recorded_observations.to_a.find { |rec_obs| rec_obs.observation == Observation.weather_conditions }
+  end
+  
+  def weather_conditions=(value)  
+    rec_obs = RecordedObservation.new(:observation => Observation.weather_conditions)
+    rec_obs.value_observed = value
+    recorded_observations << rec_obs
+  end
     
   def self.count_attached(aquatic_site, aquatic_activity)
-    self.count :all, :conditions => ['AquaticSiteID = ? AND AquaticActivityCd = ?', aquatic_site.id, aquatic_activity.id]
+    aquatic_site_id = aquatic_site.is_a?(AquaticSite) ? aquatic_site.id : aquatic_site.to_i
+    aquatic_activity_id = aquatic_activity.is_a?(AquaticActivity) ? aquatic_activity.id : aquatic_activity.to_i
+    self.count :all, :conditions => ['AquaticSiteID = ? AND AquaticActivityCd = ?', aquatic_site_id, aquatic_activity_id]
   end
 end

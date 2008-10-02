@@ -2,6 +2,10 @@
 
 <% if request.xhr? %>
 <script type="text/javascript">
-  console.log('update agency site id link if necessary');
+  <% if @aquatic_site_usage %>
+    Element.show('<%= action_link_id(:edit_agency_site_id, nil) %>');
+  <% else %>
+    Element.hide('<%= action_link_id(:edit_agency_site_id, nil) %>');
+  <% end %>
 </script>
 <% end %>

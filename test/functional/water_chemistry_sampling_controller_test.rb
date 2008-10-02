@@ -6,12 +6,6 @@ class WaterChemistrySamplingControllerTest < ActionController::TestCase
       login
     end
     
-    should "redirect to details on show" do
-      get :show, :aquatic_site_id => '1', :aquatic_activity_event_id => '1'
-      assert_response :redirect
-      assert_redirected_to :action => "details", :aquatic_site_id => '1', :aquatic_activity_event_id => '1'
-    end
-    
     should "redirect to samples on edit" do
       get :edit, :aquatic_site_id => '1', :aquatic_activity_event_id => '1'
       assert_response :redirect

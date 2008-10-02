@@ -72,38 +72,32 @@ class AquaticActivityEventController < ApplicationController
   end
   
   protected  
-  def before_create_save(aquatic_activity_event)
-    aquatic_activity_event.water_level = nil
-    aquatic_activity_event.weather_conditions = nil    
+  def before_create_save(aquatic_activity_event)  
     aquatic_activity_event.aquatic_site_id = active_scaffold_session_storage[:constraints][:aquatic_site_id]
     aquatic_activity_event.aquatic_activity_cd = active_scaffold_session_storage[:constraints][:aquatic_activity_cd].to_i
     aquatic_activity_event.agency_cd = current_user.agency.id
   end
   
   def after_create_save(aquatic_activity_event)
-    maybe_create_water_observations(aquatic_activity_event)
-    maybe_create_aquatic_site_usage(aquatic_activity_event)
+    maybe_create_aquatic_site_usage
   end
   
-  def maybe_create_water_observations(aquatic_activity_event)
-    weather_conditions = params[:record][:weather_conditions]
-    unless weather_conditions.to_s.empty?
-      rec_obs = RecordedObservation.new(:aquatic_activity_event => aquatic_activity_event, :observation => Observation.weather_conditions)
-      rec_obs.value_observed = weather_conditions
-      rec_obs.save!
-    end
+  def do_destroy
+    super
+    maybe_destroy_aquatic_site_usage if self.successful
+  end
     
-    water_level = params[:record][:water_level]
-    unless water_level.to_s.empty?
-      rec_obs = RecordedObservation.new(:aquatic_activity_event => aquatic_activity_event, :observation => Observation.water_level)
-      rec_obs.value_observed = water_level
-      rec_obs.save!
-    end
-  end
-  
-  def maybe_create_aquatic_site_usage(aquatic_activity_event)
+  def maybe_create_aquatic_site_usage
     return if find_aquatic_site_usage      
     AquaticSiteUsage.create({ :agency_cd => current_user.agency.id }.merge(active_scaffold_session_storage[:constraints]))
+  end
+  
+  def maybe_destroy_aquatic_site_usage
+    constraints = active_scaffold_sessions_storage[:constraints]
+    if AquaticActivityEvent.count_attached(constraints[:aquatic_site_id], constraints[:aquatic_activity_cd]) == 0
+      usage = find_aquatic_site_usage
+      usage.destroy
+    end
   end
     
   def find_aquatic_activity_methods

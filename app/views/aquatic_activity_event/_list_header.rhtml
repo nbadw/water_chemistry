@@ -7,9 +7,7 @@
       <%= render_action_link(link, new_params) -%>
     <% end -%>
 
-    <% if @aquatic_site_usage %>
-      <%= render_action_link(active_scaffold_config.action_links['edit_agency_site_id'], new_params) %>
-    <% end %>
+    <%= render_action_link(active_scaffold_config.action_links['edit_agency_site_id'], new_params) %>
     
     <%= loading_indicator_tag(:action => :table) %>
   </div>
