@@ -1,0 +1,27 @@
+<div class="activity-details">
+  <table>
+    <tr>
+      <td>Aquatic Site ID: <%= data.aquatic_site.id %></td>
+      <td>Date Sampled:</td>
+    </tr>
+    <tr>
+      <td>Waterbody ID: <%= data.waterbody.id %></td>
+      <td>Agency: <%= data.agency.code %></td>
+    </tr>
+    <tr>
+      <td>Waterbody Name: <%= data.waterbody.water_body_name %></td>
+      <td>Analyzed By:</td>
+    </tr>
+    <tr>
+      <td>Drainage Code: <%= data.waterbody.drainage_cd %></td>
+      <td>ADW Sample ID:</td>
+    </tr>
+    <tr>
+      <td rowspan="2">Site Description: <%= data.aquatic_site.aquatic_site_desc %></td>
+      <td>Agency Sample No.:</td>
+    </tr>
+    <tr>
+      <td>Lab No.:</td>
+    </tr>
+  </table>
+</div>

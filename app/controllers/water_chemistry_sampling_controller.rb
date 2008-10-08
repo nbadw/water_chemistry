@@ -16,20 +16,11 @@ class WaterChemistrySamplingController < ApplicationController
   end
   
   def results    
-    @report_html = Reports::WaterChemistrySampling.render_html(:aquatic_activity_event_id => params[:aquatic_activity_event_id]) 
-#    samples = Sample.for_aquatic_activity_event(params[:aquatic_activity_event_id])    
-#    
-#    @columns = samples.collect{ |sample| sample.sample_results }.flatten.uniq.collect{ |result| result.chemical.parameter_cd }
-#    @rows = samples.collect do |sample|
-#      row = []
-#      results = sample.sample_results.to_a
-#      @columns.each do |column|
-#        result = results.find { |result| result.chemical.parameter_cd == column }
-#        row << (result ? "#{result.measurement} #{result.qualifier.id if result.qualifier}".strip : nil)
-#      end
-#      row
-#    end  
-#    @qualifiers = samples.collect { |sample| sample.sample_results.collect { |water_meas| water_meas.qualifier } }.flatten.compact.uniq    
+    @report_html = Reports::WaterChemistrySampling.render_html(
+      :aquatic_site => AquaticSite.find(params[:aquatic_site_id]),
+      :aquatic_activity_event => AquaticActivityEvent.find(params[:aquatic_activity_event_id]),
+      :agency => current_user.agency
+    )   
   end
   
   private  

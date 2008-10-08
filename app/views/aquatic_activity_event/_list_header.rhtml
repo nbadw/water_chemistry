@@ -3,13 +3,14 @@
     <% new_params = params_for(:action => :table) %>
     <% active_scaffold_config.action_links.each :table do |link| -%>
       <% next if controller.respond_to? link.security_method and !controller.send(link.security_method) -%>
-      <% next if link.action == 'edit_agency_site_id' %>
+      <% next if edit_agency_site_id_link?(link) %>
       <%= render_action_link(link, new_params) -%>
     <% end -%>
 
-    <%= render_action_link(active_scaffold_config.action_links['edit_agency_site_id'], new_params) %>
+    <%= render_edit_agency_site_id_action_link(new_params) %>
     
     <%= loading_indicator_tag(:action => :table) %>
   </div>
 <% end %>
 <h2><%= active_scaffold_config.list.user.label %></h2>
+<h2 id="<%= agency_site_id_header_id %>"><%= agency_site_id %></h2>

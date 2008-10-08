@@ -3,9 +3,9 @@
 <% if request.xhr? %>
 <script type="text/javascript">
   <% if @aquatic_site_usage %>
-    Element.show('<%= action_link_id(:edit_agency_site_id, nil) %>');
+    Element.show('<%= edit_agency_site_id_action_link_id %>');
   <% else %>
-    Element.hide('<%= action_link_id(:edit_agency_site_id, nil) %>');
+    Element.hide('<%= edit_agency_site_id_action_link_id %>');
   <% end %>
 </script>
 <% end %>

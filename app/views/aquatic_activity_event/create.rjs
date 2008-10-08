@@ -13,8 +13,7 @@ if controller.send :successful?
     page << "$$(#{cancel_selector}).first().link.close();"
   end
   
-  #edit_site_agency_link_id = action_link_id(:edit_agency_site_id, nil)
-  #@aquatic_site_usage ? page.show(edit_site_agency_link_id) : page.hide(edit_site_agency_link_id)
+  @aquatic_site_usage ? page.show(edit_agency_site_id_action_link_id) : page.hide(edit_agency_site_id_action_link_id)
 else
   page << "l = $$(#{cancel_selector}).first().link;"
   page.replace element_form_id(:action => :create), :partial => 'create_form'

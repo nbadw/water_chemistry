@@ -1,14 +1,9 @@
 module Reports
-  class WaterChemistrySampling < Ruport::Controller
-    stage :parameter_table, :qualifier_legend
+  class WaterChemistrySampling < Ruport::Controller    
+    stage :header, :activity_details, :parameter_table, :footer
   
     def setup      
-      aggregator_options = {
-        :aquatic_site_id => options[:aquatic_site_id],
-        :aquatic_activity_event_id => options[:aquatic_activity_event_id],
-        :aquatic_site_ids => options[:aquatic_site_ids]
-      }
-      self.data ||= SampleResultsAggregator.new(aggregator_options)
+      self.data ||= SampleResultsAggregator.new(options)
     end
     
     class CSV < Ruport::Formatter::CSV
@@ -22,21 +17,41 @@ module Reports
     class HTML < Ruport::Formatter::HTML
       renders :html, :for => WaterChemistrySampling
       
+      def layout
+        output << '<div id="water-chemistry-report">'
+        yield
+        output << '</div>'
+      end
+      
+      build(:header) { render_erb(:header) }
+      
+      build :activity_details do
+        render_erb(:activity_details)
+      end
+      
       build :parameter_table do
-        #output << erb(RAILS_ROOT + "/app/reports/views/#{self.class.underscore}.html.erb")
-        output << data.rows.to_html
+        render_erb(:parameter_table)
+      end
+      
+      build(:footer) { render_erb(:footer) }
+      
+      def render_erb(stage_name)
+        output << erb("#{RAILS_ROOT}/app/reports/views/water_chemistry_sampling/#{stage_name}.html.erb")
       end
     end
     
     class SampleResultsAggregator
-      attr_reader :aquatic_activity_event_id
+      attr_reader :aquatic_activity_event, :aquatic_site, :waterbody, :agency
       
       def initialize(options={})        
-        @aquatic_activity_event_id = options[:aquatic_activity_event_id]
+        @aquatic_activity_event = options[:aquatic_activity_event]
+        @aquatic_site = options[:aquatic_site]
+        @waterbody = @aquatic_site.waterbody
+        @agency = options[:agency]
       end
       
       def rows
-        samples = Sample.for_aquatic_activity_event(aquatic_activity_event_id)
+        samples = Sample.for_aquatic_activity_event(aquatic_activity_event.id)
         table = Table([:parameter, :code, :measurement, :qualifier, :comment]) do |t|      
           samples.each do |sample|
             sample.sample_results.each do |sample| 

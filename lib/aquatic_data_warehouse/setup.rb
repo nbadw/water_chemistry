@@ -133,7 +133,7 @@ module AquaticDataWarehouse
       
     def prompt_for_admin_password
       password = ask('Password (DEapp): ', String) do |q|
-        q.echo = false
+        #q.echo = false
         q.validate = /^(|.{4,40})$/
         q.responses[:not_valid] = "Invalid password. Must be at least 5 characters long."
         q.whitespace = :strip

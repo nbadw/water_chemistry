@@ -631,7 +631,7 @@ CREATE TABLE `tblaquaticactivity` (
   KEY `FisheriesSiteID` (`AquaticSiteID`),
   KEY `OldAquaticActivityID` (`TempAquaticActivityID`),
   KEY `oldAquaticSiteID` (`oldAquaticSiteID`)
-) ENGINE=InnoDB AUTO_INCREMENT=150639 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=150638 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tblaquaticprogram` (
   `AquaticProgramID` int(10) NOT NULL,
@@ -1569,7 +1569,7 @@ CREATE TABLE `tblobservations` (
   PRIMARY KEY  (`ObservationID`),
   KEY `AquaticActivityID` (`AquaticActivityID`),
   KEY `EnvSurveyID` (`ObservationID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tbloldhabitatsurvey` (
   `HabitatSurveyID` int(10) NOT NULL auto_increment,
@@ -1761,7 +1761,7 @@ CREATE TABLE `tblsample` (
   KEY `tblAquaticActivitytblSample` (`AquaticActivityID`),
   KEY `tblSampleWaterSourceType` (`WaterSourceType`),
   KEY `TempAquaticActivityID` (`TempAquaticActivityID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tblsatelliterearing` (
   `AquaticActivityID` int(10) NOT NULL,
@@ -1799,7 +1799,7 @@ CREATE TABLE `tblsitemeasurement` (
   KEY `AquaticActivityID` (`AquaticActivityID`),
   KEY `SiteMeasurementID` (`SiteMeasurementID`),
   KEY `tblAquaticActivitytblSiteMeasur` (`AquaticActivityID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5137 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5135 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tblspawners` (
   `AquaticActivityID` int(10) default NULL,
@@ -2267,7 +2267,7 @@ CREATE TABLE `tblwatermeasurement` (
   KEY `TempDataID` (`TempDataID`),
   KEY `TemperatureLoggerID` (`TemperatureLoggerID`),
   KEY `WaterMeasurementID` (`WaterMeasurementID`)
-) ENGINE=InnoDB AUTO_INCREMENT=194996 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=194944 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tblwatertemperatureloggerdetails` (
   `TemperatureLoggerID` int(10) NOT NULL auto_increment,
@@ -2330,7 +2330,7 @@ CREATE TABLE `users` (
   `last_login` datetime default NULL,
   `area_of_interest_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 INSERT INTO schema_migrations (version) VALUES ('20080923163400');
 
@@ -2343,3 +2343,9 @@ INSERT INTO schema_migrations (version) VALUES ('20080923163935');
 INSERT INTO schema_migrations (version) VALUES ('20080923163956');
 
 INSERT INTO schema_migrations (version) VALUES ('20080926150102');
+
+INSERT INTO schema_migrations (version) VALUES ('20081006133341');
+
+INSERT INTO schema_migrations (version) VALUES ('20081006133430');
+
+INSERT INTO schema_migrations (version) VALUES ('20081006133526');
