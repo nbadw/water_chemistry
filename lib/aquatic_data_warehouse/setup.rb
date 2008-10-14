@@ -1,9 +1,15 @@
 require "highline"
 require "forwardable"
 require "agency"
+require "observation"
+require "measurement"
+require "gmap_location"
+require "geo_ruby"
 
 module AquaticDataWarehouse
-  class Setup  
+  class Setup      
+    include GeoRuby::Shp4r
+    
     class << self
       def bootstrap(config)
         setup = new
@@ -95,12 +101,15 @@ module AquaticDataWarehouse
       ok = system(command)
       raise "Could not execute command '#{command}'.  Please make sure the command is on your environment PATH." unless ok   
       
+      ActiveRecord::Base.establish_connection
       fix_boolean_column_values
+      set_fish_passage_indicators
+      set_bank_indicators
+      load_aquatic_site_coordinates
     end
     
     def fix_boolean_column_values      
       to_be_fixed = []
-      ActiveRecord::Base.establish_connection
       ActiveRecord::Base.connection.tables.each do |table|
         ar_model = Class.new(ActiveRecord::Base) { set_table_name table }
         ar_model.columns.each { |column| to_be_fixed << { :table => table, :column => column.name } if column.type == :boolean }
@@ -108,6 +117,38 @@ module AquaticDataWarehouse
       to_be_fixed.each do |fix|
         update = "UPDATE `#{fix[:table]}` SET `#{fix[:column]}` = 1 WHERE `#{fix[:column]}` = -1;"
         ActiveRecord::Base.connection.execute(update)
+      end
+    end
+    
+    def set_fish_passage_indicators
+      obs_ids = [23, 25, 29, 31, 49, 50, 51, 52, 179]
+      Observation.find(obs_ids).each do |observation|
+        observation.write_attribute('FishPassageInd', true)
+        observation.save!
+      end
+    end
+
+    def set_bank_indicators
+      meas_ids = [74, 75]
+      Measurement.find(meas_ids).each do |measurement|
+        measurement.write_attribute('BankInd', true)
+        measurement.save!
+      end
+    end
+    
+    def load_aquatic_site_coordinates
+      shape_file = File.join(RAILS_ROOT, 'db', 'aquatic_site_locations', 'Aquatic_Sites.shp')
+      ShpFile.open(shape_file) do |shpfile|
+        shpfile.each do |shape| 
+          if(shape.geometry.text_geometry_type == 'POINT')
+            gmap_location = GmapLocation.create({
+                :latitude  => shape.geometry.lat,
+                :longitude => shape.geometry.lon,
+                :locatable_id => shape.data['AquaSiteID'],
+                :locatable_type => 'AquaticSite'
+              })            
+          end             
+        end
       end
     end
     

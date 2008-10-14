@@ -1,0 +1,92 @@
+#header {
+    background-color: #001E20;
+    color: #fff;
+    height: 50px;
+}
+#session {
+    display: none;
+}
+#application .logo {
+    height: 36px;
+    width: 36px;
+    float: left;
+    background-color: #fff;
+    color: #000;
+    text-align: center;
+    margin: 7px 10px;
+    display: none;
+}
+#application .name {
+    font-size: 16px;
+    padding-top: 17px;
+    padding-left: 10px;
+    font-family: Verdana;
+    height: 33px;
+}
+#application .name a {
+    font-weight: normal;
+    text-decoration: none;
+    color: #fff;
+}
+#application .name a:hover {
+    color: #B3D5E1;
+}
+#agency {
+    display: none;
+}
+
+#navigation {
+    display: none;
+}
+
+#water-chemistry-sampling.report #content #center {
+    width: 100%; 
+    float: none;
+    overflow: visible;
+}
+#water-chemistry-sampling.report #right {
+    display: none;
+}
+
+#water-chemistry-report *,
+#water-chemistry-report .header .title {
+    font-family: Calibri, "Lucida Grande", "Gill Sans", Verdana, sans-serif;
+    color: #000;
+}
+#water-chemistry-report .header .title {
+    font-size: 18pt;
+    margin-bottom: 10pt;
+    font-weight: bold;    
+}
+#water-chemistry-report table {
+    border: 2px solid black;
+    border-right: none;
+    border-left: none;
+    width: 100%;
+}
+#water-chemistry-report table td {
+    padding: 5px;    
+}
+#water-chemistry-report table th {
+    padding: 5px;
+    font-weight: bold;
+    background-color: #fff;
+}
+#water-chemistry-report .activity-details,
+#water-chemistry-report .parameter-table {
+    margin: 1em 0.5em;  
+    font-size: 11pt;
+}
+#water-chemistry-report .parameter-table {
+    margin-bottom: 2.5em;
+}
+#water-chemistry-report .footer * {
+}
+#water-chemistry-report .footer p {
+    color: #808080;
+    font-size: 11pt;
+}
+#water-chemistry-report .footer .date {
+    text-align: right;
+    margin-top: -11pt;
+}

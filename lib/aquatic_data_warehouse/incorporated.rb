@@ -1,4 +1,7 @@
-module AquaticDataWarehouse  
+module AquaticDataWarehouse    
+  class RecordIsIncorporated < ActiveRecord::ActiveRecordError
+  end  
+    
   module Incorporated   
     def self.included(base)
       base.before_destroy :ensure_record_is_not_incorporated
@@ -10,10 +13,7 @@ module AquaticDataWarehouse
         !columns.detect { |column| column.name == 'IncorporatedInd' }.nil?
       end
     end
-    
-    class RecordIsIncorporated < ActiveRecord::ActiveRecordError
-    end  
-    
+        
     def authorized_for_destroy?
       !incorporated?
     end
@@ -28,7 +28,7 @@ module AquaticDataWarehouse
 
     private
     def ensure_record_is_not_incorporated
-      raise(RecordIsIncorporated, "Incorporated records cannot be deleted") if incorporated?
+      raise(AquaticDataWarehouse::RecordIsIncorporated, "Incorporated records cannot be deleted") if incorporated?
     end
   end
 end

@@ -1,4 +1,5 @@
 class AquaticActivityEventController < ApplicationController  
+  before_filter :login_required
   before_filter :find_aquatic_activity_methods, :only => [:new, :create, :edit, :update]
   before_filter :find_aquatic_site_usage, :only => [:list, :table, :edit_agency_site_id, :update_agency_site_id]
   

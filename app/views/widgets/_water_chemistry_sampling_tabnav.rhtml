@@ -25,9 +25,9 @@ render_tabnav :main, :html => { :class => 'tabs', :id => 'main-tabs' } do
   end 
   
   add_tab do |t|
-    t.named 'Results'
-    t.titled 'Results'
-    t.links_to :controller => 'water_chemistry_sampling', :action => 'results', 
+    t.named 'Report'
+    t.titled 'Report'
+    t.links_to :controller => 'water_chemistry_sampling', :action => 'report', 
       :aquatic_activity_event_id => params[:aquatic_activity_event_id], :aquatic_site_id => params[:aquatic_site_id]
     t.html[:class] = 'tab'
   end 

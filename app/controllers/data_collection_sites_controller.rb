@@ -1,5 +1,6 @@
 class DataCollectionSitesController < ApplicationController  
   helper DataCollectionSitesHelper
+  before_filter :login_required
   
   active_scaffold :aquatic_site do |config|
     # columns

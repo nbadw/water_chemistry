@@ -4,6 +4,7 @@ class AquaticSiteTest < ActiveSupport::TestCase
   should_use_table "tblAquaticSite"
   should_use_primary_key "AquaticSiteID"
     
+  should_have_one  :gmap_location
   should_belong_to :waterbody
   should_have_many :aquatic_site_usages
   should_have_many :aquatic_activities, :through => :aquatic_site_usages
@@ -21,8 +22,8 @@ class AquaticSiteTest < ActiveSupport::TestCase
   should_have_db_column "ReachNo", :type => :integer 
   should_have_db_column "StartDesc", :type => :string, :limit => 100
   should_have_db_column "EndDesc", :type => :string, :limit => 100
-  should_eventually '_have_db_column "StartRouteMeas", :type => :float'
-  should_eventually '_have_db_column "EndRouteMeas", :type => :float'
+  should_have_db_column "StartRouteMeas", :type => :float
+  should_have_db_column "EndRouteMeas", :type => :float
   should_have_db_column "SiteType", :type => :string, :limit => 20
   should_have_db_column "SpecificSiteInd", :type => :string, :limit => 1
   should_have_db_column "GeoReferencedInd", :type => :string, :limit => 1
@@ -92,26 +93,22 @@ class AquaticSiteTest < ActiveSupport::TestCase
   end
   
   context "when site has been incorporated into the data warehouse" do
-    setup { @aquatic_site = AquaticSite.generate!(:exported_at => DateTime.now) }
+    setup { @aquatic_site = AquaticSite.generate!(:incorporated_ind => true) }
       
-    should_eventually "throw error if delete is attempted" do 
+    should "throw error if delete is attempted" do 
       assert_raise(AquaticDataWarehouse::RecordIsIncorporated) { AquaticSite.destroy @aquatic_site.id }
     end
   end
   
   context "when activity events are attached to aquatic site" do
     setup do
-#      @aquatic_site = AquaticSite.generate!
-#      AquaticSiteUsage.generate!(:aquatic_site => @aquatic_site)
-#      assert_equal 1, @aquatic_site.aquatic_site_usages.length
+      @aquatic_site = AquaticSite.generate!
+      AquaticSiteUsage.generate!(:aquatic_site => @aquatic_site)
+      assert_equal 1, @aquatic_site.aquatic_site_usages.length
     end
     
-    should_eventually "throw error if delete is attempted" do
+    should "throw error if delete is attempted" do
       assert_raise(AquaticSite::AquaticSiteInUse) { @aquatic_site.destroy }
-    end
-    
-    should_eventually "cascade delete to activity events" do
-      
     end
   end
 end

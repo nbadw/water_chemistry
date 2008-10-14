@@ -1,4 +1,6 @@
 class AgencyController < ApplicationController
+  before_filter :login_required
+  
   active_scaffold do |config| 
     config.label = "Agencies"
     config.actions = [:list]

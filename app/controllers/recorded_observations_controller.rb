@@ -1,5 +1,6 @@
 class RecordedObservationsController < ApplicationController
   helper RecordedObservationsHelper
+  before_filter :login_required
   before_filter :find_observations, :only => [:new, :create, :edit, :update]
   
   active_scaffold :recorded_observation do |config|

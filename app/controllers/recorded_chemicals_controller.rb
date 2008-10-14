@@ -1,5 +1,6 @@
 class RecordedChemicalsController < ApplicationController
   helper RecordedChemicalsHelper
+  before_filter :login_required
   before_filter :find_chemicals, :only => [:new, :create, :edit, :update]
   
   active_scaffold :water_measurement do |config|      

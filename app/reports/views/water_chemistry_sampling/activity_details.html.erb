@@ -1,27 +1,38 @@
 <div class="activity-details">
   <table>
     <tr>
-      <td>Aquatic Site ID: <%= data.aquatic_site.id %></td>
-      <td>Date Sampled:</td>
+      <td>Aquatic Site ID:</td>
+      <td><%= data.aquatic_site.id %></td>
+      <td>Date Sampled: </td>
+      <td><%= %></td>
     </tr>
     <tr>
-      <td>Waterbody ID: <%= data.waterbody.id %></td>
-      <td>Agency: <%= data.agency.code %></td>
+      <td>Waterbody ID: </td>
+      <td><%= data.waterbody.id %></td>
+      <td>ADW Sample ID: </td>
+      <td><%= data.sample.id %></td>
     </tr>
     <tr>
-      <td>Waterbody Name: <%= data.waterbody.water_body_name %></td>
-      <td>Analyzed By:</td>
+      <td>Waterbody Name: </td>
+      <td><%= data.waterbody.water_body_name %></td>
+      <td>Sampled By: </td>
+      <td><%= data.agency.code %></td>
     </tr>
     <tr>
-      <td>Drainage Code: <%= data.waterbody.drainage_cd %></td>
-      <td>ADW Sample ID:</td>
+      <td>Drainage Code: </td>
+      <td><%= data.waterbody.drainage_cd %></td>
+      <td>Agency Sample No.: </td>
+      <td><%= data.sample.agency_sample_no %></td>
     </tr>
     <tr>
-      <td rowspan="2">Site Description: <%= data.aquatic_site.aquatic_site_desc %></td>
-      <td>Agency Sample No.:</td>
+      <td rowspan="2">Site Description: </td>
+      <td rowspan="2"><%= data.aquatic_site.aquatic_site_desc %></td>
+      <td>Analyzed By: </td>
+      <td><%= data.sample.analyzed_by %></td>
     </tr>
     <tr>
       <td>Lab No.:</td>
+      <td></td>
     </tr>
   </table>
 </div>

@@ -1,5 +1,6 @@
 class WaterMeasurementsController < ApplicationController
   helper RecordedMeasurementsHelper
+  before_filter :login_required
   before_filter :find_measurements, :only => [:new, :create, :edit, :update]  
   
   active_scaffold do |config|

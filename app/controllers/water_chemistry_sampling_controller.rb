@@ -1,4 +1,5 @@
 class WaterChemistrySamplingController < ApplicationController 
+  before_filter :login_required
   before_filter :create_aquatic_site_map, :except => [:show, :edit]
     
   def edit
@@ -15,12 +16,17 @@ class WaterChemistrySamplingController < ApplicationController
   def measurements   
   end
   
-  def results    
-    @report_html = Reports::WaterChemistrySampling.render_html(
+  def report  
+    options = {
       :aquatic_site => AquaticSite.find(params[:aquatic_site_id]),
       :aquatic_activity_event => AquaticActivityEvent.find(params[:aquatic_activity_event_id]),
       :agency => current_user.agency
-    )   
+    }
+    
+    respond_to do |wants|
+      wants.html { @report_html =  Reports::WaterChemistrySampling.render_html(options) }
+      wants.csv  { render :text => Reports::WaterChemistrySampling.render_csv(options)  }
+    end 
   end
   
   private  

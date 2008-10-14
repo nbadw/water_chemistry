@@ -36,7 +36,8 @@
 class AquaticSite < AquaticDataWarehouse::BaseTbl
   set_primary_key 'AquaticSiteID'
   
-  belongs_to :waterbody, :foreign_key => 'WaterBodyID'
+  has_one :gmap_location, :as => :locatable
+  belongs_to :waterbody, :foreign_key => 'WaterBodyID'  
   has_many :aquatic_site_usages, :foreign_key => 'AquaticSiteID', :uniq => true
   has_many :aquatic_activities, :through => :aquatic_site_usages
   has_many :agencies, :through => :aquatic_site_usages
@@ -48,31 +49,20 @@ class AquaticSite < AquaticDataWarehouse::BaseTbl
                 
   composed_of :location, :class_name => 'Location', :mapping => [%w(y_coordinate latitude), %w(x_coordinate longitude), %w(coordinate_system coordinate_system)]
   validates_location :location, :allow_blank => true
-#  composed_of :gmap_location, :class_name => 'GmapLocation', :mapping => [%w(gmap_latitude latitude), %w(gmap_longitude longitude)]  
-#        
-#  before_destroy :destroy_allowed?
-#    
+     
+  before_destroy :in_use?
+    
   validates_presence_of :aquatic_site_desc, :waterbody  
 #  validates_each :recorded_location, :allow_blank => true do |record, attr, recorded_location|
 #    recorded_location.copy_errors_to(record, [:raw_latitude, :raw_longitude, :coordinate_system_id]) unless recorded_location.valid?
 #  end
 #  validates_each :gmap_location, :allow_blank => true do |record, attr, gmap_location|
 #    gmap_location.copy_errors_to(record, [:gmap_latitude, :gmap_longitude]) unless gmap_location.valid?
-#  end
+#  end  
 #  
-#  private   
-#  def destroy_allowed?
-#    check_if_incorporated
-#    check_if_in_use
-#  end
-#  
-#  def check_if_in_use
-#    raise(AquaticSiteInUse, "Site is in use, record cannot be deleted") unless self.aquatic_site_usages.empty?
-#  end
-#  def before_save
-#    write_attribute('IncorporatedInd', false) if incorporated_ind.nil?
-#    return self
-#  end
+  def in_use?
+    raise(AquaticSiteInUse, "Site is in use, record cannot be deleted") unless aquatic_site_usages.empty?
+  end
   
   def attached_data_sets
     aquatic_activities.uniq
@@ -80,9 +70,5 @@ class AquaticSite < AquaticDataWarehouse::BaseTbl
   
   def unattached_data_sets
     AquaticActivity.find(:all) - attached_data_sets
-  end
-  
-  def generate_report(csv)
-    
   end
 end

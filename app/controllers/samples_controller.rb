@@ -1,4 +1,6 @@
-class SamplesController < ApplicationController
+class SamplesController < ApplicationController  
+  before_filter :login_required
+  
   active_scaffold :sample do |config|
     # base config
     config.label = "Samples"

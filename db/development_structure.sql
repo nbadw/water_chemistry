@@ -506,6 +506,15 @@ CREATE TABLE `coordinate_systems` (
   PRIMARY KEY  (`epsg`)
 ) ENGINE=InnoDB AUTO_INCREMENT=26921 DEFAULT CHARSET=utf8;
 
+CREATE TABLE `gmap_locations` (
+  `id` int(11) NOT NULL auto_increment,
+  `locatable_id` int(11) default NULL,
+  `locatable_type` varchar(255) default NULL,
+  `latitude` decimal(15,10) default NULL,
+  `longitude` decimal(15,10) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1293 DEFAULT CHARSET=utf8;
+
 CREATE TABLE `rpttblbasinorderingscheme` (
   `Level1No` varchar(2) NOT NULL,
   `Level1Name` varchar(40) default NULL,
@@ -2344,8 +2353,6 @@ INSERT INTO schema_migrations (version) VALUES ('20080923163956');
 
 INSERT INTO schema_migrations (version) VALUES ('20080926150102');
 
-INSERT INTO schema_migrations (version) VALUES ('20081006133341');
-
-INSERT INTO schema_migrations (version) VALUES ('20081006133430');
-
 INSERT INTO schema_migrations (version) VALUES ('20081006133526');
+
+INSERT INTO schema_migrations (version) VALUES ('20081008163622');
