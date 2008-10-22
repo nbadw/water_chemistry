@@ -11,7 +11,7 @@
     <!--[if IE]><%= stylesheet_link_merged :ie %><![endif]-->
     <%= javascript_include_merged :base %>
     <%= GMap.header %>
-    <% # = @aquatic_site_map.to_html %>
+    <%= @aquatic_site_map.to_html if @aquatic_site_map %>
   </head>
   <body id="water-chemistry-sampling" class="<%= controller.action_name %>">
     

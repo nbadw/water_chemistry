@@ -1,0 +1,18 @@
+<%
+unless @record.coordinate_source.blank?
+  coordinate_source = CoordinateSource.find_by_name(@record.coordinate_source, :include => [:coordinate_systems]) 
+end
+coordinate_systems = coordinate_source ? coordinate_source.coordinate_systems : []
+choices = coordinate_systems.collect { |source| [source.display_name, source.display_name] }
+select_options = { :selected => @record.coordinate_system }
+html_options = @record.coordinate_source.nil? ? { :disabled => true } : {}
+%>
+
+<dl>
+  <dt>
+    <label for="<%= "record_#{column.name}" %>">Coordinate System</label>
+  </dt>
+  <dd>
+    <%= select :record, column.name, choices, select_options, html_options %>
+  </dd>
+</dl>    

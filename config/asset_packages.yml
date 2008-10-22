@@ -4,9 +4,11 @@ javascripts:
   - prototype
   - effects
   - controls
-  - application
-  - prototabs/prototabs
+  - active_scaffold/default/rico_corner
+  - active_scaffold/default/dhtml_history
+  - active_scaffold/default/form_enhancements
   - active_scaffold/default/active_scaffold
+  - application
 stylesheets: 
 - base: 
   - reset

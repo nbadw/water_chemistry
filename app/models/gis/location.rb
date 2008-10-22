@@ -1,3 +1,8 @@
+require 'cgi'
+require 'uri'
+require 'net/http'
+require 'timeout'
+
 class Location  
   DEGREES_MINUTES_SECONDS_FORMAT = /^(-?\d{2}\d?)[:d°](\d\d?)[:'](\d\d?[.]?\d*)"?([NSEW]?)$/
   #DECIMAL_DEGREES_REGEXP = //
@@ -11,11 +16,26 @@ class Location
     @errors = ActiveRecord::Errors.new(self)
   end
   
-  def copy_errors_to(record, mapping)    
-    [self.errors.on(:latitude)].flatten.each  { |error| record.errors.add mapping[0], error }
-    [self.errors.on(:longitude)].flatten.each { |error| record.errors.add mapping[1], error }
-    if mapping[2]
-      [self.errors.on(:coordinate_system)].flatten.each { |error| record.errors.add mapping[2], error }
+  def convert_to_gmap_location    
+    service = "http://cri.nbwaters.unb.ca/services/project/coordinate.castle"
+    wgs84 = 4326 # epsg for WGS84 coordinate system
+    query_params = "x=#{CGI.escapeHTML(longitude.to_s)}&y=#{CGI.escapeHTML(latitude.to_s)}&from=#{coordinate_system.id}&to=#{wgs84}"    
+    
+    begin
+      response = nil
+      successful = Timeout::timeout(5) do
+        response = Net::HTTP.get(URI.parse("#{service}?#{query_params}" ))
+      end   
+      
+      raise 'Sorry, the coordinate conversion service is not working.  Try again later.' unless successful || !response.kind_of?(HTTPSuccess)
+            
+      json = response
+      if json.match(/\{"x":(.*),"y":(.*)\}/)
+        x, y = $1, $2
+        GmapLocation.new(:longitude => x, :latitude => y)
+      end
+    rescue
+      raise
     end
   end
   

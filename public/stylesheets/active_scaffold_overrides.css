@@ -1,3 +1,19 @@
+/** Nested Table Styles **/
+.active-scaffold .inline-adapter .view {
+    background-color: #fff;
+    padding: 4px 2.5em 1em;
+    border: 1px solid #ddd;
+}
+.active-scaffold .inline-adapter .view.show-view,
+.active-scaffold .inline-adapter .view.new-view,
+.active-scaffold .inline-adapter .view.edit-view, 
+.active-scaffold .inline-adapter .view.edit_agency_site_id-view {
+  background-color:#DAFFCD;
+  border:1px solid #7FCF00;
+  padding:4px;
+}
+  
+/** Select Input Styles **/
 .active-scaffold .sub-form .override {
     margin-left: -5px;
 }

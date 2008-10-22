@@ -207,6 +207,11 @@ ActiveScaffold.ActionLink.Abstract.prototype = {
   },
 
   open: function() {
+    if(ActiveScaffold.ActionLink.Nested.open_view) {
+        //console.log('closing previously opened view');
+        //ActiveScaffold.ActionLink.Nested.open_view.close_with_refresh();
+    }
+    
     if (this.is_disabled()) return;
 
     if (this.tag.hasAttribute( "dhtml_confirm")) {
@@ -340,6 +345,9 @@ ActiveScaffold.ActionLink.Record.prototype = Object.extend(new ActiveScaffold.Ac
     this.register_cancel_hooks();
 
     new Effect.Highlight(this.adapter.down('td'));
+    
+    // console.log('tracking opened nested view');
+    //ActiveScaffold.ActionLink.Nested.open_view = this;
   },
 
   close_handler: function(event) {
@@ -349,6 +357,11 @@ ActiveScaffold.ActionLink.Record.prototype = Object.extend(new ActiveScaffold.Ac
 
   /* it might simplify things to just override the close function. then the Record and Table links could share more code ... wouldn't need custom close_handler functions, for instance */
   close_with_refresh: function() {
+      if(ActiveScaffold.ActionLink.Nested.open_view) {
+        //console.log('no longer tracking open view');
+        //ActiveScaffold.ActionLink.Nested.open_view = null;
+    }
+    
     new Ajax.Request(this.refresh_url, {
       asynchronous: true,
       evalScripts: true,
@@ -416,3 +429,7 @@ ActiveScaffold.ActionLink.Table.prototype = Object.extend(new ActiveScaffold.Act
     if (event) Event.stop(event);
   }
 });
+
+ActiveScaffold.ActionLink.Nested = {
+  open_view: null
+};

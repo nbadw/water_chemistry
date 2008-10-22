@@ -4,40 +4,32 @@
 class ApplicationController < ActionController::Base
   include AuthenticatedSystem
   
+  before_filter :set_javascripts_and_stylesheets
+  
   ActiveScaffold.set_defaults do |config| 
-    config.ignore_columns.add [:created_at, :updated_at, :lock_version]
-    #config.actions.add :config_list
-    #ActiveScaffold::Config::ConfigList.link.label = "Customize"
-    #config.actions.add :list_filter    
-    #config.actions.add :export
-    #config.export_force_quotes = true
+    config.ignore_columns.add [:created_at, :updated_at, :created_by, :updated_by, :lock_version]
+  end
+
+  # TODO: enable forgery protection and parameter filtering  
+  # See ActionController::RequestForgeryProtection for details
+  # Uncomment the :secret if you're not using the cookie session store  
+  #protect_from_forgery # :secret => 'b4958123f303d2113b4dfa2351b9c245'  
+  #filter_parameter_logging :password, :password_confirmation
+  
+  # helpers to include additional assets from actions or views
+  helper_method :include_stylesheet, :include_javascript
+  
+  def include_stylesheet(sheet)
+    @stylesheets << sheet
   end
   
-  #helper :all # include all helpers, all the time
-
-  # See ActionController::RequestForgeryProtection for details
-  # Uncomment the :secret if you're not using the cookie session store
-  #protect_from_forgery # :secret => 'b4958123f303d2113b4dfa2351b9c245'
+  def include_javascript(script)
+    @javascripts << script
+  end
   
-  private
-  def stream_csv
-    filename = params[:action] + ".csv"    
-	
-    #this is required if you want this to work with IE		
-    if request.env['HTTP_USER_AGENT'] =~ /msie/i
-      headers['Pragma'] = 'public'
-      headers["Content-type"] = "text/plain"
-      headers['Cache-Control'] = 'no-cache, must-revalidate, post-check=0, pre-check=0'
-      headers['Content-Disposition'] = "attachment; filename=\"#{filename}\""
-      headers['Expires'] = "0"
-    else
-      headers["Content-Type"] ||= 'text/csv'
-      headers["Content-Disposition"] = "attachment; filename=\"#{filename}\"" 
-    end
- 
-    render :text => Proc.new { |response, output|
-      csv = FasterCSV.new(output, :row_sep => "\r\n") 
-      yield csv
-    }
+  private    
+  def set_javascripts_and_stylesheets
+    @stylesheets = '' # %w(admin/main)
+    @javascripts = '' # %w(prototype string effects admin/tabcontrol admin/ruledtable admin/admin)
   end
 end

@@ -17,7 +17,7 @@ class SampleTest < ActiveSupport::TestCase
     :agency_sample_no, :sample_depth_m, :water_source_type, :sample_collection_method_cd,
     :analyzed_by
   
-  should_belong_to :aquatic_activity
+  should_belong_to :aquatic_activity_event
   should_belong_to :sample_collection_method
   should_have_many :sample_results
   

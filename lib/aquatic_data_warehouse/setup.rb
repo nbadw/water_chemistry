@@ -24,7 +24,8 @@ module AquaticDataWarehouse
       announce "Populating database tables (this may take awhile...)"
       populate_aquatic_data_warehouse  
       populate_coordinate_systems
-      populate_coordinate_sources  
+      populate_coordinate_sources 
+      populate_coordinate_sources_coordinate_systems
       create_admin_user(config[:admin_name], config[:admin_username], config[:admin_password], config[:admin_email], config[:admin_agency])  
       announce "Finished.\n\n"
     end
@@ -58,7 +59,7 @@ module AquaticDataWarehouse
       coordinate_systems = [
         { :epsg => 4326,  :display_name => 'WGS84' },
         { :epsg => 4269,  :display_name => 'NAD83' },
-        { :epsg => 2953,  :display_name => 'NAD83 (CSRS) NB Stereographic' },
+        { :epsg => 2036,  :display_name => 'NAD83 (CSRS) NB Stereographic' },
         { :epsg => 2200,  :display_name => 'ATS77 NB Stereographic' },
         { :epsg => 26919, :display_name => 'NAD83 / UTM zone 19N' },
         { :epsg => 26920, :display_name => 'NAD83 / UTM zone 20N' },
@@ -87,6 +88,20 @@ module AquaticDataWarehouse
       end
     end
     
+    def populate_coordinate_sources_coordinate_systems
+      source2system = { 
+        "1:50,000 NTS Topographic Map" => [26919, 26920, 26719, 26720],
+        "GIS" => [2036, 2200],
+        "GPS" => [4326, 4269]       
+      }
+      
+      source2system.each do |name, epsgs|
+        source  = CoordinateSource.find_by_name(name)
+        CoordinateSystem.find(epsgs).each { |system| source.coordinate_systems << system }
+        source.save!
+      end
+    end
+    
     def populate_aquatic_data_warehouse
       import_script = File.join(RAILS_ROOT, 'db', 'adw_import.sql')
       db_config = ActiveRecord::Base.configurations[RAILS_ENV]      
@@ -106,6 +121,17 @@ module AquaticDataWarehouse
       set_fish_passage_indicators
       set_bank_indicators
       load_aquatic_site_coordinates
+      add_richibucto_river_association_agency
+    end
+    
+    def add_richibucto_river_association_agency
+      agency = Agency.new(
+        :agency => 'Richibucto River Watershed',
+        :agency_type => 'NGO',
+        :data_rules_ind => 'N'
+      )
+      agency.id = 'RICH'
+      agency.save!
     end
     
     def fix_boolean_column_values      

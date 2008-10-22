@@ -1,9 +1,12 @@
 <dl>
   <dt>
-    <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
+    <label for="<%= "record_#{column.name}" %>">Coordinate Source</label>
   </dt>
   <dd>
-    <%= select("record", column.name, CoordinateSource.all.collect { |source| [source.name, source.id]}, { :include_blank => true, :selected => @record.coordinate_source }) %>
+    <%= select("record", column.name, CoordinateSource.all.collect { |source| [source.name, source.name]}, { :include_blank => true, :selected => @record.coordinate_source }) %>
   </dd>
 </dl>
+
+<%= render :partial => 'preview_location' %>
+
 <%= observe_field(:record_coordinate_source, :with => :coordinate_source, :on => :change, :url => { :action => :on_coordinate_source_change }) %>     

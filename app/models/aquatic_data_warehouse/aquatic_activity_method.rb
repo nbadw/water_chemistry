@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20080923163956
+# Schema version: 20081008163622
 #
 # Table name: cdAquaticActivityMethod
 #

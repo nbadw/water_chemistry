@@ -34,7 +34,46 @@ class WaterMeasurementsController < ApplicationController
     end    
   end
   
-  protected  
+  protected    
+  def find_current_aquatic_activity_event
+    constraints = active_scaffold_session_storage[:constraints] 
+    if constraints && constraints[:aquatic_activity_event_id]
+      @current_aquatic_activity_event = AquaticActivityEvent.find(constraints[:aquatic_activity_event_id])
+    end
+  end
+   
+  def find_measurements
+    all = Measurement.water 
+    recorded_ids = recorded_measurements.collect { |meas| meas.id }
+    all.delete_if { |meas| recorded_ids.include?(meas.id) }
+    @measurements = all
+  end
+  
+  def recorded_measurements 
+    if current_aquatic_activity_event
+      recorded = SiteMeasurement.recorded_measurements(current_aquatic_activity_event.id)
+    end
+    recorded || []
+  end
+    
+  def create_authorized?
+    current_aquatic_activity_event_owned_by_current_agency?
+  end
+  
+  def update_authorized?
+    current_aquatic_activity_event_owned_by_current_agency?
+  end
+  
+  def delete_authorized?
+    current_aquatic_activity_event_owned_by_current_agency?
+  end
+  
+  def current_aquatic_activity_event_owned_by_current_agency?
+    if current_agency && current_aquatic_activity_event
+      current_agency == current_aquatic_activity_event.agency || current_agency == current_aquatic_activity_event.secondary_agency
+    end
+  end
+  
   def do_new
     @record = active_scaffold_config.model.new
     @record
@@ -56,21 +95,5 @@ class WaterMeasurementsController < ApplicationController
       end
     rescue ActiveRecord::RecordInvalid
     end
-  end
-  
-  private 
-  def find_measurements
-    all = Measurement.water 
-    recorded_ids = recorded_measurements.collect { |meas| meas.id }
-    all.delete_if { |meas| recorded_ids.include?(meas.id) }
-    @measurements = all
-  end
-  
-  def recorded_measurements
-    constraints = active_scaffold_session_storage[:constraints] 
-    if constraints && constraints[:aquatic_activity_event_id]
-      recorded = SiteMeasurement.recorded_measurements(constraints[:aquatic_activity_event_id])
-    end
-    recorded || []
-  end
+  end  
 end

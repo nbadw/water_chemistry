@@ -55,41 +55,48 @@ class AquaticSiteTest < ActiveSupport::TestCase
     assert !AquaticSite.exists?(aquatic_site.id)
   end
   
-  should_eventually "not validate location value objects when they are blank" do
+  should "not validate location when it is blank" do
     aquatic_site = AquaticSite.spawn
     location = mock('dummy_location') do
-      expects(:blank?).at_least(2).returns(true)      
+      expects(:blank?).returns(true)      
       expects(:valid?).never
     end
-    aquatic_site.expects(:recorded_location).returns(location)
-    aquatic_site.expects(:gmap_location).returns(location)
+    aquatic_site.expects(:location).returns(location)
     assert aquatic_site.valid?
   end
   
-  should_eventually "be valid if all location value objects are valid" do
+  should "be valid if location value object is valid" do
     aquatic_site = AquaticSite.spawn
     location = mock('dummy_location') do
-      expects(:blank?).at_least(2).returns(false)
-      expects(:valid?).at_least(2).returns(true)
+      expects(:blank?).returns(false)
+      expects(:valid?).returns(true)
+      expects(:is_a?).with(Location).returns(true)
     end
-    aquatic_site.expects(:recorded_location).returns(location)
-    aquatic_site.expects(:gmap_location).returns(location)    
+    aquatic_site.expects(:location).returns(location)    
     assert aquatic_site.valid?
   end
   
-  should_eventually "copy errors from location value objects when they are not valid" do
+  should "map location errors to record attributes if not valid" do    
+    errors = mock('errors') do
+      expects(:on).with('latitude').returns('latitude error')
+      expects(:on).with('longitude').returns(['longitude error 1', 'longitude error 2'])
+      expects(:on).with('coordinate_system').returns(nil)
+    end
+    
+    location = mock('dummy_location') do
+      expects(:blank?).returns(false)
+      expects(:valid?).returns(false)
+      expects(:is_a?).with(Location).returns(true)
+      stubs(:errors).returns(errors)
+    end
+    
     aquatic_site = AquaticSite.spawn
-    recorded_location = mock('recorded_location') do
-      expects(:valid?).returns(false)
-      expects(:copy_errors_to).with(aquatic_site, [:raw_latitude, :raw_longitude, :coordinate_system_id])
-    end
-    gmap_location = mock('gmap_location') do
-      expects(:valid?).returns(false)
-      expects(:copy_errors_to).with(aquatic_site, [:gmap_latitude, :gmap_longitude])
-    end
-    aquatic_site.expects(:recorded_location).returns(recorded_location)
-    aquatic_site.expects(:gmap_location).returns(gmap_location)    
-    aquatic_site.valid?
+    aquatic_site.expects(:location).returns(location) 
+    
+    assert !aquatic_site.valid?
+    assert 'latitude error', aquatic_site.errors.on(:y_coordinate)
+    assert ['longitude error 1', 'longitude error 2'], aquatic_site.errors.on(:x_coordinate)
+    assert_nil aquatic_site.errors.on(:coordinate_system)
   end
   
   context "when site has been incorporated into the data warehouse" do

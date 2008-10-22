@@ -25,6 +25,6 @@ class AquaticSiteUsageTest < ActiveSupport::TestCase
   
   context "with an existing record" do
     setup { AquaticSiteUsage.generate! }
-    should_require_unique_attributes :aquatic_activity_cd, :scoped_to => :aquatic_site_id
+    should_require_unique_attributes :aquatic_activity_cd, :scoped_to => [:aquatic_site_id, :agency_cd]
   end
 end

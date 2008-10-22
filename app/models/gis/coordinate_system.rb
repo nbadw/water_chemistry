@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20080923163956
+# Schema version: 20081008163622
 #
 # Table name: coordinate_systems
 #
@@ -10,4 +10,6 @@
 
 class CoordinateSystem < ActiveRecord::Base
   set_primary_key :epsg
+  
+  has_and_belongs_to_many :coordinate_sources
 end

@@ -26,17 +26,6 @@ class RecordedObservationsController < ApplicationController
     config.create.persistent = true
   end
   
-  def find_observations
-    @observations = Observation.all
-    
-    if active_scaffold_session_storage[:constraints] && active_scaffold_session_storage[:constraints][:aquatic_activity_event_id]
-      aquatic_activity_event_id = active_scaffold_session_storage[:constraints][:aquatic_activity_event_id]
-      recorded = RecordedObservation.for_aquatic_activity_event(aquatic_activity_event_id).collect { |captured| captured.observation }
-      #recorded = RecordedObservation.find_all_by_aquatic_activity_event_id(aquatic_activity_event_id, :include => :observation).collect { |o| o.observation }
-      @observations = @observations - recorded
-    end
-  end
-  
   def on_observation_change
     observation = Observation.find params[:observation_id]
     @record = RecordedObservation.new(:observation => observation)
@@ -47,7 +36,40 @@ class RecordedObservationsController < ApplicationController
     end   
   end
   
-  protected  
+  protected   
+  def find_current_aquatic_activity_event
+    if active_scaffold_session_storage[:constraints] && active_scaffold_session_storage[:constraints][:aquatic_activity_event_id]
+      @current_aquatic_activity_event = AquaticActivityEvent.find(active_scaffold_session_storage[:constraints][:aquatic_activity_event_id])
+    end
+  end
+  
+  def find_observations
+    @observations = Observation.all
+    
+    if current_aquatic_activity_event
+      recorded = RecordedObservation.for_aquatic_activity_event(current_aquatic_activity_event.id).collect { |captured| captured.observation }
+      @observations = @observations - recorded
+    end
+  end     
+    
+  def create_authorized?
+    current_aquatic_activity_event_owned_by_current_agency?
+  end
+  
+  def update_authorized?
+    current_aquatic_activity_event_owned_by_current_agency?
+  end
+  
+  def delete_authorized?
+    current_aquatic_activity_event_owned_by_current_agency?
+  end
+  
+  def current_aquatic_activity_event_owned_by_current_agency?
+    if current_agency && current_aquatic_activity_event
+      current_agency == current_aquatic_activity_event.agency || current_agency == current_aquatic_activity_event.secondary_agency
+    end
+  end
+  
   # A simple method to find and prepare an example new record for the form
   # May be overridden to customize the behavior (add default values, for instance)
   def do_new
@@ -113,5 +135,5 @@ class RecordedObservationsController < ApplicationController
       @record.errors.add_to_base as_("Version inconsistency - this record has been modified since you started editing it.")
       self.successful=false
     end
-  end
+  end  
 end

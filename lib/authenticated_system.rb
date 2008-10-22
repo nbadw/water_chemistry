@@ -5,11 +5,15 @@ module AuthenticatedSystem
   def logged_in?
     current_user != :false
   end
+  
+  def do_login
+    login_from_session || login_from_basic_auth || login_from_cookie || :false
+  end
 
   # Accesses the current user from the session. Set it to :false if login fails
   # to avoid future calls to the database because nil is not equal to false.
   def current_user
-    @current_user ||= (login_from_session || login_from_basic_auth || login_from_cookie || :false)
+    @current_user ||= do_login
   end
 
   # Store the given user id in the session.

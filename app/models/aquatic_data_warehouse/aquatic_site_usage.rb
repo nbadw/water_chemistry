@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20080923163956
+# Schema version: 20081008163622
 #
 # Table name: tblAquaticSiteAgencyUse
 #
@@ -29,5 +29,5 @@ class AquaticSiteUsage < AquaticDataWarehouse::BaseTbl
   belongs_to :agency, :foreign_key => 'AgencyCd'
   
   validates_presence_of :aquatic_site, :aquatic_activity, :agency
-  validates_uniqueness_of :aquatic_activity_cd, :scope => :aquatic_site_id
+  validates_uniqueness_of :aquatic_activity_cd, :scope => [:aquatic_site_id, :agency_cd]
 end

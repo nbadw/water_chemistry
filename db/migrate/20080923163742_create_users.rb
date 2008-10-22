@@ -5,6 +5,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string     "login",                     :limit => 100
       t.string     "email",                     :limit => 30
       t.boolean    "admin",                                   :default => false
+      t.boolean    "editor",                                  :default => false
       t.string     "crypted_password",          :limit => 40
       t.string     "salt",                      :limit => 40
       t.string     "remember_token"
@@ -14,8 +15,8 @@ class CreateUsers < ActiveRecord::Migration
       t.string     "password_reset_code",       :limit => 40
       t.boolean    "enabled",                                 :default => true
       t.string     "agency_id",                 :limit => 5      
-      t.timestamps
       t.timestamp  "last_login"
+      t.timestamps
     end
   end
 

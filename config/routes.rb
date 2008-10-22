@@ -6,8 +6,13 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :recorded_chemicals, :active_scaffold => true
   
   map.namespace :admin do |admin|
-    admin.resources :aquatic_site, :active_scaffold => true
-    admin.resources :agencies, :active_scaffold => true
+    admin.home '', :controller => 'admin', :action => 'index'
+    code_tables = [:agencies, :aquatic_activities, :aquatic_activity_methods, :instruments,
+      :observable_values, :qualifiers, :sample_collection_methods, :units_of_measure,
+      :water_sources, :observations, :measurements, :users]    
+    code_tables.each do |code_table|
+      admin.resources code_table, :active_scaffold => true
+    end
   end
   
   map.root :controller => "data_entry", :action => "browse"  

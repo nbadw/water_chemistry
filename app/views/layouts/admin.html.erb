@@ -1,16 +1,34 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
- <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
- <title>NB Aquatic Data Warehouse: Admin</title>
- <%= javascript_include_tag :defaults %>
- <%= active_scaffold_includes %>
-</head>
-<body>
-
-<%= yield  %>
-
-</body>
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <title>NB Aquatic Data Warehouse Admin - <%= @title %></title>
+    <%= javascript_include_tag :defaults %>
+    <%= active_scaffold_includes %>
+  </head>
+  <body>
+    
+    <div id="container">
+      <div id="main">
+        <%= yield %>
+      </div>
+      <div id="navigation">
+        <h3>Code Tables</h3>
+        <ul class="code-tables">
+          <% @code_tables.each do |code_table| %>
+            <li class="code-table">
+              <% if code_table == :units_of_measure %>
+                <%= link_to code_table.to_s.gsub('_', ' ').titleize, self.send("admin_#{code_table}_index_path".to_sym) %>
+              <% else %>
+                <%= link_to code_table.to_s.gsub('_', ' ').titleize, self.send("admin_#{code_table}_path".to_sym) %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+    
+  </body>
 </html>

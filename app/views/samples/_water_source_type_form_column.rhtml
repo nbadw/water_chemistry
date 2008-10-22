@@ -1,8 +1,12 @@
+<% 
+options  = WaterSource.all.collect { |source| [source.name, source.name] }
+selected = @record.water_source_type
+%>
 <dl class="override">
   <dt>
     <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
   </dt>
   <dd>
-    <%= select("record", column.name, WaterSource.all.collect { |source| [source.name, source.id] }) %>
+    <%= select("record", column.name, options, { :selected => selected }) %>
   </dd>
 </dl>

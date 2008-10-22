@@ -6,7 +6,7 @@ options[:disabled] = true unless @record.coordinate_source
 
 <dl>
   <dt>
-    <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
+    <label for="<%= "record_#{column.name}" %>">X Coordinate</label>
   </dt>
   <dd>
     <%= input :record, column.name, options %>

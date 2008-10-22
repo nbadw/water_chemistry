@@ -1,0 +1,10 @@
+<% if @preview_errors %>
+  <% @preview_errors.each do |error| %>
+    <p class="error"><%= error %></p>
+  <% end %>
+<% end %>
+
+<% if @preview_location_map %>
+  <%= @preview_location_map.div(:height => 250, :width => 250) %>
+  <%= @preview_location_map.to_html(:no_load => true) %>
+<% end %>

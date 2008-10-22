@@ -1,6 +1,5 @@
 module Admin
-  class AgenciesController < ApplicationController 
-    layout 'admin'
+  class AgenciesController < AdminController 
     active_scaffold :agency
   end
 end

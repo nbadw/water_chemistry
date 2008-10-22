@@ -2,10 +2,10 @@ class WaterbodyController < ApplicationController
   before_filter :login_required
   layout false
   
-  def autocomplete    
+  def waterbody_autocomplete    
     query = params[:waterbody][:search]
     @waterbodies = Waterbody.search(query) unless query.blank?
-    render :partial => "autocomplete" 
+    render :partial => "waterbody_autocomplete_result" 
   end
   
   def area_of_interest_autocomplete

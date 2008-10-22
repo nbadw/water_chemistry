@@ -1,5 +1,6 @@
 class RecordedChemicalsController < ApplicationController
   helper RecordedChemicalsHelper
+  
   before_filter :login_required
   before_filter :find_chemicals, :only => [:new, :create, :edit, :update]
   
@@ -36,6 +37,31 @@ class RecordedChemicalsController < ApplicationController
     recorded_ids = recorded.collect { |chem| chem.id }
     @chemicals.delete_if do |chem|
       recorded_ids.include?(chem.id)
+    end
+  end
+  
+  def find_current_aquatic_activity_event
+    if active_scaffold_session_storage[:constraints] && active_scaffold_session_storage[:constraints][:sample]   
+      sample = Sample.find(active_scaffold_session_storage[:constraints][:sample], :include => :aquatic_activity_event)
+      @current_aquatic_activity_event = sample.aquatic_activity_event
+    end
+  end
+  
+  def create_authorized?
+    current_aquatic_activity_event_owned_by_current_agency?
+  end
+  
+  def update_authorized?
+    current_aquatic_activity_event_owned_by_current_agency?
+  end
+  
+  def delete_authorized?
+    current_aquatic_activity_event_owned_by_current_agency?
+  end
+  
+  def current_aquatic_activity_event_owned_by_current_agency?
+    if current_agency && current_aquatic_activity_event
+      current_agency == current_aquatic_activity_event.agency || current_agency == current_aquatic_activity_event.secondary_agency
     end
   end
 end

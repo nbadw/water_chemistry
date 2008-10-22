@@ -4,17 +4,17 @@ class DataCollectionSitesController < ApplicationController
   
   active_scaffold :aquatic_site do |config|
     # columns
-    config.columns = [:incorporated, :id, :name, :description, :water_body_id, :water_body_name, :drainage_code, :name_and_description, :data_sets, :location]        
+    config.columns = [:incorporated, :id, :name, :aquatic_site_desc, :water_body_id, :water_body_name, :drainage_code, :name_and_description, :data_sets, :x_coordinate, :y_coordinate, :coordinate_system]        
     config.list.columns = [:incorporated, :id, :agencies, :water_body_id, :water_body_name, :drainage_code, :name_and_description, :data_sets]    
-    config.show.columns = [:id, :name, :description, :water_body_id, :water_body_name, :drainage_code, :location]
+    config.show.columns = [:id, :name, :aquatic_site_desc, :water_body_id, :water_body_name, :drainage_code]
     config.search.columns = [:id, :name, :water_body_id, :water_body_name, :drainage_code, :data_sets, :agencies]    
     [:create, :update].each do |action|  
-      config.send(action).columns = [:name, :description]
+      config.send(action).columns = [:name, :aquatic_site_desc]
       config.send(action).columns.add_subgroup "Waterbody" do |waterbody| 
         waterbody.add :waterbody
       end
       config.send(action).columns.add_subgroup "Location" do |location|
-        location.add :coordinate_source, :coordinate_system, :x_coordinate, :y_coordinate
+        location.add :coordinate_source, :coordinate_system, :x_coordinate, :y_coordinate          
       end
     end
                  
@@ -23,6 +23,7 @@ class DataCollectionSitesController < ApplicationController
     config.show.label = ''
     config.columns[:incorporated].label = ''
     config.columns[:id].label = 'Site ID'
+    config.columns[:aquatic_site_desc].label = 'Description'
     config.columns[:agencies].label = 'Agency (Agency Site ID)'
     config.columns[:water_body_id].label = 'Waterbody ID'
     config.columns[:water_body_name].label = 'Waterbody Name'
@@ -30,6 +31,9 @@ class DataCollectionSitesController < ApplicationController
     config.columns[:name].label = 'Site Name'
     config.columns[:name_and_description].label = 'Site Name & Description'  
     config.columns[:data_sets].label = 'Data'  
+    config.columns[:x_coordinate].label = 'X Coordinate'
+    config.columns[:y_coordinate].label = 'Y Coordinate'
+    config.columns[:coordinate_system].label = 'Coordinate System'
     
     # sql for search 
     config.columns[:id].search_sql = "#{AquaticSite.table_name}.#{AquaticSite.primary_key}"
@@ -87,45 +91,69 @@ class DataCollectionSitesController < ApplicationController
     render :inline => "<%= render :active_scaffold => 'tbl_aquatic_site', :conditions => ['#{AquaticSite.table_name}.aquaticsiteid = ?', params[:id]], :label => '' %>"
   end
     
-  def auto_complete_for_waterbody_search
-    query = params[:waterbody][:search]
-    @waterbodies = Waterbody.search(query) unless query.blank?
-    render :partial => "autocomplete" 
-  end
-    
   def on_coordinate_source_change
-    if params[:coordinate_source_id].blank?
+    if params[:coordinate_source].blank?
       render :update do |page|   
-        #page.replace_html 'coordinate_system_input', :inline => '<%= recorded_location_coordinate_system_input(@record) %>'  
-        page << "$('record_coordinate_system_id').disabled = true;"
-        page << "$('record_raw_latitude').disabled = true;" 
-        page << "$('record_raw_longitude').disabled = true;"
+        page.replace_html 'record_coordinate_system', :inline => ''  
+        page << "$('record_coordinate_system').disabled = true;"
+        page << "$('record_x_coordinate').disabled = true;" 
+        page << "$('record_y_coordinate').disabled = true;"
       end
     else
-      coordinate_source = CoordinateSource.find(params[:coordinate_source_id], :include => [:coordinate_systems])  
-      choices = coordinate_source.coordinate_systems.collect { |source| [source.display_name, source.id] }
+      coordinate_source = CoordinateSource.find_by_name(params[:coordinate_source], :include => [:coordinate_systems])  
+      choices = coordinate_source.coordinate_systems.collect { |source| [source.display_name, source.display_name] }
       render :update do |page|   
-        page.replace_html 'record_coordinate_system_id', :inline => '<%= options_for_select choices %>', :locals => { :choices => choices }  
-        page << "$('record_coordinate_system_id').disabled = false;"
-        page << "$('record_raw_latitude').disabled = false;" 
-        page << "$('record_raw_longitude').disabled = false;"
+        page.replace_html 'record_coordinate_system', :inline => '<%= options_for_select choices %>', :locals => { :choices => choices }  
+        page << "$('record_coordinate_system').disabled = false;"
+        page << "$('record_x_coordinate').disabled = false;" 
+        page << "$('record_y_coordinate').disabled = false;"
       end
     end
   end 
   
-  def download
-    do_list
-    stream_csv do |csv|
-      @records.each { |aquatic_site| aquatic_site.generate_report(csv) }
-    end
-  end
-  
-  def water_chemistry_sampling_report
-    aquatic_site = AquaticSite.find params[:id]
+  def on_preview_location
+    aquatic_site = update_record_from_params(active_scaffold_config.model.new, active_scaffold_config.create.columns, params[:record])
+    location = aquatic_site.location
     
+    if location.valid?
+      begin
+        gmap_location = location.convert_to_gmap_location
+        if gmap_location
+          @preview_location_map = GMap.new("preview-location-map")
+          @preview_location_map.set_map_type_init(GMapType::G_HYBRID_MAP)
+          @preview_location_map.control_init(:small_zoom => true)
+          @preview_location_map.center_zoom_init([gmap_location.latitude, gmap_location.longitude], 3)
+          @preview_location_map.overlay_init(GMarker.new([gmap_location.latitude, gmap_location.longitude]))
+        else
+          @preview_errors = ["An unknown error occured.  Please try again later."]
+        end
+      rescue Exception => e
+        @preview_errors = ["An unknown error occurred.  Please try again later. (#{e.message})"]
+      end
+    else
+      if location.blank?
+        @preview_errors = ['Please enter all location details first.']
+      else
+        aquatic_site.valid? # run aquatic site validations to get proper error messages
+        @preview_errors = []
+        [:x_coordinate, :y_coordinate, :coordinate_system].each do |attr|
+          aquatic_site.errors.on(attr).to_a.each do |msg|
+            next if msg.nil?
+            @preview_errors << active_scaffold_config.columns[attr].label + " " + msg
+          end
+        end
+      end
+    end
+    
+    render :partial => 'preview_location_result', :content_type => 'text/javascript'
   end
   
-  protected
+  protected    
+  
+  def owning_agencies 
+    []
+  end
+  
   def active_scaffold_joins
     [:waterbody, :aquatic_site_usages, :agencies, :aquatic_activities]
   end

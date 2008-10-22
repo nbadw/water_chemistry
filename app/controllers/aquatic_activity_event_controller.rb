@@ -5,8 +5,8 @@ class AquaticActivityEventController < ApplicationController
   
   active_scaffold do |config|
     # base config 
-    config.label = "Aquatic Activities"
-    config.actions.exclude :search
+    config.label = "Aquatic Activities"    
+    config.actions = [:create, :list, :show, :update, :delete, :nested, :subform]
     
     config.columns = [:aquatic_site_id, :aquatic_activity_cd, :aquatic_activity_method, :start_date, :agency, :weather_conditions, :water_level]
     config.list.columns = [:aquatic_activity_method, :start_date, :agency, :weather_conditions, :water_level]
@@ -25,7 +25,8 @@ class AquaticActivityEventController < ApplicationController
     config.list.sorting = [{ :start_date => :desc }]
     
     config.show.link.inline = false
-    config.action_links.add 'edit_agency_site_id', :label => 'Edit Agency Site ID', :type => :table, :inline => true
+    config.show.link.label = "Open"
+    config.action_links.add 'edit_agency_site_id', :label => 'Edit Agency Site ID', :type => :table, :inline => true    
   end
   
   def show

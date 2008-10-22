@@ -1,6 +1,6 @@
 module Reports
   class WaterChemistrySampling < Ruport::Controller    
-    stage :header, :parameter_tables, :footer
+    stage :header, :parameter_tables, :qualifier_legend, :footer
   
     def setup      
       self.data ||= SamplesAggregator.new(options)
@@ -32,6 +32,8 @@ module Reports
         end
       end
       
+      build(:qualifier_legend) { render_erb(:qualifier_legend) }
+      
       build(:footer) { render_erb(:footer) }
       
       def render_erb(template)
@@ -50,6 +52,7 @@ module Reports
         @samples = nil
         @current_sample = nil
         @parameter_table = nil
+        @qualifiers = nil
       end
       
       def each
@@ -70,6 +73,10 @@ module Reports
                 
       def samples
         @samples ||= Sample.for_aquatic_activity_event(aquatic_activity_event.id)
+      end
+      
+      def qualifiers
+        @qualifiers ||= Qualifier.all
       end
       
       def to_csv        

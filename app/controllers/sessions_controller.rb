@@ -43,10 +43,16 @@ class SessionsController < ApplicationController
   end
   
   def successful_login
+    # record login time
+    current_user.last_login = DateTime.now
+    current_user.save
+    
+    # set remember me cookie
     if params[:remember_me] == "1"
       self.current_user.remember_me
       cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
     end
+    
     flash[:notice] = "Logged in successfully"
     return_to = session[:return_to]
     if return_to.nil?

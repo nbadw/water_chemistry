@@ -3,6 +3,6 @@
     <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
   </dt>
   <dd>
-    <%= select("record", column.name, SampleCollectionMethod.find(:all).collect { |method| [method.sample_method, method.id] }) %>
+    <%= select("record", column.name, SampleCollectionMethod.find(:all).collect { |method| [method.sample_method, method.id] },  { :selected => @record.sample_collection_method_cd }) %>
   </dd>
 </dl>

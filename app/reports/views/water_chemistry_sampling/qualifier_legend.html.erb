@@ -1,0 +1,22 @@
+<div class="qualifier-legend">
+  <table>
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% data.qualifiers.each do |qualifier| %>
+        <tr class="qualifier">
+          <td class="code">
+            <%= qualifier.id %>
+          </td>
+          <td class="description">
+            <%= qualifier.name %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

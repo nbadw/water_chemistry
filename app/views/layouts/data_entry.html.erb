@@ -9,11 +9,7 @@
     <!--[if IE]><%= stylesheet_link_merged :ie %><![endif]-->
     <%= javascript_include_merged :base %>
     <% # = GMap.header %>
-    <%= javascript_include_tag 'active_scaffold/default/dhtml_history.js', 'active_scaffold/default/form_enhancements.js', 'active_scaffold/default/rico_corner.js'  %>
     <%= calendar_date_select_includes "silver" %>
-
-    <%= javascript_include_tag 'lightwindow/lightwindow' %>
-    <%= stylesheet_link_tag 'lightwindow/lightwindow' %>
   </head>
   <body>
     
@@ -28,28 +24,6 @@
         
     <div id="content"> 
       <%= yield %>
-      <!--
-      <div id="center">
-        <div id="center-content">
-          
-        </div>
-      </div>
-      <div id="right">
-        <div id="right-content">
-          <h3>Filters</h3>
-          <ul>
-            <li><input type="checkbox"/><label>My Agency Only</label></li>
-            <li><input type="checkbox"/><label>My Area of Interest</label></li>
-          </ul>
-          <br/>
-          <h3>Area of Interest</h3>
-          <ul>
-            <li>None specified.</li>
-          </ul>
-          <a href="#">Edit</a>
-        </div>
-      </div>
-      -->
     </div>   
     
   </body>

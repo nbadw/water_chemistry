@@ -499,6 +499,11 @@ CREATE TABLE `coordinate_sources` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
+CREATE TABLE `coordinate_sources_coordinate_systems` (
+  `coordinate_source_id` int(11) default NULL,
+  `coordinate_system_id` int(11) default NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `coordinate_systems` (
   `epsg` int(11) NOT NULL auto_increment,
   `name` varchar(100) default NULL,
@@ -640,7 +645,7 @@ CREATE TABLE `tblaquaticactivity` (
   KEY `FisheriesSiteID` (`AquaticSiteID`),
   KEY `OldAquaticActivityID` (`TempAquaticActivityID`),
   KEY `oldAquaticSiteID` (`oldAquaticSiteID`)
-) ENGINE=InnoDB AUTO_INCREMENT=150638 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=150639 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tblaquaticprogram` (
   `AquaticProgramID` int(10) NOT NULL,
@@ -718,7 +723,7 @@ CREATE TABLE `tblaquaticsiteagencyuse` (
   KEY `AgencySiteID` (`AgencySiteID`),
   KEY `AssmtSiteID` (`AquaticSiteUseID`),
   KEY `WaterBodyID` (`AquaticSiteID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7003 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7004 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tblbacterialanalysis` (
   `BacterialAnalysisID` int(10) NOT NULL auto_increment,
@@ -1770,7 +1775,7 @@ CREATE TABLE `tblsample` (
   KEY `tblAquaticActivitytblSample` (`AquaticActivityID`),
   KEY `tblSampleWaterSourceType` (`WaterSourceType`),
   KEY `TempAquaticActivityID` (`TempAquaticActivityID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tblsatelliterearing` (
   `AquaticActivityID` int(10) NOT NULL,
@@ -2325,6 +2330,7 @@ CREATE TABLE `users` (
   `login` varchar(100) default NULL,
   `email` varchar(30) default NULL,
   `admin` tinyint(1) default '0',
+  `editor` tinyint(1) default '0',
   `crypted_password` varchar(40) default NULL,
   `salt` varchar(40) default NULL,
   `remember_token` varchar(255) default NULL,
@@ -2334,9 +2340,9 @@ CREATE TABLE `users` (
   `password_reset_code` varchar(40) default NULL,
   `enabled` tinyint(1) default '1',
   `agency_id` varchar(5) default NULL,
+  `last_login` datetime default NULL,
   `created_at` datetime default NULL,
   `updated_at` datetime default NULL,
-  `last_login` datetime default NULL,
   `area_of_interest_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -2351,8 +2357,8 @@ INSERT INTO schema_migrations (version) VALUES ('20080923163935');
 
 INSERT INTO schema_migrations (version) VALUES ('20080923163956');
 
-INSERT INTO schema_migrations (version) VALUES ('20080926150102');
+INSERT INTO schema_migrations (version) VALUES ('20080923163973');
 
-INSERT INTO schema_migrations (version) VALUES ('20081006133526');
+INSERT INTO schema_migrations (version) VALUES ('20080926150102');
 
 INSERT INTO schema_migrations (version) VALUES ('20081008163622');

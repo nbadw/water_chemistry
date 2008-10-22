@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20080923163956
+# Schema version: 20081008163622
 #
 # Table name: tblAquaticSite
 #
@@ -33,33 +33,26 @@
 #  updated_by       :integer(11)     
 #
 
-class AquaticSite < AquaticDataWarehouse::BaseTbl
+class AquaticSite < AquaticDataWarehouse::BaseTbl    
+  class AquaticSiteInUse < ActiveRecord::ActiveRecordError; end  
+  
   set_primary_key 'AquaticSiteID'
   
-  has_one :gmap_location, :as => :locatable
-  belongs_to :waterbody, :foreign_key => 'WaterBodyID'  
-  has_many :aquatic_site_usages, :foreign_key => 'AquaticSiteID', :uniq => true
-  has_many :aquatic_activities, :through => :aquatic_site_usages
-  has_many :agencies, :through => :aquatic_site_usages
+  has_one     :gmap_location, :as => :locatable
+  belongs_to  :waterbody, :foreign_key => 'WaterBodyID'  
+  has_many    :aquatic_site_usages, :foreign_key => 'AquaticSiteID', :uniq => true
+  has_many    :aquatic_activities, :through => :aquatic_site_usages
+  has_many    :agencies, :through => :aquatic_site_usages
+  composed_of :location, :class_name => 'Location', :mapping => [%w(y_coordinate latitude), %w(x_coordinate longitude), %w(coordinate_system coordinate_system)]
   
   alias_attribute :name, :aquatic_site_name
   alias_attribute :description, :aquatic_site_desc
-    
-  class AquaticSiteInUse < ActiveRecord::ActiveRecordError; end  
-                
-  composed_of :location, :class_name => 'Location', :mapping => [%w(y_coordinate latitude), %w(x_coordinate longitude), %w(coordinate_system coordinate_system)]
-  validates_location :location, :allow_blank => true
-     
+                     
   before_destroy :in_use?
     
-  validates_presence_of :aquatic_site_desc, :waterbody  
-#  validates_each :recorded_location, :allow_blank => true do |record, attr, recorded_location|
-#    recorded_location.copy_errors_to(record, [:raw_latitude, :raw_longitude, :coordinate_system_id]) unless recorded_location.valid?
-#  end
-#  validates_each :gmap_location, :allow_blank => true do |record, attr, gmap_location|
-#    gmap_location.copy_errors_to(record, [:gmap_latitude, :gmap_longitude]) unless gmap_location.valid?
-#  end  
-#  
+  validates_presence_of :aquatic_site_desc, :waterbody 
+  validates_location    :location, :allow_blank => true 
+  
   def in_use?
     raise(AquaticSiteInUse, "Site is in use, record cannot be deleted") unless aquatic_site_usages.empty?
   end
@@ -70,5 +63,29 @@ class AquaticSite < AquaticDataWarehouse::BaseTbl
   
   def unattached_data_sets
     AquaticActivity.find(:all) - attached_data_sets
+  end
+  
+  def authorized_for_destroy?
+    if existing_record_check?
+      super && aquatic_site_usages.empty?
+    else
+      super
+    end
+  end
+  
+  def current_agency_authorized_for_update?
+    current_agency_authorized_for_update_or_destroy?
+  end
+  
+  def current_agency_authorized_for_destroy?
+    current_agency_authorized_for_update_or_destroy?
+  end
+  
+  def current_agency_authorized_for_update_or_destroy?
+    if existing_record_check?
+      !!current_agency && agencies.to_a.include?(current_agency)
+    else
+      !!current_agency 
+    end
   end
 end

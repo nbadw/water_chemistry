@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20080923163956
+# Schema version: 20081008163622
 #
 # Table name: tblAquaticActivity
 #
@@ -91,6 +91,22 @@ class AquaticActivityEvent < AquaticDataWarehouse::BaseTbl
     rec_obs = RecordedObservation.new(:observation => Observation.weather_conditions)
     rec_obs.value_observed = value
     recorded_observations << rec_obs
+  end
+  
+  def current_agency_authorized_for_update?
+    current_agency_authorized_for_update_or_destroy?
+  end
+  
+  def current_agency_authorized_for_destroy?
+    current_agency_authorized_for_update_or_destroy?
+  end
+  
+  def current_agency_authorized_for_update_or_destroy?
+    if existing_record_check?
+      !!current_agency && (current_agency == agency || current_agency == secondary_agency)
+    else
+      !!current_agency 
+    end
   end
     
   def self.count_attached(aquatic_site, aquatic_activity)

@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20080923163956
+# Schema version: 20081008163622
 #
 # Table name: tblSample
 #
@@ -21,7 +21,7 @@
 class Sample < AquaticDataWarehouse::BaseTbl
   set_primary_key 'SampleID'
   
-  belongs_to :aquatic_activity, :foreign_key => 'AquaticActivityID'
+  belongs_to :aquatic_activity_event, :foreign_key => 'AquaticActivityID'
   belongs_to :sample_collection_method, :foreign_key => 'SampleCollectionMethodCd'
   has_many   :sample_results, :class_name => 'WaterMeasurement', :foreign_key => 'SampleID'
   
@@ -29,5 +29,5 @@ class Sample < AquaticDataWarehouse::BaseTbl
     "Sample ##{id}"
   end
   
-  named_scope :for_aquatic_activity_event, lambda { |id| { :conditions => ['AquaticActivityID = ?', id], :include => [:sample_results] } }
+  named_scope :for_aquatic_activity_event, lambda { |id| { :conditions => ['AquaticActivityID = ?', id], :include => [:sample_results] } }  
 end
