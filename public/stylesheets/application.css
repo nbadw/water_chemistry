@@ -20,7 +20,7 @@ body {
 #header {
     background-color: #001E20;
     color: #fff;
-    height: 50px;
+    height: 65px;
 }
 #session {
     float: right;    
@@ -35,26 +35,23 @@ body {
     color: #fff;
 }
 #session a:hover {
-    color: #B3D5E1;
+    color: #FFFF88;
 }
 #session .user {
-    padding-left: 20px;
+    padding-right: 20px;
     background: transparent no-repeat url(../images/vcard.png);
-    background-position: 0 -3px;
+    background-position: 100% -3px;
+    text-align: right;
+    
+}
+#session .agency {
+    margin-top: 2px;
+    margin-bottom: 10px;
+    text-align: right;
 }
 #session .actions {
     margin-top: 7px;
     text-align: right;
-}
-#application .logo {
-    height: 36px;
-    width: 36px;
-    float: left;
-    background-color: #fff;
-    color: #000;
-    text-align: center;
-    margin: 7px 10px;
-    display: none;
 }
 #application .name {
     font-size: 16px;
@@ -62,6 +59,7 @@ body {
     padding-left: 10px;
     font-family: Verdana;
     height: 33px;
+    font-weight: bold;
 }
 #application .name a {
     font-weight: normal;
@@ -69,25 +67,16 @@ body {
     color: #fff;
 }
 #application .name a:hover {
-    color: #B3D5E1;
-}
-#agency {
-    float: right;
-    font-weight: bold;
-    font-family: verdana;
-    font-size: 11px;
-    text-align: right;
-    padding: 10px 20px;
-    color: #001e20;
+    color: #FFFF88;
 }
 
 #navigation {
-    height: 90px;
-    background-color: #FF5900;
-    color: #fff;
+    height: 74px;
+    background-color: #D0D8E8;
+    color: #001E20;
 }
 #navigation .location {
-    padding: 21px 20px 10px;
+    padding: 10px 20px 5px;
     font-weight: bold;
 }
 #navigation .location .primary {
@@ -100,7 +89,7 @@ body {
     font-weight: normal;
 }
 #navigation .location .back a {
-    color: #fff;
+    color: #001E20;
     text-decoration: none;
 }
 #navigation .location .back a:hover {
@@ -123,8 +112,8 @@ body {
     display: block;
     padding: 6px 10px;
     text-decoration: none;
-    background-color: #B3D5E1;
-    color: #13345E;
+    background-color: #376092;
+    color: #fff;
 }
 #navigation li.tab a:hover {
     background-color: #13345E;

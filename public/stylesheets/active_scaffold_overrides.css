@@ -1,3 +1,27 @@
+/* COLOR SCHEME */
+.active-scaffold th,
+.active-scaffold th a, 
+.active-scaffold th p {
+    background-color: #4f81bd;
+}
+.active-scaffold th.sorted,
+.active-scaffold th.asc a, 
+.active-scaffold th a:hover {
+    background-color: #13345e;
+}
+.active-scaffold tr.record td {
+    background-color: #d0d8e8;
+}
+.active-scaffold tr.even-record td {
+    background-color: #e9edf4;
+}
+.active-scaffold tr.record td.sorted {
+    background-color: #A3C2E8;
+}
+.active-scaffold tr.even-record td.sorted {
+    background-color:#D0E0F4;
+}
+
 /** Nested Table Styles **/
 .active-scaffold .inline-adapter .view {
     background-color: #fff;
@@ -9,11 +33,15 @@
 .active-scaffold .inline-adapter .view.edit-view, 
 .active-scaffold .inline-adapter .view.show_search-view, 
 .active-scaffold .inline-adapter .view.edit_agency_site_id-view {
-  background-color:#DAFFCD;
-  border:1px solid #7FCF00;
-  padding:4px;
+    background-color: #ffe5cc;
+    border-color: #CC7000;
+    padding: 4px;
 }
-  
+.active-scaffold input.text-input, 
+.active-scaffold select {
+    border-color: #385d8a;
+}
+
 /** Select Input Styles **/
 .active-scaffold .sub-form .override {
     margin-left: -5px;

@@ -1,12 +1,12 @@
 <div id="header">
   <%= render :partial => 'layouts/session' %>
-  
+    
   <div id="application">
-    <!-- <img class="logo" src="" alt="IMG"/> -->
-    <h1 class="name"><a href="<%= root_url %>">Aquatic Data Warehouse</a></h1>
-  </div>     
-  
-  <div id="agency">
-    <h3><%= "#{current_user.agency.name} (#{current_user.agency.code})" if current_user.agency %></h3>
-  </div>
+    <h1 class="name">
+      <a href="<%= root_url %>">
+        NB Aquatic Data Warehouse<br/>
+        Data Management Application
+      </a>
+    </h1>
+  </div> 
 </div>

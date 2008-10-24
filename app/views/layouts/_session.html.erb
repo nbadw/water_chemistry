@@ -1,5 +1,6 @@
 <div id="session">
   <p class="user">Logged in as <span class="name"><%= current_user.name || current_user.login %></span></p> 
+  <p class="agency"><%= "#{current_user.agency.name} - #{current_user.agency.code}" if current_user.agency %></p>
   <div class="actions">
     <% if current_user.admin? %>
         <%= link_to 'Edit Code Tables', admin_home_path %>
