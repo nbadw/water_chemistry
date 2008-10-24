@@ -1,5 +1,5 @@
 <%
-#options = { :value => @record.raw_latitude.to_s }
+options = { :value => @record.x_coordinate }
 options = active_scaffold_input_text_options
 options[:disabled] = true unless @record.coordinate_source
 %>
@@ -11,4 +11,10 @@ options[:disabled] = true unless @record.coordinate_source
   <dd>
     <%= input :record, column.name, options %>
   </dd>
-</dl>    
+</dl>  
+
+<script type="text/javascript">
+    $('record_x_coordinate').observe('keydown', function() {
+        $('coordinate-preview-dialog').hide(); 
+    });
+</script>

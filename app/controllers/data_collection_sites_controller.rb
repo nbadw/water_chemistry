@@ -112,40 +112,40 @@ class DataCollectionSitesController < ApplicationController
   end 
   
   def on_preview_location
-    aquatic_site = update_record_from_params(active_scaffold_config.model.new, active_scaffold_config.create.columns, params[:record])
+    aquatic_site = update_record_from_params(active_scaffold_config.model.new, active_scaffold_config.create.columns, params[:record] || {})
     location = aquatic_site.location
     
     if location.valid?
       begin
         gmap_location = location.convert_to_gmap_location
         if gmap_location
-          @preview_location_map = GMap.new("preview-location-map")
-          @preview_location_map.set_map_type_init(GMapType::G_HYBRID_MAP)
-          @preview_location_map.control_init(:small_zoom => true)
-          @preview_location_map.center_zoom_init([gmap_location.latitude, gmap_location.longitude], 3)
-          @preview_location_map.overlay_init(GMarker.new([gmap_location.latitude, gmap_location.longitude]))
+          @map = GMap.new("preview-location-map")
+          @map.set_map_type_init(GMapType::G_HYBRID_MAP)
+          @map.control_init(:small_zoom => true)
+          @map.center_zoom_init([gmap_location.latitude, gmap_location.longitude], 8)
+          @map.overlay_init(GMarker.new([gmap_location.latitude, gmap_location.longitude]))
         else
-          @preview_errors = ["An unknown error occured.  Please try again later."]
+          @messages = ["An unknown error occured.  Please try again later."]
         end
       rescue Exception => e
-        @preview_errors = ["An unknown error occurred.  Please try again later. (#{e.message})"]
+        @messages = ["An unknown error occurred.  Please try again later. (#{e.message})"]
       end
     else
       if location.blank?
-        @preview_errors = ['Please enter all location details first.']
+        @messages = ['Please enter all location details first.']
       else
         aquatic_site.valid? # run aquatic site validations to get proper error messages
-        @preview_errors = []
+        @messages = []
         [:x_coordinate, :y_coordinate, :coordinate_system].each do |attr|
           aquatic_site.errors.on(attr).to_a.each do |msg|
             next if msg.nil?
-            @preview_errors << active_scaffold_config.columns[attr].label + " " + msg
+            @messages << active_scaffold_config.columns[attr].label + " " + msg
           end
         end
       end
     end
     
-    render :partial => 'preview_location_result', :content_type => 'text/javascript'
+    render :layout => 'map_iframe'
   end
   
   protected    

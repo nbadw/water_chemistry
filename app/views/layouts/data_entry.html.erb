@@ -8,20 +8,19 @@
     <%= stylesheet_link_merged :base %>
     <!--[if IE]><%= stylesheet_link_merged :ie %><![endif]-->
     <%= javascript_include_merged :base %>
-    <% # = GMap.header %>
-    <%= calendar_date_select_includes "silver" %>
+    <%= calendar_date_select_includes "silver" %> 
   </head>
   <body>
     
     <%= render :partial => 'layouts/header' %>
-    
+        
     <div id="navigation">
       <h2 class="location">
         <span class="primary"><%= 'Main Menu' %></span>
       </h2>
       <%= tabnav :main %>
     </div>
-        
+    
     <div id="content"> 
       <%= yield %>
     </div>   

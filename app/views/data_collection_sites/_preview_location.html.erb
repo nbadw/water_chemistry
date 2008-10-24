@@ -1,49 +1,31 @@
 <div id="coordinate-preview" style="float: left; margin-left: 3em;">
-  <a id="view-location-preview" href="javascript:void(0)">View Location Preview</a>
+  <a id="view-location-preview" href="javascript:void(0)">Show Location On Map</a>
   <div id="coordinate-preview-dialog" class="tooltip" style="display: none;">
     <div class="tooltip_content">
       <div id="coordinate-preview-loading" style="display: none;">
         <%= loading_indicator_tag(:action => 'preview-location') %>
         <span style="padding-left: 2px;">Loading Map</span>
       </div>
-      <div id="coordinate-preview-result">
+      <div id="coordinate-preview-result" class="iframe-container" style="width: 250px; height: 250px;">
       </div>
       <small><%= link_to_function "close", "$('coordinate-preview-dialog').hide();" %></small>
     </div>
   </div>
   <script type="text/javascript">
       $('view-location-preview').observe('click', function(event) { 
-          toggleTooltip(event, $('coordinate-preview-dialog'));
-          if(!$('coordinate-preview-dialog').visible()) { return; }
-          
-          var loading_img = '<%= loading_indicator_id(:action => "preview-location") %>';
-          var form = '<%= element_form_id(:action => :create)  %>';
-          var url  = '<%= url_for :action => 'on_preview_location' %>';
-          var error_msg = "Sorry, an error occurred.  Please try again later.";
-          
-          new Ajax.Request(url, {
-              parameters: $(form).serialize(true),
-              onLoading: function() {   
-                // show the loading message
-                $('coordinate-preview-result').hide();
-                $(loading_img).setStyle({ visibility: 'visible' });
-                $('coordinate-preview-loading').show();
-              },
-              onSuccess: function(transport) {
-                  var response = transport.responseText || error_msg;
-                  $('coordinate-preview-result').innerHTML = response;
-                  response.evalScripts();
-              },
-              onFailure: function(transport) {
-                  $('coordinate-preview-result').innerHTML = error_msg;
-              },
-              onComplete: function(transport) {
-                  // hide the loading message
-                  $(loading_img).setStyle({ visibility: 'hidden' });
-                  $('coordinate-preview-loading').hide();                  
-                  $('coordinate-preview-result').show();
-              }
-          });
+         var options = {
+            loadingImage: '<%= loading_indicator_id(:action => "preview-location") %>',
+            form: '<%= element_form_id(:action => :create)  %>',
+            url: '<%= url_for :action => 'on_preview_location' %>',
+            width: '250px',
+            height: '250px',
+            fields: [                
+                'record[x_coordinate]',
+                'record[y_coordinate]',
+                'record[coordinate_system]'
+            ]
+         };
+         showLocationOnMap(options, event); 
       });
   </script>
 </div>

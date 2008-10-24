@@ -15,4 +15,10 @@ html_options = @record.coordinate_source.nil? ? { :disabled => true } : {}
   <dd>
     <%= select :record, column.name, choices, select_options, html_options %>
   </dd>
-</dl>    
+</dl>   
+
+<script type="text/javascript">
+    $('record_coordinate_system').observe('change', function() {
+        $('coordinate-preview-dialog').hide(); 
+    });
+</script>

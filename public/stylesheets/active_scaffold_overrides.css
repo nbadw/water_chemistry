@@ -7,6 +7,7 @@
 .active-scaffold .inline-adapter .view.show-view,
 .active-scaffold .inline-adapter .view.new-view,
 .active-scaffold .inline-adapter .view.edit-view, 
+.active-scaffold .inline-adapter .view.show_search-view, 
 .active-scaffold .inline-adapter .view.edit_agency_site_id-view {
   background-color:#DAFFCD;
   border:1px solid #7FCF00;

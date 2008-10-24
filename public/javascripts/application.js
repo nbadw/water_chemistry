@@ -1,3 +1,60 @@
+function closeOpenNestedViews(record_id) {
+    var open_nested_views = $$('div.open-nested-view');
+    var elm_id = 'open-nested-view-' + record_id;
+    open_nested_views.each(function(open_nested_view) {
+        // close any other open views
+        console.log('inspecting ' + open_nested_view.id);
+        if(open_nested_view.id != elm_id) {
+            inline_table_row = open_nested_view.up('tr.inline-adapter');
+            console.log('re-enabling action links');
+            inline_table_row.previous('tr.record').select('a.action.disabled').each(function(disabled_action) {
+                console.log('enabling ' + disabled_action.id);
+                disabled_action.removeClassName('disabled');
+            });
+            console.log('closing view');
+            inline_table_row.remove();
+        } 
+    });
+}
+
+function showLocationOnMap(options, event) {
+    toggleTooltip(event, $('coordinate-preview-dialog'));    
+    if(!$('coordinate-preview-dialog').visible()) { return; }
+    
+    // remove previous iframe
+    $('coordinate-preview-result').innerHTML = '';
+    
+    var loading_img = $(options['loadingImage']);
+    var form = $(options['form']);
+    var url = options['url'];                  
+          //var error_msg = "Sorry, an error occurred.  Please try again later.";
+    var params = [];
+    for(var i=0; i < options['fields'].length; i++) {
+        var field_name = options['fields'][i];
+        params.push( form[field_name] );
+    }
+    var query = Form.serializeElements(params);
+    var request = url + '?' + query;
+    
+    var iframe = document.createElement('iframe');
+    iframe.src = request;
+    Element.extend(iframe);
+//    iframe.observe('load', function(event) {
+//        // hide the loading message
+//        $(loading_img).setStyle({ visibility: 'hidden' });
+//        $('coordinate-preview-loading').hide();                  
+//        $('coordinate-preview-result').show();
+//    });
+//    
+//    // show the loading message
+//    $('coordinate-preview-result').hide();
+//    $(loading_img).setStyle({ visibility: 'visible' });
+//    $('coordinate-preview-loading').show();
+    
+    // active the request
+    $('coordinate-preview-result').appendChild(iframe);
+}
+
 function doToggleAreaOfInterest(url, update, error, loader) {
     new Ajax.Updater(update, url, {
         asynchronous: true, 
@@ -12,110 +69,4 @@ function doToggleAreaOfInterest(url, update, error, loader) {
     }); 
     $(loader).style.visibility = 'visible';
     return false;
-}
-
-function include_javascript(src) {
-    if (document.createElement && document.getElementsByTagName) {
-        var head = document.getElementsByTagName('head')[0];
-        var script = document.createElement('script');
-        script.setAttribute('type', 'text/javascript');
-        script.setAttribute('src', src);
-        head.appendChild(script);
-    }
-}
-
-function include_gmap_scripts(gmap_header) {
-    console.log(gmap_header);
-}
-
-var map = null;
-var site2marker = {};
-        
-function enhanceAquaticSites() {
-    $('aquatic-sites').select('li.aquatic-site').each(function(li) {
-        Event.observe(li, 'mouseover', function(evt) {
-            this.addClassName('over');
-        });
-        Event.observe(li, 'mouseout', function(evt) {
-            this.removeClassName('over');
-        });
-    });
-        
-    $('aquatic-sites').select('li.aquatic-site a').each(function(link) {
-        Event.observe(link, 'click', handleAquaticSiteClick);
-    });
-        
-    $('aquatic-sites').select('div.pagination a').each(function(link) {
-        Event.observe(link, 'click', function(evt) {
-            Event.stop(evt); // prevent the default action
-            var url    = this.href.split('?')[0]
-            var params = this.href.toQueryParams();
-            params['format'] = 'js'
-                
-            new Ajax.Request(url, { 
-                method: 'get',
-                parameters: params,
-                onComplete: function(response) {
-                    enhanceAquaticSites();
-                }
-            });
-        });    
-    });
-}
-    
-function updateMap(siteMarkers) {
-    map.clearOverlays();
-        
-    var bounds = new GLatLngBounds();
-    for(var i=0, len=siteMarkers.length; i < len; i++) {
-        var site = siteMarkers[i];
-        var coord = new GLatLng(site.latitude, site.longitude);
-        var marker = new GMarker(coord);  
-        var maxContentDiv = document.createElement('div');                
-        
-        maxContentDiv.innerHTML = 'Loading...';
-        maxContentDiv.className = 'info-window';
-        marker.id = site.id;          
-        marker.maxContent = maxContentDiv;
-        marker.bindInfoWindowHtml(site.info, {
-            maxContent: marker.maxContent, 
-            maxTitle: "Aquatic Site Details"
-        });           
-        GEvent.addListener(marker, 'click', handleMarkerClick);
-        
-        map.addOverlay(marker);
-        site2marker[site.id] = marker;
-        bounds.extend(coord);
-    }
-    map.setCenter(bounds.getCenter(), map.getBoundsZoomLevel(bounds));
-}
-    
-function handleMarkerClick(evt) {                
-    var marker = this;
-    $('aquatic-sites').select('li.aquatic-site').each(function(li) { 
-        li.removeClassName('selected') 
-    });            
-    Element.up('aquatic-site-' + marker.id, 'li.aquatic-site').addClassName('selected');
-
-    var iw = map.getInfoWindow();
-    
-    if(marker.maxContent.innerHTML == 'Loading...') {
-        GEvent.addListener(iw, "maximizeclick", function() {
-            GDownloadUrl("/aquatic_site/gmap_max_content/" + marker.id, function(data) {
-                marker.maxContent.innerHTML = data;
-            });
-        }); 
-    } else {        
-        GEvent.clearListeners(iw, "maximizeclick");
-    }
-}
-    
-function handleAquaticSiteClick(evt) {
-    Event.stop(evt);
-    $('aquatic-sites').select('li.aquatic-site').each(function(li) { li.removeClassName('selected') });
-    Element.up(this, 'li.aquatic-site').addClassName('selected');
-    var site_id = parseInt(this.id.sub('aquatic-site-', ''));
-    if(site2marker[site_id]) {
-        GEvent.trigger(site2marker[site_id], 'click');
-    }
 }

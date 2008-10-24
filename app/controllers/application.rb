@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
   
   private    
   def set_javascripts_and_stylesheets
-    @stylesheets = '' # %w(admin/main)
-    @javascripts = '' # %w(prototype string effects admin/tabcontrol admin/ruledtable admin/admin)
+    @stylesheets = [] # %w(admin/main)
+    @javascripts = [] # %w(prototype string effects admin/tabcontrol admin/ruledtable admin/admin)
   end
 end
