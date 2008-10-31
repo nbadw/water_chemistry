@@ -3,15 +3,15 @@ function closeOpenNestedViews(record_id) {
     var elm_id = 'open-nested-view-' + record_id;
     open_nested_views.each(function(open_nested_view) {
         // close any other open views
-        console.log('inspecting ' + open_nested_view.id);
+        //console.log('inspecting ' + open_nested_view.id);
         if(open_nested_view.id != elm_id) {
             inline_table_row = open_nested_view.up('tr.inline-adapter');
-            console.log('re-enabling action links');
+            //console.log('re-enabling action links');
             inline_table_row.previous('tr.record').select('a.action.disabled').each(function(disabled_action) {
-                console.log('enabling ' + disabled_action.id);
+                //console.log('enabling ' + disabled_action.id);
                 disabled_action.removeClassName('disabled');
             });
-            console.log('closing view');
+            //console.log('closing view');
             inline_table_row.remove();
         } 
     });
@@ -27,7 +27,7 @@ function showLocationOnMap(options, event) {
     var loading_img = $(options['loadingImage']);
     var form = $(options['form']);
     var url = options['url'];                  
-          //var error_msg = "Sorry, an error occurred.  Please try again later.";
+    //var error_msg = "Sorry, an error occurred.  Please try again later.";
     var params = [];
     for(var i=0; i < options['fields'].length; i++) {
         var field_name = options['fields'][i];
@@ -39,17 +39,17 @@ function showLocationOnMap(options, event) {
     var iframe = document.createElement('iframe');
     iframe.src = request;
     Element.extend(iframe);
-//    iframe.observe('load', function(event) {
-//        // hide the loading message
-//        $(loading_img).setStyle({ visibility: 'hidden' });
-//        $('coordinate-preview-loading').hide();                  
-//        $('coordinate-preview-result').show();
-//    });
-//    
-//    // show the loading message
-//    $('coordinate-preview-result').hide();
-//    $(loading_img).setStyle({ visibility: 'visible' });
-//    $('coordinate-preview-loading').show();
+    //    iframe.observe('load', function(event) {
+    //        // hide the loading message
+    //        $(loading_img).setStyle({ visibility: 'hidden' });
+    //        $('coordinate-preview-loading').hide();                  
+    //        $('coordinate-preview-result').show();
+    //    });
+    //    
+    //    // show the loading message
+    //    $('coordinate-preview-result').hide();
+    //    $(loading_img).setStyle({ visibility: 'visible' });
+    //    $('coordinate-preview-loading').show();
     
     // active the request
     $('coordinate-preview-result').appendChild(iframe);

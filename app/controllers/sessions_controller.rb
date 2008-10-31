@@ -47,6 +47,11 @@ class SessionsController < ApplicationController
     current_user.last_login = DateTime.now
     current_user.save
     
+    # clear the previous session variables
+    # XXX: i don't like this session stuff...
+    session[:search] = ''
+    session[:filter_area_of_interest] = true
+    
     # set remember me cookie
     if params[:remember_me] == "1"
       self.current_user.remember_me

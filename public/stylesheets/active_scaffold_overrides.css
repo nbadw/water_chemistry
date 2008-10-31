@@ -6,11 +6,13 @@
 }
 .active-scaffold th.sorted,
 .active-scaffold th.asc a, 
+.active-scaffold th.desc a,
 .active-scaffold th a:hover {
     background-color: #13345e;
 }
 .active-scaffold tr.record td {
     background-color: #d0d8e8;
+    border-color: #ccc;
 }
 .active-scaffold tr.even-record td {
     background-color: #e9edf4;
@@ -33,8 +35,8 @@
 .active-scaffold .inline-adapter .view.edit-view, 
 .active-scaffold .inline-adapter .view.show_search-view, 
 .active-scaffold .inline-adapter .view.edit_agency_site_id-view {
-    background-color: #ffe5cc;
-    border-color: #CC7000;
+    background-color: #FBF9F6;
+    border-color: #A3A09B;
     padding: 4px;
 }
 .active-scaffold input.text-input, 

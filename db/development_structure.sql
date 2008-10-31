@@ -645,7 +645,7 @@ CREATE TABLE `tblaquaticactivity` (
   KEY `FisheriesSiteID` (`AquaticSiteID`),
   KEY `OldAquaticActivityID` (`TempAquaticActivityID`),
   KEY `oldAquaticSiteID` (`oldAquaticSiteID`)
-) ENGINE=InnoDB AUTO_INCREMENT=150639 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=150651 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tblaquaticprogram` (
   `AquaticProgramID` int(10) NOT NULL,
@@ -665,7 +665,7 @@ CREATE TABLE `tblaquaticprogram` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tblaquaticsite` (
-  `AquaticSiteID` int(10) NOT NULL,
+  `AquaticSiteID` int(10) NOT NULL auto_increment,
   `oldAquaticSiteID` int(10) default NULL,
   `RiverSystemID` smallint(5) default NULL,
   `WaterBodyID` int(10) default NULL,
@@ -700,7 +700,7 @@ CREATE TABLE `tblaquaticsite` (
   KEY `oldAquaticSiteID` (`oldAquaticSiteID`),
   KEY `RiverSystemID` (`RiverSystemID`),
   KEY `WaterBodyID` (`WaterBodyID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10000 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tblaquaticsiteagencyuse` (
   `AquaticSiteUseID` int(10) NOT NULL auto_increment,
@@ -723,7 +723,7 @@ CREATE TABLE `tblaquaticsiteagencyuse` (
   KEY `AgencySiteID` (`AgencySiteID`),
   KEY `AssmtSiteID` (`AquaticSiteUseID`),
   KEY `WaterBodyID` (`AquaticSiteID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7004 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7009 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tblbacterialanalysis` (
   `BacterialAnalysisID` int(10) NOT NULL auto_increment,
@@ -1583,7 +1583,7 @@ CREATE TABLE `tblobservations` (
   PRIMARY KEY  (`ObservationID`),
   KEY `AquaticActivityID` (`AquaticActivityID`),
   KEY `EnvSurveyID` (`ObservationID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tbloldhabitatsurvey` (
   `HabitatSurveyID` int(10) NOT NULL auto_increment,
@@ -1775,7 +1775,7 @@ CREATE TABLE `tblsample` (
   KEY `tblAquaticActivitytblSample` (`AquaticActivityID`),
   KEY `tblSampleWaterSourceType` (`WaterSourceType`),
   KEY `TempAquaticActivityID` (`TempAquaticActivityID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tblsatelliterearing` (
   `AquaticActivityID` int(10) NOT NULL,
@@ -2281,7 +2281,7 @@ CREATE TABLE `tblwatermeasurement` (
   KEY `TempDataID` (`TempDataID`),
   KEY `TemperatureLoggerID` (`TemperatureLoggerID`),
   KEY `WaterMeasurementID` (`WaterMeasurementID`)
-) ENGINE=InnoDB AUTO_INCREMENT=194944 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=194946 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tblwatertemperatureloggerdetails` (
   `TemperatureLoggerID` int(10) NOT NULL auto_increment,
@@ -2345,7 +2345,7 @@ CREATE TABLE `users` (
   `updated_at` datetime default NULL,
   `area_of_interest_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 INSERT INTO schema_migrations (version) VALUES ('20080923163400');
 

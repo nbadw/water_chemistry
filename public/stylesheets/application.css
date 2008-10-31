@@ -524,3 +524,10 @@ body.sessions {
 .auto_complete li.even {
     background-color: #e6f2ff;
 }
+
+.active-scaffold-header div.actions a.download {
+    background-position:1px 50%;
+    background-repeat:no-repeat;
+    padding-left:19px;
+    background-image: url(../images/active_scaffold/default/export.png);
+}

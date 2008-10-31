@@ -28,7 +28,7 @@
 class WaterMeasurement < AquaticDataWarehouse::BaseTbl
   set_primary_key 'WaterMeasurementID'
   
-  belongs_to :o_and_m, :class_name => 'OandM', :foreign_key => 'OandMCd'
+  belongs_to :o_and_m, :class_name => 'Measurement', :foreign_key => 'OandMCd'
   belongs_to :instrument, :foreign_key => 'InstrumentCd'
   belongs_to :unit_of_measure, :foreign_key => 'UnitofMeasureCd'
   belongs_to :sample, :foreign_key => 'SampleID'

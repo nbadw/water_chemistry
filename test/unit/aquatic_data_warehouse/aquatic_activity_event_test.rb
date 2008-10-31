@@ -46,7 +46,7 @@ class AquaticActivityEventTest < ActiveSupport::TestCase
     :weather_conditions, :year
   
   should_belong_to :aquatic_activity, :aquatic_site, :agency, :secondary_agency, :aquatic_activity_method    
-  should_have_many :recorded_observations
+  should_have_many :recorded_observations, :samples
   
   should_require_attributes :aquatic_site, :agency, :aquatic_activity, :aquatic_activity_method, :start_date
   

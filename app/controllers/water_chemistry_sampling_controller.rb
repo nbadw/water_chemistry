@@ -18,14 +18,19 @@ class WaterChemistrySamplingController < ApplicationController
   
   def report  
     options = {
-      :aquatic_site => AquaticSite.find(params[:aquatic_site_id]),
-      :aquatic_activity_event => AquaticActivityEvent.find(params[:aquatic_activity_event_id]),
+      :report_on => { 
+        :aquatic_site => AquaticSite.find(params[:aquatic_site_id]),
+        :aquatic_activity_event => AquaticActivityEvent.find(params[:aquatic_activity_event_id])
+      },      
       :agency => current_user.agency
     }
     
     respond_to do |wants|
       wants.html { @report_html =  Reports::WaterChemistrySampling.render_html(options) }
-      wants.csv  { render :text => Reports::WaterChemistrySampling.render_csv(options)  }
+      wants.csv do        
+        csv = Reports::WaterChemistrySampling.render_csv(options)  
+        send_data csv, :type => "text/csv", :filename => "water_chemistry_sampling_report.csv" 
+      end
     end 
   end
   

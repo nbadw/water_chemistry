@@ -8,7 +8,7 @@ class RecordedObservationsController < ApplicationController
     config.actions = [:list, :create, :update, :delete]
     
     config.columns = [:aquatic_activity_event_id, :observation, :group, :value_observed, :fish_passage_obstruction_ind]
-    config.list.columns = [:observation, :group, :value_observed, :fish_passage_obstruction_ind]
+    config.list.columns = [:group, :observation, :value_observed, :fish_passage_obstruction_ind]
     config.create.columns = [:observation]    
     config.update.columns = [:observation]
     

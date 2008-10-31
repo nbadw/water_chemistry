@@ -10,8 +10,8 @@ class RecordedChemicalsController < ApplicationController
     
     config.columns = [:parameter_name, :parameter_code, :measurement, :qualifier_cd, :comment]
     config.list.columns = [:parameter_name, :parameter_code, :measurement, :qualifier_cd, :comment]
-    config.create.columns = [:parameter, :measurement, :qualifier_cd, :comment]
-    config.update.columns = [:measurement, :qualifier_cd, :comment]
+    config.create.columns = [:parameter, :measurement, :unit_of_measure, :qualifier_cd, :comment]
+    config.update.columns = [:measurement, :unit_of_measure, :qualifier_cd, :comment]
 
     config.columns[:measurement].label = "Value"
     config.columns[:qualifier_cd].label = "Qualifier"

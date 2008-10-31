@@ -1,38 +1,43 @@
+<%
+aquatic_site = @aquatic_activity_event.aquatic_site
+agency = @aquatic_activity_event.agency
+waterbody = aquatic_site.waterbody
+%>
 <div class="activity-details">
   <table>
     <tr>
       <td>Aquatic Site ID:</td>
-      <td><%= data.aquatic_site.id %></td>
+      <td><%= aquatic_site.id %></td>
       <td>Date Sampled: </td>
-      <td><%= %></td>
+      <td><%= @aquatic_activity_event.start_date %></td>
     </tr>
     <tr>
       <td>Waterbody ID: </td>
-      <td><%= data.waterbody.id %></td>
+      <td><%= waterbody.id %></td>
       <td>ADW Sample ID: </td>
-      <td><%= data.sample.id %></td>
+      <td><%= @sample.id %></td>
     </tr>
     <tr>
       <td>Waterbody Name: </td>
-      <td><%= data.waterbody.water_body_name %></td>
+      <td><%= waterbody.water_body_name %></td>
       <td>Sampled By: </td>
-      <td><%= data.agency.code %></td>
+      <td><%= agency.code %></td>
     </tr>
     <tr>
       <td>Drainage Code: </td>
-      <td><%= data.waterbody.drainage_cd %></td>
+      <td><%= waterbody.drainage_cd %></td>
       <td>Agency Sample No.: </td>
-      <td><%= data.sample.agency_sample_no %></td>
+      <td><%= @sample.agency_sample_no %></td>
     </tr>
     <tr>
       <td rowspan="2">Site Description: </td>
-      <td rowspan="2"><%= data.aquatic_site.aquatic_site_desc %></td>
+      <td rowspan="2"><%= aquatic_site.aquatic_site_desc %></td>
       <td>Analyzed By: </td>
-      <td><%= data.sample.analyzed_by %></td>
+      <td><%= @sample.analyzed_by %></td>
     </tr>
     <tr>
       <td>Lab No.:</td>
-      <td></td>
+      <td><%= @sample.lab_no %></td>
     </tr>
   </table>
 </div>

@@ -42,6 +42,7 @@ class AquaticSite < AquaticDataWarehouse::BaseTbl
   belongs_to  :waterbody, :foreign_key => 'WaterBodyID'  
   has_many    :aquatic_site_usages, :foreign_key => 'AquaticSiteID', :uniq => true
   has_many    :aquatic_activities, :through => :aquatic_site_usages
+  has_many    :aquatic_activity_events, :foreign_key => 'AquaticSiteID'
   has_many    :agencies, :through => :aquatic_site_usages
   composed_of :location, :class_name => 'Location', :mapping => [%w(y_coordinate latitude), %w(x_coordinate longitude), %w(coordinate_system coordinate_system)]
   

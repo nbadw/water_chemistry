@@ -32,12 +32,4 @@ class OandM < AquaticDataWarehouse::BaseCd
   
   validates_presence_of   :oand_m_parameter
   validates_uniqueness_of :oand_m_parameter  
-  
-#  def before_save
-#    write_attribute('OandM_ValuesInd', false)  if oand_m_values_ind.nil?
-#    write_attribute('FishPassageInd', false)   if fish_passage_ind.nil?
-#    write_attribute('BankInd', false)          if bank_ind.nil?
-#    write_attribute('OandM_DetailsInd', false) if oand_m_details_ind.nil?
-#    return self
-#  end
 end

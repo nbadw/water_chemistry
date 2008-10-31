@@ -32,6 +32,8 @@ ActionController::Routing::Routes.draw do |map|
     
   # DATA COLLECTION SITE ROUTES
   map.connect '/data_collection_sites/on_preview_location', :controller => 'data_collection_sites', :action => 'on_preview_location'
+  map.connect '/data_collection_sites/report', :controller => 'data_collection_sites', :action => 'report'
+  map.connect '/data_collection_sites/report.:format', :controller => 'data_collection_sites', :action => 'report'
   map.resources :data_collection_sites, :active_scaffold => true do |sites|
     sites.resources :data_sets, :active_scaffold => true
   end

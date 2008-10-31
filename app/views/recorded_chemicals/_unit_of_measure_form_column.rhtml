@@ -1,0 +1,12 @@
+<% 
+units = @record.o_and_m ? @record.o_and_m.units_of_measure.collect{ |unit| [unit.name_and_unit, unit.unitof_measure_cd] } : [] 
+selected = @record.unit_of_measure ? @record.unit_of_measure.id.to_s : nil
+%>
+<dl class="override" id="<%= column.name %>">
+  <dt>
+    <label for="record[<%= column.name %>]"><%= column.label %></label>
+  </dt>
+  <dd>
+    <%= select("record", column.name, units, { :selected => selected }, { :id => "record[#{column.name}]" }) %>
+  </dd>
+</dl>

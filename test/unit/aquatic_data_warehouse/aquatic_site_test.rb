@@ -8,6 +8,7 @@ class AquaticSiteTest < ActiveSupport::TestCase
   should_belong_to :waterbody
   should_have_many :aquatic_site_usages
   should_have_many :aquatic_activities, :through => :aquatic_site_usages
+  should_have_many :aquatic_activity_events
   should_have_many :agencies, :through => :aquatic_site_usages
    
   should_require_attributes :aquatic_site_desc, :waterbody

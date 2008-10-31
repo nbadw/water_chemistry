@@ -6,12 +6,6 @@
 #water-chemistry-sampling.report #right {
     display: none;
 }
-div.actions a.action.download {
-    background-position:1px 50%;
-    background-repeat:no-repeat;
-    padding-left:19px;
-    background-image: url(../images/active_scaffold/default/export.png);
-}
 
 #water-chemistry-report *,
 #water-chemistry-report .header .title {

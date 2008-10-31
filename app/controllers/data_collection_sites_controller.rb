@@ -148,12 +148,23 @@ class DataCollectionSitesController < ApplicationController
     render :layout => 'map_iframe'
   end
   
-  protected    
-  
-  def owning_agencies 
-    []
+  def report   
+    do_list
+    aquatic_sites = @records
+    options = {
+      :report_on => aquatic_sites,
+      :agency => current_user.agency
+    }
+    
+    respond_to do |wants|
+      wants.csv do
+        csv = Reports::WaterChemistrySampling.render_csv(options)
+        send_data csv, :type => "text/csv", :filename => "water_chemistry_sampling_report.csv" 
+      end
+    end 
   end
   
+  protected      
   def active_scaffold_joins
     [:waterbody, :aquatic_site_usages, :agencies, :aquatic_activities]
   end
@@ -170,7 +181,14 @@ class DataCollectionSitesController < ApplicationController
   end
   
   def do_search
-    @query = params[:search].to_s.strip rescue ''
+    if params[:search]
+      @query = params[:search]
+      # XXX: i'd live to move this out of the session...
+      session[:search] = @query
+    else
+      @query = session[:search]
+    end
+    @query = @query.to_s.strip rescue ''    
     return if @query.empty?
     
     columns = active_scaffold_config.search.columns

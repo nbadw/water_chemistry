@@ -3,6 +3,7 @@
 
 class ApplicationController < ActionController::Base
   include AuthenticatedSystem
+  include HoptoadNotifier::Catcher
   
   before_filter :set_javascripts_and_stylesheets
   

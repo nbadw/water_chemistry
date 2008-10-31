@@ -51,6 +51,7 @@ class AquaticActivityEvent < AquaticDataWarehouse::BaseTbl
   belongs_to :secondary_agency, :class_name => 'Agency', :foreign_key => 'Agency2Cd'
   belongs_to :aquatic_activity_method, :foreign_key => 'AquaticMethodCd'
   has_many   :recorded_observations, :foreign_key => 'AquaticActivityID', :dependent => :destroy
+  has_many   :samples, :foreign_key => 'AquaticActivityID', :dependent => :destroy
          
   validates_presence_of  :aquatic_site, :aquatic_activity, :agency, :aquatic_activity_method, :start_date     
   
