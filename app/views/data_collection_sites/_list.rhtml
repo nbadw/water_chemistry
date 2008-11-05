@@ -4,7 +4,7 @@
   <script type="text/javascript">
       var elm = $('<%= area_of_interest_toggle_link_id %>');
       if(elm) {
-          Element.replace(elm, '<%= area_of_interest_toggle_link.gsub(/'/) { |c| "\\" + c } %>');    
+          Element.replace(elm, <%= area_of_interest_toggle_link.to_json %>);    
       }
   </script>
 <% end %>

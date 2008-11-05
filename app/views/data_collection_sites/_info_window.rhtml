@@ -1,6 +1,8 @@
 <div class="aquatic-site-info-window">
-  <h3><%= aquatic_site.aquatic_site_name %> </h3>
-  <p><%= aquatic_site.aquatic_site_desc %></p>
-  <p>Waterbody: <%= aquatic_site.waterbody ? aquatic_site.waterbody.water_body_name : '-' %> (ID: <%= aquatic_site.waterbody ? aquatic_site.waterbody.id : '-' %>)</p>
-  <p>Drainage Code: <%= aquatic_site.waterbody ? aquatic_site.waterbody.drainage_cd : '-' %></p>
+  <h3><%= result['aquatic_site_name'] %> </h3>
+  <p><%= result['aquatic_site_desc'] %></p>
+  <p>Waterbody: <%= result['waterbody_name'] %></p>
+  <p>Waterbody ID: <%= result['waterbody_id'] %></p>
+  <p>Drainage Code: <%= result['drainage_code'] %></p>
+  <p><%= result['aquatic_activity_event_count'] %> water chemistry sampling events located</p>
 </div>
