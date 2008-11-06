@@ -1,6 +1,0 @@
-etl_execution:
-  adapter: mysql
-  username: root
-  host: localhost
-  database: etl_execution
-  encoding: utf8

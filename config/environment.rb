@@ -25,9 +25,13 @@ Rails::Initializer.run do |config|
   # config.gem "bj"
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "aws-s3", :lib => "aws/s3"  
-  config.gem "ZenTest"
   config.gem "hpricot", :source => "http://code.whytheluckystiff.net"
   config.gem "highline"
+  config.gem "ruport"
+  config.gem "ruport-util", :lib => "ruport/util" 
+  config.gem "acts_as_reportable", :lib => "ruport/acts_as_reportable" 
+  config.gem "mocha"
+  config.gem "GeoRuby", :lib => "geo_ruby" 
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.

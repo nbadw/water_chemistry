@@ -1,3 +1,0 @@
-This library provides extensions to Rails' ActiveRecord adapters.
-
-To execute the unit tests you must first construct a adapter_extensions_unittest database.
