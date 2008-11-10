@@ -1,12 +1,16 @@
 <% 
-units = @record.o_and_m ? @record.o_and_m.units_of_measure.collect{ |unit| [unit.name_and_unit, unit.unitof_measure_cd] } : [] 
+# either a chemical has already been selected or it's the first in the list of chemicals
+current_chemical = @record.o_and_m || @chemicals.first
+units = current_chemical.units_of_measure.collect{ |unit| [unit.name_and_unit, unit.unitof_measure_cd] }
 selected = @record.unit_of_measure ? @record.unit_of_measure.id.to_s : nil
+html_options = { :id => "record[#{column.name}]" }
+html_options[:disabled] = true if units.empty?
 %>
 <dl class="override" id="<%= column.name %>">
   <dt>
     <label for="record[<%= column.name %>]"><%= column.label %></label>
   </dt>
   <dd>
-    <%= select("record", column.name, units, { :selected => selected }, { :id => "record[#{column.name}]" }) %>
+    <%= select("record", column.name, units, { :selected => selected }, html_options) %>
   </dd>
-</dl>
+</dl>  

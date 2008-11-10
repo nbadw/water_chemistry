@@ -8,8 +8,9 @@ selected = @record.chemical.id if @record.chemical
     <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
   </dt>
   <dd>
-    <select name="<%= "record_#{column.name}" %>">">
+    <select id="selected_chemical" name="<%= "record_#{column.name}" %>">">
       <%= options_for_select(options, selected) %>
     </select>
   </dd>
 </dl>
+<%= observe_field(:selected_chemical, :on => :change, :with => "chemical_id", :url => { :action => :on_chemical_change }) %>   

@@ -26,6 +26,9 @@ class AquaticActivityEventController < ApplicationController
     
     config.show.link.inline = false
     config.show.link.label = "Open"
+    config.show.link.controller = 'water_chemistry_sampling'
+    config.show.link.action = 'samples'
+    config.show.link.parameters = { :water_chemistry_sampling_link => true } # added so this action can be overridden in helper
     config.action_links.add 'edit_agency_site_id', :label => 'Edit Agency Site ID', :type => :table, :inline => true    
   end
   
@@ -33,7 +36,7 @@ class AquaticActivityEventController < ApplicationController
     event = AquaticActivityEvent.find params[:id], :include => :aquatic_activity
     activity_name = event.aquatic_activity.name
     activity_controller = activity_name.gsub(' ', '_').downcase
-    redirect_to :controller => activity_controller, :action => 'edit', 
+    redirect_to :controller => activity_controller, :action => 'samples', 
       :aquatic_activity_event_id => event.id, :aquatic_site_id => event.aquatic_site_id
   end
   

@@ -1,0 +1,32 @@
+<div id="gmap-water_chemistry_samplings" class="active-scaffold" style="margin: 10px 15px 10px 0;">
+  <div class="active-scaffold">
+    <div class="active-scaffold-header">
+      <h2>Water Chemistry Sampling for Site #<%= @aquatic_site.id %> - <%= @aquatic_site.name %></h2>
+      <h2>Agency Site ID: <%= @site_usage ? @site_usage.agency_site_id : '-' %></h2>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th><p>Analysis Method</p></th>
+          <th><p>Date</p></th>
+          <th><p>Agency</p></th>
+          <th><p>Weather Conditions</p></th>
+          <th><p>Water Level</p></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody class="records">
+        <% @water_chemistry_samplings.each_with_index do |sampling, i| %>
+          <tr class="record <%= 'even-record' if i % 2 == 0 %>">
+            <td><%= sampling.aquatic_activity_method ? sampling.aquatic_activity_method.name : '-' %></td>
+            <td><%= sampling.start_date ? sampling.start_date.to_s : '-' %></td>
+            <td><%= sampling.agency ? sampling.agency.id : '-' %></td>
+            <td><%= sampling.weather_conditions ? sampling.weather_conditions.observable_value.value : '-' %></td>
+            <td><%= sampling.water_level ? sampling.water_level.observable_value.value : '-' %></td>
+            <td class="actions"><%= link_to 'Open', url_for(:controller => 'water_chemistry_sampling', :action => 'samples', :aquatic_site_id => @aquatic_site.id, :aquatic_activity_event_id => sampling.id) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

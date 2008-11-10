@@ -9,7 +9,7 @@ class RecordedChemicalsController < ApplicationController
     config.actions = [:list, :create, :update, :delete]   
     
     config.columns = [:parameter_name, :parameter_code, :measurement, :qualifier_cd, :comment]
-    config.list.columns = [:parameter_name, :parameter_code, :measurement, :qualifier_cd, :comment]
+    config.list.columns = [:parameter_name, :parameter_code, :measurement, :unit_of_measure, :qualifier_cd, :comment]
     config.create.columns = [:parameter, :measurement, :unit_of_measure, :qualifier_cd, :comment]
     config.update.columns = [:measurement, :unit_of_measure, :qualifier_cd, :comment]
 
@@ -17,6 +17,18 @@ class RecordedChemicalsController < ApplicationController
     config.columns[:qualifier_cd].label = "Qualifier"
     
     config.create.persistent = true
+  end
+  
+  def on_chemical_change
+    chemical = Measurement.find params[:chemical_id]
+    render :update do |page| 
+      page.replace_html 'record[unit_of_measure]', :inline => '<%= options_from_collection_for_select(units, :unitof_measure_cd, :name_and_unit) %>', :locals => { :units => chemical.units_of_measure } 
+      if chemical.units_of_measure.empty?
+        page << "$('record[unit_of_measure]').disable();"
+      else
+        page << "$('record[unit_of_measure]').enable();"
+      end
+    end  
   end
   
   protected

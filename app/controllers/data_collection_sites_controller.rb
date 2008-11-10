@@ -87,8 +87,13 @@ class DataCollectionSitesController < ApplicationController
     constraints = { aquatic_site_id => params[:id], aquatic_activity => params[:aquatic_activity_id] }
   end
   
-  def gmap_max_content    
-    render :inline => "<%= render :active_scaffold => 'tbl_aquatic_site', :conditions => ['#{AquaticSite.table_name}.aquaticsiteid = ?', params[:id]], :label => '' %>"
+  def gmap_max_content   
+    @aquatic_site = AquaticSite.find(params[:id], :include => :aquatic_activity_events)
+    @site_usage = [*@aquatic_site.aquatic_site_usages].find { |usage| usage.aquatic_activity_cd == 17 }
+    @water_chemistry_samplings = @aquatic_site.aquatic_activity_events.collect do |event|
+      event if event.aquatic_activity_cd == 17
+    end.compact.sort { |a, b| b.start_date.to_s <=> a.start_date.to_s }
+    render :layout => false
   end
     
   def on_coordinate_source_change
