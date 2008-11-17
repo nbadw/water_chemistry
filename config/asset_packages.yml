@@ -9,6 +9,7 @@ javascripts:
   - active_scaffold/default/form_enhancements
   - active_scaffold/default/active_scaffold
   - application
+  - help
 stylesheets: 
 - base: 
   - reset

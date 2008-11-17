@@ -1,13 +1,17 @@
 class WaterChemistrySamplingController < ApplicationController 
   before_filter :login_required
   before_filter :create_aquatic_site_map, :except => [:show, :edit]
-    
-  def edit
-    redirect_to :action => 'samples', :aquatic_site_id => params[:aquatic_site_id],
-      :aquatic_activity_event_id => params[:aquatic_activity_event_id]
+  layout 'application'
+  
+  def current_location
+    'Water Chemistry Sampling'
   end
-    
-  def samples   
+  
+  def previous_location    
+    'Back to Data Collection Sites'
+  end
+        
+  def samples  
   end
     
   def observations
@@ -17,6 +21,9 @@ class WaterChemistrySamplingController < ApplicationController
   end
   
   def report  
+    include_stylesheet 'water_chemistry_report'
+    include_stylesheet 'print', :media => :print
+    
     options = {
       :report_on => { 
         :aquatic_site => AquaticSite.find(params[:aquatic_site_id]),

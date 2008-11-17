@@ -17,7 +17,7 @@ class WaterChemistrySamplingReportTest < ActiveSupport::TestCase
           :aquatic_activity_event => @aquatic_activity_event
         }
       }
-      @aggregator = Reports::WaterChemistrySampling::SamplesAggregator.new(options)
+      @aggregator = Reports::Aggregators::WaterChemistrySamplingAggregator.new(options)
     end
     
     should "be able to render to csv" do
@@ -52,7 +52,7 @@ class WaterChemistrySamplingReportTest < ActiveSupport::TestCase
       @samples = []
       2.times { @samples << Sample.generate!(:aquatic_activity_event => @aquatic_activity_event_1) }
       3.times { @samples << Sample.generate!(:aquatic_activity_event => @aquatic_activity_event_2) } 
-      @aggregator = Reports::WaterChemistrySampling::SamplesAggregator.new(:report_on => @aquatic_site)
+      @aggregator = Reports::Aggregators::WaterChemistrySamplingAggregator.new(:report_on => @aquatic_site)
     end
     
     should "be able to render to csv" do
@@ -90,10 +90,10 @@ class WaterChemistrySamplingReportTest < ActiveSupport::TestCase
       water_meas = WaterMeasurement.generate!(
         :sample => @samples.first, 
         :measurement => 37,
-        :o_and_m => OandM.spawn(:oand_m_parameter => 'Test', :oand_m_parameter_cd => 'TST')
+        :o_and_m => Measurement.generate!(:oand_m_parameter => 'Test', :oand_m_parameter_cd => 'TST', :oand_m_type => 'Measurement')
       )
       
-      @aggregator = Reports::WaterChemistrySampling::SamplesAggregator.new(:report_on => @aquatic_sites)
+      @aggregator = Reports::Aggregators::WaterChemistrySamplingAggregator.new(:report_on => @aquatic_sites)
     end
     
     should "be able to render to csv" do

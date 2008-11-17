@@ -1,11 +1,22 @@
 class DataEntryController < ApplicationController
   before_filter :login_required
+  
+  def page_title
+    "NB Aquatic Data Warehouse - #{action_name.titleize}"
+  end
+  
+  def current_location
+    'Main Menu'
+  end
     
   def browse  
   end
   
   def explore  
-    area_of_interest = '%'
+    include_gmap_javascript
+    include_javascript 'explore'
+    
+    area_of_interest = '%'    
     if session[:filter_area_of_interest] && current_user.area_of_interest
       aoi = current_user.area_of_interest.drainage_cd.split('-').collect { |unit_no| unit_no unless unit_no == '00' }.compact
       aoi << '%' if aoi.length < 6
@@ -55,7 +66,5 @@ class DataEntryController < ApplicationController
       }
       marker
     end 
-
-    render :layout => 'explore'
   end
 end

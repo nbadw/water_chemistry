@@ -36,6 +36,15 @@
       <dd><%= form.password_field :password_confirmation, :class => 'text-input' %></dd>
     </dl>
   </li>
+  <% if action == :new %>
+    <div style="clear: both; padding-top: 10px;">
+      <label for="request-editor-priveleges">Will this account be used to add/edit your agency's data?</label>  
+      <div>
+        <input type="radio" name="needs_editor_priveleges" value="no" checked="checked">No, I'd just like to view data and reports<br/>        
+        <input type="radio" name="needs_editor_priveleges" value="yes">Yes
+      </div>
+    </div>
+  <% end %>
 </ol>    
 <div style="clear: both; padding: 10px;"></div>
 
@@ -45,6 +54,12 @@
     <%= render :partial => 'waterbody/area_of_interest_autocomplete', :locals => { :area_of_interest => @user.area_of_interest } %>
   </li>
 </ol>
+<% if action != :new %>
+  <div style="clear: both">
+    <input id="remove-area-of-interest" type="checkbox" name="remove_area_of_interest" />
+    <label for="remove-area-of-interest">Remove Area of Interest</label>
+  </div>
+<% end %>
 <div style="clear: both; padding: 5px;"></div>
 
 <p class="form-footer">  

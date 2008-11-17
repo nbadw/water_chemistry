@@ -1,3 +1,8 @@
+// for those w/o console... sad.
+if (typeof(console) == 'undefined') {
+    console = { log: function() {} }
+}
+
 function closeOpenNestedViews(record_id) {
     var open_nested_views = $$('div.open-nested-view');
     var elm_id = 'open-nested-view-' + record_id;

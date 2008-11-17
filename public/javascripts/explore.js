@@ -43,9 +43,8 @@ function displayMap() {
 
 function maximizeMap() {
     var full_height = document.viewport.getDimensions().height;   
-    var top_height = $('explore-top').getHeight();      
-    var map_height = full_height - top_height - 50;
-      
+    var top_height = $('header').getHeight() + $('navigation').getHeight();
+    var map_height = full_height - top_height - 40;      
     $('map_canvas').setStyle({
         height: map_height + 'px' 
     });

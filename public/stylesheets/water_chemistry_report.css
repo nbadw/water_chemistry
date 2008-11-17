@@ -18,26 +18,47 @@
     font-weight: bold;    
 }
 #water-chemistry-report table {
-    border: 2px solid black;
-    border-right: none;
-    border-left: none;
     width: 100%;
 }
 #water-chemistry-report table td {
     padding: 5px;    
+}
+#water-chemistry-report table td.field {
+    font-weight: bold;
 }
 #water-chemistry-report table th {
     padding: 5px;
     font-weight: bold;
     background-color: #fff;
 }
-#water-chemistry-report .activity-details,
+#water-chemistry-report .site-details table {
+    border: 2px solid black;
+    background-color: #e9edf4;
+}
+#water-chemistry-report .sample-details,
 #water-chemistry-report .parameter-table {
-    margin: 1em 0.5em;  
+    margin: 1em;  
     font-size: 11pt;
+}
+#water-chemistry-report .sample-details {    
+    border-top: 2px solid black;
 }
 #water-chemistry-report .parameter-table {
     margin-bottom: 2.5em;
+    border-bottom: 2px solid black;
+}
+#water-chemistry-report .parameter-table td {
+    font-style: italic;
+}
+#water-chemistry-report .qualifier-legend {
+    width: auto;
+}
+#water-chemistry-report .qualifier-legend table {
+    width: auto;
+    margin-bottom: 1em;
+}
+#water-chemistry-report .qualifier-legend th.code {
+    padding-right: 2em;
 }
 #water-chemistry-report .footer * {
 }

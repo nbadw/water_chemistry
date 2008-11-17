@@ -17,13 +17,36 @@ kuler scheme: chemistry class
 body {
     min-width: 700px;
 }
+strong { 
+    font-weight: bold; 
+}
 #header {
     background-color: #001E20;
     color: #fff;
     height: 65px;
 }
+#application .name {
+    font-size: 16px;
+    padding-top: 17px;
+    padding-left: 10px;
+    width: 255px;
+    padding-bottom: 5px;
+    font-family: Verdana;
+    font-weight: bold;
+}
+#application .name a {
+    font-weight: normal;
+    text-decoration: none;
+    color: #fff;
+}
+#application .name a:hover {
+    color: #FFFF88;
+}
 #session {
-    float: right;    
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #fff;
     padding: 10px 20px;
     height: 30px;
     text-align: right;
@@ -53,108 +76,155 @@ body {
     margin-top: 7px;
     text-align: right;
 }
-#application .name {
-    font-size: 16px;
-    padding-top: 17px;
-    padding-left: 10px;
-    font-family: Verdana;
-    height: 33px;
-    font-weight: bold;
-}
-#application .name a {
-    font-weight: normal;
-    text-decoration: none;
-    color: #fff;
-}
-#application .name a:hover {
-    color: #FFFF88;
-}
 
 #navigation {
     height: 74px;
     background-color: #D0D8E8;
     color: #001E20;
 }
-#navigation .location {
+#navigation #location {
     padding: 10px 20px 5px;
     font-weight: bold;
 }
-#navigation .location .primary {
+#navigation #location .current {
     font-size: 24px;
 }    
-#navigation .location .back {
+#navigation #location .previous {
     font-size: 11px;
     padding-left: 10px;
     font-family: verdana;
     font-weight: normal;
 }
-#navigation .location .back a {
+#navigation #location h3 a {
     color: #001E20;
     text-decoration: none;
 }
-#navigation .location .back a:hover {
+#navigation #location h3 a:hover {
     text-decoration: underline;
 }
-#navigation div.tabs ul {
+#navigation .tabs {
     margin: 0 25px;
 }
-#navigation li.tab {
+#navigation .tabs li {
     float: left;
+}
+#navigation .tabs li.help {
+    float: right;
+}
+#navigation .tabs .tab {
+    display: block;
     margin: 7px 5px 0;
     font-size: 16px;
-}
-#navigation li.tab.option {
-    float: right;
-    font-size: 12px;
-    margin-top: 11px;
-}
-#navigation li.tab a {
-    display: block;
     padding: 6px 10px;
     text-decoration: none;
     background-color: #376092;
     color: #fff;
 }
-#navigation li.tab a:hover {
+#navigation .tabs #help.tab {
+    font-size: 12px;
+    margin-top: 11px;
+}
+#navigation .tabs #help.open {    
+    background-color: #13345E;
+    border-top: 1px solid #13345E;
+}
+#navigation .tabs a:hover {
     background-color: #13345E;
     color: #77DDF5;
 }
-#navigation li.tab.active a {
+#navigation .tabs a.active {
     background-color: #fff;
     color: #001E20;
     font-weight: bold;
-    padding-bottom: 7px;
     border: 1px solid #001e20;
     border-bottom: none;
-    margin-top: -1px;
 }
-#navigation li.tab.active a:hover {
+#navigation .tabs a.active:hover {
     background-color: #fff;
     color: #001E20;
 }
-#navigation li.tab.browse-tab a,
-#navigation li.tab.explore-tab a,
-#navigation li.tab.help-tab a {
+#navigation .tabs .browse-tab,
+#navigation .tabs .explore-tab,
+#navigation .tabs #help.tab {
     padding-left: 24px;
     background-position: 5px 50%;
     background-repeat: no-repeat;
 }
-#navigation li.tab.browse-tab a {
+#navigation .tabs .browse-tab {
     background-image: url(../images/table.png);
 }
-#navigation li.tab.explore-tab a {
+#navigation .tabs .explore-tab {
     background-image: url(../images/world.png);
 }
-#navigation li.tab.help-tab a {
+#navigation .tabs #help.tab {
     background-image: url(../images/information.png);
 }
 
 #content {
-    padding: 25px 20px;
+    padding: 0;
     color: #001E20;
     border-top: 1px solid #001E20;
+}
+#content .inner {    
+    overflow: auto;
+}
+#content table {
+    width: 100%;
+}
+#content table td {
+    vertical-align: top;
+}
+#content #main {
+    padding: 20px 25px;
     min-height: 400px;
 }
+#content #help-contents {
+    width: 280px;
+    min-width: 280px;
+    background-color: #13345E;
+    color: #fff;
+    padding: 20px 10px;
+}
+#help-contents .close {
+    color: #fff;
+    font-weight: bold;
+    font-size: 10px;
+    font-family: Verdana;
+    margin-top: -10px;
+    text-decoration: none;
+    float: right;
+    display: block;
+}
+#help-contents .close:hover {
+    text-decoration: underline;
+    color: #FDF389;
+}
+#help-contents .loading .indicator {
+    float: left;
+    margin: -1px 5px 0 0;
+}
+#help-contents .loading .message {
+    font-size: 16px;
+    font-family: Verdana;    
+}
+#help-contents .text {
+    margin-top: 1em;
+    clear: both;
+}
+#help-contents .text h3 {
+    font-variant: small-caps;
+    text-decoration: underline;
+    margin: 0.5em 0 1em 0;
+}
+#help-contents .text p {
+    margin: 1em 0;
+    padding-left: 1em;
+    text-indent: -1em;
+    text-align: justify;
+    font-size: 11px;
+    font-family: Verdana;
+}
+
 #content h1 {
     font-size: 18px;
     font-family: Verdana;

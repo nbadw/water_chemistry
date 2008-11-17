@@ -38,14 +38,22 @@ class UsersController < ApplicationController
     flash[:error] = "There was a problem creating your account."
     render :action => 'new'
   end
-    
+  
+  def page_title
+    'NB Aquatic Data Warehouse - Edit Profile'
+  end
+  
+  def current_location
+    'Edit Profile'
+  end
+  
   def edit
     @user = current_user
     previous_location = request.env["HTTP_REFERER"]
     unless previous_location == edit_user_path(@user) || previous_location == '/users/1'
       session[:previous_location] = previous_location
     end
-    render :layout => 'profile'
+    render :layout => 'application'
   end
   
   def update
@@ -59,13 +67,17 @@ class UsersController < ApplicationController
     unless params[:area_of_interest].to_s.blank?
       attr_diff[:area_of_interest_id] = params[:area_of_interest] if @user.area_of_interest_id != params[:area_of_interest]
     end
+    # doesn't matter if they set an AOI above, if 'remove area of interest' is checked, remove it
+    if params[:remove_area_of_interest]
+      attr_diff[:area_of_interest_id] = nil
+    end
             
     if @user.update_attributes(attr_diff)
       flash[:notice] = 'User profile updated successfully. <a href="' + session[:previous_location] + '">Click here to return to application.</a>'
     else
       flash[:error]  = "Profile changes could not be saved."
     end
-    render :layout => 'profile', :action => 'edit'
+    render :layout => 'application', :action => 'edit'
   end
   
   def destroy

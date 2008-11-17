@@ -1,36 +1,67 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-    <title>NB Aquatic Data Warehouse - Data Entry</title>    
-    <%= stylesheet_link_merged :base %>
-    <!--[if IE]><%= stylesheet_link_merged :ie %><![endif]-->
-    <%= javascript_include_merged :base %>
-    <% # = GMap.header %>
-    <%= javascript_include_tag 'active_scaffold/default/dhtml_history.js', 'active_scaffold/default/form_enhancements.js', 'active_scaffold/default/rico_corner.js'  %>
-    <%= calendar_date_select_includes "silver" %>
-
-    <%= javascript_include_tag 'lightwindow/lightwindow' %>
-    <%= stylesheet_link_tag 'lightwindow/lightwindow' %>
+    <title><%= page_title %></title>     
+    <%= stylesheets %>
+    <%= javascripts %>
   </head>
-  <body>
+  <body>   
     
-    <%= render :partial => 'layouts/header' %>
-    
-    <div id="navigation">
-      <h2 class="location">
-        <span class="primary"><%= 'Main Menu' %></span>
-      </h2>
-      <%= tabnav :main %>
+    <div id="header">
+      <div id="application">
+        <h1 class="name"><%= link_to application_name, root_url %></h1>
+      </div>
     </div>
     
-    <div id="content"> 
-      <div id="controller.action_name">
-        <%= yield %>
+    <div id="navigation">
+      <div id="location">
+        <h2>
+          <span class="current"><%= current_location %></span>
+          <span class="previous"><%= link_to_previous_location if previous_location %></span>
+        </h2>
       </div>
-    </div>    
+      <%= render_tabs %>
+    </div>
     
+    <div id="content">
+      <div class="inner">
+        <table cellpadding="0" cellspacing="0">
+          <tr>
+            <td id="main">
+              <%= yield %>
+            </td>
+            <td id="help-contents" style="display: none;">
+              <a class="close" style="display: none;" href="javascript:void(0);">Close</a>
+              <div class="loading" style="display: none;"><img class="indicator" src="/images/active_scaffold/default/indicator.gif" /><span class="message">Loading...</span></div>
+              <div class="text"></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    
+    <div id="session">
+      <p class="user">Logged in as <span class="name"><%= current_user.name || current_user.login %></span></p> 
+      <p class="agency"><%= "#{current_user.agency.name} - #{current_user.agency.code}" if current_user.agency %></p>
+      <div class="actions">
+        <% if current_user.admin? %>
+          <%= link_to 'Edit Code Tables', admin_home_path %>
+          <span class="pipe">|</span>
+        <% end %>
+        <%= link_to 'Profile', edit_user_path(current_user) %>
+        <span class="pipe">|</span>
+        <%= link_to 'Logout', logout_path %>
+      </div>
+    </div>
+    
+    <div id="footer"></div> 
+    
+    <%= lazy_javascripts %>    
+                    
   </body>
 </html>
+
+
+

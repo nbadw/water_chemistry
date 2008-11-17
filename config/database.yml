@@ -36,8 +36,8 @@ test:
 production:
   adapter: mysql
   encoding: utf8
-  database: nb_aquatic_data_warehouse
-  username: 
-  password: 
+  database: nb_aquatic_data_warehouse_dev
+  username: developer
+  password: developer
   host: localhost
 
