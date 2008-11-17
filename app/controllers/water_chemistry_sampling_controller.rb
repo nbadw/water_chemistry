@@ -41,6 +41,10 @@ class WaterChemistrySamplingController < ApplicationController
     end 
   end
   
+  def uses_gmap?
+    @aquatic_site_map
+  end
+  
   private  
   def create_aquatic_site_map
     @aquatic_site = AquaticSite.find params[:aquatic_site_id], :include => [:waterbody, :gmap_location]

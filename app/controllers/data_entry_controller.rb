@@ -8,12 +8,15 @@ class DataEntryController < ApplicationController
   def current_location
     'Main Menu'
   end
+  
+  def uses_gmap?
+    action_name == 'explore'
+  end
     
   def browse  
   end
   
   def explore  
-    include_gmap_javascript
     include_javascript 'explore'
     
     area_of_interest = '%'    

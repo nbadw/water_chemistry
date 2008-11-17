@@ -1,0 +1,22 @@
+<div class="sample-details">
+  <table>
+    <tr>
+      <td class="field">ADW Sample ID: </td>
+      <td><%= @sample.id %></td>
+      <td class="field">Sample Depth (m): </td>
+      <td><%= @sample.sample_depth_m %></td>
+    </tr>
+    <tr>
+      <td class="field">Agency Sample No.: </td>
+      <td><%= @sample.agency_sample_no %></td>      
+      <td class="field">Analyzed By: </td>
+      <td><%= @sample.analyzed_by %></td>
+    </tr>
+    <tr>
+      <td class="field">Collection Method:</td>
+      <td><%= @sample.sample_collection_method.name if @sample.sample_collection_method %></td>
+      <td class="field">Lab No.:</td>
+      <td><%= @sample.lab_no %></td>
+    </tr>
+  </table>
+</div>

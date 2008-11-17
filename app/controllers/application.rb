@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   
   # helpers to include additional assets from actions or views
   helper_method :application_name, :page_title, :current_location, :previous_location,
-    :navigation_tabs_partial, :included_stylesheets, :included_javascripts
+    :navigation_tabs_partial, :included_stylesheets, :included_javascripts, :uses_gmap?
   
   def application_name
     'NB Aquatic Data Warehouse Data Management Application'
@@ -49,6 +49,10 @@ class ApplicationController < ActionController::Base
     @javascripts ||= []
   end
   
+  def uses_gmap?
+    false
+  end
+  
   protected    
   def include_stylesheet(stylesheet, options = {})
     included_stylesheets << [stylesheet, options]
@@ -57,11 +61,6 @@ class ApplicationController < ActionController::Base
   def include_javascript(javascript, options = {})
     included_javascripts << [javascript, options]
   end  
-  
-  def include_gmap_javascript(options = {})
-    gmap = "http://maps.google.com/maps?file=api&amp;v=2&amp;key=#{ApiKey.get}"
-    include_javascript(gmap, options)
-  end
   
   def set_javascripts_and_stylesheets
     include_stylesheet :base, { :merged => true }

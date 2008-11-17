@@ -41,12 +41,16 @@ module ApplicationHelper
   
   def javascripts
     output = "\n<!-- BEGIN JAVASCRIPTS -->\n"
+    if uses_gmap?
+      output += '<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=' + ApiKey.get + '" /></script>' + "\n"
+    end
     included_javascripts.collect do |javascript_config|
       javascript_config unless javascript_config[1][:lazy_load]
     end.compact.each do |javascript_config|      
       javascript, options = javascript_config      
       output = output + javascript_include(javascript, options) + "\n"
     end
+    
     output += "<!-- END JAVASCRIPTS -->\n"
     output
   end

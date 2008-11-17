@@ -1,0 +1,31 @@
+<%
+aquatic_site = @aquatic_activity_event.aquatic_site
+agency = @aquatic_activity_event.agency
+waterbody = aquatic_site.waterbody
+%>
+<div class="site-details">
+  <table>
+    <tr>
+      <td class="field">Aquatic Site ID:</td>
+      <td><%= aquatic_site.id %></td>
+      <td class="field">Waterbody Name:</td>
+      <td><%= waterbody.water_body_name %></td>
+    </tr>
+    <tr>
+      <td class="field">Waterbody ID:</td>
+      <td><%= waterbody.id %></td>
+      <td class="field">Drainage Code:</td>
+      <td><%= waterbody.drainage_cd %></td>
+    </tr>
+    <tr>
+      <td class="field">Site Description:</td>
+      <td colspan="3"><%= aquatic_site.aquatic_site_desc %></td>
+    </tr>
+    <tr>
+      <td class="field">Date Sampled:</td>
+      <td><%= @aquatic_activity_event.start_date %></td>
+      <td class="field">Agency:</td>
+      <td><%= agency.code %></td>
+    </tr>
+  </table>
+</div>
