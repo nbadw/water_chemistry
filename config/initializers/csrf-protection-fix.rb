@@ -1,0 +1,1 @@
+Mime::Type.unverifiable_types.delete(:text)

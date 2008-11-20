@@ -19,6 +19,8 @@ class AquaticActivityEventController < ApplicationController
     config.columns[:start_date].label = "Date"
     config.columns[:weather_conditions].label = "Weather Conditions"
     config.columns[:water_level].label = "Water Level"
+    config.create.label = 'Add Sampling Event'
+    config.update.label = 'Update Sampling Event'
     config.columns[:agency].clear_link
     
     # list config    

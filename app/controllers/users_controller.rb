@@ -30,6 +30,7 @@ class UsersController < ApplicationController
     cookies.delete :auth_token    
     @user = User.new(params[:user])
     @user.area_of_interest_id = params[:area_of_interest]
+    @user.requesting_editor_priveleges = (params[:requesting_editor_priveleges] == 'yes')
     @user.save!
     flash[:notice] = "Thanks for signing up! Please check your email to activate your account before logging in."
     redirect_to login_path    
@@ -63,6 +64,9 @@ class UsersController < ApplicationController
     params[:user].each do |attr, value|
       next if value.to_s.blank? #ignore blank values
       attr_diff[attr] = value if @user.attributes[attr] != value
+    end
+    if params[:requesting_editor_priveleges] == 'yes' && !@user.editor?
+      attr_diff[:requesting_editor_priveleges] = true unless @user.requesting_editor_priveleges?
     end
     unless params[:area_of_interest].to_s.blank?
       attr_diff[:area_of_interest_id] = params[:area_of_interest] if @user.area_of_interest_id != params[:area_of_interest]

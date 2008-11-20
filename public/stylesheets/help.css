@@ -1,0 +1,55 @@
+#content #help-contents {
+    width: 280px;
+    min-width: 280px;
+    background-color: #13345E;
+    color: #fff;
+    padding: 20px 10px;
+}
+#help-contents .close {
+    color: #fff;
+    font-weight: bold;
+    font-size: 10px;
+    font-family: Verdana;
+    margin-top: -10px;
+    text-decoration: none;
+    float: right;
+    display: block;
+}
+#help-contents .close:hover {
+    text-decoration: underline;
+    color: #FDF389;
+}
+#help-contents .loading .indicator {
+    float: left;
+    margin: -1px 5px 0 0;
+}
+#help-contents .loading .message {
+    font-size: 16px;
+    font-family: Verdana;    
+}
+#help-contents .text {
+    margin-top: 1em;
+    clear: both;
+}
+#help-contents .text .help-section {
+    margin: 10px 0;
+    font-variant: small-caps;
+}
+#help-contents .text .help-section .status {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 12px;
+}
+#help-contents .text .help-section a {
+    color: #fff;
+    text-decoration: none;
+}
+#help-contents .text .help-section a:hover {
+    color: #77DDF5;
+}
+#help-contents .text p {
+    margin-bottom: 15px;
+    padding-left: 1em;
+    text-align: justify;
+    font-size: 11px;
+    font-family: Verdana;
+}

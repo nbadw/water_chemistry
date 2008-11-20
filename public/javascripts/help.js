@@ -18,6 +18,26 @@ NBADW.Help = function () {
         content.innerHTML = text;
     };
     
+    var attachHelpSectionListeners = function() {        
+        help_contents.select('.help-section a').each(function(help_section) {
+            console.log('listening to events on help section "' + help_section.innerHTML + '"');
+            help_section.observe('click', toggleHelpSection);
+        });
+    }
+    
+    var toggleHelpSection = function(evt) {        
+        Event.stop(evt);
+        console.log('toggling help section "' + this.innerHTML + '"');      
+        var section_content = this.up().next();        
+        if(section_content.visible()) {
+            section_content.hide();       
+            this.previous().innerHTML = '+';         
+        } else {
+            section_content.show();        
+            this.previous().innerHTML = '-';   
+        }     
+    }
+    
     var displayHelp = function(help_url) {
         new Ajax.Request(help_url, {
             onCreate: function() {
@@ -28,6 +48,7 @@ NBADW.Help = function () {
             },
             onSuccess: function(transport) {                
                 setContents(transport.responseText);
+                attachHelpSectionListeners();
                 current_url = help_url;
             },
             onFailure: function() {

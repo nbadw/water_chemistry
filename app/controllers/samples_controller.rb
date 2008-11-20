@@ -21,6 +21,8 @@ class SamplesController < ApplicationController
     config.columns[:water_source_type].label = "Water Source Type"
     config.columns[:analyzed_by].label = "Analyzed By"
     config.columns[:lab_no].label = "Lab No."
+    config.create.label = 'Add Sample'
+    config.update.label = 'Update Sample'
     
     config.columns[:aquatic_activity_id].search_sql = "#{Sample.table_name}.#{Sample.column_for_attribute(:aquatic_activity_id).name}"    
     config.nested.add_link "Parameters", [:sample_results]

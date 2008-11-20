@@ -185,45 +185,6 @@ strong {
     color: #fff;
     padding: 20px 10px;
 }
-#help-contents .close {
-    color: #fff;
-    font-weight: bold;
-    font-size: 10px;
-    font-family: Verdana;
-    margin-top: -10px;
-    text-decoration: none;
-    float: right;
-    display: block;
-}
-#help-contents .close:hover {
-    text-decoration: underline;
-    color: #FDF389;
-}
-#help-contents .loading .indicator {
-    float: left;
-    margin: -1px 5px 0 0;
-}
-#help-contents .loading .message {
-    font-size: 16px;
-    font-family: Verdana;    
-}
-#help-contents .text {
-    margin-top: 1em;
-    clear: both;
-}
-#help-contents .text h3 {
-    font-variant: small-caps;
-    text-decoration: underline;
-    margin: 0.5em 0 1em 0;
-}
-#help-contents .text p {
-    margin: 1em 0;
-    padding-left: 1em;
-    text-indent: -1em;
-    text-align: justify;
-    font-size: 11px;
-    font-family: Verdana;
-}
 
 #content h1 {
     font-size: 18px;

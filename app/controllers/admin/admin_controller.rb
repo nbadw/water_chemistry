@@ -3,8 +3,16 @@ module Admin
     layout 'admin'
     before_filter :login_required, :set_code_tables, :set_title
     
+    def current_location
+      'Administration'
+    end
+    
+    def navigation_tabs_partial
+      'admin/navigation_tabs'
+    end
+    
     def index
-      render :layout => 'admin', :inline => 'Please select a code table to administer.'
+      render :template => 'admin/index'
     end
     
     private

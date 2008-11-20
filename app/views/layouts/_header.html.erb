@@ -1,12 +1,5 @@
 <div id="header">
-  <%= render :partial => 'layouts/session' %>
-    
   <div id="application">
-    <h1 class="name">
-      <a href="<%= root_url %>">
-        NB Aquatic Data Warehouse<br/>
-        Data Management Application
-      </a>
-    </h1>
-  </div> 
+    <h1 class="name"><%= link_to application_name, root_url %></h1>
+  </div>
 </div>

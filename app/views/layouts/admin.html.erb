@@ -5,30 +5,91 @@
   <head>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
     <title>NB Aquatic Data Warehouse Admin - <%= @title %></title>
-    <%= javascript_include_tag :defaults %>
-    <%= active_scaffold_includes %>
+    <%= stylesheets %>
+    <%= javascripts %>
+    
+    <style type="text/css">
+      #content #center {
+        width: 85%;
+      }
+      #content #right {
+        width: 15%;
+      }
+      #right-content h3 {
+        border-bottom: 1px solid black;
+        font-family: verdana;
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      ul.code-tables {
+        margin: 5px;
+      }
+      ul.code-tables li {        
+        font-family: verdana;
+        font-size: 12px;
+        margin: 10px 0;
+      }
+      ul.code-tables a {
+        color: #555;
+        text-decoration: none;
+      }
+      ul.code-tables a:hover {
+        color: red;
+      }
+    </style>
   </head>
   <body>
-    
-    <div id="container">
-      <div id="main">
-        <%= yield %>
+    <%= render :partial => 'layouts/header' %>
+                      
+    <div id="navigation">
+      <div id="location">
+        <h2>
+          <span class="current"><%= current_location %></span>
+          <span class="previous"><%= link_to_previous_location if previous_location %></span>
+        </h2>
       </div>
-      <div id="navigation">
-        <h3>Code Tables</h3>
-        <ul class="code-tables">
-          <% @code_tables.each do |code_table| %>
-            <li class="code-table">
-              <% if code_table == :units_of_measure %>
-                <%= link_to code_table.to_s.gsub('_', ' ').titleize, self.send("admin_#{code_table}_index_path".to_sym) %>
-              <% else %>
-                <%= link_to code_table.to_s.gsub('_', ' ').titleize, self.send("admin_#{code_table}_path".to_sym) %>
-              <% end %>
-            </li>
-          <% end %>
-        </ul>
+      <%= render_tabs %>
+    </div>
+    
+    <div id="content">
+      <div class="inner">
+        <table cellpadding="0" cellspacing="0">
+          <tr>
+            <td id="main">
+              <div id="center">
+                <div id="center-content">              
+                  <%= yield %>
+                </div>
+              </div>
+              <div id="right">
+                <div id="right-content">
+                  <h3>Code Tables</h3>
+                  <ul class="code-tables">
+                  <% @code_tables.each do |code_table| %>
+                    <li class="code-table">
+                      <% if code_table == :units_of_measure %>
+                        <%= link_to code_table.to_s.gsub('_', ' ').titleize, self.send("admin_#{code_table}_index_path".to_sym) %>
+                      <% else %>
+                        <%= link_to code_table.to_s.gsub('_', ' ').titleize, self.send("admin_#{code_table}_path".to_sym) %>
+                      <% end %>
+                    </li>
+                  <% end %>
+                </div>
+              </div>
+            </td>
+            <td id="help-contents" style="display: none;">
+              <a class="close" style="display: none;" href="javascript:void(0);">Close</a>
+              <div class="loading" style="display: none;"><img class="indicator" src="/images/active_scaffold/default/indicator.gif" /><span class="message">Loading...</span></div>
+              <div class="text"></div>
+            </td>
+          </tr>
+        </table>
       </div>
     </div>
     
+    <%= render :partial => 'layouts/session' %>
+    
+    <%= lazy_javascripts %>
   </body>
 </html>

@@ -36,12 +36,12 @@
       <dd><%= form.password_field :password_confirmation, :class => 'text-input' %></dd>
     </dl>
   </li>
-  <% if action == :new %>
+  <% if @user && !@user.admin? %>
     <div style="clear: both; padding-top: 10px;">
-      <label for="request-editor-priveleges">Will this account be used to add/edit your agency's data?</label>  
+      <p>Will this account be used to add/edit your agency's data?</p>  
       <div>
-        <input type="radio" name="needs_editor_priveleges" value="no" checked="checked">No, I'd just like to view data and reports<br/>        
-        <input type="radio" name="needs_editor_priveleges" value="yes">Yes
+        <input type="radio" name="requesting_editor_priveleges" value="no" checked="checked">No, I'd just like to view data and reports<br/>        
+        <input type="radio" name="requesting_editor_priveleges" value="yes">Yes
       </div>
     </div>
   <% end %>

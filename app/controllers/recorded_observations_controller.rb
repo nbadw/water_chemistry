@@ -12,7 +12,7 @@ class RecordedObservationsController < ApplicationController
     config.create.columns = [:observation]    
     config.update.columns = [:observation]
     
-    config.create.label = "Record an Observation"
+    config.create.label = "Add an Observation"
     config.columns[:group].label = "Group"
     config.columns[:value_observed].label = "Observed Value"
     config.columns[:fish_passage_obstruction_ind].label = "Fish Passage Blocked?" 

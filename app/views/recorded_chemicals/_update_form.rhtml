@@ -27,7 +27,7 @@ else
 end
 %>
 
-  <h4><%= "Update Chemical Parameter '#{@record.chemical.parameter_cd}'" %></h4>
+  <h4><%= "Update Lab Result: #{@record.chemical.parameter}" %></h4>
 
   <% if request.xhr? -%>
     <div id="<%= element_messages_id(:action => :update) %>" class="messages-container"><%= error_messages_for :record %></div>

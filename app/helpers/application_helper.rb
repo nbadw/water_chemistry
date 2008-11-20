@@ -12,15 +12,17 @@ module ApplicationHelper
     begin
       output = render :partial => navigation_tabs_partial if navigation_tabs_partial
     rescue ActionView::MissingTemplate  
-      # no partial or possible error        
+      # no partial found        
     end
     output || ''    
   end
   
   def add_help_tab
+    url_options  = { :controller_name => controller.controller_name, :action_name => controller.action_name }
+    html_options = { :id => 'help', :class => 'tab' }
     '<li class="help">' + 
-      link_to('Help', help_path(:controller_name => controller.controller_name, :action_name => controller.action_name), { :id => 'help', :class => 'tab' }) +
-    '</li>'
+      link_to('Help', show_help_path(url_options), html_options) +
+      '</li>'
   end  
   
   def add_tab(label, options, html_options = {})
@@ -35,8 +37,24 @@ module ApplicationHelper
       stylesheet, options = stylesheet_config
       output = output + stylesheet_link(stylesheet, options) + "\n"
     end
+    if controller_specific_stylesheet = controller_stylesheet
+      output += controller_specific_stylesheet + "\n"
+    end
+    if action_specific_stylesheet = action_stylesheet
+      output += action_specific_stylesheet + "\n"
+    end
     output += "<!-- END STYLESHEETS -->\n"
     output
+  end
+  
+  def controller_stylesheet
+    location = "#{controller.controller_name}/controller.css"
+    stylesheet_link_tag(location) if File.exists?("#{Rails.root}/public/stylesheets/#{location}")
+  end
+  
+  def action_stylesheet
+    location = "#{controller.controller_name}/#{controller.action_name}.css"
+    stylesheet_link_tag(location) if File.exists?("#{Rails.root}/public/stylesheets/#{location}")
   end
   
   def javascripts

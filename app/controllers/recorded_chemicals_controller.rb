@@ -5,7 +5,7 @@ class RecordedChemicalsController < ApplicationController
   before_filter :find_chemicals, :only => [:new, :create, :edit, :update]
   
   active_scaffold :water_measurement do |config|      
-    config.label = "Results"
+    config.label = "Lab Results"
     config.actions = [:list, :create, :update, :delete]   
     
     config.columns = [:parameter_name, :parameter_code, :measurement, :qualifier_cd, :comment]

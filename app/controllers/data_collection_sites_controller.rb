@@ -22,7 +22,7 @@ class DataCollectionSitesController < ApplicationController
     config.label = "Data Collection Sites"
     config.show.label = ''
     config.columns[:incorporated].label = ''
-    config.columns[:id].label = 'Site ID'
+    config.columns[:id].label = 'ADW Site ID'
     config.columns[:aquatic_site_desc].label = 'Description'
     config.columns[:agencies].label = 'Agency (Agency Site ID)'
     config.columns[:water_body_id].label = 'Waterbody ID'
@@ -34,6 +34,7 @@ class DataCollectionSitesController < ApplicationController
     config.columns[:x_coordinate].label = 'X Coordinate'
     config.columns[:y_coordinate].label = 'Y Coordinate'
     config.columns[:coordinate_system].label = 'Coordinate System'
+    config.create.label = 'Create New Data Collection Site'
     
     # sql for search 
     config.columns[:id].search_sql = "#{AquaticSite.table_name}.#{AquaticSite.primary_key}"

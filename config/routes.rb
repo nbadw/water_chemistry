@@ -31,7 +31,10 @@ ActionController::Routing::Routes.draw do |map|
   ######################
   
   # HELP ROUTES
-  map.help '/help/:controller_name/:action_name', :controller => 'help', :action => 'show'
+  map.with_options(:controller => 'help') do |help|  
+    help.show_help '/help/:controller_name/:action_name', :action => 'show'
+  end
+  #map.help '/help/:controller_name/:action_name', :controller => 'help', :action => 'show'
     
   # DATA COLLECTION SITE ROUTES
   map.connect '/data_collection_sites/on_preview_location', :controller => 'data_collection_sites', :action => 'on_preview_location'

@@ -16,6 +16,7 @@ class SiteMeasurementsController < ApplicationController
     
     config.columns[:o_and_m].label = "Parameter Measured"
     config.columns[:instrument].label = "Instrument Used"
+    config.create.label = 'Add New Site Measurement'
     
     config.create.persistent = true
     

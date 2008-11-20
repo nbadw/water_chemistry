@@ -6,6 +6,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string     "email",                     :limit => 30
       t.boolean    "admin",                                   :default => false
       t.boolean    "editor",                                  :default => false
+      t.boolean    "requesting_editor_priveleges",            :default => false
       t.string     "crypted_password",          :limit => 40
       t.string     "salt",                      :limit => 40
       t.string     "remember_token"

@@ -4,6 +4,18 @@ class UserMailer < ApplicationMailer
     subject "NB Aquatic Data Warehouse Account Information"  
   end
   
+  def request_for_editor_priveleges(user)
+    setup_email(user)
+    recipients "ccasey@unb.ca"
+    reply_to   nil
+    subject    "Request for NBADW editor priveleges from #{user.name}"
+  end
+  
+  def editor_priveleges_granted(user)
+    setup_email(user)
+    subject 'Request for editor priveleges granted'
+  end
+  
   def forgot_password(user)
     setup_email(user)
     subject 'Password reset requested'

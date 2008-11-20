@@ -48,7 +48,11 @@ class User < ActiveRecord::Base
   
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
-  attr_accessible :name, :login, :email, :password, :password_confirmation, :agency_id, :agency, :admin, :area_of_interest, :area_of_interest_id
+  attr_accessible :name, :login, :email, :password, :password_confirmation, 
+    :agency_id, :agency, :admin, :area_of_interest, :area_of_interest_id
+  
+  attr_accessor :requests_editor_priveleges
+  alias_method  :requests_editor_priveleges?, :requests_editor_priveleges
   
   class ActivationCodeNotFound < StandardError  
   end
@@ -73,21 +77,12 @@ class User < ActiveRecord::Base
     user
   end
   
-  #  # Activates the user in the database.
-  #  def activate
-  #    @activated = true
-  #    self.activated_at = Time.now.utc
-  #    self.activation_code = nil
-  #    save(false)
-  #  end
-
   def active?
     # the presence of an activation date means they have activated
     !activated_at.nil?
   end
   
   def pending?
-    #@activated
     !active?
   end
 
@@ -156,6 +151,10 @@ class User < ActiveRecord::Base
   def recently_reset_password?
     @reset_password
   end
+  
+  def editor_priveleges_granted?
+    @editor_priveleges_granted
+  end
 
   def self.find_for_forget(email)
     find :first, :conditions => ['email = ? and activated_at IS NOT NULL', email]
@@ -165,7 +164,25 @@ class User < ActiveRecord::Base
     self.roles.find_by_rolename(rolename) ? true : false
   end
   
-  protected
+  def before_save
+    check_if_editor_priveleges_granted
+  end
+  
+  protected  
+  def check_if_editor_priveleges_granted
+    # is this an existing record that had requested editor priveleges?
+    return unless !new_record? && requesting_editor_priveleges?    
+    # has the editor status changed?
+    old_user = User.find(id)
+    return unless old_user.editor? != editor?
+    # set editor_priveleges_granted status to true if user is now an editor
+    if editor?
+      @editor_priveleges_granted = true
+      write_attribute(:requesting_editor_priveleges, false)
+    end 
+    self
+  end
+  
   # before filter 
   def encrypt_password
     return if password.blank?
