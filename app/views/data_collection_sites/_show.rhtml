@@ -5,8 +5,8 @@
 <% if @aquatic_site_map %>
     <dt>Location</dt>
     <dd>
-      <%= @aquatic_site_map.div %>
-      <%= @aquatic_site_map.to_html(:no_load => true, :width => 500) %>
+      <%= @aquatic_site_map.div(:width => 500) %>
+      <%= @aquatic_site_map.to_html(:no_load => true) %>
     </dd>
   <% end %>
 </dl>
