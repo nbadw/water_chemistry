@@ -15,6 +15,7 @@ stylesheets:
   - reset
   - application
   - help
+  - tooltips
   - active_scaffold/default/stylesheet
   - active_scaffold_overrides
 - ie:

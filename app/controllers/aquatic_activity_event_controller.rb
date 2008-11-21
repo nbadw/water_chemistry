@@ -14,19 +14,33 @@ class AquaticActivityEventController < ApplicationController
         
     config.columns[:aquatic_site_id].search_sql = "#{AquaticActivityEvent.table_name}.#{AquaticActivityEvent.column_for_attribute(:aquatic_site_id).name}"    
     config.columns[:aquatic_activity_cd].search_sql = "#{AquaticActivityEvent.table_name}.#{AquaticActivityEvent.column_for_attribute(:aquatic_activity_cd).name}"
-   
+
+    # i18n labels
     config.columns[:aquatic_activity_method].label = "Analysis Method"
     config.columns[:start_date].label = "Date"
     config.columns[:weather_conditions].label = "Weather Conditions"
     config.columns[:water_level].label = "Water Level"
     config.create.label = 'Add Sampling Event'
     config.update.label = 'Update Sampling Event'
-    config.columns[:agency].clear_link
+
+    # descriptions
+    config.columns[:aquatic_activity_method].description = %q{
+      <ul>
+        <li>Analytical Lab Analysis – Water sample is returned to the lab for water chemistry analysis</li>
+        <li>Field Analysis – Water sample is analyzed in the field with a meter or field kit, such as a Hach kit</li>
+        <li>Portable Lab – Water sample is analyzed in the field using a portable lab</li>
+      </ul>
+    }
+    
+    # required fields
+    config.columns[:aquatic_activity_method].required = true
+    config.columns[:start_date].required = true
     
     # list config    
     config.columns[:start_date].sort_by :method => "#{self.name}.to_s"    
     config.list.sorting = [{ :start_date => :desc }]
-    
+
+    config.columns[:agency].clear_link
     config.show.link.inline = false
     config.show.link.label = "Open"
     config.show.link.controller = 'water_chemistry_sampling'

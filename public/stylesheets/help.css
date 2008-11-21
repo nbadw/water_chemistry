@@ -25,14 +25,19 @@
 }
 #help-contents .loading .message {
     font-size: 16px;
-    font-family: Verdana;    
+    font-family: Verdana;
 }
 #help-contents .text {
     margin-top: 1em;
     clear: both;
 }
+#help-contents .text strong {
+    color: #77DDF5;
+}
 #help-contents .text .help-section {
-    margin: 10px 0;
+    margin: 10px 0 5px;
+}
+#help-contents .text > .help_section {
     font-variant: small-caps;
 }
 #help-contents .text .help-section .status {
@@ -43,13 +48,18 @@
     color: #fff;
     text-decoration: none;
 }
+#help-contents .text .help-section a.expanded {
+    color: #ff8;
+}
 #help-contents .text .help-section a:hover {
     color: #77DDF5;
 }
-#help-contents .text p {
-    margin-bottom: 15px;
+#help-contents .text div {
     padding-left: 1em;
     text-align: justify;
     font-size: 11px;
     font-family: Verdana;
+}
+#help-contents .text p {
+    margin: 1em 0;
 }

@@ -27,14 +27,16 @@ NBADW.Help = function () {
     
     var toggleHelpSection = function(evt) {        
         Event.stop(evt);
-        console.log('toggling help section "' + this.innerHTML + '"');      
+        console.log('toggling help section "' + this.innerHTML + '"');
         var section_content = this.up().next();        
         if(section_content.visible()) {
             section_content.hide();       
-            this.previous().innerHTML = '+';         
+            this.previous().innerHTML = '+';
+            this.removeClassName('expanded');
         } else {
             section_content.show();        
-            this.previous().innerHTML = '-';   
+            this.previous().innerHTML = '-';
+            this.addClassName('expanded');
         }     
     }
     

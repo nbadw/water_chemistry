@@ -7,13 +7,13 @@
     <title>NB Aquatic Data Warehouse Admin - <%= @title %></title>
     <%= stylesheets %>
     <%= javascripts %>
-    
+
     <style type="text/css">
       #content #center {
-        width: 85%;
+        width: 80%;
       }
       #content #right {
-        width: 15%;
+        width: 20%;
       }
       #right-content h3 {
         border-bottom: 1px solid black;
@@ -25,7 +25,7 @@
       ul.code-tables {
         margin: 5px;
       }
-      ul.code-tables li {        
+      ul.code-tables li {
         font-family: verdana;
         font-size: 12px;
         margin: 10px 0;
@@ -40,25 +40,27 @@
     </style>
   </head>
   <body>
-    <%= render :partial => 'layouts/header' %>
-                      
-    <div id="navigation">
-      <div id="location">
-        <h2>
-          <span class="current"><%= current_location %></span>
-          <span class="previous"><%= link_to_previous_location if previous_location %></span>
-        </h2>
+    <div id="fixed">
+      <%= render :partial => 'layouts/header' %>
+
+      <div id="navigation">
+        <div id="location">
+          <h2>
+            <span class="current"><%= current_location %></span>
+            <span class="previous"><%= link_to_previous_location if previous_location %></span>
+          </h2>
+        </div>
+        <%= render_tabs %>
       </div>
-      <%= render_tabs %>
     </div>
-    
+
     <div id="content">
       <div class="inner">
         <table cellpadding="0" cellspacing="0">
           <tr>
             <td id="main">
               <div id="center">
-                <div id="center-content">              
+                <div id="center-content">
                   <%= yield %>
                 </div>
               </div>
@@ -87,9 +89,9 @@
         </table>
       </div>
     </div>
-    
+
     <%= render :partial => 'layouts/session' %>
-    
+
     <%= lazy_javascripts %>
   </body>
 </html>

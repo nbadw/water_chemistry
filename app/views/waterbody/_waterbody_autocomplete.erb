@@ -20,6 +20,9 @@ on_select = %q(function(input_el, selected_li) {
     <dd>
       <div id="waterbody-autocomplete">
         <%= text_field_with_auto_complete :waterbody, :search, { :autocomplete => 'off' }, { :url => { :controller => 'waterbody', :action => 'waterbody_autocomplete' }, :min_chars => 2, :after_update_element => on_select } -%>
+        <span class="description">
+          Enter a waterbody name, waterbody ID or drainage code and the system will present a list of water bodies with similar names, IDs or codes. Select a water body from the list. The remaining waterbody fields (waterbody ID and watershed code) will be filled in automatically.
+        </span>
       </div>      
       <input id="record[waterbody]" name="record[waterbody]" type="hidden" value="<%=h waterbody.id if waterbody -%>"/>
     </dd>

@@ -1,0 +1,19 @@
+<%= render :partial => 'help/water_chemistry_sampling/overview' %>
+
+<% help_section 'Observations' do %>
+  <p>Click on <strong>Create New</strong>, found at top right of the Observations
+  list, to open a blank data entry form for recording a new observation.</p>
+
+  <p>Select an observation type, then enter a value associated with the
+    observation if appropriate. For instance, if the observation is a “pipe
+    outfall” the value could be the diameter of the pipe. For some observations,
+  there may be a fish passage blocked check box.</p>
+
+  <% help_section 'Edit' do %>
+    <p>Only the observed value or fish passage fields can be edited</p>
+  <% end %>
+
+  <% help_section 'Delete' do %>
+    <p>Permanently remove the observation</p>
+  <% end %>
+<% end %>

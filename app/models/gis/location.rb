@@ -23,7 +23,7 @@ class Location
     
     begin
       response = nil
-      successful = Timeout::timeout(5) do
+      successful = Timeout::timeout(15) do
         response = Net::HTTP.get(URI.parse("#{service}?#{query_params}" ))
       end   
       

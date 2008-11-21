@@ -1,3 +1,4 @@
+<!-- Comment to trigger quirks mode in IE -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -9,16 +10,18 @@
   </head>
   <body>   
     
-    <%= render :partial => 'layouts/header' %>
-    
-    <div id="navigation">
-      <div id="location">
-        <h2>
-          <span class="current"><%= current_location %></span>
-          <span class="previous"><%= link_to_previous_location if previous_location %></span>
-        </h2>
+    <div id="fixed">
+      <%= render :partial => 'layouts/header' %>
+          
+      <div id="navigation">
+        <div id="location">
+          <h2>
+            <span class="current"><%= current_location %></span>
+            <span class="previous"><%= link_to_previous_location if previous_location %></span>
+          </h2>
+        </div>
+        <%= render_tabs %>
       </div>
-      <%= render_tabs %>
     </div>
     
     <div id="content">
@@ -30,7 +33,10 @@
             </td>
             <td id="help-contents" style="display: none;">
               <a class="close" style="display: none;" href="javascript:void(0);">Close</a>
-              <div class="loading" style="display: none;"><img class="indicator" src="/images/active_scaffold/default/indicator.gif" /><span class="message">Loading...</span></div>
+              <div class="loading" style="display: none;">
+                <img class="indicator" alt="Loading Indicator" src="/images/active_scaffold/default/indicator.gif" />
+                <span class="message">Loading...</span>
+              </div>
               <div class="text"></div>
             </td>
           </tr>
@@ -39,11 +45,11 @@
     </div>
     
     <%= render :partial => 'layouts/session' %>
-    
+        
     <div id="footer"></div> 
     
     <%= lazy_javascripts %>    
-                    
+                        
   </body>
 </html>
 

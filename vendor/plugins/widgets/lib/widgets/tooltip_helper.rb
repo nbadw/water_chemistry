@@ -9,7 +9,7 @@ module Widgets
       end
       
       opts[:id] ||= rand(1000)
-      name ||= image_tag('widgets/tooltip_image.gif', :border => 0)
+      name ||= image_tag('widgets/tooltip_image.gif')
  
       result = ''
       result << tooltip_css
@@ -26,12 +26,13 @@ module Widgets
     end
     
     def tooltip_css
-      unless @_tooltip_css_done
-        @_tooltip_css_done = true
-        return default_css
-      else
-        ''
-      end
+      return ''
+#      unless @_tooltip_css_done
+#        @_tooltip_css_done = true
+#        return default_css
+#      else
+#        ''
+#      end
     end
     
     def tooltip_content(opts={}, &proc)

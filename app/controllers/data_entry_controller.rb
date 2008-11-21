@@ -10,10 +10,12 @@ class DataEntryController < ApplicationController
   end
   
   def uses_gmap?
-    action_name == 'explore'
+    true
   end
     
   def browse  
+    include_stylesheet 'calendar_date_select/default'
+    include_javascript 'calendar_date_select/calendar_date_select'
   end
   
   def explore  

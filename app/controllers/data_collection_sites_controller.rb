@@ -6,7 +6,7 @@ class DataCollectionSitesController < ApplicationController
     # columns
     config.columns = [:incorporated, :id, :name, :aquatic_site_desc, :water_body_id, :water_body_name, :drainage_code, :name_and_description, :data_sets, :x_coordinate, :y_coordinate, :coordinate_system]        
     config.list.columns = [:incorporated, :id, :agencies, :water_body_id, :water_body_name, :drainage_code, :name_and_description, :data_sets]    
-    config.show.columns = [:id, :name, :aquatic_site_desc, :water_body_id, :water_body_name, :drainage_code]
+    config.show.columns = [:id, :name, :aquatic_site_desc, :water_body_id, :water_body_name, :drainage_code, :x_coordinate, :y_coordinate, :coordinate_system]
     config.search.columns = [:id, :name, :water_body_id, :water_body_name, :drainage_code, :data_sets, :agencies]    
     [:create, :update].each do |action|  
       config.send(action).columns = [:name, :aquatic_site_desc]
@@ -35,7 +35,15 @@ class DataCollectionSitesController < ApplicationController
     config.columns[:y_coordinate].label = 'Y Coordinate'
     config.columns[:coordinate_system].label = 'Coordinate System'
     config.create.label = 'Create New Data Collection Site'
-    
+
+    # set i18n descriptions
+    config.columns[:name].description = 'Sometimes sites have a common name, like Mactaquac Dam, Titus Bridge or Kennebecasis Counting Fence'
+    config.columns[:aquatic_site_desc].description = 'Description of where the site is located or driving directions. It is particularly important to complete this field when sites are remote locations, especially when GPS coordinates are not provided or recorded incorrectly.'
+    config.columns[:waterbody].description = 'Test'
+
+    # required fields
+    config.columns[:aquatic_site_desc].required = true
+
     # sql for search 
     config.columns[:id].search_sql = "#{AquaticSite.table_name}.#{AquaticSite.primary_key}"
     config.columns[:name].search_sql = "#{AquaticSite.table_name}.#{AquaticSite.column_for_attribute(:aquatic_site_name).name}"
@@ -47,7 +55,7 @@ class DataCollectionSitesController < ApplicationController
     
     # sql for sorting 
     config.columns[:id].sort_by :sql => "#{AquaticSite.table_name}.#{AquaticSite.primary_key}"
-    config.columns[:drainage_code].sort_by :sql => "#{Waterbody.table_name}.#{Waterbody.column_for_attribute(:drainage_cd).name}"
+    config.columns[:drainage_code].sort_by :sql => "#{Waterbody.table_name}.#{Waterbody.column_for_attribute(:drainage_cd).name}, #{AquaticSite.table_name}.#{AquaticSite.primary_key}"
     config.columns[:water_body_id].sort_by :sql => "#{Waterbody.table_name}.#{Waterbody.primary_key}"
     config.columns[:water_body_name].sort_by :sql => "#{Waterbody.table_name}.#{Waterbody.column_for_attribute(:water_body_name).name}"
     config.columns[:data_sets].sort = false
@@ -169,10 +177,15 @@ class DataCollectionSitesController < ApplicationController
       end
     end 
   end
+
+  def do_show
+    super
+    create_aquatic_site_map if @record
+  end
   
   protected      
   def active_scaffold_joins
-    [:waterbody, :aquatic_site_usages, :agencies, :aquatic_activities]
+    [:waterbody, :aquatic_site_usages, :agencies, :aquatic_activities, :gmap_location]
   end
   
   def conditions_for_collection
@@ -244,5 +257,16 @@ class DataCollectionSitesController < ApplicationController
     else
       '%?%'
     end
+  end
+
+  private
+  def create_aquatic_site_map
+    return unless @record.gmap_location
+
+    @aquatic_site_map = GMap.new("aquatic-site-map")
+    @aquatic_site_map.set_map_type_init(GMapType::G_HYBRID_MAP)
+    @aquatic_site_map.control_init(:small_zoom => true)
+    @aquatic_site_map.center_zoom_init([@record.gmap_location.latitude, @record.gmap_location.longitude], 6)
+    @aquatic_site_map.overlay_init(GMarker.new([@record.gmap_location.latitude, @record.gmap_location.longitude]))
   end
 end

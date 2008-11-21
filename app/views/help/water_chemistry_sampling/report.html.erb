@@ -1,0 +1,14 @@
+<%= render :partial => 'help/water_chemistry_sampling/overview' %>
+
+<% help_section 'Report' do %>
+  <p>A summary of the site and sampling event information is presented, along
+    with the results of each sample taken. The water chemistry parameters are
+  presented in columns as typically found in lab reports.</p>
+
+  <% help_section 'Download' do %>
+    <p>Click on download to receive the data being displayed. The data will be
+      exported as text file (.csv) which can be opened by most software packages
+      including MS Excel and Access. The download process prompts the viewer to
+    select whether to open the file in Excel or to save the file.</p>
+  <% end %>
+<% end %>

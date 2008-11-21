@@ -10,6 +10,10 @@ class WaterChemistrySamplingController < ApplicationController
   def previous_location    
     'Back to Data Collection Sites'
   end
+
+  def uses_gmap?
+    @aquatic_site_map
+  end
         
   def samples  
   end
@@ -39,10 +43,6 @@ class WaterChemistrySamplingController < ApplicationController
         send_data csv, :type => "text/csv", :filename => "water_chemistry_sampling_report.csv" 
       end
     end 
-  end
-  
-  def uses_gmap?
-    @aquatic_site_map
   end
   
   private  

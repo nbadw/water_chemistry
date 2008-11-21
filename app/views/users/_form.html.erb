@@ -2,37 +2,37 @@
 <ol class="form">
   <li class="form-element">
     <dl>
-      <dt><label for="agency">Agency</label></dt>
+      <dt><label for="user_agency_id">Agency</label></dt>
       <dd><%= agency_dropdown %></dd>
     </dl>
   </li>
   <li class="form-element">
     <dl>
-      <dt><label for="name">Your Name</label></dt>
+      <dt><label for="user_name">Your Name</label></dt>
       <dd><%= form.text_field :name, :class => 'text-input' %></dd>
     </dl>
   </li>
   <li class="form-element">
     <dl>
-      <dt><label for="login">Username</label></dt>
+      <dt><label for="user_login">Username</label></dt>
       <dd><%= form.text_field :login, :class => 'text-input' %></dd>
     </dl>
   </li>
   <li class="form-element">
     <dl>
-      <dt><label for="email">Email</label></dt>
+      <dt><label for="user_email">Email</label></dt>
       <dd><%= form.text_field :email, :class => 'text-input' %></dd>
     </dl>
   </li>
   <li class="form-element">
     <dl>
-      <dt><label for="password"><%= action == :new ? 'Password' : 'Change Password' %></label></dt>
+      <dt><label for="user_password"><%= action == :new ? 'Password' : 'Change Password' %></label></dt>
       <dd><%= form.password_field :password, :class => 'text-input' %></dd>
     </dl>
   </li>
   <li class="form-element">
     <dl>
-      <dt><label for="password_confirmation"><%= action == :new ? 'Confirm Password' : 'Confirm New Password' %></label></dt>
+      <dt><label for="user_password_confirmation"><%= action == :new ? 'Confirm Password' : 'Confirm New Password' %></label></dt>
       <dd><%= form.password_field :password_confirmation, :class => 'text-input' %></dd>
     </dl>
   </li>

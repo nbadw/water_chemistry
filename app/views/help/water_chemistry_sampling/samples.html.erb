@@ -1,0 +1,26 @@
+<%= render :partial => 'help/water_chemistry_sampling/overview' %>
+
+<% help_section 'Samples' do %>
+  <p>Click on <strong>Create New</strong>, found at top right of the Samples list,
+  to open a blank data entry form for recording a new sample.</p>
+
+  <% help_section 'Parameters' do %>
+    <p>Presents a list of parameters analyzed for the sample</p>
+    <p>Click on <strong>Create New</strong> to add a parameter, <strong>Edit</strong>
+      to modify the parameter information or <strong>Delete</strong> to permanently
+    remove the parameter.</p>
+  <% end %>
+
+  <% help_section 'Edit' do %>
+    <p>Modify the sample information</p>
+  <% end %>
+
+  <% help_section 'Delete' do %>
+    <p>Permanently remove the sample</p>
+  <% end %>
+
+  <% help_section 'Show' do %>
+    <p>View the sample details</p>
+  <% end %>
+
+<% end %>

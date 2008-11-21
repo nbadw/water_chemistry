@@ -14,6 +14,30 @@ kuler scheme: chemistry class
 #000A40 - navy (dark)
 #FF5900 - orange
 */
+body{
+    padding-top: 140px;
+}
+div#fixed{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height: 140px;
+    z-index: 1000;
+}
+@media screen{
+    body>div#fixed{
+        position:fixed;
+    }
+}
+* html body{
+    overflow:hidden;
+} 
+* html div#content{
+    height:100%;
+    overflow:auto;
+}
+
 body {
     min-width: 700px;
 }
@@ -52,6 +76,12 @@ strong {
     text-align: right;
     font-size: 11px;
     font-family: Verdana;
+    z-index: 1001;
+}
+@media screen{
+    body>div#session{
+        position: fixed;
+    }
 }
 #session a {
     font-weight: bold;
@@ -80,6 +110,7 @@ strong {
 #navigation {
     height: 74px;
     background-color: #D0D8E8;
+    border-bottom: 1px solid #001E20;
     color: #001E20;
 }
 #navigation #location {
@@ -163,13 +194,17 @@ strong {
 #content {
     padding: 0;
     color: #001E20;
-    border-top: 1px solid #001E20;
+    height: 100%;
+    min-height: 100%;
 }
 #content .inner {    
     overflow: auto;
+    height: 100%;
 }
 #content table {
     width: 100%;
+    height: 100%;
+    min-height: 100%;
 }
 #content table td {
     vertical-align: top;
@@ -291,6 +326,12 @@ iframe {
     line-height: normal;
     margin-bottom: 5px;
     padding-left: 5px;
+}
+#waterbody-editor dd span.description {
+    font-weight: normal;
+}
+.fieldWithErrors #waterbody-editor dd #waterbody-autocomplete input {
+    border: 1px solid #f00;
 }
 
 #explore #map-container {

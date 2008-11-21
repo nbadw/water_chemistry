@@ -1,0 +1,21 @@
+.tooltip {
+    position: absolute;
+    background-image: url(/images/widgets/tooltip_arrow.gif);
+    background-repeat: no-repeat;
+}
+.tooltip_content {
+    max-width: 500px;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #fdf389;
+    font-size: 11px;
+    font-family: Verdana;
+}
+.tooltip_content p,
+.active-scaffold .tooltip_content p {
+    margin: 1em 0;
+}
+.tooltip_content p.first,
+.active-scaffold .tooltip_content p.first {
+    margin-top: 0;
+}

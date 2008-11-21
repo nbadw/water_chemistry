@@ -43,7 +43,8 @@
         <dd>WGS 84</dd>
       </dl>        
       <div style="clear: both;"></div>    
-      <%= @aquatic_site_map.div %>      
+      <%= @aquatic_site_map.div %>
+      <%= @aquatic_site_map.to_html(:no_load => true) %>
     <% end %>
   </div>  
 </div>

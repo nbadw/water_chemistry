@@ -1,71 +1,129 @@
-<% help_section 'Site List' do %>
-<p>This is a list of sites where data has been collected. The list will be limited 
-to your area of interest as defined by your user profile. The list includes the 
-Data Warehouse assigned Site ID, the agencies who have collected data at this site 
-and their site IDs; the water body and its associated water body ID and drainage 
-code; site description; types of data collected at each site and the number of 
-records of each type of data. Only water chemistry data is accessible at this 
-point.</p>
+<% help_section 'Browsing Data Collection Sites' do %>
+  <% help_section 'Site List' do %>
+    <p>This is a list of sites where data has been collected. The list will be
+      limited to your area of interest as defined by your user profile. The list
+      includes the Data Warehouse assigned Site ID, the agencies who have collected
+      data at this site and their site IDs; the water body and its associated water
+      body ID and drainage code; site description; types of data collected at each
+      site and the number of records of each type of data. Only water chemistry
+    data is accessible at this point.</p>
+  <% end %>
+
+  <% help_section 'Sort List' do %>
+    <p>The site list can be sorted by clicking on the Site ID, Water Body ID,
+    Water Body Name or Watershed Code heading.</p>
+  <% end %>
+
+  <% help_section 'Agency Code Look Up' do %>
+    <p>Clicking on the agency code(s) within a record opens a sub-list of the
+    agency names</p>
+  <% end %>
+
+  <% help_section 'Watershed Information' do %>
+    <p>Place the mouse over the watershed code to display a translation of the
+    hierarchal drainage codes.</p>
+  <% end %>
+
+  <% help_section 'Lock Symbol' do %>
+    <p>The lock symbol (<img alt="Lock Symbol" src="/images/lock_delete.png" />)
+      at the beginning of the row indicates the data is incorporated within the NB
+      Aquatic Data Warehouse and cannot be modified. Click on <strong>Show</strong> at the end of
+    the row to view the site’s details.</p>
+  <% end %>
+
+  <% help_section 'Number of Sites and Next Page' do %>
+    <p>The number of data collection sites is displayed at the bottom of the
+      list (on left). Also at the bottom of the list to the right is the page
+      control for viewing the next page of results. 15 sites are displayed per
+    page.</p>
+  <% end %>
+
+  <% help_section 'Filter By Area of Interest / Show All Sites' do %>
+    <p>Click on this toggled option (top right) to toggle area of interest as
+      defined by your user profile on or off. <strong>Show All Sites</strong> turns off the filter
+    and displays all data collection sites.</p>
+  <% end %>
+
+  <% help_section 'Search' do %>
+    <p>Click on this option (top right) to display a text box to enter a water
+      body name, site name, watershed code, agency code and/or data set as search
+      criteria.  The system will search for partial text strings. For example,
+      “Miramichi” returns SW Miramichi River, NW Miramichi River, Miramichi Lake,
+    etc.</p>
+
+    <p>Add “watershed” or “basin” after a water body name to search for sites
+      within the drainage area. For example: entering “Hammond River” will show a
+      list of sites for only Hammond River. Enter “Hammond River Watershed” and the
+      resulting list will include sites for Hammond River and all its
+    tributaries.</p>
+
+    <p>Use “+” to search on multiple items, such as water body + agency code +
+    data set name. For example, Hammond River + HRAA + water chemistry</p>
+
+    <p>The <strong>Reset</strong> option will return the full list of data collection sites.</p>
+  <% end %>
+
+  <% help_section 'Add New Data Collection Site' do %>
+    <p>Click on <strong>Create New</strong> found at top of the Data Collection
+      Sites list (to the right). A blank data entry form for recording a new site
+      is presented. When adding a new site, please ensure the site does not
+    already exist.</p>
+
+    <p>Enter the coordinate information and click on Show Location on Map to
+    visually confirm the coordinates are correct.</p>
+  <% end %>
+
+  <% help_section 'Editing a Site' do %>
+    <p>If the data is editable, there will be 3 options at the end of the row:
+      <strong>Edit</strong>, <strong>Delete</strong> and <strong>Show</strong>. A
+      site can only be deleted if there is no data, such as water chemistry,
+    electrofishing, etc., associated with the site.</p>
+
+    <p><strong>Edit</strong> - Opens the site details for editing.</p>
+    <p><strong>Delete</strong> – Prompts for a confirmation to delete the site,
+    then permanently deletes the record.</p>
+  <% end %>
+
+  <% help_section 'Download Data' do %>
+    <p>Click on <strong>Download All</strong> found at top of the Data Collection
+      Sites list (to the right) to download the water chemistry data for the sites
+      currently displayed in the Data Collection Sites list. The data will be
+      exported as text file (.csv) which can be opened by most software packages
+      including MS Excel and Access. The download process prompts the viewer to
+    select whether to open the file in Excel or to Save the file.</p>
+  <% end %>
 <% end %>
 
-<% help_section 'Sort List' do %>
-<p>The site list can be sorted by clicking on the Site ID, Water Body ID, Water 
-Body Name or Watershed Code heading.</p>
-<% end %>  
+<% help_section 'Water Chemistry Sampling Events' do %>
+  <p>Click on Water Chemistry data set name to view a list of events when water
+    chemistry data was collected. This may include field kit measurements (e.g.
+  using Hach or LeMott kits), lab analysis or portal lab results.</p>
 
-<% help_section 'Agency Code Look Up' do %>
-<p>Clicking on the agency code(s) within a record opens a sub-list of the agency 
-names.</p>
+  <p>3 options are at the end of each row: <strong>Open</strong>,
+    <strong>Edit</strong> and <strong>Delete</strong> the current data collection
+    event.  The “lock” symbol indicates the site has been incorporated in the Data
+    Warehouse and cannot be edited or deleted (these options will be grey and
+  inactive).</p>
+
+  <p><strong>Open</strong> – Opens the Water Chemistry data associated with the
+    sampling event. New page contains tabs for Samples, Observations, Measurements
+  and Report</p>
+
+  <p><strong>Edit</strong> - Opens the water chemistry event for editing.</p>
+
+  <p><strong>Delete</strong> – Prompts for a confirmation to delete the event,
+  then permanently deletes the record</p>
+
+  <% help_section 'Edit Agency Site ID' do %>
+    <p>Click on this option at the top right of the water chemistry sampling event
+    list to add or modify your agency’s site ID.</p>
+  <% end %>
+
+  <% help_section 'Create New' do %>
+    <p>Click on this option function at the top right of the water chemistry
+      sampling event list to add a sampling event. A blank data entry form for
+    recording a water chemistry data collection event.</p>
+  <% end %>
 <% end %>
 
-<% help_section 'Watershed Information' do %>
-<p>Place the mouse over the watershed code to display a translation of the 
-hierarchal drainage codes. </p>
-<% end %>
 
-<% help_section 'Filter By Area of Interest / Show All Sites' do %>
-<p>Click on this toggled option (top right) to toggle area of interest as defined 
-by your user profile on or off. <strong>Show All Sites</strong> turns off the 
-filter and displays all data collection sites.</p>
-<% end %>
-
-<% help_section 'Search' do %>
-<p>Click on this option (top right) to display a text box to enter a water body 
-name, site name, watershed code, agency code and/or data set as search criteria.  
-The system will search for partial text strings. For example, “Miramichi” returns 
-SW Miramichi River, NW Miramichi River, Miramichi Lake, etc.</p>
-
-<p>Add “watershed” or “basin” after a water body name to search for sites within 
-the drainage area. For example: entering “Hammond River” will show a list of 
-sites for only Hammond River. Enter “Hammond River Watershed” and the resulting 
-list will include sites for Hammond River and all its tributaries.</p>
-
-<p>Use “+” to search on multiple items, such as water body + agency code + data 
-set name. For example, Hammond River + HRAA + water chemistry</p>
-
-<p>The Reset option will return the full list of data collection sites.</p>
-<% end %>
-
-<% help_section 'Number of Sites and Next Page' do %>
-<p>The number of data collection sites is displayed at the bottom of the list 
-(on left). Also at the bottom of the list to the right is the page control for 
-viewing the next page of results. 15 sites are displayed per page.</p>
-<% end %>
-
-<% help_section 'Lock Symbol' do %>
-<p>The lock symbol (<img src="/images/lock_delete.png" />) at the beginning of 
-the row indicates the data is incorporated within the NB Aquatic Data Warehouse 
-and cannot be modified. Click on Show at the end of the row to view the site’s 
-details.</p>
-<% end %>
-
-<% help_section 'Editing a Site' do %>
-<p>If the data is editable, there will be 3 options at the end of the row: Edit, 
-Delete and Show. A site can only be deleted if there is no data, such as water 
-chemistry, electrofishing, etc., associated with the site.</p>
-
-<p><strong>Edit</strong> - Opens the site details for editing.</p>
-
-<p><strong>Delete</strong> – Prompts for a confirmation to delete the site, then 
-permanently deletes the record.</p>  
-<% end %>

@@ -1,4 +1,4 @@
-<dl class="override">
+<dl class="override <%= 'required' if column.required? %>">
   <dt>
     <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
   </dt>
@@ -8,5 +8,8 @@
         <option value="<%=h method.id %>"><%=h method.name %> </option>
       <% end %>
     </select>
+    <% if description = column.description %>
+      <span class="description"><%= description %></span>
+    <% end %>
   </dd>
 </dl>

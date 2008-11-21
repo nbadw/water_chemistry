@@ -1,0 +1,24 @@
+<%= render :partial => 'help/water_chemistry_sampling/overview' %>
+
+<% help_section 'Measurements' do %>
+  <p>There are 2 sections for recording on site field measurements: <strong>Site
+  Measurements</strong> and <strong>Water Measurements</strong>.</p>
+
+  <p>Click on <strong>Create New</strong>, found at top right of the Site
+    Measurements or Water Measurements list, to open a blank data entry form for
+  recording a new measurement.</p>
+
+  <p>Select the parameter measured, then enter the other fields associated with
+    the measurement parameter. Some site measurements will include a bank field
+    for noting the left or right bank. Also some site measurements, such as stream
+    types must add up to 100%. The system will provide a message when multiple
+  entries, such as stream types, do not add up to 100%.</p>
+
+  <% help_section 'Edit' do %>
+    <p>Opens a form for editing the measurement details</p>
+  <% end %>
+
+  <% help_section 'Delete' do %>
+    <p>Permanently remove the measurement</p>
+  <% end %>
+<% end %>

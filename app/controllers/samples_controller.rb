@@ -12,7 +12,8 @@ class SamplesController < ApplicationController
     [:create, :update].each do |action|
       config.send(action).columns = [:agency_sample_no, :sample_collection_method, :sample_depth_m, :water_source_type, :analyzed_by, :lab_no]       
     end    
-    
+
+    # labels
     config.columns[:id].label = "ADW Sample ID"
     config.columns[:sample_depth_m].label = "Sample Depth (m)"
     config.columns[:sample_results].label = "Parameters"
@@ -24,6 +25,9 @@ class SamplesController < ApplicationController
     config.create.label = 'Add Sample'
     config.update.label = 'Update Sample'
     
+    # descriptions
+    config.columns[:analyzed_by].description = 'For analytical lab samples, enter the name of the lab performing the analysis'
+
     config.columns[:aquatic_activity_id].search_sql = "#{Sample.table_name}.#{Sample.column_for_attribute(:aquatic_activity_id).name}"    
     config.nested.add_link "Parameters", [:sample_results]
   end

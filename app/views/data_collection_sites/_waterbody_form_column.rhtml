@@ -1,1 +1,7 @@
-<%= render :partial => 'waterbody/waterbody_autocomplete', :locals => { :waterbody => @record.waterbody } %>
+<% if @record.errors.on(:waterbody) %>
+  <div class="fieldWithErrors">
+    <%= render :partial => 'waterbody/waterbody_autocomplete', :locals => { :waterbody => @record.waterbody } %>
+  </div>
+<% else %>
+  <%= render :partial => 'waterbody/waterbody_autocomplete', :locals => { :waterbody => @record.waterbody } %>
+<% end %>

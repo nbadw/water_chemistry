@@ -24,6 +24,15 @@
     background-color:#D0E0F4;
 }
 
+.active-scaffold label {
+    color: #001e20;
+}
+.active-scaffold .description {
+    font-size: 11px;
+    font-family: "Lucida Grande";
+    color: #555;
+}
+
 /** Nested Table Styles **/
 .active-scaffold .inline-adapter .view {
     background-color: #fff;
@@ -55,6 +64,9 @@
 }
 .active-scaffold .sub-form .override label {
     display: block;
+}
+.active-scaffold .sub-form .override.required label {
+    font-weight: bold;
 }
 .active-scaffold .sub-form .override dd {
     float: left;
