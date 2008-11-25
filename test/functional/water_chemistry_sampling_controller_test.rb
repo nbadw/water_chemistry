@@ -6,21 +6,8 @@ class WaterChemistrySamplingControllerTest < ActionController::TestCase
       login
     end
     
-    should "redirect to samples on edit" do
-      get :edit, :aquatic_site_id => '1', :aquatic_activity_event_id => '1'
-      assert_response :redirect
-      assert_redirected_to :action => "samples", :aquatic_site_id => '1', :aquatic_activity_event_id => '1'
-    end
-    
-    should "show sampling details" do            
-      AquaticSite.expects(:find).with('1', { :include => :waterbody }).returns(AquaticSite.new)
-      AquaticActivityEvent.expects(:find).times(2).with('1').returns(AquaticActivityEvent.new)      
-      get :details, :aquatic_site_id => '1', :aquatic_activity_event_id => '1'
-      assert_response :success 
-    end
-    
-    should "list of samples" do 
-      AquaticSite.expects(:find).with('1', { :include => :waterbody }).returns(AquaticSite.new)
+    should_eventually "list samples" do
+      AquaticSite.expects(:find).with('1', { :include => [:waterbody, :gmap_location] }).returns(AquaticSite.new)
       AquaticActivityEvent.expects(:find).with('1').returns(AquaticActivityEvent.new)      
       get :samples, :aquatic_site_id => '1', :aquatic_activity_event_id => '1'
     end

@@ -6,9 +6,9 @@ class UsersController < ApplicationController
   before_filter :check_administrator_role, :only => [:index, :destroy, :enable]
   
   helper do
-    def agency_dropdown
-      options = Agency.find(:all, :order => "#{Agency.column_for_attribute(:agency).name} ASC").collect{ |agency| [agency.name, agency.id] }
-      select 'user', 'agency_id', options      
+    def agency_dropdown(html_options = {})
+      choices = Agency.find(:all, :order => "#{Agency.column_for_attribute(:agency).name} ASC").collect{ |agency| [agency.name, agency.id] }
+      select 'user', 'agency_id', choices, {}, html_options
     end
   end
   
@@ -23,14 +23,21 @@ class UsersController < ApplicationController
   
   # render new.rhtml
   def new
+    include_javascript 'signup', { :lazy_load => true }
     @user = User.new
   end
   
   def create
+    include_javascript 'signup', { :lazy_load => true }
     cookies.delete :auth_token    
     @user = User.new(params[:user])
     @user.area_of_interest_id = params[:area_of_interest]
     @user.requesting_editor_priveleges = (params[:requesting_editor_priveleges] == 'yes')
+
+    # if the user has created an agency instead of selecting one
+    @agency = Agency.new(params[:agency]) if params[:agency]
+    @user.agency = @agency if @agency
+
     @user.save!
     flash[:notice] = "Thanks for signing up! Please check your email to activate your account before logging in."
     redirect_to login_path    
@@ -41,11 +48,16 @@ class UsersController < ApplicationController
   end
   
   def page_title
-    'NB Aquatic Data Warehouse - Edit Profile'
+    "NB Aquatic Data Warehouse - #{current_location}"
   end
   
   def current_location
-    'Edit Profile'
+    case action_name.to_sym
+    when :new    then 'Signup'
+    when :create then 'Signup'
+    when :edit   then 'Edit Profile'
+    else action_name
+    end
   end
   
   def edit

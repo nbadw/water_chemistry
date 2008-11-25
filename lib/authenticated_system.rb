@@ -7,7 +7,7 @@ module AuthenticatedSystem
   end
   
   def do_login
-    login_from_session || login_from_basic_auth || login_from_cookie || :false
+    login_from_session || login_from_cookie || :false
   end
 
   # Accesses the current user from the session. Set it to :false if login fails

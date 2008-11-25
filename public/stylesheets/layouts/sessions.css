@@ -1,0 +1,113 @@
+body.sessions {
+    background-color: #a5c9ff;
+    color: #222;
+    font-family: "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+    margin: 0 auto;
+    padding: 0;
+    text-align: center;
+}
+h3 {
+    border-bottom: 1px solid black;
+    font-family:verdana;
+    font-size:16px;
+    font-weight:bold;
+    margin-bottom: 10px;
+    padding-top: 20px;
+    clear: both;
+}
+.active-scaffold p.form-footer {
+    padding: 5px;
+}
+.sessions #container {
+    margin: 60px auto 20px;
+    width: 650px;
+}
+.sessions #dialog {
+    background-color: #fff;
+    border: 10px solid #001E20;
+    padding: 15px 20px 10px;
+    text-align: left;
+}
+.sessions #dialog h1 {
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.sessions #user_agency_id {
+    width: 345px;
+}
+
+#login input#username {
+    width: 300px;
+}
+#login #register {
+    margin-top: 50px;
+}
+
+#login dl {
+    margin-top: 10px;
+}
+#login dt {
+    float: left;
+    font-size: 14px;
+    line-height: 24px;
+    width: 80px;
+}
+#login dd {
+    color: #666;
+    font-size: 11px;
+    line-height: 24px;
+    margin: 0 0 5px 80px;
+}
+#login input {
+    font-size: 14px;
+    padding: 3px;
+}
+#account-recovery input#email {
+    width: 400px;
+    display: block;
+    margin: 10px 0 20px;
+}
+#errorExplanation h2 { 
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+#errorExplanation p { 
+    color: black;
+}
+#errorExplanation ul li {
+    list-style-type: disc;
+    margin: 3px 0 2px 20px;
+}
+
+#dialog .error {
+    background-color: #ffffe0;
+    border: 1px solid orange;
+    color: red;
+    font-size: 12px;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+#dialog .notice,
+#edit-user .notice {
+    background-color: #e0ecff;
+    border: 1px solid #a5c9ff;
+    color: #135;
+    font-size: 12px;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+#priveleges {
+    padding-top: 5px;
+}
+#agency .action {
+    clear: both;
+    display: block;
+    font-size: 11px;
+    font-family: verdana, sans-serif;
+    margin: 0 7px;
+    text-align: right;
+}

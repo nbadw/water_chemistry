@@ -48,7 +48,7 @@ class DataCollectionSitesControllerTest < ActionController::TestCase
     should "not allow destroy of incorporated sites" do
       assert_raise(ActiveScaffold::RecordNotAllowed) do
         aquatic_site = AquaticSite.new
-        aquatic_site.expects(:incorporated?).returns(true)    
+        #aquatic_site.expects(:incorporated?).returns(true)
         AquaticSite.expects(:find).with('1').returns(aquatic_site)
         post :destroy, :id => '1', :format => 'js'
       end
@@ -58,14 +58,6 @@ class DataCollectionSitesControllerTest < ActionController::TestCase
     
     should_eventually "allow list to sort by x" do
       get :update_table, :sort => 'id', :sort_direction => 'ASC'
-    end
-    
-    should "perform autocomplete for waterbody" do
-      query = 'test'
-      Waterbody.expects(:search).with(query).returns([Waterbody.new])
-      post :auto_complete_for_waterbody_search, :waterbody => { :search => query }
-      assert_response :success
-      assert_template '_autocomplete'
     end
   end
   

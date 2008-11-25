@@ -1,21 +1,20 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-    <title>Data Entry: <%= @page_title || controller.action_name.capitalize %></title>    
-    <%= stylesheet_link_merged :base %> 
-    <!--[if IE]><%= stylesheet_link_merged :ie %><![endif]-->
-    <%= javascript_include_merged :base %> 
+    <title><%= page_title %></title>
+    <%= stylesheets %>
+    <%= javascripts %>
   </head>
   <body class="sessions">
-    
+
     <div id="container">
       <div id="dialog">
         <%= yield %>
       </div>
     </div>
-    
+
+    <%= lazy_javascripts %>
   </body>
 </html>

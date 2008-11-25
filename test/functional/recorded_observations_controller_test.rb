@@ -27,7 +27,7 @@ class RecordedObservationsControllerTest < ActionController::TestCase
         assert_template 'create_form'
       end
 
-      should "render a drop-down of observations to choose from and hidden fields for extra details" do
+      should_eventually "render a drop-down of observations to choose from and hidden fields for extra details" do
         doc = Hpricot(@response.body)
         optgroup_tags = doc/'#selected_observation'/'optgroup'
         assert_equal 2, optgroup_tags.size
@@ -121,8 +121,9 @@ class RecordedObservationsControllerTest < ActionController::TestCase
       should "create a recorded observation recorded with an observable value" do
         observation = Observation.spawn
         observation.id = 1
-        Observation.expects(:find).with('1').returns(observation)
+        Observation.expects(:find).returns(observation)
         Observation.expects(:all).returns([])
+        AquaticActivityEvent.stubs(:find).returns(nil)
         
         with_constraints :aquatic_activity_event_id => '2'
         post :create, :eid => eid, :record => { :observation => '1', :value_observed => '2' } 

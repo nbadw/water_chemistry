@@ -39,7 +39,7 @@ module AquaticDataWarehouse
     end
     
     def role_authorized_for_action?(action)            
-      return false if current_user.nil?
+      return false if current_user.nil? || current_user == :false
       authorization_method = "#{current_user_role}_user_authorized_for_#{action}?"      
       send(authorization_method)
     end
@@ -162,7 +162,7 @@ module AquaticDataWarehouse
         end
         
         def current_agency
-          current_user.agency if current_user
+          current_user.agency if current_user && current_user != :false
         end
         
         def execute_adw_access_variable_finders

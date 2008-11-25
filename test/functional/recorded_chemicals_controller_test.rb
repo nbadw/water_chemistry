@@ -51,6 +51,10 @@ class RecordedChemicalsControllerTest < ActionController::TestCase
         Measurement.expects(:chemicals).returns(chemicals)
         WaterMeasurement.expects(:recorded_chemicals).with('1').returns([])
 
+        # stub the sample found in find_current_aquatic_activity
+        sample = stub(:aquatic_activity_event => nil)
+        Sample.stubs(:find).returns(sample)
+
         with_constraints :sample => '1'
         get :new, :eid => eid
         

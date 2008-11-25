@@ -37,6 +37,9 @@ module ApplicationHelper
       stylesheet, options = stylesheet_config
       output = output + stylesheet_link(stylesheet, options) + "\n"
     end
+    if layout_specific_stylesheet = layout_stylesheet
+      output += layout_specific_stylesheet + "\n"
+    end
     if controller_specific_stylesheet = controller_stylesheet
       output += controller_specific_stylesheet + "\n"
     end
@@ -45,6 +48,11 @@ module ApplicationHelper
     end
     output += "<!-- END STYLESHEETS -->\n"
     output
+  end
+
+  def layout_stylesheet
+    location = "#{controller.active_layout}.css"
+    stylesheet_link_tag(location) if File.exists?("#{Rails.root}/public/stylesheets/#{location}")
   end
   
   def controller_stylesheet

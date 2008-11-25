@@ -8,6 +8,7 @@ class UsersControllerTest < ActionController::TestCase
     user = mock
     user.expects(:save!)
     user.expects(:area_of_interest_id=)
+    user.expects(:requesting_editor_priveleges=)
     User.expects(:new).returns(user)
     post :create, :user => user_params
     assert_response :redirect

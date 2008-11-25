@@ -39,6 +39,7 @@ class User < ActiveRecord::Base
   validates_length_of       :name,     :within => 1..100
   validates_uniqueness_of   :login, :email, :case_sensitive => false
   validates_format_of       :email, :with => /(^([^@\s]+)@((?:[-_a-z0-9]+\.)+[a-z]{2,})$)|(^$)/i
+  validates_associated      :agency
   
   belongs_to :agency
   belongs_to :area_of_interest, :class_name => 'Waterbody'
@@ -56,12 +57,15 @@ class User < ActiveRecord::Base
   
   class ActivationCodeNotFound < StandardError  
   end
+
   class AlreadyActivated < StandardError
     attr_reader :user, :message
     def initialize(user, message=nil)
       @message, @user = message, user
     end
   end
+
+  named_scope :administrators, :conditions => { :admin => true }
 
   # Finds the user with the corresponding activation code, activates their account and returns the user.
   #

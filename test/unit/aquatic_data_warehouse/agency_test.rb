@@ -12,7 +12,10 @@ class AgencyTest < ActiveSupport::TestCase
   
   should_alias_attribute :agency, :name
   should_alias_attribute :agency_cd, :code
-  
+
+  should_require_attributes :agency, :agency_cd
+  should_ensure_length_in_range :agency_cd, (3..5)
+
   should "create/read/update/delete" do
     agency = Agency.spawn
     assert agency.save
@@ -22,5 +25,10 @@ class AgencyTest < ActiveSupport::TestCase
     assert agency.save
     assert agency.destroy
     assert !Agency.exists?(agency.id)
+  end
+
+  context "with an existing record" do
+    setup { Agency.generate }
+    should_require_unique_attributes :agency_cd
   end
 end

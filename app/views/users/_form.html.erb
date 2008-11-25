@@ -1,11 +1,5 @@
-<h3 class="name" style="border-bottom: 1px solid black; font-family:verdana; font-size:16px; font-weight:bold; margin-bottom:10px;">Account Details</h3>
-<ol class="form">
-  <li class="form-element">
-    <dl>
-      <dt><label for="user_agency_id">Agency</label></dt>
-      <dd><%= agency_dropdown %></dd>
-    </dl>
-  </li>
+<h3>Account Details</h3>
+<ol>
   <li class="form-element">
     <dl>
       <dt><label for="user_name">Your Name</label></dt>
@@ -36,20 +30,68 @@
       <dd><%= form.password_field :password_confirmation, :class => 'text-input' %></dd>
     </dl>
   </li>
-  <% if @user && !@user.admin? %>
-    <div style="clear: both; padding-top: 10px;">
-      <p>Will this account be used to add/edit your agency's data?</p>  
-      <div>
-        <input type="radio" name="requesting_editor_priveleges" value="no" checked="checked">No, I'd just like to view data and reports<br/>        
-        <input type="radio" name="requesting_editor_priveleges" value="yes">Yes
-      </div>
-    </div>
-  <% end %>
 </ol>    
-<div style="clear: both; padding: 10px;"></div>
 
-<h3 class="name" style="border-bottom: 1px solid black; font-family:verdana; font-size:16px; font-weight:bold; margin-bottom:10px;">Area of Interest <%= tooltip :id => 'aoi', :partial => 'waterbody/area_of_interest_tooltip' %></h3>    
-<ol class="form">
+<h3>Agency</h3>
+<div id="agency">
+  <ol id="select" style="<%= 'display: none;' if @agency %>">
+    <li class="form-element">
+      <dl>
+        <dt><label for="user_agency_id">Agency</label></dt>
+        <dd><%= agency_dropdown(@agency ? { :disabled => 'disabled' } : {}) %></dd>
+      </dl>
+    </li>
+  </ol>
+  <% if action == :new %>
+    <ol id="create" style="<%= 'display: none;' unless @agency %>">
+      <li class="form-element">
+        <dl>
+          <dt><label for="agency_agency">Agency Name:</label></dt>
+          <dd>            
+            <%= text_field(:agency, :agency, { :class => 'create-input text-input'}.merge(@agency ? {} : { :disabled => 'disabled' }) ) %>
+            </dd>
+        </dl>
+      </li>
+      <li class="form-element">
+        <dl>
+          <dt><label for="agency_agency_cd">Agency Code:</label></dt>
+          <dd>
+            <%= text_field(:agency, :agency_cd, { :class => 'create-input text-input'}.merge(@agency ? {} : { :disabled => 'disabled' }) ) %>
+            </dd>
+        </dl>
+      </li>
+      <li class="form-element">
+        <dl>
+          <dt><label for="agency_agency_type">Agency Type:</label></dt>
+          <dd>
+            <select <%= 'disabled="disabled"' unless @agency %> id="agency_agency_type" name="agency[agency_type]" class="create-input">
+              <%= options_for_select(Agency.types.collect{ |type| [type, type] }, (@agency.agency_type if @agency)) %>
+            </select>
+          </dd>
+        </dl>
+      </li>
+    </ol>
+    <a class="action create" href="javascript:void(0)" style="<%= 'display: none;' if @agency %>">(Can't find your agency in the list?  Click here to create one)</a>
+    <a class="action select" href="javascript:void(0)" style="<%= 'display: none;' unless @agency %>">(I'd like to select an existing agency instead)</a>
+  <% end %>
+</div>
+
+<ol>
+  <% if @user && !@user.admin? %>
+    <li class="form-element">
+      <dl>
+        <dt><label for="requesting-editor-priveleges">Will this account be used to add/edit your agency's data?</label></dt>
+        <dd id="priveleges">
+          <input id="requesting-editor-priveleges" type="radio" name="requesting_editor_priveleges" value="no" checked="checked">No, I'd just like to view data and reports<br/>
+          <input id="requesting-editor-priveleges" type="radio" name="requesting_editor_priveleges" value="yes">Yes
+        </dd>
+      </dl>
+    </li>
+  <% end %>
+</ol>
+
+<h3>Area of Interest <%= tooltip :id => 'aoi', :partial => 'waterbody/area_of_interest_tooltip' %></h3>    
+<ol>
   <li class="form-element">
     <%= render :partial => 'waterbody/area_of_interest_autocomplete', :locals => { :area_of_interest => @user.area_of_interest } %>
   </li>
@@ -60,7 +102,6 @@
     <label for="remove-area-of-interest">Remove Area of Interest</label>
   </div>
 <% end %>
-<div style="clear: both; padding: 5px;"></div>
 
 <p class="form-footer">  
   <%= submit_tag(action == :new ? 'Create Account' : 'Save Changes', :class => 'submit') %>

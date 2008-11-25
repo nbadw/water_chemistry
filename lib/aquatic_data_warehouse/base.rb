@@ -28,13 +28,13 @@ module AquaticDataWarehouse
     before_create :log_creating_user
     before_update :log_updating_user
     
-    private 
+    protected
     def log_creating_user
-      self.created_by = current_user if current_user
+      self.created_by = current_user if current_user != :false
     end
     
     def log_updating_user
-      self.updated_by = current_user if current_user
+      self.updated_by = current_user if current_user != :false
     end
   end
 end

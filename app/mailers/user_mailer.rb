@@ -6,7 +6,8 @@ class UserMailer < ApplicationMailer
   
   def request_for_editor_priveleges(user)
     setup_email(user)
-    recipients "ccasey@unb.ca"
+    administrators = User.administrators
+    recipients administrators.collect { |admin| admin.email }
     reply_to   nil
     subject    "Request for NBADW editor priveleges from #{user.name}"
   end
