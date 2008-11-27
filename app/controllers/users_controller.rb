@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   
   helper do
     def agency_dropdown(html_options = {})
-      choices = Agency.find(:all, :order => "#{Agency.column_for_attribute(:agency).name} ASC").collect{ |agency| [agency.name, agency.id] }
+      choices = Agency.active.all(:order => "Agency ASC").collect{ |agency| [agency.name, agency.id] }
       select 'user', 'agency_id', choices, {}, html_options
     end
   end

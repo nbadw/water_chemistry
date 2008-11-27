@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20081008163622
+# Schema version: 20081127150314
 #
 # Table name: cdAgency
 #
@@ -11,6 +11,7 @@
 #  updated_at   :datetime        
 #  created_by   :integer(11)     
 #  updated_by   :integer(11)     
+#  active       :boolean(1)      default(TRUE)
 #
 
 class Agency < AquaticDataWarehouse::BaseCd  
@@ -24,12 +25,15 @@ class Agency < AquaticDataWarehouse::BaseCd
   alias_attribute :name, :agency
   
   validates_presence_of   :agency, :agency_cd
-  validates_uniqueness_of :agency_cd
+  validates_uniqueness_of :agency_cd, :agency
   validates_length_of     :agency_cd, :within => 3..5
+  validates_length_of     :agency, :within => 1..60
 
   def self.types
     all(:select => 'DISTINCT AgencyType', :order => 'AgencyType ASC').collect { |result| result['AgencyType'] }
   end
+
+  named_scope :active, :conditions => { :active => true }
 
   private
   def format_agency_cd
