@@ -121,12 +121,12 @@ ExploreLegendControl.prototype.initialize = function(map) {
   var legacyIconDiv = document.createElement("div");
   
   legend.id = 'gmap-control-explore-legend';
-  legend.innerHTML = '<h3>Aquatic Sites</h3>';  
+  legend.innerHTML = '<h3>Data Collection Sites</h3>';
   normalIconDiv.className = 'normal';
   normalIconDiv.innerHTML = '<img src="' + normal_icon_image + '" />Data Attached (' + this.normalSiteCount + ')';
   legend.appendChild(normalIconDiv);  
   legacyIconDiv.className = 'legacy';
-  legacyIconDiv.innerHTML = '<img src="' + legacy_icon_image + '" />Data May Be Available (' + this.legacySiteCount + ')';
+  legacyIconDiv.innerHTML = '<img src="' + legacy_icon_image + '" />See Agency for Data (' + this.legacySiteCount + ')';
   legend.appendChild(legacyIconDiv);
   
   container.appendChild(legend);
