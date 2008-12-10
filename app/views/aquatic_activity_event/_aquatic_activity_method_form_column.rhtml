@@ -9,7 +9,11 @@
       <% end %>
     </select>
     <% if description = column.description %>
-      <span class="description"><%= description %></span>
+      <div class="tooltip-box" style="display: none;">
+        <div class="tooltip-box-content">
+          <span class="description"><%= description %></span>
+        </div>
+      </div>
     <% end %>
   </dd>
 </dl>

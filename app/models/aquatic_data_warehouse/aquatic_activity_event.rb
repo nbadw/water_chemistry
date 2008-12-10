@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20081008163622
+# Schema version: 20081127150314
 #
 # Table name: tblAquaticActivity
 #
@@ -55,6 +55,10 @@ class AquaticActivityEvent < AquaticDataWarehouse::BaseTbl
          
   validates_presence_of  :aquatic_site, :aquatic_activity, :agency, :aquatic_activity_method, :start_date     
   
+  def to_label
+    "Aquatic Activity ##{id}"
+  end
+
   def start_date
     date = aquatic_activity_start_date        
     date_str = "#{date}, #{year}" if date && year

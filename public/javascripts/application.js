@@ -1,6 +1,8 @@
 // for those w/o console... sad.
 if (typeof(console) == 'undefined') {
-    console = { log: function() {} }
+    console = { 
+        log: function() {}
+    }
 }
 
 function closeOpenNestedViews(record_id) {
@@ -24,7 +26,9 @@ function closeOpenNestedViews(record_id) {
 
 function showLocationOnMap(options, event) {
     toggleTooltip(event, $('coordinate-preview-dialog'));    
-    if(!$('coordinate-preview-dialog').visible()) { return; }
+    if(!$('coordinate-preview-dialog').visible()) { 
+        return;
+    }
     
     // remove previous iframe
     $('coordinate-preview-result').innerHTML = '';
@@ -75,3 +79,28 @@ function doToggleAreaOfInterest(url, update, error, loader) {
     $(loader).style.visibility = 'visible';
     return false;
 }
+
+function initDescriptions() {
+    $$('.tooltip-box').each(function(tooltip_box) {
+        var prev = tooltip_box.previous('input');
+        if(!prev) {
+            prev = tooltip_box.previous('select');
+        }
+        if(prev) {
+            console.log('attaching tooltip listeners to ' + prev);
+            prev.observe('mouseover', function(evt) {
+                this.next('.tooltip-box').show();
+            });
+            prev.observe('mouseout', function(evt) {
+                this.next('.tooltip-box').hide();
+            });
+        }
+    });
+}
+
+Event.observe(window, 'load', initDescriptions);
+Ajax.Responders.register({
+    onComplete: function() {
+        initDescriptions();
+    }
+});

@@ -1,21 +1,56 @@
-.tooltip {
+.tooltip,
+.active-scaffold .tooltip-box,
+.tooltip-box {
+    display: block;
     position: absolute;
-    background-image: url(/images/widgets/tooltip_arrow.gif);
-    background-repeat: no-repeat;
+    z-index: 300;
+    background: transparent no-repeat 0 0 url(/images/widgets/tooltip_arrow.gif);
+    margin-left: 10px;
 }
-.tooltip_content {
-    max-width: 500px;
-    padding: 20px;
-    margin-top: 20px;
-    background-color: #fdf389;
+.tootip {
+    z-index: 301px;
+}
+.active-scaffold .tooltip-box,
+.tooltip-box {
+    z-index: 300;
+}
+.tooltip_content,
+.active-scaffold .tooltip_content,
+.active-scaffold .tooltip-box-content,
+.tooltip-box-content {
+    padding: 10px;
+    color: #555;
+    font-family: "Lucida Grande";
+    background-color: #ffc;
+    border: 2px solid #fdf389;
+    margin-top: 10px;
     font-size: 11px;
-    font-family: Verdana;
+    font-weight: normal;
+    -moz-border-radius-bottomleft: 5px;
+    -moz-border-radius-bottomright: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
 }
+.tooltip_content,
+.active-scaffold .tooltip_content {
+    max-width: 500px;
+}
+.active-scaffold .tooltip-box-content,
+.tooltip-box-content {
+    max-width: 300px;
+}
+
 .tooltip_content p,
-.active-scaffold .tooltip_content p {
+.active-scaffold .tooltip_content p,
+.active-scaffold .tooltip-box-content p,
+.tooltip-box-content p {
     margin: 1em 0;
 }
 .tooltip_content p.first,
-.active-scaffold .tooltip_content p.first {
+.active-scaffold .tooltip_content p.first,
+.active-scaffold .tooltip-box-content p.first,
+.tooltip-box-content p.first {
     margin-top: 0;
 }
+
+

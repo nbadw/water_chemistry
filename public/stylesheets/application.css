@@ -483,12 +483,6 @@ a#area-of-interest-toggle.active:hover {
     margin-top: 25px;
 }
 
-div.tooltip div.tooltip_content {
-    padding: 20px;
-    margin-top: 10px;
-}
-
-
 .active-scaffold-header div.actions a.download {
     background-position:1px 50%;
     background-repeat:no-repeat;
