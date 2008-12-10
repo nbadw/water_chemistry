@@ -21,7 +21,8 @@ class WaterChemistrySamplingController < ApplicationController
   def observations
   end
   
-  def measurements   
+  def measurements
+    include_javascript 'water_chemistry_sampling_measurements', :lazy_load => true
   end
   
   def report  
