@@ -1,27 +1,28 @@
 # == Schema Information
-# Schema version: 20081008163622
+# Schema version: 20081127150314
 #
 # Table name: users
 #
-#  id                        :integer(11)     not null, primary key
-#  name                      :string(100)     
-#  login                     :string(100)     
-#  email                     :string(30)      
-#  admin                     :boolean(1)      
-#  editor                    :boolean(1)      
-#  crypted_password          :string(40)      
-#  salt                      :string(40)      
-#  remember_token            :string(255)     
-#  remember_token_expires_at :datetime        
-#  activation_code           :string(40)      
-#  activated_at              :datetime        
-#  password_reset_code       :string(40)      
-#  enabled                   :boolean(1)      default(TRUE)
-#  agency_id                 :string(5)       
-#  last_login                :datetime        
-#  created_at                :datetime        
-#  updated_at                :datetime        
-#  area_of_interest_id       :integer(11)     
+#  id                           :integer(11)     not null, primary key
+#  name                         :string(100)     
+#  login                        :string(100)     
+#  email                        :string(30)      
+#  admin                        :boolean(1)      
+#  editor                       :boolean(1)      
+#  requesting_editor_priveleges :boolean(1)      
+#  crypted_password             :string(40)      
+#  salt                         :string(40)      
+#  remember_token               :string(255)     
+#  remember_token_expires_at    :datetime        
+#  activation_code              :string(40)      
+#  activated_at                 :datetime        
+#  password_reset_code          :string(40)      
+#  enabled                      :boolean(1)      default(TRUE)
+#  agency_id                    :string(5)       
+#  last_login                   :datetime        
+#  created_at                   :datetime        
+#  updated_at                   :datetime        
+#  area_of_interest_id          :integer(11)     
 #
 
 require 'digest/sha1'
