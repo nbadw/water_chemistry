@@ -31,7 +31,8 @@ Rails::Initializer.run do |config|
   config.gem "ruport-util", :lib => "ruport/util" 
   config.gem "acts_as_reportable", :lib => "ruport/acts_as_reportable" 
   config.gem "mocha"
-  config.gem "GeoRuby", :lib => "geo_ruby" 
+  config.gem "GeoRuby", :lib => "geo_ruby"
+  config.gem "openrain-action_mailer_tls", :lib => "smtp_tls.rb", :source => "http://gems.github.com"
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
