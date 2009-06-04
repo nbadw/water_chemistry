@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
   
   # render new.rhtml
   def new
-    @page_title = 'Login'
+    @page_title = :login_page_title.l
   end
   
   def create
@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
     self.current_user.forget_me if logged_in?
     cookies.delete :auth_token
     reset_session
-    flash[:notice] = "You have been logged out."
+    flash[:notice] = :logout_notice.l
     redirect_to :action => 'new'
   end
   
@@ -25,11 +25,11 @@ class SessionsController < ApplicationController
   def password_authentication(login, password)
     user = User.authenticate(login, password)
     if user == nil
-      failed_login("Your username or password is incorrect.")
+      failed_login(:incorrect_username_or_password.l)
     elsif user.activated_at.blank?  
-      failed_login("Your account is not active, please check your email for the activation code.")
+      failed_login(:account_inactive.l)
     elsif user.enabled == false
-      failed_login("Your account has been disabled.")
+      failed_login(:account_disabled.l)
     else
       self.current_user = user
       successful_login
@@ -58,7 +58,7 @@ class SessionsController < ApplicationController
       cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
     end
     
-    flash[:notice] = "Logged in successfully"
+    flash[:notice] = :login_notice.l
     return_to = session[:return_to]
     if return_to.nil?
       redirect_to root_path

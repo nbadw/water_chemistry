@@ -5,9 +5,9 @@ class AquaticActivityEventController < ApplicationController
   
   active_scaffold do |config|
     # base config 
-    config.label = "Aquatic Activities"    
+    config.label = :aquatic_activity_event_label.l
     config.actions = [:create, :list, :show, :update, :delete, :nested, :subform]
-    
+
     config.columns = [:aquatic_site_id, :aquatic_activity_cd, :aquatic_activity_method, :start_date, :agency, :weather_conditions, :water_level]
     config.list.columns = [:aquatic_activity_method, :start_date, :agency, :weather_conditions, :water_level]
     config.show.columns = [:aquatic_activity_method, :start_date, :agency, :weather_conditions, :water_level]
@@ -16,21 +16,20 @@ class AquaticActivityEventController < ApplicationController
     config.columns[:aquatic_activity_cd].search_sql = "#{AquaticActivityEvent.table_name}.#{AquaticActivityEvent.column_for_attribute(:aquatic_activity_cd).name}"
 
     # i18n labels
-    config.columns[:aquatic_activity_method].label = "Analysis Method"
-    config.columns[:start_date].label = "Date"
-    config.columns[:weather_conditions].label = "Weather Conditions"
-    config.columns[:water_level].label = "Water Level"
-    config.create.label = 'Add Sampling Event'
-    config.update.label = 'Update Sampling Event'
+    config.columns[:aquatic_site_id].label         = :aquatic_site_id_label.l
+    config.columns[:aquatic_activity_cd].label     = :aquatic_activity_cd_label.l
+    config.columns[:aquatic_activity_method].label = :aquatic_activity_method_label.l
+    config.columns[:start_date].label              = :start_date_label.l
+    config.columns[:weather_conditions].label      = :weather_conditions_label.l
+    config.columns[:water_level].label             = :water_level_label.l
+
+    # action link labels
+    config.create.label    = :aquatic_activity_event_create_label.l # 'Add Sampling Event'
+    config.update.label    = :aquatic_activity_event_update_label.l # 'Update Sampling Event'
+    config.show.link.label = :aquatic_activity_event_show_label.l # "Open"
 
     # descriptions
-    config.columns[:aquatic_activity_method].description = %q{
-      <ul>
-        <li>Analytical Lab Analysis – Water sample is returned to the lab for water chemistry analysis</li>
-        <li>Field Analysis – Water sample is analyzed in the field with a meter or field kit, such as a Hach kit</li>
-        <li>Portable Lab – Water sample is analyzed in the field using a portable lab</li>
-      </ul>
-    }
+    config.columns[:aquatic_activity_method].description = :aquatic_activity_method_desc.l
     
     # required fields
     config.columns[:aquatic_activity_method].required = true
@@ -40,13 +39,21 @@ class AquaticActivityEventController < ApplicationController
     config.columns[:start_date].sort_by :method => "#{self.name}.to_s"    
     config.list.sorting = [{ :start_date => :desc }]
 
-    config.columns[:agency].clear_link
+    # show config
     config.show.link.inline = false
-    config.show.link.label = "Open"
     config.show.link.controller = 'water_chemistry_sampling'
     config.show.link.action = 'samples'
-    config.show.link.parameters = { :water_chemistry_sampling_link => true } # added so this action can be overridden in helper
-    config.action_links.add 'edit_agency_site_id', :label => 'Edit Agency Site ID', :type => :table, :inline => true    
+    # XXX: added so this action can be overridden in helper
+    config.show.link.parameters = { :water_chemistry_sampling_link => true }
+
+    # remove agency association auto-link
+    config.columns[:agency].clear_link
+
+    # link to allow adding/editing of an agency's site id
+    config.action_links.add 'edit_agency_site_id', 
+      :label => :edit_agency_site_id_label.l,
+      :type => :table,
+      :inline => true
   end
   
   def show
@@ -75,7 +82,7 @@ class AquaticActivityEventController < ApplicationController
   def update_agency_site_id
     new_agency_site_id = params[:agency_site_id]
     if new_agency_site_id.to_s.empty?
-      flash[:error] = "Agency Site ID can't be blank"
+      flash[:error] = :blank_agency_site_id_error.l # "Agency Site ID can't be blank"
     else      
       @aquatic_site_usage.agency_site_id = new_agency_site_id
       flash[:error] = @aquatic_site_usage.errors.full_messages.to_sentence unless @aquatic_site_usage.save

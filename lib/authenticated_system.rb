@@ -87,7 +87,7 @@ module AuthenticatedSystem
     respond_to do |format|
       format.html do
         store_location
-        flash[:error] = "You are not logged in yet."
+        flash[:error] = :access_denied_error.l
         redirect_to login_path
       end
       format.any do
@@ -106,7 +106,7 @@ module AuthenticatedSystem
           store_referer
           http_referer = ( session[:refer_to] || domain_name )
         end
-        flash[:error] = "You don't have permission to complete that action."
+        flash[:error] = :permission_denied_error.l
         #The [0..20] represents the 21 characters in http://localhost:3000
         #You have to set that to the number of characters in your domain name
         if http_referer[0..20] != domain_name  
@@ -119,7 +119,7 @@ module AuthenticatedSystem
       format.xml do
         headers["Status"]           = "Unauthorized"
         headers["WWW-Authenticate"] = %(Basic realm="Web Password")
-        render :text => "You don't have permission to complete this action.", :status => '401 Unauthorized'
+        render :text => :permission_denied_error.l, :status => '401 Unauthorized'
       end
     end
   end
