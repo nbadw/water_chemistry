@@ -1,0 +1,63 @@
+# controllers/application
+#   application_name
+application_name: NB Aquatic Data Warehouse Data Management Application
+#   page_title
+nbadw: NB Aquatic Data Warehouse
+
+# controllers/accounts_controller
+#   show
+account_activated_notice: Your account has been activated! You can now login.
+activation_code_not_found_error: Activation code not found. Please try creating a new account.
+account_already_activated_notice: Your account has already been activated. You can log in below.
+#   update
+password_updated_notice: Password successfully updated.
+update_password_error: An error occured, your password was not changed.
+password_confimation_error: New password does not match the password confirmation.
+old_password_incorrect_error: Your old password is incorrect.
+
+# controllers/agency_controller
+#   config
+agency_label: Agencies
+agency_code_label: Agency Code
+agency_name_label: Name
+
+# controllers/aquatic_activity_event_controller
+#   config
+aquatic_activity_event_label: Aquatic Activities
+aquatic_site_id_label: Aquatic Site ID
+aquatic_activity_cd_label: Aquatic Activity Code
+aquatic_activity_method_label: Analysis Method
+start_date_label: Date
+agency_label: Agency Code
+weather_conditions_label: Weather Conditions
+water_level_label: Water Level
+aquatic_activity_event_create_label: Add Sampling Event
+aquatic_activity_event_update_label: Update Sampling Event
+aquatic_activity_method_desc: |-
+  <ul>
+    <li>Analytical Lab Analysis – Water sample is returned to the lab for water chemistry analysis</li>
+    <li>Field Analysis – Water sample is analyzed in the field with a meter or field kit, such as a Hach kit</li>
+    <li>Portable Lab – Water sample is analyzed in the field using a portable lab</li>
+  </ul>
+aquatic_activity_event_show_label: Open
+edit_agency_site_id_label: Edit Agency Site ID
+#   update_agency_site_id
+blank_agency_site_id_error: Agency Site ID can't be blank
+
+# controllers/sessions_controller
+#   new
+login_page_title: Login
+#   destroy
+logout_notice: You have been logged out.
+#   password_authentication
+incorrect_username_or_password: Your username or password is incorrect.
+account_inactive: Your account is not active, please check your email for the activation code.
+account_disabled: Your account has been disabled.
+#   successful_login
+login_notice: Logged in successfully
+
+# lib/authenticated_system
+#   access_denied
+access_denied_error: You are not logged in yet.
+#   permission_denied
+permission_denied_error: You don't have permission to complete that action.
