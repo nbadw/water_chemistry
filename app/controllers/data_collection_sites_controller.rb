@@ -10,56 +10,55 @@ class DataCollectionSitesController < ApplicationController
     config.search.columns = [:id, :name, :water_body_id, :water_body_name, :drainage_code, :data_sets, :agencies]    
     [:create, :update].each do |action|  
       config.send(action).columns = [:name, :aquatic_site_desc]
-      config.send(action).columns.add_subgroup "Waterbody" do |waterbody| 
+      config.send(action).columns.add_subgroup :data_collection_sites_waterbody_subgroup.l do |waterbody|
         waterbody.add :waterbody
       end
-      config.send(action).columns.add_subgroup "Location" do |location|
+      config.send(action).columns.add_subgroup :data_collection_sites_location_subgroup.l do |location|
         location.add :coordinate_source, :coordinate_system, :x_coordinate, :y_coordinate          
       end
     end
                  
-    # set i18n labels    
-    config.label = "Data Collection Sites"
-    config.show.label = ''
-    config.columns[:incorporated].label = ''
-    config.columns[:id].label = 'ADW Site ID'
-    config.columns[:aquatic_site_desc].label = 'Description'
-    config.columns[:agencies].label = 'Agency (Agency Site ID)'
-    config.columns[:water_body_id].label = 'Waterbody ID'
-    config.columns[:water_body_name].label = 'Waterbody Name'
-    config.columns[:drainage_code].label = 'Watershed Code'
-    config.columns[:name].label = 'Site Name'
-    config.columns[:name_and_description].label = 'Site Name & Description'  
-    config.columns[:data_sets].label = 'Data'  
-    config.columns[:x_coordinate].label = 'X Coordinate'
-    config.columns[:y_coordinate].label = 'Y Coordinate'
-    config.columns[:coordinate_system].label = 'Coordinate System'
-    config.create.label = 'Create New Data Collection Site'
+    # set i18n labels
+    config.label                                = :data_collection_sites_label.l
+    config.create.label                         = :data_collection_sites_create_label.l
+    config.show.label                           = '' # clear the title in the 'show' view
+    config.columns[:incorporated].label         = '' # clear the incorporated column's label
+    config.columns[:id].label                   = :aquatic_site_id_label.l
+    config.columns[:name].label                 = :aquatic_site_name_label.l
+    config.columns[:aquatic_site_desc].label    = :aquatic_site_desc_label.l
+    config.columns[:agencies].label             = :aquatic_site_agencies_label.l
+    config.columns[:water_body_id].label        = :aquatic_site_waterbody_id_label.l
+    config.columns[:water_body_name].label      = :aquatic_site_waterbody_name_label.l
+    config.columns[:drainage_code].label        = :aquatic_site_drainage_code_label.l
+    config.columns[:name_and_description].label = :aquatic_site_name_and_description_label.l
+    config.columns[:data_sets].label            = :aquatic_site_data_sets_label.l
+    config.columns[:x_coordinate].label         = :aquatic_site_x_coordinate_label.l
+    config.columns[:y_coordinate].label         = :aquatic_site_y_coordinate_label.l
+    config.columns[:coordinate_system].label    = :aquatic_site_coordinate_system_label.l
 
     # set i18n descriptions
-    config.columns[:name].description = 'Sometimes sites have a common name, like Mactaquac Dam, Titus Bridge or Kennebecasis Counting Fence'
-    config.columns[:aquatic_site_desc].description = 'Description of where the site is located or driving directions. It is particularly important to complete this field when sites are remote locations, especially when GPS coordinates are not provided or recorded incorrectly.'
-    config.columns[:waterbody].description = 'Test'
+    config.columns[:name].description              = :aquatic_site_name_desc.l
+    config.columns[:aquatic_site_desc].description = :aquatic_site_desc_desc.l
 
     # required fields
     config.columns[:aquatic_site_desc].required = true
 
     # sql for search 
-    config.columns[:id].search_sql = "#{AquaticSite.table_name}.#{AquaticSite.primary_key}"
-    config.columns[:name].search_sql = "#{AquaticSite.table_name}.#{AquaticSite.column_for_attribute(:aquatic_site_name).name}"
-    config.columns[:water_body_id].search_sql = "#{Waterbody.table_name}.#{Waterbody.primary_key}"
+    config.columns[:id].search_sql              = "#{AquaticSite.table_name}.#{AquaticSite.primary_key}"
+    config.columns[:name].search_sql            = "#{AquaticSite.table_name}.#{AquaticSite.column_for_attribute(:aquatic_site_name).name}"
+    config.columns[:water_body_id].search_sql   = "#{Waterbody.table_name}.#{Waterbody.primary_key}"
     config.columns[:water_body_name].search_sql = "#{Waterbody.table_name}.#{Waterbody.column_for_attribute(:water_body_name).name}"
-    config.columns[:drainage_code].search_sql = "#{Waterbody.table_name}.#{Waterbody.column_for_attribute(:drainage_cd).name}"  
-    config.columns[:data_sets].search_sql = "#{AquaticActivity.table_name}.#{AquaticActivity.column_for_attribute(:aquatic_activity).name}"
-    config.columns[:agencies].search_sql = "#{Agency.table_name}.#{Agency.column_for_attribute(:agency_cd).name}"
+    config.columns[:drainage_code].search_sql   = "#{Waterbody.table_name}.#{Waterbody.column_for_attribute(:drainage_cd).name}"
+    config.columns[:data_sets].search_sql       = "#{AquaticActivity.table_name}.#{AquaticActivity.column_for_attribute(:aquatic_activity).name}"
+    config.columns[:agencies].search_sql        = "#{Agency.table_name}.#{Agency.column_for_attribute(:agency_cd).name}"
     
     # sql for sorting 
-    config.columns[:id].sort_by :sql => "#{AquaticSite.table_name}.#{AquaticSite.primary_key}"
-    config.columns[:drainage_code].sort_by :sql => "#{Waterbody.table_name}.#{Waterbody.column_for_attribute(:drainage_cd).name}, #{AquaticSite.table_name}.#{AquaticSite.primary_key}"
-    config.columns[:water_body_id].sort_by :sql => "#{Waterbody.table_name}.#{Waterbody.primary_key}"
+    config.columns[:id].sort_by              :sql => "#{AquaticSite.table_name}.#{AquaticSite.primary_key}"
+    config.columns[:drainage_code].sort_by   :sql => "#{Waterbody.table_name}.#{Waterbody.column_for_attribute(:drainage_cd).name}, #{AquaticSite.table_name}.#{AquaticSite.primary_key}"
+    config.columns[:water_body_id].sort_by   :sql => "#{Waterbody.table_name}.#{Waterbody.primary_key}"
     config.columns[:water_body_name].sort_by :sql => "#{Waterbody.table_name}.#{Waterbody.column_for_attribute(:water_body_name).name}"
-    config.columns[:data_sets].sort = false
-    config.columns[:agencies].sort = false
+    config.columns[:data_sets].sort               = false
+    config.columns[:agencies].sort                = false
         
     # action links
     config.columns[:aquatic_activities].clear_link
@@ -89,7 +88,7 @@ class DataCollectionSitesController < ApplicationController
     agency   = current_user.agency     
   rescue Exception => exc
     logger.error exc.message
-    render :text => 'An error occured while attempting to process your request.  Please try again later.'
+    render :text => :add_data_set_error.l
   end
   
   def show_data_set_details
@@ -139,14 +138,14 @@ class DataCollectionSitesController < ApplicationController
           @map.center_zoom_init([gmap_location.latitude, gmap_location.longitude], 8)
           @map.overlay_init(GMarker.new([gmap_location.latitude, gmap_location.longitude]))
         else
-          @messages = ["An unknown error occured.  Please try again later."]
+          @messages = [:on_preview_location_error.l]
         end
       rescue Exception => e
-        @messages = ["An unknown error occurred.  Please try again later. (#{e.message})"]
+        @messages = ["#{:on_preview_location_error.l} (#{e.message})"]
       end
     else
       if location.blank?
-        @messages = ['Please enter all location details first.']
+        @messages = [:location_is_blank_error.l]
       else
         aquatic_site.valid? # run aquatic site validations to get proper error messages
         @messages = []
