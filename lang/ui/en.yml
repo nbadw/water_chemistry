@@ -44,6 +44,34 @@ edit_agency_site_id_label: Edit Agency Site ID
 #   update_agency_site_id
 blank_agency_site_id_error: Agency Site ID can't be blank
 
+# controllers/data_collection_sites_controller
+#   config
+data_collection_sites_label: Data Collection Sites
+data_collection_sites_create_label: Create New Data Collection Site
+data_collection_sites_waterbody_subgroup: Waterbody
+data_collection_sites_location_subgroup: Location
+aquatic_site_id_label: ADW Site ID
+aquatic_site_name_label: Site Name
+aquatic_site_desc_label: Description
+aquatic_site_agencies_label: Agency (Agency Site ID)
+aquatic_site_waterbody_id_label: Waterbody ID
+aquatic_site_waterbody_name_label: Waterbody Name
+aquatic_site_drainage_code_label: Watershed Code
+aquatic_site_name_and_description_label: Site Name & Description
+aquatic_site_data_sets_label: Data
+aquatic_site_x_coordinate_label: X Coordinate
+aquatic_site_y_coordinate_label: Y Coordinate
+aquatic_site_coordinate_system_label: Coordinate System
+aquatic_site_name_desc: Sometimes sites have a common name, like Mactaquac Dam, Titus Bridge or Kennebecasis Counting Fence
+aquatic_site_desc_desc: |-
+  Description of where the site is located or driving directions. It is particularly important to complete this field when
+  sites are remote locations, especially when GPS coordinates are not provided or recorded incorrectly.
+#   add_data_set
+add_data_set_error: An error occured while attempting to process your request.  Please try again later.
+#   on_preview_location
+on_preview_location_error: An unknown error occured.  Please try again later.
+location_is_blank_error: Please enter all location details first.
+
 # controllers/sessions_controller
 #   new
 login_page_title: Login
