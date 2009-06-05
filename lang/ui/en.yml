@@ -72,6 +72,14 @@ add_data_set_error: An error occured while attempting to process your request.  
 on_preview_location_error: An unknown error occured.  Please try again later.
 location_is_blank_error: Please enter all location details first.
 
+# controllers/data_entry_controller
+#   page_title
+data_entry_page_title: NB Aquatic Data Warehouse - {action}
+data_entry_browse_action: Browse
+data_entry_explore_action: Explore
+#   current_location
+data_entry_current_location: Main Menu
+
 # controllers/sessions_controller
 #   new
 login_page_title: Login

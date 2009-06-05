@@ -2,11 +2,11 @@ class DataEntryController < ApplicationController
   before_filter :login_required
   
   def page_title
-    "NB Aquatic Data Warehouse - #{action_name.titleize}"
+    :data_entry_page_title.l_with_args({ :action => "data_entry_#{action_name}_action".to_sym.l })
   end
   
   def current_location
-    'Main Menu'
+    :data_entry_current_location.l
   end
   
   def uses_gmap?
