@@ -4,7 +4,7 @@ class HelpController < ApplicationController
     begin
       render :layout => false, :template => template_name
     rescue ActionView::MissingTemplate
-      render :layout => false, :text => "Sorry, no help could be found."
+      render :layout => false, :text => :help_missing_error.l
     end
   end
 end

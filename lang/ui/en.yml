@@ -80,6 +80,10 @@ data_entry_explore_action: Explore
 #   current_location
 data_entry_current_location: Main Menu
 
+# controllers/help_controller
+#   show
+help_missing_error: Sorry, no help could be found.
+
 # controllers/sessions_controller
 #   new
 login_page_title: Login
