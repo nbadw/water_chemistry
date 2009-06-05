@@ -101,6 +101,15 @@ invalid_password_reset_error: Password could not be reset because it was invalid
 password_and_confirmation_are_different_error: Password and confirmation are not the same.  Please enter them again.
 # + invalid_password_reset_code_error
 
+# controllers/recorded_chemicals_controller
+#   config
+recorded_chemicals_label: Lab Results
+water_measurement_parameter_name_label: Parameter Name
+water_measurement_paremeter_code_label: Parameter Code
+water_measurement_measurement_label: Value
+water_measurement_qualifier_cd_label: Qualifier
+water_measurement_comment_label: Comment
+
 # controllers/sessions_controller
 #   new
 login_page_title: Login

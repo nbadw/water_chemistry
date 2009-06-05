@@ -5,16 +5,20 @@ class RecordedChemicalsController < ApplicationController
   before_filter :find_chemicals, :only => [:new, :create, :edit, :update]
   
   active_scaffold :water_measurement do |config|      
-    config.label = "Lab Results"
     config.actions = [:list, :create, :update, :delete]   
     
-    config.columns = [:parameter_name, :parameter_code, :measurement, :qualifier_cd, :comment]
-    config.list.columns = [:parameter_name, :parameter_code, :measurement, :unit_of_measure, :qualifier_cd, :comment]
+    config.columns        = [:parameter_name, :parameter_code, :measurement, :qualifier_cd, :comment]
+    config.list.columns   = [:parameter_name, :parameter_code, :measurement, :unit_of_measure, :qualifier_cd, :comment]
     config.create.columns = [:parameter, :measurement, :unit_of_measure, :qualifier_cd, :comment]
     config.update.columns = [:measurement, :unit_of_measure, :qualifier_cd, :comment]
 
-    config.columns[:measurement].label = "Value"
-    config.columns[:qualifier_cd].label = "Qualifier"
+    # i18n labels
+    config.label                          = :recorded_chemicals_label.l
+    config.columns[:parameter_name].label = :water_measurement_parameter_name_label.l
+    config.columns[:parameter_code].label = :water_measurement_paremeter_code_label.l
+    config.columns[:measurement].label    = :water_measurement_measurement_label.l
+    config.columns[:qualifier_cd].label   = :water_measurement_qualifier_cd_label.l
+    config.columns[:comment].label        = :water_measurement_comment_label.l
     
     config.create.persistent = true
   end
