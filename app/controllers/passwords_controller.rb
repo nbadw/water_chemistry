@@ -4,7 +4,7 @@ class PasswordsController < ApplicationController
   
   # Enter email address to recover password 
   def new
-    @page_title = "Password/Username Recovery"
+    @page_title = :new_page_title.l
   end
   
   # Forgot password action
@@ -13,10 +13,10 @@ class PasswordsController < ApplicationController
     if @user = User.find_for_forget(params[:email])
       @user.forgot_password
       @user.save      
-      flash[:notice] = "A password reset link has been sent to your email address."
+      flash[:notice] = :password_reset_link_sent_notice.l
       redirect_to login_path
     else
-      flash[:error] = "Could not find a user with that email address."
+      flash[:error] = :user_not_found_error.l
       render :action => 'new'
     end  
   end
@@ -34,8 +34,7 @@ class PasswordsController < ApplicationController
     raise if @user.nil?
   rescue
     logger.error "Invalid Reset Code entered."
-    flash[:error] = "Sorry - That is an invalid password reset code. Please check your code and try again. (Perhaps your email client inserted a carriage return?)"
-    #redirect_back_or_default('/')
+    flash[:error] = :invalid_password_reset_code_error.l
     redirect_to login_url
   end
   
@@ -46,38 +45,37 @@ class PasswordsController < ApplicationController
       render :action => 'new'
       return
     end
+
     if params[:password].blank?
-      flash[:error] = "Password field cannot be blank."
+      flash[:error] = :password_blank_error.l
       render :action => 'edit', :id => params[:id]
       return
     end
+    
     @user = User.find_by_password_reset_code(params[:id]) if params[:id]
+
     raise if @user.nil?
     return if @user unless params[:password]
+
     if (params[:password] == params[:password_confirmation])
-      #Uncomment and comment lines with @user to have the user logged in after reset - not recommended
-      #self.current_user = @user #for the next two lines to work
-      #current_user.password_confirmation = params[:password_confirmation]
-      #current_user.password = params[:password]
-      #@user.reset_password
-      #flash[:notice] = current_user.save ? "Password reset" : "Password not reset"
       @user.password_confirmation = params[:password_confirmation]
       @user.password = params[:password]
       @user.reset_password 
       if @user.save
-        flash[:notice] = "Password reset."
+        flash[:notice] = :password_reset_notice.l
       else
-        flash[:error]  = "Password could not be reset because it was invalid."
+        flash[:error]  = :invalid_password_reset_error.l
       end
     else
-      flash[:error] = "Password and confirmation are not the same.  Please enter them again."
+      flash[:error] = :password_and_confirmation_are_different_error.l
       render :action => 'edit', :id => params[:id]
       return
-    end  
+    end
+
     redirect_to login_path
   rescue
     logger.error "Invalid Reset Code entered"
-    flash[:error] = "Sorry - That is an invalid password reset code. Please check your code and try again. (Perhaps your email client inserted a carriage return?)"
+    flash[:error] = :invalid_password_reset_code_error.l
     redirect_to login_url
   end
 end
