@@ -84,6 +84,23 @@ data_entry_current_location: Main Menu
 #   show
 help_missing_error: Sorry, no help could be found.
 
+# controllers/passwords_controller
+#   new
+new_page_title: Password/Username Recovery
+#   create
+password_reset_link_sent_notice: A password reset link has been sent to your email address.
+user_not_found_error: Could not find a user with that email address.
+#   edit
+invalid_password_reset_code_error: -|
+  Sorry - That is an invalid password reset code. Please check your code and try again. 
+  (Perhaps your email client inserted a carriage return?)
+#   update
+password_blank_error: Password field cannot be blank.
+password_reset_notice: Password reset.
+invalid_password_reset_error: Password could not be reset because it was invalid.
+password_and_confirmation_are_different_error: Password and confirmation are not the same.  Please enter them again.
+# + invalid_password_reset_code_error
+
 # controllers/sessions_controller
 #   new
 login_page_title: Login
