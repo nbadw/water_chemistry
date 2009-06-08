@@ -147,6 +147,18 @@ account_disabled: Your account has been disabled.
 #   successful_login
 login_notice: Logged in successfully
 
+# controller/site_measurement_controller
+#   config
+site_measurements_label: Site Measurements
+site_measurements_create_label: Add New Site Measurement
+site_measurements_o_and_m_label: Parameter Measured
+site_measurements_group_label: Group
+site_measurements_instrument_label: Instrument Used
+site_measurements_unit_of_measure_label: Unit of Measure
+site_measurements_measurement_label: Measurement
+site_measurements_bank_label: Bank
+
+
 # lib/authenticated_system
 #   access_denied
 access_denied_error: You are not logged in yet.
