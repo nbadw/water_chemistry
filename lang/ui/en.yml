@@ -158,6 +158,25 @@ site_measurements_unit_of_measure_label: Unit of Measure
 site_measurements_measurement_label: Measurement
 site_measurements_bank_label: Bank
 
+# controller/users_controller
+#   create
+new_account_notice: Thanks for signing up! Please check your email to activate your account before logging in.
+create_account_error: There was a problem creating your account.
+#   page_title
+users_page_title: NB Aquatic Data Warehouse - {location}
+#   current_location
+signup_location: Signup
+profile_location: Edit Profile
+#   update
+user_profile_updated_notice: User profile updated successfully.
+return_to_application: Click here to return to application.
+update_profile_error: Profile changes could not be saved.
+#   destroy
+user_account_disabled_notice: User account has been disabled.
+user_account_could_not_be_disabled_error: There was a problem disabling this user account.
+#   enable
+user_account_enabled_notice: User account has been enabled.
+user_account_could_not_be_enabled_error: There was a problem enabling this user account.
 
 # lib/authenticated_system
 #   access_denied

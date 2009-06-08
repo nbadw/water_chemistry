@@ -39,23 +39,22 @@ class UsersController < ApplicationController
     @user.agency = @agency if @agency
 
     @user.save!
-    flash[:notice] = "Thanks for signing up! Please check your email to activate your account before logging in."
+    flash[:notice] = :new_account_notice.l
     redirect_to login_path    
   rescue ActiveRecord::RecordInvalid => exc
     logger.error exc.message
-    flash[:error] = "There was a problem creating your account."
+    flash[:error] = :create_account_error.l
     render :action => 'new'
   end
   
   def page_title
-    "NB Aquatic Data Warehouse - #{current_location}"
+    :users_page_title.l_with_args({ :location => current_location })
   end
   
   def current_location
     case action_name.to_sym
-    when :new    then 'Signup'
-    when :create then 'Signup'
-    when :edit   then 'Edit Profile'
+    when :new, :create then :signup_location.l
+    when :edit         then :profile_location.l
     else action_name
     end
   end
@@ -89,9 +88,9 @@ class UsersController < ApplicationController
     end
             
     if @user.update_attributes(attr_diff)
-      flash[:notice] = 'User profile updated successfully. <a href="' + session[:previous_location] + '">Click here to return to application.</a>'
+      flash[:notice] = "#{:user_profile_updated_notice.l} <a href=\"#{session[:previous_location]}\">#{:return_to_application.l}</a>"
     else
-      flash[:error]  = "Profile changes could not be saved."
+      flash[:error]  = :update_profile_error.l
     end
     render :layout => 'application', :action => 'edit'
   end
@@ -99,9 +98,9 @@ class UsersController < ApplicationController
   def destroy
     @user = User.find(params[:id])
     if @user.update_attribute(:enabled, false)
-      flash[:notice] = "User disabled"
+      flash[:notice] = :user_account_disabled_notice.l
     else
-      flash[:error] = "There was a problem disabling this user."
+      flash[:error] = :user_account_could_not_be_disabled_error.l
     end
     redirect_to :action => 'index'
   end
@@ -109,9 +108,9 @@ class UsersController < ApplicationController
   def enable
     @user = User.find(params[:id])
     if @user.update_attribute(:enabled, true)
-      flash[:notice] = "User enabled"
+      flash[:notice] = :user_account_enabled_notice.l
     else
-      flash[:error] = "There was a problem enabling this user."
+      flash[:error] = :user_account_could_not_be_enabled_error.l
     end
     redirect_to :action => 'index'
   end
