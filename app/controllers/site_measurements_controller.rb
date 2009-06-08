@@ -4,20 +4,26 @@ class SiteMeasurementsController < ApplicationController
   before_filter :find_measurements, :only => [:new, :create, :edit, :update]  
   
   active_scaffold do |config|
-    config.label = "Site Measurements"
     config.actions = [:list, :create, :update, :delete]
     
-    config.columns = [:aquatic_activity_event_id, :o_and_m, :group, :instrument, :unit_of_measure, :measurement, :bank]
-    config.list.columns = [:o_and_m, :group, :measurement, :instrument, :bank]    
+    config.columns        = [:aquatic_activity_event_id, :o_and_m, :group, :instrument, :unit_of_measure, :measurement, :bank]
+    config.list.columns   = [:o_and_m, :group, :measurement, :instrument, :bank]
     config.create.columns = [:o_and_m, :instrument, :unit_of_measure, :measurement, :bank]
     config.update.columns = [:instrument, :unit_of_measure, :measurement, :bank]
     
-    config.columns[:aquatic_activity_event_id].search_sql = "#{SiteMeasurement.table_name}.#{SiteMeasurement.column_for_attribute(:aquatic_activity_id).name}"
-    
-    config.columns[:o_and_m].label = "Parameter Measured"
-    config.columns[:instrument].label = "Instrument Used"
-    config.create.label = 'Add New Site Measurement'
-    
+    # i18n labels
+    config.label                           = :site_measurements_label.l
+    config.create.label                    = :site_measurements_create_label.l
+    config.columns[:o_and_m].label         = :site_measurements_o_and_m_label.l
+    config.columns[:group].label           = :site_measurements_group_label.l
+    config.columns[:instrument].label      = :site_measurements_instrument_label.l
+    config.columns[:unit_of_measure].label = :site_measurements_unit_of_measure_label.l
+    config.columns[:measurement].label     = :site_measurements_measurement_label.l
+    config.columns[:bank].label            = :site_measurements_bank_label.l
+
+    config.columns[:aquatic_activity_event_id].search_sql =
+      "#{SiteMeasurement.table_name}.#{SiteMeasurement.column_for_attribute(:aquatic_activity_id).name}"
+
     config.create.persistent = true
     
     config.columns[:group].sort = { :sql => "#{Measurement.table_name}.#{Measurement.column_for_attribute(:oand_m_group).name}" }
