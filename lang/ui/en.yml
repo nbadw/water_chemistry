@@ -178,6 +178,14 @@ user_account_could_not_be_disabled_error: There was a problem disabling this use
 user_account_enabled_notice: User account has been enabled.
 user_account_could_not_be_enabled_error: There was a problem enabling this user account.
 
+# controller/water_chemistry_sampling_controller
+#   current_location
+water_chemistry_sampling_current_location: Water Chemistry Sampling
+#   previous_location
+water_chemistry_sampling_previous_location: Back to Data Collection Sites
+#   report
+report_filename: water_chemistry_sampling_report.csv
+
 # lib/authenticated_system
 #   access_denied
 access_denied_error: You are not logged in yet.
