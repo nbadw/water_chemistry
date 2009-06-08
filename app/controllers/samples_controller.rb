@@ -3,33 +3,34 @@ class SamplesController < ApplicationController
   
   active_scaffold :sample do |config|
     # base config
-    config.label = "Samples"
     config.actions.exclude :search
     
-    config.columns = [:id, :aquatic_activity_id, :agency_sample_no, :sample_collection_method, :sample_depth_m, :water_source_type, :analyzed_by, :lab_no, :sample_results]
-    config.list.columns = [:id, :agency_sample_no, :sample_collection_method, :sample_depth_m, :water_source_type, :analyzed_by, :lab_no]
-    config.show.columns = [:id, :agency_sample_no, :sample_collection_method, :sample_depth_m, :water_source_type, :analyzed_by, :lab_no]    
-    [:create, :update].each do |action|
-      config.send(action).columns = [:agency_sample_no, :sample_collection_method, :sample_depth_m, :water_source_type, :analyzed_by, :lab_no]       
-    end    
+    config.columns        = [:id, :aquatic_activity_id, :agency_sample_no, :sample_collection_method, :sample_depth_m, :water_source_type, :analyzed_by, :lab_no, :sample_results]
+    config.list.columns   = [:id, :agency_sample_no, :sample_collection_method, :sample_depth_m, :water_source_type, :analyzed_by, :lab_no]
+    config.show.columns   = [:id, :agency_sample_no, :sample_collection_method, :sample_depth_m, :water_source_type, :analyzed_by, :lab_no]
+    config.create.columns = [:agency_sample_no, :sample_collection_method, :sample_depth_m, :water_source_type, :analyzed_by, :lab_no]
+    config.update.columns = [:agency_sample_no, :sample_collection_method, :sample_depth_m, :water_source_type, :analyzed_by, :lab_no]
 
-    # labels
-    config.columns[:id].label = "ADW Sample ID"
-    config.columns[:sample_depth_m].label = "Sample Depth (m)"
-    config.columns[:sample_results].label = "Parameters"
-    config.columns[:agency_sample_no].label = "Agency Sample No."
-    config.columns[:sample_collection_method].label = "Sample Collection Method"
-    config.columns[:water_source_type].label = "Water Source Type"
-    config.columns[:analyzed_by].label = "Analyzed By"
-    config.columns[:lab_no].label = "Lab No."
-    config.create.label = 'Add Sample'
-    config.update.label = 'Update Sample'
+    # i18n labels
+    config.label                                    = :samples_label.l
+    config.create.label                             = :samples_create_label.l
+    config.update.label                             = :samples_update_label.l
+    config.columns[:id].label                       = :samples_id_label.l
+    config.columns[:agency_sample_no].label         = :samples_agency_sample_no_label.l
+    config.columns[:sample_collection_method].label = :samples_sample_collection_method_label.l
+    config.columns[:sample_depth_m].label           = :samples_sample_depth_m_label.l
+    config.columns[:water_source_type].label        = :samples_water_source_type_label.l
+    config.columns[:analyzed_by].label              = :samples_analyzed_by_label.l
+    config.columns[:lab_no].label                   = :samples_lab_no_label.l
+    config.columns[:sample_results].label           = :samples_sample_results_label.l
     
     # descriptions
-    config.columns[:analyzed_by].description = 'For analytical lab samples, enter the name of the lab performing the analysis'
+    config.columns[:analyzed_by].description = :samples_analyzed_by_desc.l
 
-    config.columns[:aquatic_activity_id].search_sql = "#{Sample.table_name}.#{Sample.column_for_attribute(:aquatic_activity_id).name}"    
-    config.nested.add_link "Parameters", [:sample_results]
+    config.columns[:aquatic_activity_id].search_sql = 
+      "#{Sample.table_name}.#{Sample.column_for_attribute(:aquatic_activity_id).name}"
+
+    config.nested.add_link config.columns[:sample_results].label, [:sample_results]
   end
   
   protected
