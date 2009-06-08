@@ -4,19 +4,24 @@ class WaterMeasurementsController < ApplicationController
   before_filter :find_measurements, :only => [:new, :create, :edit, :update]  
   
   active_scaffold do |config|
-    config.label = "Water Measurements"
     config.actions = [:list, :create, :update, :delete]
     
-    config.columns = [:aquatic_activity_event_id, :o_and_m, :group, :instrument, :unit_of_measure, :measurement]
-    config.list.columns = [:o_and_m, :group, :measurement, :instrument]    
+    config.columns        = [:aquatic_activity_event_id, :o_and_m, :group, :instrument, :unit_of_measure, :measurement]
+    config.list.columns   = [:o_and_m, :group, :measurement, :instrument]
     config.create.columns = [:o_and_m, :instrument, :unit_of_measure, :measurement]
     config.update.columns = [:instrument, :unit_of_measure, :measurement]
     
-    config.columns[:aquatic_activity_event_id].search_sql = "#{WaterMeasurement.table_name}.#{WaterMeasurement.column_for_attribute(:aquatic_activity_id).name}"
-    
-    config.columns[:o_and_m].label = "Parameter Measured"
-    config.columns[:instrument].label = "Instrument Used"
-    config.create.label = 'Add New Water Measurement'
+    # i18n labels
+    config.label                           = :water_measurements_label.l
+    config.create.label                    = :water_measurements_create_label.l
+    config.columns[:o_and_m].label         = :water_measurements_o_and_m_label.l
+    config.columns[:group].label           = :water_measurements_group_label.l
+    config.columns[:instrument].label      = :water_measurements_instrument_label.l
+    config.columns[:unit_of_measure].label = :water_measurements_unit_of_measure_label.l
+    config.columns[:measurement].label     = :water_measurements_measurement_label.l
+
+    config.columns[:aquatic_activity_event_id].search_sql =
+      "#{WaterMeasurement.table_name}.#{WaterMeasurement.column_for_attribute(:aquatic_activity_id).name}"
     
     config.create.persistent = true
     

@@ -186,6 +186,16 @@ water_chemistry_sampling_previous_location: Back to Data Collection Sites
 #   report
 report_filename: water_chemistry_sampling_report.csv
 
+# controllers/water_measurements_controller
+#   config
+water_measurements_label: Water Measurements
+water_measurements_create_label: Add New Water Measurement
+water_measurements_o_and_m_label: Parameter Measured
+water_measurements_group_label: Group
+water_measurements_instrument_label: Instrument Used
+water_measurements_unit_of_measure_label: Unit of Measure
+water_measurements_measurement_label: Measurement
+
 # lib/authenticated_system
 #   access_denied
 access_denied_error: You are not logged in yet.
