@@ -120,6 +120,21 @@ recorded_observations_group_label: Group
 recorded_observations_value_observed_label: Observed Value
 recorded_observations_fish_passage_obstruction_ind_label: Fish Passage Blocked?
 
+# controllers/samples_controller
+#   config
+samples_label: Samples
+samples_create_label: Add Sample
+samples_update_label: Update Sample
+samples_id_label: ADW Sample ID
+samples_agency_sample_no_label: Agency Sample No.
+samples_sample_collection_method_label: Sample Collection Method
+samples_sample_depth_m_label: Sample Depth (m)
+samples_water_source_type_label: Water Source Type
+samples_analyzed_by_label: Analyzed By
+samples_lab_no_label: Lab No.
+samples_sample_results_label: Parameters
+samples_analyzed_by_desc: For analytical lab samples, enter the name of the lab performing the analysis
+
 # controllers/sessions_controller
 #   new
 login_page_title: Login
