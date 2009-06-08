@@ -110,6 +110,16 @@ water_measurement_measurement_label: Value
 water_measurement_qualifier_cd_label: Qualifier
 water_measurement_comment_label: Comment
 
+# controllers/recorded_observations_controller
+#   config
+recorded_observations_label: Observations
+recorded_observations_create_label: Add an Observation
+recorded_observations_aquatic_activity_event_id_label: Aquatic Activity Event ID
+recorded_observations_observation_label: Observation
+recorded_observations_group_label: Group
+recorded_observations_value_observed_label: Observed Value
+recorded_observations_fish_passage_obstruction_ind_label: Fish Passage Blocked?
+
 # controllers/sessions_controller
 #   new
 login_page_title: Login

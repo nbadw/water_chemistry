@@ -4,7 +4,6 @@ class RecordedObservationsController < ApplicationController
   before_filter :find_observations, :only => [:new, :create, :edit, :update]
   
   active_scaffold :recorded_observation do |config|
-    config.label = "Observations"
     config.actions = [:list, :create, :update, :delete]
     
     config.columns = [:aquatic_activity_event_id, :observation, :group, :value_observed, :fish_passage_obstruction_ind]
@@ -12,15 +11,19 @@ class RecordedObservationsController < ApplicationController
     config.create.columns = [:observation]    
     config.update.columns = [:observation]
     
-    config.create.label = "Add an Observation"
-    config.columns[:group].label = "Group"
-    config.columns[:value_observed].label = "Observed Value"
-    config.columns[:fish_passage_obstruction_ind].label = "Fish Passage Blocked?" 
+    # i18n labels
+    config.label                                        = :recorded_observations_label.l
+    config.create.label                                 = :recorded_observations_create_label.l
+    config.columns[:aquatic_activity_event_id].label    = :recorded_observations_aquatic_activity_event_id_label.l
+    config.columns[:observation].label                  = :recorded_observations_observation_label.l
+    config.columns[:group].label                        = :recorded_observations_group_label.l
+    config.columns[:value_observed].label               = :recorded_observations_value_observed_label.l
+    config.columns[:fish_passage_obstruction_ind].label = :recorded_observations_fish_passage_obstruction_ind_label.l
+  
+    config.columns[:aquatic_activity_event_id].search_sql =
+      "#{RecordedObservation.table_name}.#{RecordedObservation.column_for_attribute(:aquatic_activity_id).name}"
 
-    config.columns[:aquatic_activity_event_id].search_sql = "#{RecordedObservation.table_name}.#{RecordedObservation.column_for_attribute(:aquatic_activity_id).name}"  
-
-    config.columns[:group].sort = { :sql => "#{Observation.table_name}.#{Observation.column_for_attribute(:oand_m_group).name}" }
-    
+    config.columns[:group].sort = { :sql => "#{Observation.table_name}.#{Observation.column_for_attribute(:oand_m_group).name}" }    
     config.list.sorting =[{ :group => :asc }]
         
     config.create.persistent = true
