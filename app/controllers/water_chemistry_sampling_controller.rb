@@ -4,11 +4,11 @@ class WaterChemistrySamplingController < ApplicationController
   layout 'application'
   
   def current_location
-    'Water Chemistry Sampling'
+    :water_chemistry_sampling_current_location.l
   end
   
   def previous_location    
-    'Back to Data Collection Sites'
+    :water_chemistry_sampling_previous_location.l
   end
 
   def uses_gmap?
@@ -41,7 +41,7 @@ class WaterChemistrySamplingController < ApplicationController
       wants.html { @report_html =  Reports::WaterChemistrySampling.render_html(options) }
       wants.csv do        
         csv = Reports::WaterChemistrySampling.render_csv(options)  
-        send_data csv, :type => "text/csv", :filename => "water_chemistry_sampling_report.csv" 
+        send_data csv, :type => "text/csv", :filename => :report_filename.l("water_chemistry_sampling_report.csv")
       end
     end 
   end
