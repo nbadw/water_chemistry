@@ -21,8 +21,8 @@ module ApplicationHelper
     url_options  = { :controller_name => controller.controller_name, :action_name => controller.action_name }
     html_options = { :id => 'help', :class => 'tab' }
     '<li class="help">' + 
-      link_to('Help', show_help_path(url_options), html_options) +
-      '</li>'
+      link_to(:help_tab_label.l, show_help_path(url_options), html_options) +
+    '</li>'
   end  
   
   def add_tab(label, options, html_options = {})

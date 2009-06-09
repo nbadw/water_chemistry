@@ -40,21 +40,29 @@ module RecordedMeasurementsHelper
   def check_substrate_accounted_for
     substrate_accounted_for = SiteMeasurement.calculate_substrate_accounted_for aquatic_activity_event_id 
     if substrate_accounted_for > 0 && substrate_accounted_for < 100
-      msg = "There is currently #{100 - substrate_accounted_for}% unaccounted for."
+      msg = :substrate_accounted_for_under_limit_msg.l_with_args({ :percent => 100 - substrate_accounted_for })
     elsif substrate_accounted_for > 100
-      msg = "You are currently #{substrate_accounted_for - 100}% over that limit."
-    end    
-    "All #{Measurement.substrate_measurements_group} measurements must add up to 100%. #{msg}" if msg
+      msg = :substrate_accounted_for_over_limit_msg.l_with_args({ :percent => substrate_accounted_for - 100 })
+    end
+
+    # return a message if over/under substrate accounted for limit
+    if msg
+      "#{:substrate_accounted_for_warning.l_with_args({ :group_name => Measurement.substrate_measurements_group })} #{msg}"
+    end
   end
   
   def check_stream_accounted_for
     stream_accounted_for = SiteMeasurement.calculate_stream_accounted_for aquatic_activity_event_id
     if stream_accounted_for > 0 && stream_accounted_for < 100
-      msg = "There is currently #{100 - stream_accounted_for}% unaccounted for."
+      msg = :stream_accounted_for_under_limit_msg.l_with_args({ :percent => 100 - stream_accounted_for })
     elsif stream_accounted_for > 100
-      msg = "You are currently #{stream_accounted_for - 100}% over that limit."
-    end    
-    "All #{Measurement.stream_measurements_group} measurements must add up to 100%. #{msg}" if msg
+      msg = :stream_accounted_for_over_limit_msg.l_with_args({ :percent => stream_accounted_for - 100 })
+    end
+
+    # return a message if over/under stream accounted for limit
+    if msg
+      "#{:stream_accounted_for_warning.l_with_args({ :group_name => Measurement.stream_measurements_group })} #{msg}"
+    end
   end
   
   def check_bank_measurements
@@ -63,7 +71,7 @@ module RecordedMeasurementsHelper
   
   def check_bank_measurement(name, value)
     if value > 0 && value < 100
-      "'Left' and 'Right' bank measurements for #{name} do not add up to 100%.  There is #{100 - value}% of bank unaccounted for."
+      :bank_measurements_do_not_add_up_warning.l_with_args({ :name => name, :percent => 100 - value })
     end
   end
     
