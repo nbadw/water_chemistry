@@ -75,7 +75,7 @@ module DataCollectionSitesHelper
       :aquatic_site_id => aquatic_site.id, 
       :controller => 'aquatic_activity_event',
       :aquatic_activity_id => water_chemistry_sampling.id, 
-      :label => "Water Chemistry Sampling for Site ##{aquatic_site.id} - #{aquatic_site.name}"
+      :label => :water_chemistry_sampling_link_text.l_with_args({ :aquatic_site_id => aquatic_site.id, :aquatic_site_name => aquatic_site.name })
     }
     
     html_options = { 
@@ -106,12 +106,12 @@ module DataCollectionSitesHelper
         }
       )  
     else
-      '<a id="' + area_of_interest_toggle_link_id + '" class="disabled">Filter by Area of Interest</a>'
+      "<a id=\"#{area_of_interest_toggle_link_id}\" class=\"disabled\">#{:aoi_disabled_text.l}</a>"
     end
   end
   
   def area_of_interest_toggle_link_text
-    session[:filter_area_of_interest] ? 'Show All Sites' : 'Filter by Area of Interest'
+    session[:filter_area_of_interest] ? :aoi_enabled_text.l : :aoi_disabled_text.l
   end
     
   def area_of_interest_toggle_link_id

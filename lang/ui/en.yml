@@ -196,6 +196,39 @@ water_measurements_instrument_label: Instrument Used
 water_measurements_unit_of_measure_label: Unit of Measure
 water_measurements_measurement_label: Measurement
 
+# helpers/application_helper
+#   add_help_tab
+help_tab_label: Help
+
+# helpers/aquatic_activity_event_helper
+#   agency_site_id
+agency_site_id_text: "Agency Site ID: {agency_site_id}"
+
+# helpers/data_collection_sites_helper
+#   water_chemistry_sampling_link
+water_chemistry_sampling_link_text: Water Chemistry Sampling for Site #{aquatic_site_id} - {aquatic_site_name}
+#   area_of_interest_toogle_link_id
+aoi_enabled_text: Show All Sites
+aoi_disabled_text: Filter by Area of Interest
+# + area_of_interest_toggle_link
+
+# helpers/recorded_measurements_helper
+#   check_substrate_accounted_for
+substrate_accounted_for_under_limit_msg: There is currently {percent}% unaccounted for.
+substrate_accounted_for_over_limit_msg: You are currently {percent}% over that limit.
+substrate_accounted_for_warning: All {group_name} measurements must add up to 100%.
+#   check_stream_accounted_for
+stream_accounted_for_under_limit_msg: There is currently {percent}% unaccounted for.
+stream_accounted_for_over_limit_msg: You are currently {percent}% over that limit.
+stream_accounted_for_warning: All {group_name} measurements must add up to 100%.
+#   check_bank_measurement
+bank_measurements_do_not_add_up_warning: "'Left' and 'Right' bank measurements for {name} do not add up to 100%.  There is {percent}% of bank unaccounted for."
+
+# helpers/recorded_observations_helper
+#   fish_passage_obstruction_ind_column
+fish_passage_obstructed_text: Yes
+fish_passage_not_obstructed_text: No
+
 # lib/authenticated_system
 #   access_denied
 access_denied_error: You are not logged in yet.

@@ -21,7 +21,8 @@ module AquaticActivityEventHelper
   
   def agency_site_id
     usage = controller.instance_variable_get(:@aquatic_site_usage)
-    "Agency Site ID: #{(usage && !usage.agency_site_id.to_s.blank?) ? usage.agency_site_id : '-'}"
+    agency_site_id = (usage && !usage.agency_site_id.to_s.blank?) ? usage.agency_site_id : '-'
+    :agency_site_id_text.l_with_args({ :agency_site_id => agency_site_id })
   end
   
   def agency_site_id_header_id

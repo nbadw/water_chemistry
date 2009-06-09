@@ -14,9 +14,9 @@ module RecordedObservationsHelper
   
   def fish_passage_obstruction_ind_column(record)
     if record.observation.fish_passage_ind
-      return record.fish_passage_obstruction_ind ? 'Yes' : 'No'
+      return record.fish_passage_obstruction_ind ? :fish_passage_obstructed_text.l : :fish_passage_not_obstructed_text.l
     end
-
+    # no indicator, then show as blank
     '-'
   end
   
