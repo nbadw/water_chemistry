@@ -30,8 +30,8 @@ class Measurement < OandM
     end
   end
   
-  has_and_belongs_to_many :instruments, :join_table => 'cdmeasureinstrument', :foreign_key => 'OandMCd', :association_foreign_key => 'InstrumentCd'
-  has_and_belongs_to_many :units_of_measure, :join_table => 'cdmeasureunit', :class_name => 'UnitOfMeasure', :foreign_key => 'OandMCd', :association_foreign_key => 'UnitofMeasureCd'
+  has_and_belongs_to_many :instruments, :join_table => 'cdMeasureInstrument', :foreign_key => 'OandMCd', :association_foreign_key => 'InstrumentCd'
+  has_and_belongs_to_many :units_of_measure, :join_table => 'cdMeasureUnit', :class_name => 'UnitOfMeasure', :foreign_key => 'OandMCd', :association_foreign_key => 'UnitofMeasureCd'
   
   def substrate_measurement?
     group.to_s == Measurement.substrate_measurements_group
