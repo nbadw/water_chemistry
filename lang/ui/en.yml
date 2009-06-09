@@ -214,13 +214,13 @@ aoi_disabled_text: Filter by Area of Interest
 
 # helpers/recorded_measurements_helper
 #   check_substrate_accounted_for
-substrate_accounted_for_under_limit_msg: There is currently {percent}% unaccounted for.
-substrate_accounted_for_over_limit_msg: You are currently {percent}% over that limit.
-substrate_accounted_for_warning: All {group_name} measurements must add up to 100%.
+percent_accounted_for_under_limit_msg: There is currently {percent}% unaccounted for.
+# + check_stream_accounted_for
+percent_accounted_for_over_limit_msg: You are currently {percent}% over that limit.
+# + check_stream_accounted_for
+substrate_accounted_for_warning: "All 'Substrate Type' measurements must add up to 100%."
 #   check_stream_accounted_for
-stream_accounted_for_under_limit_msg: There is currently {percent}% unaccounted for.
-stream_accounted_for_over_limit_msg: You are currently {percent}% over that limit.
-stream_accounted_for_warning: All {group_name} measurements must add up to 100%.
+stream_accounted_for_warning: "All 'Stream Type' measurements must add up to 100%."
 #   check_bank_measurement
 bank_measurements_do_not_add_up_warning: "'Left' and 'Right' bank measurements for {name} do not add up to 100%.  There is {percent}% of bank unaccounted for."
 
@@ -228,6 +228,33 @@ bank_measurements_do_not_add_up_warning: "'Left' and 'Right' bank measurements f
 #   fish_passage_obstruction_ind_column
 fish_passage_obstructed_text: Yes
 fish_passage_not_obstructed_text: No
+
+# models/aquatic_data_warehouse/aquatic_activity_event
+#   to_label
+aquatic_activity_event_to_label: Aquatic Activity #{id}
+
+# models/aquatic_data_warehouse/aquatic_site
+#   in_use?
+aquatic_site_in_use_error: Site is in use, record cannot be deleted
+
+# models/aquatic_data_warehouse/recorded_observation
+#   value_observed
+recorded_observation_not_set_read_error: Observation needs to be set before value observed can be read
+#   value_observed=
+recorded_observation_not_set_write_error: Observation needs to be set before value observed can be written
+#   to_label
+recorded_observation_to_label: "Observation '{name}'"
+
+# models/aquatic_data_warehouse/sample
+#   to_label
+sample_to_label: Sample #{id}
+
+# models/gis/location
+#   convert_to_gmap_location
+coordinate_conversion_service_unavailable: Sorry, the coordinate conversion service is not working.  Try again later.
+#   validate_coordinate_system
+coordinate_system_not_found_validation_msg: not found
+coordinate_in_bad_format_validation_msg: is in a bad format
 
 # lib/authenticated_system
 #   access_denied

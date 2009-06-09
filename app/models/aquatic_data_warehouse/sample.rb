@@ -26,7 +26,7 @@ class Sample < AquaticDataWarehouse::BaseTbl
   has_many   :sample_results, :class_name => 'WaterMeasurement', :foreign_key => 'SampleID'
   
   def to_label
-    "Sample ##{id}"
+    :sample_to_label.l_with_args({ :id => id })
   end
   
   named_scope :for_aquatic_activity_event, lambda { |id| { :conditions => ['AquaticActivityID = ?', id], :include => [:sample_results] } }  

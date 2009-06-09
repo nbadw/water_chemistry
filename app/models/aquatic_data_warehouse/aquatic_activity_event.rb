@@ -56,7 +56,7 @@ class AquaticActivityEvent < AquaticDataWarehouse::BaseTbl
   validates_presence_of  :aquatic_site, :aquatic_activity, :agency, :aquatic_activity_method, :start_date     
   
   def to_label
-    "Aquatic Activity ##{id}"
+    :aquatic_activity_event_to_label.l_with_args({ :id => id })
   end
 
   def start_date

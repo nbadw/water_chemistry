@@ -35,7 +35,7 @@ class Observation < OandM
   end
   
   def group
-    oand_m_group || 'Misc.'
+    oand_m_group || '---'
   end
   
   def self.water_level
