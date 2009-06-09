@@ -24,9 +24,9 @@ class AquaticActivityEventController < ApplicationController
     config.columns[:water_level].label             = :water_level_label.l
 
     # action link labels
-    config.create.label    = :aquatic_activity_event_create_label.l # 'Add Sampling Event'
-    config.update.label    = :aquatic_activity_event_update_label.l # 'Update Sampling Event'
-    config.show.link.label = :aquatic_activity_event_show_label.l # "Open"
+    config.create.label    = :aquatic_activity_event_create_label.l 
+    config.update.label    = :aquatic_activity_event_update_label.l 
+    config.show.link.label = :aquatic_activity_event_show_label.l 
 
     # descriptions
     config.columns[:aquatic_activity_method].description = :aquatic_activity_method_desc.l
