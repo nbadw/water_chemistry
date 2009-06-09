@@ -16,7 +16,9 @@ class RecordedChemicalsControllerTest < ActionController::TestCase
       end
       
       should "show a table of parameters" do
-        chemical = Measurement.spawn(:parameter => 'Test', :parameter_cd => 'T')        
+        chemical = Measurement.spawn
+        chemical.parameter = 'Test'
+        chemical.parameter_cd = 'T'
         recorded_chemical = WaterMeasurement.spawn
         recorded_chemical.stubs(:chemical).returns(chemical)        
         recorded_chemical.stubs(:measurement).returns(5.5)
