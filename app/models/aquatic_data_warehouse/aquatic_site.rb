@@ -55,7 +55,7 @@ class AquaticSite < AquaticDataWarehouse::BaseTbl
   validates_location    :location, :allow_blank => true 
   
   def in_use?
-    raise(AquaticSiteInUse, "Site is in use, record cannot be deleted") unless aquatic_site_usages.empty?
+    raise(AquaticSiteInUse, :aquatic_site_in_use_error.l('Site is in use, record cannot be deleted')) unless aquatic_site_usages.empty?
   end
   
   def attached_data_sets

@@ -28,17 +28,17 @@ class RecordedObservation < AquaticDataWarehouse::BaseTbl
   named_scope :for_aquatic_activity_event, lambda { |id| { :conditions => ['AquaticActivityID = ?', id], :include => :observation } }
   
   def value_observed
-    raise 'Observation needs to be set before value observed can be read' unless observation
+    raise :recorded_observation_not_set_read_error.l('Observation needs to be set before value observed can be read') unless observation
     read_attribute(value_observed_column)
   end
   
   def value_observed=(new_value)
-    raise 'Observation needs to be set before value observed can be written' unless observation
+    raise :recorded_observation_not_set_write_error.l('Observation needs to be set before value observed can be written') unless observation
     write_attribute(value_observed_column, new_value)
   end
   
   def to_label
-    "Observation '#{observation.name}'" if observation
+    :recorded_observation_to_label.l_with_args({ :name => observation.name }) if observation
   end
   
   private

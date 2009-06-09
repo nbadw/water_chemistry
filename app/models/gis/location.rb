@@ -26,9 +26,12 @@ class Location
       successful = Timeout::timeout(15) do
         response = Net::HTTP.get(URI.parse("#{service}?#{query_params}" ))
       end   
-      
-      raise 'Sorry, the coordinate conversion service is not working.  Try again later.' unless successful || !response.kind_of?(HTTPSuccess)
-            
+
+      unless successful || !response.kind_of?(HTTPSuccess)
+        error_msg = :coordinate_conversion_service_unavailable.l('Sorry, the coordinate conversion service is not working.  Try again later.')
+        raise error_msg
+      end
+                  
       json = response
       if json.match(/\{"x":(.*),"y":(.*)\}/)
         x, y = $1, $2
@@ -114,7 +117,7 @@ class Location
   
   def validate_coordinate_system
     unless coordinate_system_name.to_s.blank?
-      errors.add :coordinate_system, "not found" if coordinate_system.nil?
+      errors.add :coordinate_system, :coordinate_system_not_found_validation_msg.l('not found') if coordinate_system.nil?
     else
       errors.add_on_blank :coordinate_system
     end
@@ -123,44 +126,7 @@ class Location
   def validate_coordinate_format(attr)
     value = self.send(attr)
     unless decimal_format?(value) || decimal_degrees_format?(value) || degrees_minutes_seconds_format?(value)
-      errors.add attr, "is in a bad format"
+      errors.add attr, :coordinate_in_bad_format_validation_msg.l("is in a bad format")
     end
   end  
-  
-#        private double ParseDegreesMinutesSeconds(string input)
-#        {
-#            Match match = Regex.Match(input, DEGREES_MINUTES_SECONDS_REGEXP);
-#            int degrees      = int.Parse(match.Groups[1].Value);
-#            int minutes      = int.Parse(match.Groups[2].Value);
-#            double seconds   = double.Parse(match.Groups[3].Value);
-#            string direction = match.Groups[4].Value;
-#
-#            if (degrees < 0 && !String.IsNullOrEmpty(direction))
-#            {
-#                throw new Exception("Value can't have both a negative degree value and a NSEW specifier");
-#            }
-#
-#            double decimalDegrees = Math.Abs(degrees) + (minutes * 60 + seconds) / 3600;
-#            if (degrees < 0)
-#            {
-#                decimalDegrees = decimalDegrees * -1;
-#            }
-#            else if (!String.IsNullOrEmpty(direction))
-#            {
-#                if ("S".Equals(direction) || "W".Equals(direction))
-#                {
-#                    decimalDegrees = decimalDegrees * -1;
-#                }
-#            }
-#            return decimalDegrees;
-#        }
-#
-#        private bool IsDegreesDecimalMinutes(string input)
-#        {
-#            // possible formats
-#            // # 40.446195N 79.948862W
-#            // # 40.446195, -79.948862
-#            // # 40° 26.7717, -79° 56.93172
-#            return false;
-#        }
 end
