@@ -73,14 +73,12 @@ class SiteMeasurement < AquaticDataWarehouse::BaseTbl
     end
             
     def remove_bank_measurements_with_no_complement(site_measurements)
-      recorded_measurements = site_measurements.collect{ |site_measurement| site_measurement.o_and_m }
       recorded_bank_measurements = left_bank_measurements(site_measurements) & right_bank_measurements(site_measurements)
-      recorded_measurements.collect do |measurement|
-        if measurement.bank_measurement?
-          measurement = recorded_bank_measurements.include?(measurement) ? measurement : nil
-        end
-        measurement
-      end.compact
+      site_measurements.delete_if do |site_measurement|
+        measurement = site_measurement.o_and_m
+        measurement.bank_measurement? && !recorded_bank_measurements.include?(measurement)
+      end
+      site_measurements
     end
   
     def left_bank_measurements(site_measurements)
