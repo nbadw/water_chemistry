@@ -40,28 +40,28 @@ module RecordedMeasurementsHelper
   def check_substrate_accounted_for
     substrate_accounted_for = SiteMeasurement.calculate_substrate_accounted_for aquatic_activity_event_id 
     if substrate_accounted_for > 0 && substrate_accounted_for < 100
-      msg = :substrate_accounted_for_under_limit_msg.l_with_args({ :percent => 100 - substrate_accounted_for })
+      msg = :percent_accounted_for_under_limit_msg.l_with_args({ :percent => 100 - substrate_accounted_for })
     elsif substrate_accounted_for > 100
-      msg = :substrate_accounted_for_over_limit_msg.l_with_args({ :percent => substrate_accounted_for - 100 })
+      msg = :percent_accounted_for_over_limit_msg.l_with_args({ :percent => substrate_accounted_for - 100 })
     end
 
     # return a message if over/under substrate accounted for limit
     if msg
-      "#{:substrate_accounted_for_warning.l_with_args({ :group_name => Measurement.substrate_measurements_group })} #{msg}"
+      "#{:substrate_accounted_for_warning.l} #{msg}"
     end
   end
   
   def check_stream_accounted_for
     stream_accounted_for = SiteMeasurement.calculate_stream_accounted_for aquatic_activity_event_id
     if stream_accounted_for > 0 && stream_accounted_for < 100
-      msg = :stream_accounted_for_under_limit_msg.l_with_args({ :percent => 100 - stream_accounted_for })
+      msg = :percent_accounted_for_under_limit_msg.l_with_args({ :percent => 100 - stream_accounted_for })
     elsif stream_accounted_for > 100
-      msg = :stream_accounted_for_over_limit_msg.l_with_args({ :percent => stream_accounted_for - 100 })
+      msg = :percent_accounted_for_over_limit_msg.l_with_args({ :percent => stream_accounted_for - 100 })
     end
 
     # return a message if over/under stream accounted for limit
     if msg
-      "#{:stream_accounted_for_warning.l_with_args({ :group_name => Measurement.stream_measurements_group })} #{msg}"
+      "#{:stream_accounted_for_warning.l} #{msg}"
     end
   end
   
