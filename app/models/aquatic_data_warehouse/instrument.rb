@@ -14,7 +14,7 @@
 
 class Instrument < AquaticDataWarehouse::BaseCd
   set_primary_key 'InstrumentCd'
-  has_and_belongs_to_many :measurements, :join_table => 'cdmeasureinstrument', :foreign_key => 'InstrumentCd', :association_foreign_key => 'OandMCd'
+  has_and_belongs_to_many :measurements, :join_table => 'cdMeasureInstrument', :foreign_key => 'InstrumentCd', :association_foreign_key => 'OandMCd'
   
   def name
     instrument.to_s
