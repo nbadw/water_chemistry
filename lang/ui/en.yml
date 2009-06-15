@@ -358,3 +358,7 @@ gmap_max_content_agency_label: Agency
 gmap_max_content_weather_conditions_label: Weather Conditions
 gmap_max_content_water_level_label: Water Level
 gmap_max_content_open_label: Open
+
+# views/data_entry/_navigation_tabs.html
+browse_tab: Browse
+explore_tab: Explore
