@@ -1,5 +1,5 @@
 <div id="reset-password" class="active-scaffold">
-  <h1 style="margin-bottom: 10px;">Password Reset</h1>
+  <h1 style="margin-bottom: 10px;"><%= :password_reset_form_label.l %></h1>
   
   <% if flash[:error] %>
     <div class="error">     
@@ -18,21 +18,21 @@
     <ol class="form">
       <li class="form-element">
         <dl>
-          <dt><label>New Password</label></dt>
+          <dt><label><%= :password_reset_form_new_password_field.l %></label></dt>
           <dd><%= password_field_tag :password, nil, :class => 'text-input' %></dd>
         </dl>
       </li>
       <li class="form-element">
         <dl>
-          <dt><label>Confirm New Password</label></dt>
+          <dt><label><%= :password_reset_form_password_confirmation_field.l %></label></dt>
           <dd><%= password_field_tag :password_confirmation, nil, :class => 'text-input' %></dd>
         </dl>
       </li>
     </ol>
   
     <p class="form-footer">  
-      <%= submit_tag 'Reset Your Password', :class => 'submit' %>
-      <%= link_to 'Cancel', login_url %>
+      <%= submit_tag :password_reset_form_submit.l, :class => 'submit' %>
+      <%= link_to :password_reset_form_cancel.l, login_url %>
     </p>
   <% end %>
 </div>
