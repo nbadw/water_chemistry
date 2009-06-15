@@ -6,25 +6,25 @@ waterbody = aquatic_site.waterbody
 <div class="site-details">
   <table>
     <tr>
-      <td class="field">Aquatic Site ID:</td>
+      <td class="field"><%= :aquatic_site_id_report_label.l %>:</td>
       <td><%= aquatic_site.id %></td>
-      <td class="field">Waterbody Name:</td>
+      <td class="field"><%= :waterbody_name_report_label.l %>:</td>
       <td><%= waterbody.water_body_name %></td>
     </tr>
     <tr>
-      <td class="field">Waterbody ID:</td>
+      <td class="field"><%= :waterbody_id_report_label.l %>:</td>
       <td><%= waterbody.id %></td>
-      <td class="field">Drainage Code:</td>
+      <td class="field"><%= :drainage_code_report_label.l %>:</td>
       <td><%= waterbody.drainage_cd %></td>
     </tr>
     <tr>
-      <td class="field">Site Description:</td>
+      <td class="field"><%= :site_description_report_label.l %>:</td>
       <td colspan="3"><%= aquatic_site.aquatic_site_desc %></td>
     </tr>
     <tr>
-      <td class="field">Date Sampled:</td>
+      <td class="field"><%= :date_sampled_report_label.l %><span class="date-format"> (yyyy/mm/dd)</span>:</td>
       <td><%= @aquatic_activity_event.start_date %></td>
-      <td class="field">Agency:</td>
+      <td class="field"><%= :agency_report_label.l %>:</td>
       <td><%= agency.code %></td>
     </tr>
   </table>

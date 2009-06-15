@@ -1,21 +1,21 @@
 <div class="sample-details">
   <table>
     <tr>
-      <td class="field">ADW Sample ID: </td>
+      <td class="field"><%= :adw_sample_id_report_label.l %>: </td>
       <td><%= @sample.id %></td>
-      <td class="field">Sample Depth (m): </td>
+      <td class="field"><%= :sample_depth_report_label.l %>: </td>
       <td><%= @sample.sample_depth_m %></td>
     </tr>
     <tr>
-      <td class="field">Agency Sample No.: </td>
+      <td class="field"><%= :agency_sample_no_report_label.l %>: </td>
       <td><%= @sample.agency_sample_no %></td>      
-      <td class="field">Analyzed By: </td>
+      <td class="field"><%= :analyzed_by_report_label.l %>: </td>
       <td><%= @sample.analyzed_by %></td>
     </tr>
     <tr>
-      <td class="field">Collection Method:</td>
+      <td class="field"><%= :collection_method_report_label.l %>:</td>
       <td><%= @sample.sample_collection_method.name if @sample.sample_collection_method %></td>
-      <td class="field">Lab No.:</td>
+      <td class="field"><%= :lab_no_report_label.l %>:</td>
       <td><%= @sample.lab_no %></td>
     </tr>
   </table>
