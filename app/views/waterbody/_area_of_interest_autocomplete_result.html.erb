@@ -3,7 +3,7 @@
   <li class="waterbody <%= index % 2 == 0 ? 'even' : 'odd' %>">
     <div><span class="name"><%=h waterbody.water_body_name %></span></div>
     <div><span class="watersheds"><%=h waterbody.drainage_unit ? waterbody.drainage_unit.explain_drainage_code : '-' -%></span></div>
-    <div>Drainage Code: <span class="drainage-code"><%=h waterbody.drainage_unit ? waterbody.drainage_unit.id : '-' -%></span></div>
+    <div><%= :lookup_result_drainage_code_label.l %>: <span class="drainage-code"><%=h waterbody.drainage_unit ? waterbody.drainage_unit.id : '-' -%></span></div>
     <div class="waterbody-id" style="display: none"><%= waterbody.id %></div>
   </li>
 <% end -%>
