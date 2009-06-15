@@ -1,8 +1,8 @@
 <div class="aquatic-site-info-window">
-  <h3><%= result['aquatic_site_name'] %> </h3>
+  <h3><%= result['aquatic_site_name'] %></h3>
   <p><%= result['aquatic_site_desc'] %></p>
-  <p>Waterbody: <%= result['waterbody_name'] %></p>
-  <p>Waterbody ID: <%= result['waterbody_id'] %></p>
-  <p>Drainage Code: <%= result['drainage_code'] %></p>
-  <p><%= result['aquatic_activity_event_count'] %> water chemistry sampling events located</p>
+  <p><%= :info_window_waterbody_name_label.l -%>: <%= result['waterbody_name'] %></p>
+  <p><%= :info_window_waterbody_id_label.l -%>: <%= result['waterbody_id'] %></p>
+  <p><%= :info_window_drainage_code_label.l -%>: <%= result['drainage_code'] %></p>
+  <p><%= :info_window_results_found_text.l_with_args({:count => result['aquatic_activity_event_count'] }) -%></p>
 </div>

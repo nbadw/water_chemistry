@@ -10,7 +10,7 @@ html_options = @record.coordinate_source.nil? ? { :disabled => true } : {}
 
 <dl>
   <dt>
-    <label for="<%= "record_#{column.name}" %>">Coordinate System</label>
+    <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
   </dt>
   <dd>
     <%= select :record, column.name, choices, select_options, html_options %>
