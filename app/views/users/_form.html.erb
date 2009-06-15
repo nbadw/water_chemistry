@@ -1,43 +1,43 @@
-<h3>Account Details</h3>
+<h3><%= :users_form_label.l %></h3>
 <ol>
   <li class="form-element">
     <dl>
-      <dt><label for="user_name">Your Name</label></dt>
+      <dt><label for="user_name"><%= :users_form_name_field.l %></label></dt>
       <dd><%= form.text_field :name, :class => 'text-input' %></dd>
     </dl>
   </li>
   <li class="form-element">
     <dl>
-      <dt><label for="user_login">Username</label></dt>
+      <dt><label for="user_login"><%= :users_form_login_field.l %></label></dt>
       <dd><%= form.text_field :login, :class => 'text-input' %></dd>
     </dl>
   </li>
   <li class="form-element">
     <dl>
-      <dt><label for="user_email">Email</label></dt>
+      <dt><label for="user_email"><%= :users_form_email_field.l %></label></dt>
       <dd><%= form.text_field :email, :class => 'text-input' %></dd>
     </dl>
   </li>
   <li class="form-element">
     <dl>
-      <dt><label for="user_password"><%= action == :new ? 'Password' : 'Change Password' %></label></dt>
+      <dt><label for="user_password"><%= action == :new ? :new_users_form_password_field.l : :edit_users_form_password_field.l %></label></dt>
       <dd><%= form.password_field :password, :class => 'text-input' %></dd>
     </dl>
   </li>
   <li class="form-element">
     <dl>
-      <dt><label for="user_password_confirmation"><%= action == :new ? 'Confirm Password' : 'Confirm New Password' %></label></dt>
+      <dt><label for="user_password_confirmation"><%= action == :new ? :new_users_form_password_confirmation_field.l : :edit_users_form_password_confirmation_field.l %></label></dt>
       <dd><%= form.password_field :password_confirmation, :class => 'text-input' %></dd>
     </dl>
   </li>
 </ol>    
 
-<h3>Agency</h3>
+<h3><%= :users_form_agency_label.l %></h3>
 <div id="agency">
   <ol id="select" style="<%= 'display: none;' if @agency %>">
     <li class="form-element">
       <dl>
-        <dt><label for="user_agency_id">Agency</label></dt>
+        <dt><label for="user_agency_id"><%= :users_form_user_agency_id_field.l %></label></dt>
         <dd><%= agency_dropdown(@agency ? { :disabled => 'disabled' } : {}) %></dd>
       </dl>
     </li>
@@ -46,7 +46,7 @@
     <ol id="create" style="<%= 'display: none;' unless @agency %>">
       <li class="form-element">
         <dl>
-          <dt><label for="agency_agency">Agency Name:</label></dt>
+          <dt><label for="agency_agency"><%= :new_users_form_create_agency_agency_field.l %>:</label></dt>
           <dd>            
             <%= text_field(:agency, :agency, { :class => 'create-input text-input'}.merge(@agency ? {} : { :disabled => 'disabled' }) ) %>
             </dd>
@@ -54,7 +54,7 @@
       </li>
       <li class="form-element">
         <dl>
-          <dt><label for="agency_agency_cd">Agency Code:</label></dt>
+          <dt><label for="agency_agency_cd"><%= :new_users_form_create_agency_agency_cd_field.l %>:</label></dt>
           <dd>
             <%= text_field(:agency, :agency_cd, { :class => 'create-input text-input'}.merge(@agency ? {} : { :disabled => 'disabled' }) ) %>
             </dd>
@@ -62,7 +62,7 @@
       </li>
       <li class="form-element">
         <dl>
-          <dt><label for="agency_agency_type">Agency Type:</label></dt>
+          <dt><label for="agency_agency_type"><%= :new_users_form_create_agency_agency_type_field.l %>:</label></dt>
           <dd>
             <select <%= 'disabled="disabled"' unless @agency %> id="agency_agency_type" name="agency[agency_type]" class="create-input">
               <%= options_for_select(Agency.types.collect{ |type| [type, type] }, (@agency.agency_type if @agency)) %>
@@ -71,8 +71,8 @@
         </dl>
       </li>
     </ol>
-    <a class="action create" href="javascript:void(0)" style="<%= 'display: none;' if @agency %>">(Can't find your agency in the list?  Click here to create one)</a>
-    <a class="action select" href="javascript:void(0)" style="<%= 'display: none;' unless @agency %>">(I'd like to select an existing agency instead)</a>
+    <a class="action create" href="javascript:void(0)" style="<%= 'display: none;' if @agency %>"><%= :new_users_form_create_agency_link.l %></a>
+    <a class="action select" href="javascript:void(0)" style="<%= 'display: none;' unless @agency %>"><%= :new_users_form_select_agency_link.l %></a>
   <% end %>
 </div>
 
@@ -80,17 +80,17 @@
   <% if @user && !@user.admin? %>
     <li class="form-element">
       <dl>
-        <dt><label for="requesting-editor-priveleges">Will this account be used to add/edit your agency's data?</label></dt>
+        <dt><label for="requesting-editor-priveleges"><%= :users_form_requesting_editor_priveleges_field.l %></label></dt>
         <dd id="priveleges">
-          <input id="requesting-editor-priveleges" type="radio" name="requesting_editor_priveleges" value="no" checked="checked">No, I'd just like to view data and reports<br/>
-          <input id="requesting-editor-priveleges" type="radio" name="requesting_editor_priveleges" value="yes">Yes
+          <input id="requesting-editor-priveleges" type="radio" name="requesting_editor_priveleges" value="no" checked="checked"><%= :users_form_requesting_editor_priveleges_no_option.l %><br/>
+          <input id="requesting-editor-priveleges" type="radio" name="requesting_editor_priveleges" value="yes"><%= :users_form_requesting_editor_priveleges_yes_option.l %>
         </dd>
       </dl>
     </li>
   <% end %>
 </ol>
 
-<h3>Area of Interest <%= tooltip :id => 'aoi', :partial => 'waterbody/area_of_interest_tooltip' %></h3>    
+<h3><%= :users_form_aoi_label.l %> <%= tooltip :id => 'aoi', :partial => 'waterbody/area_of_interest_tooltip' %></h3>
 <ol>
   <li class="form-element">
     <%= render :partial => 'waterbody/area_of_interest_autocomplete', :locals => { :area_of_interest => @user.area_of_interest } %>
@@ -99,11 +99,11 @@
 <% if action != :new %>
   <div style="clear: both">
     <input id="remove-area-of-interest" type="checkbox" name="remove_area_of_interest" />
-    <label for="remove-area-of-interest">Remove Area of Interest</label>
+    <label for="remove-area-of-interest"><%= :new_users_form_aoi_remove_area_of_interest_field.l %></label>
   </div>
 <% end %>
 
 <p class="form-footer">  
-  <%= submit_tag(action == :new ? 'Create Account' : 'Save Changes', :class => 'submit') %>
-  <a class="cancel" href="<%= action == :new ? login_url : session[:previous_location] %>">Cancel</a>
+  <%= submit_tag(action == :new ? :new_users_form_submit_label.l : :edit_users_form_submit_label.l, :class => 'submit') %>
+  <a class="cancel" href="<%= action == :new ? login_url : session[:previous_location] %>"><%= :users_form_cancel_label.l %></a>
 </p>
