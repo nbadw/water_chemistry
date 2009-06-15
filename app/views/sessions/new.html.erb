@@ -1,5 +1,5 @@
 <div id="login">
-  <h1>Data Entry Login</h1>
+  <h1><%= :login_form_label.l %></h1>
   
   <% if flash[:error] %>
     <div class="error">
@@ -16,29 +16,29 @@
   
   <% form_tag session_path do %>
     <dl>
-      <dt><label for="username">Username:</label></dt>
+      <dt><label for="username"><%= :login_form_username_field.l %>:</label></dt>
       <dd>
         <%= text_field_tag 'username' %>
       </dd>
-      <dt><label for="password">Password:</label></dt>
+      <dt><label for="password"><%= :login_form_password_field.l %>:</label></dt>
       <dd>
         <%= password_field_tag 'password' %>
-        <span>(<%= link_to 'I forgot my password/username', forgot_password_path %>)</span>
+        <span>(<%= link_to :login_form_forgot_password_link.l, forgot_password_path %>)</span>
       </dd>
     
       <dd>
         <%= check_box_tag 'remember_me' %>
-        <label for="remember_me">Remember me on this computer</label>
+        <label for="remember_me"><%= :login_form_remember_me_field.l %></label>
       </dd>
     
       <dd>
-        <%= submit_tag 'Sign In' %>
+        <%= submit_tag :login_form_submit_label.l %>
       </dd>
     </dl>
   <% end %>
   
   <div id="register">
-    <p>Don't have an account? <%= link_to "Create one now", signup_path %>.</p>
+    <p><%= :login_form_no_account_msg.l %> <%= link_to :login_form_create_account_link.l, signup_path %>.</p>
   </div>  
 </div>
 
@@ -46,5 +46,4 @@
   window.onload = function() {
     document.forms[0].elements[0].focus();
   }
-  </script>
-
+</script>

@@ -395,3 +395,13 @@ recorded_chemicals_update_label: "Update Lab Result: {parameter}"
 # views/recorded_observations/_observation_form_column.rhtml
 recorded_observations_value_observed_label: Observed Value
 recorded_observations_fish_passage_blocked_label: Fish Passage Blocked?
+
+# views/sessions/new.html
+login_form_label: Data Entry Login
+login_form_username_field: Username
+login_form_password_field: Password
+login_form_forgot_password_link: I forgot my password/username
+login_form_remember_me_field: Remember me on this computer
+login_form_submit_label: Sign In
+login_form_no_account_msg: Don't have an account?
+login_form_create_account_link: Create one now
