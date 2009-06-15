@@ -1,13 +1,13 @@
 <div id="session">
-  <p class="user">Logged in as <span class="name"><%= current_user.name || current_user.login %></span></p> 
+  <p class="user"><%= :logged_in_as.l_with_args({ :user => current_user.name || current_user.login }) %></p>
   <p class="agency"><%= "#{current_user.agency.name} - #{current_user.agency.code}" if current_user.agency %></p>
   <div class="actions">
     <% if current_user.admin? %>
       <%= link_to 'Admin', admin_home_path %>
       <span class="pipe">|</span>
     <% end %>
-    <%= link_to 'Profile', edit_user_path(current_user) %>
+    <%= link_to :user_profile_link.l, edit_user_path(current_user) %>
     <span class="pipe">|</span>
-    <%= link_to 'Logout', logout_path %>
+    <%= link_to :user_logout_link.l, logout_path %>
   </div>
 </div>

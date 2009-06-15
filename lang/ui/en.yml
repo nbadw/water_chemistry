@@ -362,3 +362,16 @@ gmap_max_content_open_label: Open
 # views/data_entry/_navigation_tabs.html
 browse_tab: Browse
 explore_tab: Explore
+
+# views/layouts/_session.html
+logged_in_as: Logged in as <span class="name">{user}</span>
+user_profile_link: Profile
+user_logout_link: Logout
+
+# views/layouts/application.html
+help_contents_close: Close
+help_contents_loading: Loading...
+
+# views/layouts/profile.html
+profile_title: NB Aquatic Data Warehouse - Edit Profile
+profile_location: Edit Profile
