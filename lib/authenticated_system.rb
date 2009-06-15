@@ -59,21 +59,6 @@ module AuthenticatedSystem
   def not_logged_in_required
     !logged_in? || permission_denied
   end
-    
-  def check_role(role)
-    unless logged_in? && @current_user.has_role?(role)
-      if logged_in?
-        permission_denied
-      else
-        store_referer
-        access_denied
-      end
-    end
-  end
-  
-  def check_administrator_role
-    check_role('administrator')
-  end
 
   # Redirect as appropriate when an access request fails.
   #

@@ -3,17 +3,12 @@ class UsersController < ApplicationController
   
   before_filter :not_logged_in_required,   :only => [:new, :create] 
   before_filter :login_required,           :only => [:show, :edit, :update]
-  before_filter :check_administrator_role, :only => [:index, :destroy, :enable]
   
   helper do
     def agency_dropdown(html_options = {})
       choices = Agency.active.all(:order => "Agency ASC").collect{ |agency| [agency.name, agency.id] }
       select 'user', 'agency_id', choices, {}, html_options
     end
-  end
-  
-  def index
-    @users = User.find(:all)
   end
   
   #This show action only allows users to view their own profile
@@ -93,25 +88,5 @@ class UsersController < ApplicationController
       flash[:error]  = :update_profile_error.l
     end
     render :layout => 'application', :action => 'edit'
-  end
-  
-  def destroy
-    @user = User.find(params[:id])
-    if @user.update_attribute(:enabled, false)
-      flash[:notice] = :user_account_disabled_notice.l
-    else
-      flash[:error] = :user_account_could_not_be_disabled_error.l
-    end
-    redirect_to :action => 'index'
-  end
-  
-  def enable
-    @user = User.find(params[:id])
-    if @user.update_attribute(:enabled, true)
-      flash[:notice] = :user_account_enabled_notice.l
-    else
-      flash[:error] = :user_account_could_not_be_enabled_error.l
-    end
-    redirect_to :action => 'index'
   end
 end

@@ -409,3 +409,31 @@ login_form_create_account_link: Create one now
 # views/site_measurements/_bank_form_column
 bank_side_left_option: Left
 bank_side_right_option: Right
+
+# views/users/_form.html
+users_form_label: Account Details
+users_form_name_field: Your Name
+users_form_login_field: Username
+users_form_email_field: Email
+new_users_form_password_field: Password
+edit_users_form_password_field: Change Password
+new_users_form_password_confirmation_field: Confirm Password
+edit_users_form_password_confirmation_field: Confirm New Password
+users_form_agency_label: Agency
+users_form_user_agency_id_field: Agency
+new_users_form_create_agency_agency_field: Agency Name
+new_users_form_create_agency_agency_cd_field: Agency Code
+new_users_form_create_agency_agency_type_field: Agency Type
+new_users_form_create_agency_link: (Can't find your agency in the list?  Click here to create one)
+new_users_form_select_agency_link: (I'd like to select an existing agency instead)
+users_form_requesting_editor_priveleges_field: Will this account be used to add/edit your agency's data?
+users_form_requesting_editor_priveleges_no_option: No, I'd just like to view data and reports
+users_form_requesting_editor_priveleges_yes_option: Yes
+users_form_aoi_label: Area of Interest
+new_users_form_aoi_remove_area_of_interest_field: Remove Area of Interest
+new_users_form_submit_label: Create Account
+edit_users_form_submit_label: Save Changes
+users_form_cancel_label: Cancel
+
+# views/users/_navigation_tabs.html
+go_back_tab: Go Back
