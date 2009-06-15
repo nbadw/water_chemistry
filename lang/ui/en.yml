@@ -24,6 +24,9 @@ agency_name_label: Name
 # controllers/aquatic_activity_event_controller
 #   config
 aquatic_activity_event_label: Aquatic Activities
+aquatic_activity_event_show_label: Open
+aquatic_activity_event_create_label: Add Sampling Event
+aquatic_activity_event_update_label: Update Sampling Event
 aquatic_site_id_label: Aquatic Site ID
 aquatic_activity_cd_label: Aquatic Activity Code
 aquatic_activity_method_label: Analysis Method
@@ -31,15 +34,12 @@ start_date_label: Date
 agency_label: Agency Code
 weather_conditions_label: Weather Conditions
 water_level_label: Water Level
-aquatic_activity_event_create_label: Add Sampling Event
-aquatic_activity_event_update_label: Update Sampling Event
 aquatic_activity_method_desc: |-
   <ul>
     <li>Analytical Lab Analysis – Water sample is returned to the lab for water chemistry analysis</li>
     <li>Field Analysis – Water sample is analyzed in the field with a meter or field kit, such as a Hach kit</li>
     <li>Portable Lab – Water sample is analyzed in the field using a portable lab</li>
   </ul>
-aquatic_activity_event_show_label: Open
 edit_agency_site_id_label: Edit Agency Site ID
 #   update_agency_site_id
 blank_agency_site_id_error: Agency Site ID can't be blank
@@ -250,14 +250,47 @@ recorded_observation_to_label: "Observation '{name}'"
 sample_to_label: Sample #{id}
 
 # models/gis/location
+#   attributes
+longitude: Longitude
+latitude: Latitude
+coordinate_system: Coordinate System
 #   convert_to_gmap_location
 coordinate_conversion_service_unavailable: Sorry, the coordinate conversion service is not working.  Try again later.
 #   validate_coordinate_system
 coordinate_system_not_found_validation_msg: not found
 coordinate_in_bad_format_validation_msg: is in a bad format
 
+# mailers/user_mailer
+#   signup_notification
+signup_notification_subject: NB Aquatic Data Warehouse Account Information
+#   request_for_editor_priveleges
+request_for_editor_priveleges_subject: Request for NBADW editor priveleges from {name}
+#   editor_priveleges_granted
+editor_priveleges_granted_subject: Request for editor priveleges granted
+# forgot_password
+forgot_password_subject: Password reset requested
+# reset_password
+reset_password_subject: Your password has been reset
+# setup_email
+mail_from: NB Aquatic Data Warehouse
+
 # lib/authenticated_system
 #   access_denied
 access_denied_error: You are not logged in yet.
 #   permission_denied
 permission_denied_error: You don't have permission to complete that action.
+
+# views/accounts/edit.html
+accounts_old_password_form_label: Old Password
+accounts_new_password_form_label: New Password
+accounts_new_password_form_hint: Between 4 and 40 characters
+accounts_confirm_new_password_form_label: Confirm New Password
+accounts_edit_form_submit: Change Password
+
+# views/aquatic_activity_event/_edit_agency_site_id_form.html
+edit_agency_site_id_form_label: Site ID
+edit_agency_site_id_form_submit: Save
+
+# views/aquatic_activity_event/_show.html
+show_aquatic_activity_edit_label: Edit
+
