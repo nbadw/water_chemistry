@@ -405,3 +405,7 @@ login_form_remember_me_field: Remember me on this computer
 login_form_submit_label: Sign In
 login_form_no_account_msg: Don't have an account?
 login_form_create_account_link: Create one now
+
+# views/site_measurements/_bank_form_column
+bank_side_left_option: Left
+bank_side_right_option: Right
