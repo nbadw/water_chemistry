@@ -280,6 +280,35 @@ access_denied_error: You are not logged in yet.
 #   permission_denied
 permission_denied_error: You don't have permission to complete that action.
 
+# reports/aggregators/water_chemistry_sampling_aggregator
+#   to_csv
+adw_sample_id_report_label: ADW Sample ID
+sample_depth_report_label: Sample Depth (m)
+aquatic_site_id_report_label: Aquatic Site ID
+waterbody_id_report_label: Waterbody ID
+waterbody_name_report_label: Waterbody Name
+drainage_code_report_label: Drainage Code
+site_description_report_label: Site Description
+date_sampled_report_label: Date Sampled
+agency_report_label: Agency
+sampled_by_report_label: Sampled By
+agency_sample_no_report_label: Agency Sample No.
+analyzed_by_report_label: Analyzed By
+collection_method_report_label: Collection Method
+lab_no_report_label: Lab No.
+# + reports/views/water_chemistry_sampling/sample_details.html
+# + reports/views/water_chemistry_sampling/site_details.html
+
+# reports/views/water_chemistry_sampling/footer.html
+water_chemistry_report_source: NB Aquatic Data Warehouse
+
+# reports/views/water_chemistry_sampling/header.html
+water_chemistry_report_title: Water Chemistry Report
+
+# reports/views/water_chemistry_sampling/qualifier_legend
+qualifier_legend_qualifier_label: Qualifier
+qualifier_legend_description_label: Description
+
 # views/accounts/edit.html
 accounts_old_password_form_label: Old Password
 accounts_new_password_form_label: New Password
@@ -293,4 +322,3 @@ edit_agency_site_id_form_submit: Save
 
 # views/aquatic_activity_event/_show.html
 show_aquatic_activity_edit_label: Edit
-

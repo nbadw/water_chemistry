@@ -34,47 +34,62 @@ module Reports
       end
       
       def to_csv            
-        return '' if samples.empty?  
+        return '' if samples.empty?
+
+        # report headers
+        h = {
+          'ADW Sample ID'     => :adw_sample_id_report_label.l,
+          'Aquatic Site ID'   => :aquatic_site_id_report_label.l,
+          'Waterbody ID'      => :waterbody_id_report_label.l,
+          'Waterbody Name'    => :waterbody_name_report_label.l,
+          'Drainage Code'     => :drainage_code_report_label.l,
+          'Site Description'  => :site_description_report_label.l,
+          'Date Sampled'      => :date_sampled_report_label.l,
+          'Sampled By'        => :sampled_by_report_label.l,
+          'Agency Sample No.' => :agency_sample_no_report_label.l,
+          'Analyzed By'       => :analyzed_by_report_label.l,
+          'Lab No.'           => :lab_no_report_label.l
+        }
         
         # create merged parameter table
         table = nil
         samples.each do |sample|
           parameter_table = build_parameter_table(sample)     
-          parameter_table.add_column('ADW Sample ID', :position => 0, :default => sample.id)
+          parameter_table.add_column(h['ADW Sample ID'], :position => 0, :default => sample.id)
           table = (table ? table + parameter_table : parameter_table)
         end
-        table = table.pivot('Parameter', :group_by => 'ADW Sample ID', :values => 'Measurement')
+        table = table.pivot('Parameter', :group_by => h['ADW Sample ID'], :values => 'Measurement')
         
         # add extra columns
-        table.add_column('Aquatic Site ID',   :position => 1)
-        table.add_column('Waterbody ID',      :position => 2)
-        table.add_column('Waterbody Name',    :position => 3)
-        table.add_column('Drainage Code',     :position => 4)
-        table.add_column('Site Description',  :position => 5)
-        table.add_column('Date Sampled',      :position => 6)    
-        table.add_column('Sampled By',        :position => 7)
-        table.add_column('Agency Sample No.', :position => 8)
-        table.add_column('Analyzed By',       :position => 9)
-        table.add_column('Lab No.',           :position => 10)
+        table.add_column(h['Aquatic Site ID'],   :position => 1)
+        table.add_column(h['Waterbody ID'],      :position => 2)
+        table.add_column(h['Waterbody Name'],    :position => 3)
+        table.add_column(h['Drainage Code'],     :position => 4)
+        table.add_column(h['Site Description'],  :position => 5)
+        table.add_column(h['Date Sampled'],      :position => 6)
+        table.add_column(h['Sampled By'],        :position => 7)
+        table.add_column(h['Agency Sample No.'], :position => 8)
+        table.add_column(h['Analyzed By'],       :position => 9)
+        table.add_column(h['Lab No.'],           :position => 10)
         
         # populate extra columns
         table.data.each do |row|
-          sample = [*samples].find { |sample| sample.id == row["ADW Sample ID"] }
+          sample = [*samples].find { |sample| sample.id == row[h["ADW Sample ID"]] }
           aquatic_activity_event = sample.aquatic_activity_event
           agency = aquatic_activity_event.agency
           aquatic_site = aquatic_activity_event.aquatic_site
           waterbody = aquatic_site.waterbody
           
-          row['Aquatic Site ID']   = aquatic_site.id
-          row['Waterbody ID']      = waterbody.id
-          row['Waterbody Name']    = waterbody.water_body_name
-          row['Drainage Code']     = waterbody.drainage_cd
-          row['Site Description']  = aquatic_site.aquatic_site_desc
-          row['Date Sampled']      = aquatic_activity_event.start_date   
-          row['Sampled By']        = agency.id
-          row['Agency Sample No.'] = sample.agency_sample_no
-          row['Analyzed By']       = sample.analyzed_by
-          row['Lab No.']           = sample.lab_no
+          row[h['Aquatic Site ID']]   = aquatic_site.id
+          row[h['Waterbody ID']]      = waterbody.id
+          row[h['Waterbody Name']]    = waterbody.water_body_name
+          row[h['Drainage Code']]     = waterbody.drainage_cd
+          row[h['Site Description']]  = aquatic_site.aquatic_site_desc
+          row[h['Date Sampled']]      = aquatic_activity_event.start_date
+          row[h['Sampled By']]        = agency.id
+          row[h['Agency Sample No.']] = sample.agency_sample_no
+          row[h['Analyzed By']]       = sample.analyzed_by
+          row[h['Lab No.']]           = sample.lab_no
         end
         
         table.to_csv
