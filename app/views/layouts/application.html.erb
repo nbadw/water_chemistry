@@ -32,10 +32,10 @@
               <%= yield %>
             </td>
             <td id="help-contents" style="display: none;">
-              <a class="close" style="display: none;" href="javascript:void(0);">Close</a>
+              <a class="close" style="display: none;" href="javascript:void(0);"><%= :help_contents_close.l %></a>
               <div class="loading" style="display: none;">
                 <img class="indicator" alt="Loading Indicator" src="/images/active_scaffold/default/indicator.gif" />
-                <span class="message">Loading...</span>
+                <span class="message"><%= :help_contents_loading.l %></span>
               </div>
               <div class="text"></div>
             </td>
