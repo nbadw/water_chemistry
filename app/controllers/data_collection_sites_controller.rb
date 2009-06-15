@@ -4,9 +4,9 @@ class DataCollectionSitesController < ApplicationController
   
   active_scaffold :aquatic_site do |config|
     # columns
-    config.columns = [:incorporated, :id, :name, :aquatic_site_desc, :water_body_id, :water_body_name, :drainage_code, :name_and_description, :data_sets, :x_coordinate, :y_coordinate, :coordinate_system]        
+    config.columns = [:incorporated, :id, :name, :aquatic_site_desc, :water_body_id, :water_body_name, :drainage_code, :name_and_description, :data_sets, :x_coordinate, :y_coordinate, :coordinate_system, :coordinate_source]
     config.list.columns = [:incorporated, :id, :agencies, :water_body_id, :water_body_name, :drainage_code, :name_and_description, :data_sets]    
-    config.show.columns = [:id, :name, :aquatic_site_desc, :water_body_id, :water_body_name, :drainage_code, :x_coordinate, :y_coordinate, :coordinate_system]
+    config.show.columns = [:id, :name, :aquatic_site_desc, :water_body_id, :water_body_name, :drainage_code, :x_coordinate, :y_coordinate, :coordinate_system, :coordinate_source]
     config.search.columns = [:id, :name, :water_body_id, :water_body_name, :drainage_code, :data_sets, :agencies]    
     [:create, :update].each do |action|  
       config.send(action).columns = [:name, :aquatic_site_desc]
@@ -35,6 +35,7 @@ class DataCollectionSitesController < ApplicationController
     config.columns[:x_coordinate].label         = :aquatic_site_x_coordinate_label.l
     config.columns[:y_coordinate].label         = :aquatic_site_y_coordinate_label.l
     config.columns[:coordinate_system].label    = :aquatic_site_coordinate_system_label.l
+    config.columns[:coordinate_source].label    = :aquatic_site_coordinate_source_label.l
 
     # set i18n descriptions
     config.columns[:name].description              = :aquatic_site_name_desc.l
@@ -73,22 +74,6 @@ class DataCollectionSitesController < ApplicationController
     # update table listing
     do_list
     render(:partial => 'list', :layout => false, :content_type => 'text/javascript')
-  end
-  
-  def select_data_set
-    @unattached_data_sets = AquaticSite.find(params[:id]).unattached_data_sets
-    respond_to do |wants|
-      wants.html { render :layout => false }
-    end
-  end
-  
-  def add_data_set
-    site     = AquaticSite.find params[:aquatic_site][:id]
-    activity = AquaticActivity.find params[:aquatic_site][:data_set]
-    agency   = current_user.agency     
-  rescue Exception => exc
-    logger.error exc.message
-    render :text => :add_data_set_error.l
   end
   
   def show_data_set_details

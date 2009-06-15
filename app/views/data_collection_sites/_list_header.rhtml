@@ -6,7 +6,7 @@
       <%= render_action_link(link, new_params) -%>
     <% end -%>
 
-    <a id="download-report" href="<%= url_for :controller => 'data_collection_sites', :action => 'report', :format => 'csv' %>" class="download" title="Download all water chemistry samples for the current list of sites">Download All</a>  
+    <a id="download-report" href="<%= url_for :controller => 'data_collection_sites', :action => 'report', :format => 'csv' %>" class="download" title="<%= :download_report_link_title.l -%>"><%= :download_report_link.l -%></a>
     <%= area_of_interest_toggle_link %>
   
     <%= loading_indicator_tag(:action => :table) %>

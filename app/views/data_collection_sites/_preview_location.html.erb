@@ -1,14 +1,14 @@
 <div id="coordinate-preview" style="float: left; margin-left: 3em;">
-  <a id="view-location-preview" href="javascript:void(0)">Show Location On Map</a>
+  <a id="view-location-preview" href="javascript:void(0)"><%= :preview_location_on_map.l -%></a>
   <div id="coordinate-preview-dialog" class="tooltip" style="display: none;">
     <div class="tooltip_content">
       <div id="coordinate-preview-loading" style="display: none;">
         <%= loading_indicator_tag(:action => 'preview-location') %>
-        <span style="padding-left: 2px;">Loading Map</span>
+        <span style="padding-left: 2px;"><%= :preview_location_loading.l -%></span>
       </div>
       <div id="coordinate-preview-result" class="iframe-container" style="width: 250px; height: 250px;">
       </div>
-      <small><%= link_to_function "close", "$('coordinate-preview-dialog').hide();" %></small>
+      <small><%= link_to_function :preview_location_close.l, "$('coordinate-preview-dialog').hide();" %></small>
     </div>
   </div>
   <script type="text/javascript">

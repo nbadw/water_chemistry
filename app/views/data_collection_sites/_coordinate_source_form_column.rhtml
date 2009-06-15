@@ -1,6 +1,6 @@
 <dl>
   <dt>
-    <label for="<%= "record_#{column.name}" %>">Coordinate Source</label>
+    <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
   </dt>
   <dd>
     <%= select("record", column.name, CoordinateSource.all.collect { |source| [source.name, source.name]}, { :include_blank => true, :selected => @record.coordinate_source }) %>

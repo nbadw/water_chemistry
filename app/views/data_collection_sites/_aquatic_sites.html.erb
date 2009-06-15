@@ -1,10 +1,10 @@
 <% if @aquatic_sites.empty? %>
-  <p>No Aquatic Sites With Coordinates Found!</p>
+  <p><%= :no_aquatic_sites_found.l %></p>
 <% end %>
 
 <ul>  
   <% @aquatic_sites.each do |site| %>
-    <li class="aquatic-site"><a id="aquatic-site-<%= site.id %>" href="#"><%= site.name || 'Unnamed Site' %></a></li>
+    <li class="aquatic-site"><a id="aquatic-site-<%= site.id %>" href="#"><%= site.name || :unnamed_aquatic_site.l %></a></li>
   <%  end %>
 </ul>
 <%= will_paginate @aquatic_sites, :inner_window => 0, :outer_window => 0 %>
