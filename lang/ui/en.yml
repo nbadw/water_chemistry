@@ -30,7 +30,7 @@ aquatic_activity_event_update_label: Update Sampling Event
 aquatic_site_id_label: Aquatic Site ID
 aquatic_activity_cd_label: Aquatic Activity Code
 aquatic_activity_method_label: Analysis Method
-start_date_label: Date
+start_date_label: Date (yyyy/mm/dd)
 agency_label: Agency Code
 weather_conditions_label: Weather Conditions
 water_level_label: Water Level
@@ -346,6 +346,23 @@ preview_location_close: Close
 # views/data_collection_sites/_search.html
 data_collection_search_field_example_text: Enter Waterbody Name or Drainage Code
 
+# views/data_collection_sites/_search_tooltip.html
+data_collection_search_tooltip: |-
+  <p class="first">Enter a water body name, site name, watershed code, agency code and/or data
+  set as search criteria.  The system will search for partial text strings. For
+  example, “Miramichi” returns SW Miramichi River, NW Miramichi River, Miramichi
+  Lake, etc.</p>
+
+  <p>Add “watershed” or “basin” after a water body name to search for sites within
+  the drainage area. For example: entering “Hammond River” will show a list of
+  sites for only Hammond River. Enter “Hammond River Watershed” and the resulting
+  list will include sites for Hammond River and all its tributaries.</p>
+
+  <p>Use “+” to search on multiple items, such as water body + agency code + data
+  set name. For example, Hammond River + HRAA + water chemistry.</p>
+
+  <p>The <strong>Reset</strong> option will return the full list of data collection sites.</p>
+
 # views/data_collection_sites/_show.html
 location_label: Location
 
@@ -437,3 +454,36 @@ users_form_cancel_label: Cancel
 
 # views/users/_navigation_tabs.html
 go_back_tab: Go Back
+
+# views/water_chemistry_sampling/_activity_details.html
+activity_details_title: Activity Details
+
+# views/water_chemistry_sampling/_aquatic_site.html
+aquatic_site_title: Aquatic Site
+no_coordinate_information: No coordinate information for this aquatic site.
+
+# views/water_chemistry_sampling/_navigation_tabs.html
+samples_tab: Samples
+observations_tab: Observations
+measurements_tab: Measurements
+report_tab: Report
+
+# views/water_chemistry_sampling/report.html
+download_action: Download
+
+# views/waterbody/*.html (lots of overlap between these two, so i'm grouping the keys together)
+lookup_field: Lookup
+lookup_watersheds_label: Watershed(s)
+lookup_waterbody_id_label: Waterbody ID
+lookup_waterbody_name_label: Waterbody Name
+lookup_drainage_code_label: Drainage Code
+waterbody_lookup_desc: |-
+  Enter a waterbody name, waterbody ID or drainage code and the system will present a list of
+  water bodies with similar names, IDs or codes. Select a water body from the list. The remaining
+  waterbody fields (waterbody ID and watershed code) will be filled in automatically.
+aoi_lookup_desc: |-
+  Enter a water body name or watershed code as search criteria.  The system
+  will search for partial text strings. For example, “Miramichi” returns SW
+  Miramichi River, NW Miramichi River, Miramichi Lake, etc.
+lookup_result_waterbody_id_label: ID
+lookup_result_drainage_code_label: Drainage Code

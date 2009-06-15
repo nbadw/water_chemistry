@@ -7,7 +7,7 @@
     <select id="o_and_m" name="record[<%= column.name %>]">
       <option></option>
       <% group(@measurements).each do |group| %>
-        <optgroup label="<%= group == '' ? 'Misc.' : group %>">
+        <optgroup label="<%= group %>">
           <%= options_from_collection_for_select(measurements_grouped_by(group, @measurements), :id, :name, @record.o_and_m ? @record.o_and_m.id : nil) %>
         </optgroup>
       <% end %>

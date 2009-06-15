@@ -15,7 +15,7 @@ $('drainage-code').innerHTML = drainage_code;
 <div id="waterbody-editor">
   <dl>
     <dt class="lookup">
-      <label for="waterbody_seach">Lookup</label>
+      <label for="waterbody_seach"><%= :lookup_field.l %></label>
     </dt>
     <dd>
       <div id="waterbody-autocomplete">
@@ -23,7 +23,7 @@ $('drainage-code').innerHTML = drainage_code;
         <div class="tooltip-box" style="display: none;">
           <div class="tooltip-box-content">
             <span class="description">
-              Enter a waterbody name, waterbody ID or drainage code and the system will present a list of water bodies with similar names, IDs or codes. Select a water body from the list. The remaining waterbody fields (waterbody ID and watershed code) will be filled in automatically.
+              <%= :waterbody_lookup_desc.l %>
             </span>
           </div>
         </div>
@@ -32,15 +32,15 @@ $('drainage-code').innerHTML = drainage_code;
     </dd>
   </dl>
   <dl>
-    <dt>Waterbody ID</dt>
+    <dt><%= :lookup_waterbody_id_label.l %></dt>
     <dd id="waterbody-id"><%=h waterbody ? waterbody.id : '-' -%></dd>
   </dl>
   <dl>
-    <dt>Waterbody Name</dt>
+    <dt><%= :lookup_waterbody_name_label.l %></dt>
     <dd id="waterbody-name"><%=h waterbody ? waterbody.water_body_name : '-' -%></dd>
   </dl>
   <dl>
-    <dt>Drainage Code</dt>
+    <dt><%= :lookup_drainage_code_label.l %></dt>
     <dd id="drainage-code"><%=h waterbody ? waterbody.drainage_cd : '-' -%></dd>
   </dl>
 </div>
