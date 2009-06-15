@@ -388,3 +388,10 @@ account_recovery_form_label: Forgot Username/Password
 account_recovery_form_email_field: What is the email address used to create your account?
 account_recovery_form_submit: Reset Password
 account_recovery_form_cancel: Cancel
+
+# views/recorded_chemicals/_update.html
+recorded_chemicals_update_label: "Update Lab Result: {parameter}"
+
+# views/recorded_observations/_observation_form_column.rhtml
+recorded_observations_value_observed_label: Observed Value
+recorded_observations_fish_passage_blocked_label: Fish Passage Blocked?

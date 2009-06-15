@@ -23,7 +23,7 @@
 <div id="value_observed" style="display: <%= @record.observation ? 'block' : 'none' %>; clear: both; padding-top: 4px;" >
   <dl class="override">
     <dt>
-      <label for="record[value_observed]">Observed Value</label>
+      <label for="record[value_observed]"><%= :recorded_observations_value_observed_label.l %> </label>
     </dt>
     <dd id="value_observed_input">
       <%= value_observed_input(@record) %>
@@ -34,6 +34,6 @@
 <div id="fish_passage_blocked" style="display: <%= @record.observation && @record.observation.fish_passage_ind ? 'block' : 'none' %>; clear: both; padding-top: 6px">
   <dl class="override">
     <dt></dt>
-    <dd><input name="record[fish_passage_blocked]" type="checkbox"/><span>Fish Passage Blocked?</span></dd>
+    <dd><input name="record[fish_passage_blocked]" type="checkbox"/><span><%= :recorded_observations_fish_passage_blocked_label.l %></span></dd>
   </dl>
 </div>
