@@ -348,8 +348,8 @@ data_collection_search_field_example_text: Enter Waterbody Name or Drainage Code
 
 # views/data_collection_sites/_search_tooltip.html
 data_collection_search_tooltip: |-
-  <p class="first">Enter a water body name, site name, watershed code, agency code and/or data
-  set as search criteria.  The system will search for partial text strings. For
+  <p class="first">Enter a water body name, site name, watershed code, agency code and/or
+  dataset as search criteria.  The system will search for partial text strings. For
   example, “Miramichi” returns SW Miramichi River, NW Miramichi River, Miramichi
   Lake, etc.</p>
 
@@ -358,8 +358,8 @@ data_collection_search_tooltip: |-
   sites for only Hammond River. Enter “Hammond River Watershed” and the resulting
   list will include sites for Hammond River and all its tributaries.</p>
 
-  <p>Use “+” to search on multiple items, such as water body + agency code + data
-  set name. For example, Hammond River + HRAA + water chemistry.</p>
+  <p>Use “+” to search on multiple items, such as water body + agency code + dataset
+  name. For example, Hammond River + HRAA + water chemistry.</p>
 
   <p>The <strong>Reset</strong> option will return the full list of data collection sites.</p>
 
