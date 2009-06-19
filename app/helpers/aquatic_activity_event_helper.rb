@@ -1,7 +1,7 @@
 module AquaticActivityEventHelper
   def agency_column(aquatic_activity_event)
     if agency = aquatic_activity_event.agency
-      agency.id
+      agency.name
     else
       '-'
     end
