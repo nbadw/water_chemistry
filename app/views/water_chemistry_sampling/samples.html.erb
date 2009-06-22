@@ -1,5 +1,13 @@
 <div id="center">
   <div id="center-content">
+    <% if @has_legacy_samples %>
+    <div id="has-legacy-samples-msg">
+      <p>
+        <%= "There are #{@undisplayed_samples} water chemistry sampling events recorded for this site that cannot be shown here.  Please contact <strong>#{@agency_name}</strong> for more information." %>
+      </p>
+    </div>
+  <% end %>
+
     <%= render :active_scaffold => 'samples', :constraints => { 
       :aquatic_activity_id => params[:aquatic_activity_event_id] 
     } %>

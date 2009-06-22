@@ -1,6 +1,7 @@
 class WaterChemistrySamplingController < ApplicationController 
   before_filter :login_required
   before_filter :create_aquatic_site_map, :except => [:show, :edit]
+  before_filter :check_for_legacy_samples, :only => :samples
   layout 'application'
   
   def current_location
@@ -46,7 +47,34 @@ class WaterChemistrySamplingController < ApplicationController
     end 
   end
   
-  private  
+  private
+  def check_for_legacy_samples
+    water_chemistry_sampling_activity_id = 17
+    query = %Q{
+      SELECT
+        COUNT(`tblAquaticActivity`.`AquaticActivityID`) AS sampling_events,
+        COUNT(`tblAquaticActivity`.`created_at`) AS sampling_events_with_created_at_timestamp,
+        `cdAgency`.`Agency` AS agency
+      FROM `tblAquaticSite`
+        LEFT OUTER JOIN `tblAquaticSiteAgencyUse` ON `tblAquaticSiteAgencyUse`.`AquaticSiteID` = `tblAquaticSite`.`AquaticSiteID`
+        LEFT OUTER JOIN `tblAquaticActivity` ON `tblAquaticActivity`.`AquaticSiteID` = `tblAquaticSite`.`AquaticSiteID`
+        LEFT OUTER JOIN `tblSample` ON `tblSample`.`AquaticActivityID` = `tblAquaticActivity`.`AquaticActivityID`
+        LEFT OUTER JOIN `cdAgency` ON `cdAgency`.`AgencyCd` = `tblAquaticSiteAgencyUse`.`AgencyCd`
+      WHERE (
+        `tblAquaticSite`.`AquaticSiteID` = #{params[:aquatic_site_id]} AND
+        `tblAquaticSiteAgencyUse`.`AquaticActivityCd` = #{water_chemistry_sampling_activity_id} AND
+        `tblAquaticActivity`.`AquaticActivityCd` = #{water_chemistry_sampling_activity_id}
+      )
+    }
+    result = *AquaticSite.find_by_sql(query)
+    sampling_events = result['sampling_events'].to_i
+    sampling_events_with_created_at_timestamp = result['sampling_events_with_created_at_timestamp'].to_i
+    # only legacy samples have no timestamps attached, so if the values aren't equal, then legacy data is present
+    @has_legacy_samples = sampling_events > sampling_events_with_created_at_timestamp
+    @undisplayed_samples = sampling_events - sampling_events_with_created_at_timestamp
+    @agency_name = result['agency']
+  end
+
   def create_aquatic_site_map
     @aquatic_site = AquaticSite.find params[:aquatic_site_id], :include => [:waterbody, :gmap_location]
     

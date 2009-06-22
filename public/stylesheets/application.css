@@ -514,3 +514,9 @@ a#area-of-interest-toggle.active:hover {
     font-size: 11px;
     padding: 3px;
 }
+
+#has-legacy-samples-msg p {
+  color: #666;
+  font-style: italic;
+  font-size: 12px;
+}
