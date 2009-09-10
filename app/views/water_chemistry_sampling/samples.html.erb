@@ -3,7 +3,7 @@
     <% if @has_legacy_samples %>
     <div id="has-legacy-samples-msg">
       <p>
-        <%= "There are #{@undisplayed_samples} water chemistry sampling events recorded for this site that cannot be shown here.  Please contact <strong>#{@agency_name}</strong> for more information." %>
+        <%= :legacy_samples_present.l_with_args(:count => @undisplayed_samples, :agency => @agency_name) %>
       </p>
     </div>
   <% end %>
