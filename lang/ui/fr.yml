@@ -1,0 +1,503 @@
+# controllers/application
+#   application_name
+application_name: Application - gestion des données de l'Entrepôt de données aquatiques du Nouveau‑Brunswick
+#   page_title
+nbadw: Entrepôt de données aquatiques du N.‑B.
+
+# controllers/accounts_controller
+#   show
+account_activated_notice: Votre compte a été activé! Vous pouvez maintenant ouvrir une session.
+activation_code_not_found_error: Code d'activation introuvable. Veuillez essayer de créer un nouveau compte.
+account_already_activated_notice: Votre compte est déjà activé. Vous pouvez ouvrir une session ci-dessous.
+#   update
+password_updated_notice: Mise à jour réussie du mot de passe.
+update_password_error: Une erreur s'est produite; votre mot de passe n'a pas été modifié.
+password_confimation_error: Le nouveau mot de passe ne correspond pas à la confirmation du mot de passe.
+old_password_incorrect_error: Votre ancien mot de passe n'est pas valide.
+
+# controllers/agency_controller
+#   config
+agency_label: Organismes
+agency_code_label: Code de l'organisme
+agency_name_label: Nom
+
+# controllers/aquatic_activity_event_controller
+#   config
+aquatic_activity_event_label: Activités aquatiques
+aquatic_activity_event_show_label: Ouvrir
+aquatic_activity_event_create_label: Ajouter une activité d'échantillonnage
+aquatic_activity_event_update_label: Mettre à jour l'activité d'échantillonnage
+aquatic_site_id_label: ID du site aquatique
+aquatic_activity_cd_label: Code de l'activité aquatique
+aquatic_activity_method_label: Méthode d'analyse
+start_date_label: Date (aaaa/mm/jj)
+#agency_label: Code de l'organisme
+weather_conditions_label: Conditions météorologiques
+water_level_label: Niveau d'eau
+aquatic_activity_method_desc: |-
+  <ul>
+    <li>Analyse du laboratoire analytique – L'échantillon d'eau est renvoyé au laboratoire pour l'analyse de la chimie de l'eau</li>
+    <li>Analyse sur le terrain – L'échantillon d'eau est analysé sur le terrain avec un compteur ou une trousse, comme une trousse Hach</li>
+    <li>Laboratoire portable – L'échantillon d'eau est analysé sur place à l'aide d'un laboratoire portable</li>
+  </ul>
+edit_agency_site_id_label: Corriger l'ID du site de l'organisme
+#   update_agency_site_id
+blank_agency_site_id_error: L'ID du site de l'organisme ne peut pas être laissé vide
+
+# controllers/data_collection_sites_controller
+#   config
+data_collection_sites_label: Sites de collecte des données
+data_collection_sites_create_label: Créer un nouveau site de collecte des données
+data_collection_sites_waterbody_subgroup: Cours d'eau
+data_collection_sites_location_subgroup: Emplacement
+aquatic_site_id_label: ID du site de l'Entrepôt de données aquatiques du N.‑B.
+aquatic_site_name_label: Nom du site
+aquatic_site_desc_label: Description
+aquatic_site_agencies_label: Organisme (ID du site de l'organisme)
+aquatic_site_waterbody_id_label: ID du cours d'eau
+aquatic_site_waterbody_name_label: Nom du cours d'eau
+aquatic_site_drainage_code_label: Code du bassin hydrographique
+aquatic_site_name_and_description_label: Nom et description du site
+aquatic_site_data_sets_label: Données
+aquatic_site_x_coordinate_label: Coordonnées X (Longitude)
+aquatic_site_y_coordinate_label: Coordonnées Y (Latitude)
+aquatic_site_coordinate_system_label: Système de coordonnées
+aquatic_site_coordinate_source_label: Source des coordonnées
+aquatic_site_name_desc: Parfois, les sites ont un nom commun comme barrage de Mactaquac, pont Titus ou barrière de dénombrement Kennebecasis
+aquatic_site_desc_desc: |-
+  Description de l'emplacement du site ou directives routières. Il est particulièrement
+  important de remplir ce champ si les sites se trouvent dans des endroits éloignés,
+  spécifiquement lorsque les coordonnées du SPG ne sont pas fournies ou sont mal enregistrées.
+#   add_data_set
+add_data_set_error: Une erreur s'est produite pendant le traitement de votre demande. Veillez réessayer plus tard.
+#   on_preview_location
+on_preview_location_error: Une erreur inconnue s'est produite. Veuillez réessayer plus tard.
+location_is_blank_error: Prière d’entrer d’abord tous les détails sur l'emplacement.
+
+# controllers/data_entry_controller
+#   page_title
+data_entry_page_title: Entrepôt de données aquatiques du N.‑B. - {action}
+data_entry_browse_action: Naviguer
+data_entry_explore_action: Explorer
+#   current_location
+data_entry_current_location: Menu principal
+
+# controllers/help_controller
+#   show
+help_missing_error: Désolé, aide introuvable.
+
+# controllers/passwords_controller
+#   new
+new_page_title: Récupération du mot de passe/du nom d'utilisateur
+#   create
+password_reset_link_sent_notice: Un lien de changement du mot de passe a été envoyé à votre adresse électronique.
+user_not_found_error: Impossible de trouver un utilisateur avec cette adresse électronique.
+#   edit
+invalid_password_reset_code_error: -|
+  Désolé – Ce code de changement de mot de passe est invalide. Veuillez vérifier votre code et réessayer.
+  (Votre client de courriel a peut-être inséré un retour du chariot?)
+#   update
+password_blank_error: Le champ du mot de passe ne peut pas être vide.
+password_reset_notice: Reconfigurer le mot de passe.
+invalid_password_reset_error: Le mot de passe n'a pas pu être reconfiguré, car il est invalide.
+password_and_confirmation_are_different_error: Le mot de passe et la confirmation ne sont pas les mêmes. Veuillez les entrer de nouveau.
+# + invalid_password_reset_code_error
+
+# controllers/recorded_chemicals_controller
+#   config
+recorded_chemicals_label: Résultats du laboratoire
+water_measurement_parameter_name_label: Nom du paramètre
+water_measurement_paremeter_code_label: Code du paramètre
+water_measurement_measurement_label: Valeur
+water_measurement_qualifier_cd_label: Qualificatif
+water_measurement_comment_label: Commentaire
+
+# controllers/recorded_observations_controller
+#   config
+recorded_observations_label: Observations
+recorded_observations_create_label: Ajouter une observation
+recorded_observations_aquatic_activity_event_id_label: ID de l'activité aquatique
+recorded_observations_observation_label: Observation
+recorded_observations_group_label: Groupe
+recorded_observations_value_observed_label: Valeur observée
+recorded_observations_fish_passage_obstruction_ind_label: Blocage de la passe à poissons?
+
+# controllers/samples_controller
+#   config
+samples_label: Échantillons
+samples_create_label: Ajouter un échantillon
+samples_update_label: Réviser l'échantillon
+samples_id_label: ID de l'échantillon de l'Entrepôt de données aquatiques du N.‑B.
+samples_agency_sample_no_label: No. de l'échantillon de l'organisme
+samples_sample_collection_method_label: Méthode de prélèvement de l'échantillon
+samples_sample_depth_m_label: Profondeur de l'échantillon (m)
+samples_water_source_type_label: Type de source d'eau
+samples_analyzed_by_label: Analysé par
+samples_lab_no_label: No. du laboratoire
+samples_sample_results_label: Paramètres
+samples_analyzed_by_desc: Pour les échantillons du laboratoire analytique, entrer le nom du laboratoire effectuant l'analyse
+
+# controllers/sessions_controller
+#   new
+login_page_title: Ouvrir une session
+#   destroy
+logout_notice: La session est terminée.
+#   password_authentication
+incorrect_username_or_password: Votre nom d'utilisateur ou votre mot de passe est inexact.
+account_inactive: Votre compte n'est pas activé; veuillez vérifier votre courriel pour le code d'activation.
+account_disabled: Votre compte a été désactivé.
+#   successful_login
+login_notice: Ouverture de session réussie
+
+# controller/site_measurement_controller
+#   config
+site_measurements_label: Mesures du site
+site_measurements_create_label: Ajouter les nouvelles mesures du site
+site_measurements_o_and_m_label: Paramètre mesuré
+site_measurements_group_label: Groupe
+site_measurements_instrument_label: Instrument utilisé
+site_measurements_unit_of_measure_label: Unité de mesure
+site_measurements_measurement_label: Mesure
+site_measurements_bank_label: Rive
+
+# controller/users_controller
+#   create
+new_account_notice: Merci de vous être inscrit! Prière de vérifier votre courriel pour activer votre compte avant d'ouvrir une session.
+create_account_error: La création de votre compte a posé un problème.
+#   page_title
+users_page_title: Entrepôt de données aquatiques du N.‑B. - {location}
+#   current_location
+signup_location: Inscription
+profile_location: Corriger le profil
+#   update
+user_profile_updated_notice: Mise à jour réussie du profil de l'utilisateur.
+return_to_application: Veuillez cliquer ici pour retourner à l'application.
+update_profile_error: Impossible de sauvegarder les modifications du profil.
+#   destroy
+user_account_disabled_notice: Le compte d'utilisateur a été désactivé.
+user_account_could_not_be_disabled_error: La désactivation de ce compte d'utilisateur a posé un problème.
+#   enable
+user_account_enabled_notice: Le compte d'utilisateur a été activé.
+user_account_could_not_be_enabled_error: L'activation de ce compte d'utilisateur a posé un problème.
+
+# controller/water_chemistry_sampling_controller
+#   current_location
+water_chemistry_sampling_current_location: Échantillonnage pour la composition chimique de l'eau
+#   previous_location
+water_chemistry_sampling_previous_location: De retour aux sites de collecte de données
+#   report
+report_filename: rapport_d-échantillonnage_pour_la_composition_chimique_de_l-eau.csv
+
+# controllers/water_measurements_controller
+#   config
+water_measurements_label: Mesures de l'eau
+water_measurements_create_label: Ajouter une nouvelle mesure de l'eau
+water_measurements_o_and_m_label: Paramètre mesuré
+water_measurements_group_label: Groupe
+water_measurements_instrument_label: Instrument utilisé
+water_measurements_unit_of_measure_label: Unité de mesure
+water_measurements_measurement_label: Mesure
+
+# helpers/application_helper
+#   add_help_tab
+help_tab_label: Aide
+
+# helpers/aquatic_activity_event_helper
+#   agency_site_id
+agency_site_id_text: "ID du site de l'organisme: {agency_site_id}"
+
+# helpers/data_collection_sites_helper
+#   water_chemistry_sampling_link
+water_chemistry_sampling_link_text: Échantillonnage pour la composition chimique de l'eau pour le site no.#{aquatic_site_id} - {aquatic_site_name}
+#   area_of_interest_toogle_link_id
+aoi_enabled_text: Montrer tous les sites
+aoi_disabled_text: Filtrer par domaine d'intérêt
+# + area_of_interest_toggle_link
+
+# helpers/recorded_measurements_helper
+#   check_substrate_accounted_for
+percent_accounted_for_under_limit_msg: Actuellement, %{percent} ne sont pas représentés.
+# + check_stream_accounted_for
+percent_accounted_for_over_limit_msg: Vous êtes actuellement au dessus de cette limite de {percent}%.
+# + check_stream_accounted_for
+substrate_accounted_for_warning: Toutes les mesures du «type de substrat» doivent représenter 100%.
+#   check_stream_accounted_for
+stream_accounted_for_warning: Toutes les mesures du «type de cours d'eau» doivent représenter 100%.
+#   check_bank_measurement
+bank_measurements_do_not_add_up_warning: Les mesures de la rive «Gauche» et  «Droite» pour {name} ne représentent pas 100%. {percent}% de la rive n'est pas représentée.
+
+# helpers/recorded_observations_helper
+#   fish_passage_obstruction_ind_column
+fish_passage_obstructed_text: Oui
+fish_passage_not_obstructed_text: Non
+
+# models/aquatic_data_warehouse/aquatic_activity_event
+#   to_label
+aquatic_activity_event_to_label: Activité aquatique no.{id}
+
+# models/aquatic_data_warehouse/aquatic_site
+#   in_use?
+aquatic_site_in_use_error: Le site est en cours d'utilisation; impossible de supprimer le dossier
+
+# models/aquatic_data_warehouse/recorded_observation
+#   value_observed
+recorded_observation_not_set_read_error: L'observation doit être configurée avant que la valeur observée puisse être lue
+#   value_observed=
+recorded_observation_not_set_write_error: L'observation doit être configurée avant que la valeur observée puisse être écrite
+#   to_label
+recorded_observation_to_label: Observation «{name}»
+
+# models/aquatic_data_warehouse/sample
+#   to_label
+sample_to_label: Échantillon no.{id}
+
+# models/gis/location
+#   attributes
+longitude: Longitude
+latitude: Latitude
+coordinate_system: Système de coordonnées
+#   convert_to_gmap_location
+coordinate_conversion_service_unavailable: Désolé, le service de conversion des coordonnées ne fonctionne pas. Réessayer plus tard.
+#   validate_coordinate_system
+coordinate_system_not_found_validation_msg: introuvable
+coordinate_in_bad_format_validation_msg: mauvais format
+
+# mailers/user_mailer
+#   signup_notification
+signup_notification_subject: Information sur le compte de l'Entrepôt de données aquatiques du N.‑B.
+#   request_for_editor_priveleges
+request_for_editor_priveleges_subject: Demande de {name} de privilèges de correcteur de l'Entrepôt de données aquatiques du N.‑B.
+#   editor_priveleges_granted
+editor_priveleges_granted_subject: Demande de privilèges de correcteur acceptée
+# forgot_password
+forgot_password_subject: Reconfiguration du mot de passe demandée
+# reset_password
+reset_password_subject: Votre mot de passe a été reconfiguré
+# setup_email
+mail_from: Entrepôt de données aquatiques du N.‑B.
+
+# lib/authenticated_system
+#   access_denied
+access_denied_error: La session n'est pas encore ouverte.
+#   permission_denied
+permission_denied_error: Vous n'êtes pas autorisé à effectuer cette action.
+
+# reports/aggregators/water_chemistry_sampling_aggregator
+#   to_csv
+adw_sample_id_report_label: ID de l'échantillon de l'Entrepôt de données aquatiques du N.‑B.
+sample_depth_report_label: Profondeur de l'échantillon (m)
+aquatic_site_id_report_label: ID du site aquatique
+waterbody_id_report_label: ID du cours d'eau
+waterbody_name_report_label: Nom du cours d'eau
+drainage_code_report_label: Code du bassin hydrographique
+site_description_report_label: Description du site
+date_sampled_report_label: Date de l'échantillonnage
+agency_report_label: Organisme
+sampled_by_report_label: Échantillonnage effectué par
+agency_sample_no_report_label: No. de l'échantillon de l'organisme
+analyzed_by_report_label: Analysé par
+collection_method_report_label: Méthode de prélèvement
+lab_no_report_label: No. du laboratoire
+# + reports/views/water_chemistry_sampling/sample_details.html
+# + reports/views/water_chemistry_sampling/site_details.html
+
+# reports/views/water_chemistry_sampling/footer.html
+water_chemistry_report_source: Entrepôt de données aquatiques du N.‑B.
+
+# reports/views/water_chemistry_sampling/header.html
+water_chemistry_report_title: Rapport de la composition chimique de l'eau
+
+# reports/views/water_chemistry_sampling/qualifier_legend
+qualifier_legend_qualifier_label: Qualificatif
+qualifier_legend_description_label: Description
+
+# views/accounts/edit.html
+accounts_old_password_form_label: Ancien mot de passe
+accounts_new_password_form_label: Nouveau mot de passe
+accounts_new_password_form_hint: Entre 4 et 40 caractères
+accounts_confirm_new_password_form_label: Confirmer le nouveau mot de passe
+accounts_edit_form_submit: Modifier le mot de passe
+
+# views/aquatic_activity_event/_edit_agency_site_id_form.html
+edit_agency_site_id_form_label: ID du site
+edit_agency_site_id_form_submit: Sauvegarder
+
+# views/aquatic_activity_event/_show.html
+show_aquatic_activity_edit_label: Corriger
+
+# views/data_collection_sites/_aquatic_site.html
+no_aquatic_sites_found: Impossibilité de trouver des sites aquatiques avec coordonnées!
+unnamed_aquatic_site: Site sans nom
+
+# views/data_collection_sites/_info_window.html
+info_window_waterbody_name_label: Cours d'eau
+info_window_waterbody_id_label: ID du cours d'eau
+info_window_drainage_code_label: Code du bassin hydrographique
+info_window_results_found_text: "{count} activités d'échantillonnage pour la composition chimique de l'eau repérées."
+
+# views/data_collection_sites/_list_header.html
+download_report_link: Télécharger tout
+download_report_link_title: Télécharger tous les échantillons pour la composition chimique de l'eau pour la liste actuelle des sites
+
+# views/data_collection_sites/_preview_location.html
+preview_location_on_map: Montrer l'emplacement sur la carte
+preview_location_loading: Téléchargement de la carte...
+preview_location_close: Fermer
+
+# views/data_collection_sites/_search.html
+data_collection_search_field_example_text: Entrer le nom du cours d'eau ou le code du bassin hydrographique
+
+# views/data_collection_sites/_search_tooltip.html
+data_collection_search_tooltip: |-
+  <p class="first">Entrer le nom d'un cours d'eau, le nom d'un site, le nom d'un bassin
+  hydrographique, le code d'un organisme ou un ensemble de données comme critères de
+  recherche. Le système cherchera des chaînes de texte partielles. Par exemple, «Miramichi»
+  génère rivière Miramichi S‑O, rivière Miramichi N‑O, lac Miramichi, etc.</p>
+
+  <p>Ajouter «bassin hydrographique» ou «bassin» après le nom d'un cours d'eau pour
+  chercher des sites dans la zone du bassin hydrographique. Par exemple, si on entre
+  «bassin hydrographique de la rivière Hammond», la liste produite comprendra tous
+  les sites pour la rivière Hammond et ses tributaires.</p>
+
+  <p>Utiliser «+» pour chercher des objets multiples comme un cours d'eau + code
+  d'organisme + nom de l'ensemble de données. Par exemple, rivière Hammond + HRAA
+  + composition chimique de l'eau.</p>
+
+  <p>L'option <strong>Reconfigurer<strong> produira toute la liste des sites de
+  collecte de données.</p>
+
+# views/data_collection_sites/_show.html
+location_label: Emplacement
+
+# views/data_collection_sites/gmap_max_content.html
+gmap_max_content_title: Échantillonnage pour la composition chimique de l'eau pour le site no.{id} - {name}
+gmap_max_content_agency_site_id_label: ID du site de l'organisme
+gmap_max_content_analysis_method_label: Méthode d'analyse
+gmap_max_content_date_label: Date
+gmap_max_content_agency_label: Organisme
+gmap_max_content_weather_conditions_label: Conditions météorologiques
+gmap_max_content_water_level_label: Niveau d'eau
+gmap_max_content_open_label: Ouvrir
+
+# views/data_entry/_navigation_tabs.html
+browse_tab: Naviguer
+explore_tab: Explorer
+
+# views/layouts/_session.html
+logged_in_as: Ouvrir une session comme <span class="name">{user}</span>
+user_profile_link: Profil
+user_logout_link: Fermer la session
+
+# views/layouts/application.html
+help_contents_close: Fermer
+help_contents_loading: Téléchargement en cours...
+
+# views/layouts/profile.html
+profile_title: Entrepôt de données aquatiques du N.‑B. – Corriger profil
+profile_location: Corriger le profil
+
+# views/passwords/edit.html
+password_reset_form_label: Reconfiguration du mot de passe
+password_reset_form_new_password_field: Nouveau mot de passe
+password_reset_form_password_confirmation_field: Confirmer le nouveau mot de passe
+password_reset_form_submit: Reconfigurer votre mot de passe
+password_reset_form_cancel: Annuler
+
+# views/passwords/new.html
+account_recovery_form_label: Oublié le nom d'utilisateur / le mot de passe
+account_recovery_form_email_field: Quelle adresse de courriel a été utilisée pour créer votre compte?
+account_recovery_form_submit: Reconfirmer le mot de passe
+account_recovery_form_cancel: Annuler
+
+# views/recorded_chemicals/_update.html
+recorded_chemicals_update_label: "Mettre à jour les résultats du laboratoire {parameter}"
+
+# views/recorded_observations/_observation_form_column.rhtml
+recorded_observations_value_observed_label: Valeur observée
+recorded_observations_fish_passage_blocked_label: Blocage de la passe à poissons
+
+# views/sessions/new.html
+login_form_label: Ouverture de session – entrée de données
+login_form_username_field: Nom d'utilisateur
+login_form_password_field: Mot de passe
+login_form_forgot_password_link: J’ai oublié mon mot de passe/nom d'utilisateur
+login_form_remember_me_field: Mémoriser mes coordonnées sur cet ordinateur
+login_form_submit_label: Inscription
+login_form_no_account_msg: Vous n'avez pas de compte?
+login_form_create_account_link: En créer un maintenant
+
+# views/site_measurements/_bank_form_column
+bank_side_left_option: Gauche
+bank_side_right_option: Droite
+
+# views/users/_form.html
+users_form_label: Détails du compte
+users_form_name_field: Votre nom
+users_form_login_field: Nom d'utilisateur
+users_form_email_field: Courriel
+new_users_form_password_field: Mot de passe
+edit_users_form_password_field: Modifier le mot de passe
+new_users_form_password_confirmation_field: Confirmer le mot de passe
+edit_users_form_password_confirmation_field: Confirmer le nouveau mot de passe
+users_form_preferred_language_field: Langue préférée
+users_form_agency_label: Organisme
+users_form_user_agency_id_field: Organisme
+new_users_form_create_agency_agency_field: Nom de l'organisme
+new_users_form_create_agency_agency_cd_field: Code de l'organisme
+new_users_form_create_agency_agency_type_field: Type d'organisme
+new_users_form_create_agency_link: (Votre organisme est introuvable dans la liste?  Cliquer ici pour en créer un)
+new_users_form_select_agency_link: (Je voudrais choisir un organisme existant)
+users_form_requesting_editor_priveleges_field: Ce compte sera-t-il utilisé pour ajouter ou corriger les données de votre organisme?
+users_form_requesting_editor_priveleges_no_option: Non, je veux seulement voir les données et les rapports
+users_form_requesting_editor_priveleges_yes_option: Oui
+users_form_aoi_label: Domaine d'intérêt
+new_users_form_aoi_remove_area_of_interest_field: Supprimer le domaine d'intérêt
+new_users_form_submit_label: Créer un compte
+edit_users_form_submit_label: Sauvegarder la modification
+users_form_cancel_label: Annuler
+
+# views/users/_navigation_tabs.html
+go_back_tab: Retourner
+
+# views/users/new.html
+create_new_account_label: Créer un compte
+
+# views/water_chemistry_sampling/_activity_details.html
+activity_details_title: Détails de l'activité
+
+# views/water_chemistry_sampling/_aquatic_site.html
+aquatic_site_title: Site aquatique
+no_coordinate_information: Aucune information de coordonnées pour ce site aquatique.
+
+# views/water_chemistry_sampling/_navigation_tabs.html
+samples_tab: Échantillons
+observations_tab: Observations
+measurements_tab: Mesures
+report_tab: Rapport
+
+# views/water_chemistry_sampling/report.html
+download_action: Télécharger
+
+# views/waterbody/*.html (lots of overlap between these two, so i'm grouping the keys together)
+lookup_field: Recherche
+lookup_watersheds_label: Bassin(s) hydrographique(s)
+lookup_waterbody_id_label: ID du cours d'eau
+lookup_waterbody_name_label: Nom du cours d'eau
+lookup_drainage_code_label: Code du bassin hydrographique
+waterbody_lookup_desc: |-
+  Entrer le nom d'un cours d'eau, l'ID d'un cours d'eau ou le code d'un bassin hydrographique
+  et le système présentera une liste de cours d'eau avec des noms, ID ou codes semblables.
+  Choisir un cours d'eau dans la liste. Les autres champs de cours d'eau (ID du cours
+  d'eau et code du bassin hydrographique) seront remplis automatiquement.
+aoi_lookup_desc: |-
+  Entrer le nom d'un cours d'eau ou le code d'un bassin hydrographique comme critères
+  de recherche. Le système cherchera des chaînes de texte partielles. Par exemple,
+  «Miramichi» générera rivière Miramichi S.‑O., rivière Miramichi N.‑O., lac Miramichi, etc.
+lookup_result_waterbody_id_label: ID
+lookup_result_drainage_code_label: Code du bassin hydrographique
+
+# views/water_chemistry_sampling/samples.html
+legacy_samples_present: |-
+  {count} événements d'échantillonnage pour la composition chimique de l'eau pour
+  ce site ne peuvent pas être affichés ici. Veuillez communiquer avec
+  <strong>{agency}</strong> pour plus d'information.

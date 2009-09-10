@@ -1,35 +1,34 @@
-
-locale_name: Italiano
+locale_name: Français
 # ActiveRecord::Errors.default_error_messages
-error_message_inclusion: non è incluso nella lista
-error_message_exclusion: è riservato
-error_message_invalid: non è valido
-error_message_confirmation: non è lo stesso della conferma
-error_message_accepted: deve essere accettato
-error_message_empty: non può essere vuoto
-error_message_blank: è richiesto
-error_message_too_long: è troppo lungo (massimo %d caratteri)
-error_message_too_short: è troppo corto (minimo %d caratteri)
-error_message_wrong_length: è della lunghezza sbagliata (dovrebbe essere di %d caratteri)
-error_message_taken: è già stato assegnato
-error_message_not_a_number: non è un numero
+error_message_inclusion: ne figure pas dans la liste.
+error_message_exclusion: est réservé.
+error_message_invalid: est invalide.
+error_message_confirmation: ne correspond pas à la confirmation.
+error_message_accepted: doit être accepté.
+error_message_empty: ne peut pas être vide.
+error_message_blank: ne peut pas être laissé en blanc.
+error_message_too_long: est trop long (maximum de %d caractère(s)).
+error_message_too_short: est trop court (minimum de %d caractère(s)).
+error_message_wrong_length: mauvaise longueur (devrait être de %d caractère(s)).
+error_message_taken: est déjà pris.
+error_message_not_a_number: n'est pas un chiffre.
 # ActionController::Base.resources_path_names
-resources_path_new: nuovo
-resources_path_edit: edit
+resources_path_new: nouveau
+resources_path_edit: corriger
 # used by ActionView::Helpers::DateHelper.distance_of_time_in_words
-date_helper_less_than_x_seconds: meno di %d secondi
-date_helper_half_a_minute: mezzo minuto
-date_helper_less_than_a_minute: meno di un minuto
-date_helper_one_minute: un minuto
-date_helper_x_minutes: %d minuti
-date_helper_one_hour: circa un'ora
-date_helper_x_hours: circa %d ore
-date_helper_one_day: un giorno
-date_helper_x_days: %d giorni
-date_helper_one_month: %d mesi
+date_helper_less_than_x_seconds: moins de %d secondes
+date_helper_half_a_minute: une demi-minute
+date_helper_less_than_a_minute: moins d'une minute
+date_helper_one_minute: 1 minute
+date_helper_x_minutes: %d minutes
+date_helper_one_hour: environ 1 heure
+date_helper_x_hours: environ %d heures
+date_helper_one_day: 1 journée
+date_helper_x_days: %d jours
+date_helper_one_month: 1 mois
 date_helper_x_months: %d mois
-date_helper_one_year: un anno
-date_helper_x_years: %d anni
+date_helper_one_year: 1 an
+date_helper_x_years: %d années
 
 # DON'T TRANSLATE, just order
 date_helper_order: [:day, :month, :year] #default Rails is US ordered: :order => [:year, :month, :day]
@@ -49,70 +48,70 @@ date_helper_am: am
 date_helper_pm: pm
   
 # used by ActionView::Helpers::NumberHelper.number_to_currency
-number_helper_unit: "€"
+number_helper_unit: "$"
 number_helper_separator: "," #unit separator (between integer part and fraction part)
-number_helper_delimiter: "." #delimiter between each group of thousands. Example: 1.234.567 
+number_helper_delimiter: " " #delimiter between each group of thousands. Example: 1.234.567
 number_helper_order: [number, unit] #order is at present unsupported in Rails
 #to support for instance French format, the order is different: Unit comes last (ex. "1.234,00 €")
 
 # use by +Array#to_sentence()+
-array_connector: 'e'
+array_connector: 'et'
 array_skip_last_comma: 'false'
 
-active_record_helper_header_message: pluralize{{error_count}, errore, errori} durante il salvataggio di {failed_object}
-active_record_helper_error_description: 'Si sono verificati dei problemi con i seguenti campi:'
+# Active Record error messages:
+active_record_helper_error_description: 'Il avait des problèmes avec les champs suivants:'
+active_record_helper_header_message: pluralize{{error_count}, erreur} sauvegarde de ce '{failed_object}' interdite
 
 date_helper_month_names:
  -              # Leave that line
    -            # Leave that line
- - Gennaio
- - Febbraio
- - Marzo
- - Aprile
- - Maggio
- - Giugno
- - Luglio
- - Agosto
- - Settembre
- - Ottobre
+ - Janvier
+ - Février
+ - Mars
+ - Avril
+ - Mai
+ - Juin
+ - Juillet
+ - Août
+ - Septembre
+ - Octobre
  - Novembre
- - Dicembre
+ - Décembre
 
 date_helper_abbr_month_names:
   -             # Leave that line
     -           # Leave that line
-  - Gen
-  - Feb
-  - Mar
-  - Apr
-  - Mag
-  - Giu
-  - Lug
-  - Ago
-  - Set
-  - Ott
+  - Janv
+  - Fevr
+  - Mars
+  - Avr
+  - Mai
+  - Juin
+  - Jull
+  - Août
+  - Sept
+  - Oct
   - Nov
-  - Dic
+  - Déc
 
 date_helper_day_names: 
-  - Domenica
-  - Lunedì
-  - Martedì
-  - Marcoledì
-  - Giovedì
-  - Venerdì
-  - Sabato
+  - Dimanche
+  - Lundi
+  - Mardi
+  - Mercredi
+  - Jeudi
+  - Vendredi
+  - Samedi
 
 date_helper_abbr_day_names: 
-  - Dom
+  - Dim
   - Lun
   - Mar
   - Mer
-  - Gio
-  - Ven 
-  - Sab
-
-# STILL NOT TRANSLATED IN ITALIAN      
+  - Jeu
+  - Vend
+  - Sam
+      
 countries_list:
   - Afghanistan
   - Albanie
