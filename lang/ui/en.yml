@@ -80,6 +80,12 @@ data_entry_browse_action: Browse
 data_entry_explore_action: Explore
 #   current_location
 data_entry_current_location: Main Menu
+#   explore
+explore_legend_title: Data Collection Sites
+explore_legend_data_available_label: Data Attached
+explore_legend_legacy_data_available_label: See Agency for Data
+gmap_loading_text: Loading...
+gmap_max_window_title: Aquatic Site Details
 
 # controllers/help_controller
 #   show
@@ -108,6 +114,7 @@ recorded_chemicals_label: Lab Results
 water_measurement_parameter_name_label: Parameter Name
 water_measurement_paremeter_code_label: Parameter Code
 water_measurement_measurement_label: Value
+water_measurement_unit_of_measure_label: Unit of Measure
 water_measurement_qualifier_cd_label: Qualifier
 water_measurement_comment_label: Comment
 
@@ -290,13 +297,18 @@ waterbody_id_report_label: Waterbody ID
 waterbody_name_report_label: Waterbody Name
 drainage_code_report_label: Drainage Code
 site_description_report_label: Site Description
-date_sampled_report_label: Date Sampled
+date_sampled_report_label: Date Sampled <span class="date-format">(yyyy/mm/jj)</span>
 agency_report_label: Agency
 sampled_by_report_label: Sampled By
 agency_sample_no_report_label: Agency Sample No.
 analyzed_by_report_label: Analyzed By
 collection_method_report_label: Collection Method
 lab_no_report_label: Lab No.
+parameter_report_label: Parameter
+measurement_report_label: Measurement
+unit_of_measure_report_label: Unit of Measure
+qualifier_report_label: Qualifier
+comment_report_label: Comment
 # + reports/views/water_chemistry_sampling/sample_details.html
 # + reports/views/water_chemistry_sampling/site_details.html
 

@@ -81,6 +81,12 @@ data_entry_browse_action: Naviguer
 data_entry_explore_action: Explorer
 #   current_location
 data_entry_current_location: Menu principal
+#   explore
+explore_legend_title: Sites de collecte des données
+explore_legend_data_available_label: Données ci-jointes
+explore_legend_legacy_data_available_label: Voir l'Agence de données
+gmap_loading_text: Chargement...
+gmap_max_window_title: Détails sur le site aquatique
 
 # controllers/help_controller
 #   show
@@ -109,6 +115,7 @@ recorded_chemicals_label: Résultats du laboratoire
 water_measurement_parameter_name_label: Nom du paramètre
 water_measurement_paremeter_code_label: Code du paramètre
 water_measurement_measurement_label: Valeur
+water_measurement_unit_of_measure_label: Unité de mesure
 water_measurement_qualifier_cd_label: Qualificatif
 water_measurement_comment_label: Commentaire
 
@@ -291,13 +298,18 @@ waterbody_id_report_label: ID du cours d'eau
 waterbody_name_report_label: Nom du cours d'eau
 drainage_code_report_label: Code du bassin hydrographique
 site_description_report_label: Description du site
-date_sampled_report_label: Date de l'échantillonnage
+date_sampled_report_label: Date de l'échantillonnage <span class="date-format">(aaaa/mm/jj)</span>
 agency_report_label: Organisme
 sampled_by_report_label: Échantillonnage effectué par
 agency_sample_no_report_label: No. de l'échantillon de l'organisme
 analyzed_by_report_label: Analysé par
 collection_method_report_label: Méthode de prélèvement
 lab_no_report_label: No. du laboratoire
+parameter_report_label: Paramètre
+measurement_report_label: Mesure
+unit_of_measure_report_label: Unité de mesure
+qualifier_report_label: Qualificatif
+comment_report_label: Commentaire
 # + reports/views/water_chemistry_sampling/sample_details.html
 # + reports/views/water_chemistry_sampling/site_details.html
 

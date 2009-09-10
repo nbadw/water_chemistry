@@ -56,20 +56,41 @@ class DataEntryController < ApplicationController
       GROUP BY aquatic_site_id
       ORDER BY aquatic_site_id ASC
     }    
-    
+
+    legacy_marker_count = 0
     @site_markers = AquaticSite.find_by_sql(query).collect do |query_row|
-      result = query_row.attributes      
-      marker = { 
+      result = query_row.attributes
+      legacy_marker = result['sample_count'].to_i == 0
+
+      marker = {
         :id => result['aquatic_site_id'],
         :latitude => result['latitude'],
         :longitude => result['longitude'],
-        :legacy => result['sample_count'].to_i == 0,
+        :legacy => legacy_marker,
         :info => render_to_string(
           :partial => 'data_collection_sites/info_window', 
           :locals => { :result => result }
         )          
       }
+      legacy_marker_count += 1 if legacy_marker
+
       marker
-    end 
+    end
+
+    @explore_legend_data = {
+      :title => :explore_legend_title.l,
+      :data_available => {
+        :label => :explore_legend_data_available_label.l,
+        :count => @site_markers.length - legacy_marker_count
+      },
+      :legacy_data_available => {
+        :label => :explore_legend_legacy_data_available_label.l,
+        :count => legacy_marker_count
+      }
+    }
+
+    # some other translated items for the google map
+    @loading_text     = :gmap_loading_text.l
+    @max_window_title = :gmap_max_window_title.l
   end
 end

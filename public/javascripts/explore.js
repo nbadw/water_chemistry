@@ -1,6 +1,5 @@
 var explore_map;
 var site2marker = {};
-var site_markers = [];
 var legacy_icon_image = "/images/iconr.png";     
 var normal_icon_image = "/images/iconb.png";   
 
@@ -37,7 +36,7 @@ function displayMap() {
               normalSiteCount++;
           }
         }
-        explore_map.addControl(new ExploreLegendControl(normalSiteCount, legacySiteCount));
+        explore_map.addControl(new ExploreLegendControl(explore_legend_data));
     }     
 }
 
@@ -62,13 +61,13 @@ function configureMarkers() {
         var marker = new GMarker(coord, { icon: icon });  
         var maxContentDiv = document.createElement('div'); 
                         
-        maxContentDiv.innerHTML = 'Loading...';
+        maxContentDiv.innerHTML = loading_text;
         maxContentDiv.className = 'info-window';
         marker.id = site.id;          
         marker.maxContent = maxContentDiv;
         marker.bindInfoWindowHtml(site.info, {
             maxContent: marker.maxContent, 
-            maxTitle: "Aquatic Site Details"
+            maxTitle: max_window_title
         });           
         GEvent.addListener(marker, 'click', handleMarkerClick);
         
@@ -83,7 +82,7 @@ function handleMarkerClick(evt) {
     var marker = this;
     var iw = explore_map.getInfoWindow();
     
-    if(marker.maxContent.innerHTML == 'Loading...') {
+    if(marker.maxContent.innerHTML == loading_text) {
         GEvent.addListener(iw, "maximizeclick", function() {
             GDownloadUrl("/data_collection_sites/gmap_max_content/" + marker.id, function(data) {
                 marker.maxContent.innerHTML = data;
@@ -101,9 +100,10 @@ Event.observe(window, 'load', init);
  * CUSTOM MAP LEGEND
  */
 // We define the function first
-function ExploreLegendControl(normalSiteCount, legacySiteCount) {
-    this.normalSiteCount = normalSiteCount;
-    this.legacySiteCount = legacySiteCount;
+function ExploreLegendControl(explore_legend_data) {
+    this.title = explore_legend_data.title;
+    this.data_available = explore_legend_data.data_available
+    this.legacy_data_available = explore_legend_data.legacy_data_available;
 }
 
 // To "subclass" the GControl, we set the prototype object to
@@ -121,12 +121,14 @@ ExploreLegendControl.prototype.initialize = function(map) {
   var legacyIconDiv = document.createElement("div");
   
   legend.id = 'gmap-control-explore-legend';
-  legend.innerHTML = '<h3>Data Collection Sites</h3>';
+  legend.innerHTML = '<h3>' + this.title + '</h3>';
   normalIconDiv.className = 'normal';
-  normalIconDiv.innerHTML = '<img src="' + normal_icon_image + '" />Data Attached (' + this.normalSiteCount + ')';
+  normalIconDiv.innerHTML = '<img src="' + normal_icon_image + '" />' + 
+      this.data_available.label + ' (' + this.data_available.count + ')';
   legend.appendChild(normalIconDiv);  
   legacyIconDiv.className = 'legacy';
-  legacyIconDiv.innerHTML = '<img src="' + legacy_icon_image + '" />See Agency for Data (' + this.legacySiteCount + ')';
+  legacyIconDiv.innerHTML = '<img src="' + legacy_icon_image + '" />' +
+      this.legacy_data_available.label + ' (' + this.legacy_data_available.count + ')';
   legend.appendChild(legacyIconDiv);
   
   container.appendChild(legend);
