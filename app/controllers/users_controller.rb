@@ -3,6 +3,20 @@ class UsersController < ApplicationController
   
   before_filter :not_logged_in_required,   :only => [:new, :create] 
   before_filter :login_required,           :only => [:show, :edit, :update]
+
+  # only used to allow validations to be translated properly
+  active_scaffold :user do |config|
+    config.actions = [:create]
+    config.columns = [:name, :login, :email, :password, :password_confirmation, :agency, :area_of_interest, :language, :agency, :agency_cd]
+    config.columns[:name].label                  = :users_form_name_field.l
+    config.columns[:login].label                 = :users_form_login_field.l
+    config.columns[:email].label                 = :users_form_email_field.l
+    config.columns[:password].label              = :new_users_form_password_field.l
+    config.columns[:password_confirmation].label = :new_users_form_password_confirmation_field.l
+    config.columns[:language].label              = :users_form_preferred_language_field.l
+    config.columns[:agency].label = :new_users_form_create_agency_agency_field.l
+    config.columns[:agency_cd].label = :new_users_form_create_agency_agency_cd_field.l
+  end
   
   helper do
     def agency_dropdown(html_options = {})
@@ -48,8 +62,8 @@ class UsersController < ApplicationController
   
   def current_location
     case action_name.to_sym
-    when :new, :create then :signup_location.l
-    when :edit         then :profile_location.l
+    when :new,  :create then :signup_location.l
+    when :edit, :update then :profile_location.l
     else action_name
     end
   end
@@ -57,7 +71,7 @@ class UsersController < ApplicationController
   def edit
     @user = current_user
     previous_location = request.env["HTTP_REFERER"]
-    unless previous_location == edit_user_path(@user) || previous_location == '/users/1'
+    unless previous_location.match(/#{edit_user_path(@user)}/) || previous_location.match(/\/users\/\d+/)
       session[:previous_location] = previous_location
     end
     render :layout => 'application'
@@ -65,28 +79,52 @@ class UsersController < ApplicationController
   
   def update
     @user = User.find(current_user)
-    
-    attr_diff = {}
+    updated = false
+    previous_language = @user.language
+
+    # update any attribute values that have changed
     params[:user].each do |attr, value|
-      next if value.to_s.blank? #ignore blank values
-      attr_diff[attr] = value if @user.attributes[attr] != value
+      unless value.to_s.blank? || value == @user.send(attr)
+        @user.send("#{attr}=", value)
+        updated = true
+      end
     end
-    if params[:requesting_editor_priveleges] == 'yes' && !@user.editor?
-      attr_diff[:requesting_editor_priveleges] = true unless @user.requesting_editor_priveleges?
+
+    # have editor priveleges been requested?
+    if params[:requesting_editor_priveleges] == 'yes'
+      unless @user.editor? && @user.requesting_editor_priveleges?
+        @user.requesting_editor_priveleges = true
+        updated = true
+      end
     end
-    unless params[:area_of_interest].to_s.blank?
-      attr_diff[:area_of_interest_id] = params[:area_of_interest] if @user.area_of_interest_id != params[:area_of_interest]
+
+    # has an area of interest been specified
+    unless params[:area_of_interest].to_s.blank? || @user.area_of_interest_id == params[:area_of_interest]
+      @user.area_of_interest_id = params[:area_of_interest]
+      updated = true
     end
+
     # doesn't matter if they set an AOI above, if 'remove area of interest' is checked, remove it
     if params[:remove_area_of_interest]
-      attr_diff[:area_of_interest_id] = nil
+      @user.area_of_interest_id = nil
+      updated = true
+    end
+
+    # the language might have been changed so we'll have to set the locale if so
+    # since the flash message will now need to be in the appropriate language
+    unless previous_language == @user.language
+      logger.debug "[globalite] updating language for user profile: #{@user.language}"
+      Locale.code = "#{@user.language}-*"
     end
             
-    if @user.update_attributes(attr_diff)
-      flash[:notice] = "#{:user_profile_updated_notice.l} <a href=\"#{session[:previous_location]}\">#{:return_to_application.l}</a>"
-    else
-      flash[:error]  = :update_profile_error.l
+    if updated
+      if  @user.save
+        flash[:notice] = "#{:user_profile_updated_notice.l} <a href=\"#{session[:previous_location]}\">#{:return_to_application.l}</a>"
+      else
+        flash[:error]  = :update_profile_error.l
+      end
     end
+    
     render :layout => 'application', :action => 'edit'
   end
 end
