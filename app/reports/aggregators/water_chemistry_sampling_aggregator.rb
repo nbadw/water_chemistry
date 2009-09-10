@@ -58,7 +58,7 @@ module Reports
           parameter_table.add_column(h['ADW Sample ID'], :position => 0, :default => sample.id)
           table = (table ? table + parameter_table : parameter_table)
         end
-        table = table.pivot('Parameter', :group_by => h['ADW Sample ID'], :values => 'Measurement')
+        table = table.pivot(:parameter_report_label.l, :group_by => h['ADW Sample ID'], :values => :measurement_report_label.l)
         
         # add extra columns
         table.add_column(h['Aquatic Site ID'],   :position => 1)
@@ -97,6 +97,15 @@ module Reports
       
       private
       def build_parameter_table(sample)
+        # table headers
+        h = {
+          'parameter'       => :parameter_report_label.l,
+          'measurement'     => :measurement_report_label.l,
+          'unit_of_measure' => :unit_of_measure_report_label.l,
+          'qualifier'       => :qualifier_report_label.l,
+          'comment'         => :comment_report_label.l
+        }
+
         table = Table([:parameter, :measurement, :unit_of_measure, :qualifier, :comment]) do |t| 
           sample.sample_results.each do |sample| 
             row = {}
@@ -109,7 +118,7 @@ module Reports
             t << row
           end
         end
-        table.rename_columns { |c| c.to_s.titleize }
+        table.rename_columns { |c| h[c.to_s] }
         table
       end
     end

@@ -1,12 +1,15 @@
 require File.dirname(__FILE__) + '/../../test_helper'
 
 class UserTest < Test::Unit::TestCase       
-  should_require_attributes :name, :login, :email, :password, :password_confirmation, :agency
+  should_require_attributes :name, :login, :email, :password, 
+    :password_confirmation, :agency, :language
   
   should_ensure_length_in_range :password, (4..40)
   should_ensure_length_in_range :login, (3..40)
   should_ensure_length_in_range :email, (3..100)
   should_ensure_length_in_range :name, (1..100)
+  should_allow_values_for :language, 'en', 'fr'
+
   
   should_belong_to :agency
   should_belong_to :area_of_interest

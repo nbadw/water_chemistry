@@ -1,19 +1,27 @@
 <div id="login">
+  <div id="language">
+    <% if Locale.language.to_s == 'en' %>
+      <%= link_to 'Version Français', login_url(:lang => 'fr')  %>
+    <% else %>
+      <%= link_to 'English Version',  login_url(:lang => 'en')  %>
+    <% end %>
+  </div>
+
   <h1><%= :login_form_label.l %></h1>
-  
+
   <% if flash[:error] %>
     <div class="error">
       <%= flash[:error] %>
       <%= error_messages_for :user %>
     </div>
   <% end %>
-  
+
   <% if flash[:notice] %>
     <div class="notice">
       <%= flash[:notice] %>
     </div>
   <% end %>
-  
+
   <% form_tag session_path do %>
     <dl>
       <dt><label for="username"><%= :login_form_username_field.l %>:</label></dt>
@@ -25,21 +33,21 @@
         <%= password_field_tag 'password' %>
         <span>(<%= link_to :login_form_forgot_password_link.l, forgot_password_path %>)</span>
       </dd>
-    
+
       <dd>
         <%= check_box_tag 'remember_me' %>
         <label for="remember_me"><%= :login_form_remember_me_field.l %></label>
       </dd>
-    
+
       <dd>
         <%= submit_tag :login_form_submit_label.l %>
       </dd>
     </dl>
   <% end %>
-  
+
   <div id="register">
     <p><%= :login_form_no_account_msg.l %> <%= link_to :login_form_create_account_link.l, signup_path %>.</p>
-  </div>  
+  </div>
 </div>
 
 <script type="text/javascript">

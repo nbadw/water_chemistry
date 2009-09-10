@@ -22,6 +22,7 @@ class AquaticActivityEventController < ApplicationController
     config.columns[:start_date].label              = :start_date_label.l
     config.columns[:weather_conditions].label      = :weather_conditions_label.l
     config.columns[:water_level].label             = :water_level_label.l
+    config.columns[:agency].label                  = :agency_label.l
 
     # action link labels
     config.create.label    = :aquatic_activity_event_create_label.l 

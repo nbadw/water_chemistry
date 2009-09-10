@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
     cookies.delete :auth_token
     reset_session
     flash[:notice] = :logout_notice.l
-    redirect_to :action => 'new'
+    redirect_to :action => 'new', :lang => self.current_user.language
   end
   
   protected  

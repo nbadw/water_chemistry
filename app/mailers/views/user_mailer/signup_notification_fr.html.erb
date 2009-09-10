@@ -1,0 +1,18 @@
+Bonjour <%= @user.name %>,
+
+Vous venez de créer un compte pour l'application d'entrée de données à l'Entrepôt
+de données aquatiques du N.‑B. Vous devez d’abord activer votre compte en cliquant
+sur le lien ci-dessous ou le copier et le coller dans votre navigateur:
+
+<%= activate_url(@user.activation_code) %>
+
+Vous pourrez ensuite ouvrir une session avec le nom d'utilisateur '<%= @user.login %>'
+et le mot de passe précisé. (À noter que les options d'ouverture de session et de
+récupération du mot de passe ne fonctionneront pas si votre compte n'a pas été activé.)
+
+Voici également des URL importants pour votre compte:
+- Ouverture de session: <%= login_url %>
+- Récupération du mot de passe <%= forgot_password_url %>
+- Corriger le profil: <%= edit_user_url(@user) %> (vous devez avoir ouvert une session pour y accéder).
+
+Merci de vous être inscrit!

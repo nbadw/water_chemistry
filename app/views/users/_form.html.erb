@@ -29,6 +29,16 @@
       <dt><label for="user_password_confirmation"><%= action == :new ? :new_users_form_password_confirmation_field.l : :edit_users_form_password_confirmation_field.l %></label></dt>
       <dd><%= form.password_field :password_confirmation, :class => 'text-input' %></dd>
     </dl>
+  </li><li class="form-element">
+    <dl>
+      <dt><label for="user_language"><%= :users_form_preferred_language_field.l %></label></dt>
+      <dd>
+        <select name="user[language]">
+          <option value="en" <%= 'selected="yes"' if Locale.language.to_s == 'en' %>>English</option>
+          <option value="fr" <%= 'selected="yes"' if Locale.language.to_s == 'fr' %>>Français</option>
+        </select>
+      </dd>
+    </dl>
   </li>
 </ol>    
 

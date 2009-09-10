@@ -1,0 +1,27 @@
+<%= render :partial => 'help/water_chemistry_sampling/overview_fr' %>
+
+<% help_section 'Échantillons' do %>
+  <p>Cliquer sur <strong>En créer un nouveau</strong>, dans le coin supérieur droit
+    de la liste des échantillons, pour ouvrir une formule d'entrée des données vierge
+    afin d'enregistrer un nouvel échantillon.</p>
+
+  <% help_section 'Paramètres' do %>
+    <p>Présente une liste des paramètres analysés pour l'échantillon.</p>
+    <p>Cliquer sur <strong>En créer un nouveau</strong> pour ajouter un paramètre,
+      sur <strong>Corriger</strong> pour modifier l'information du paramètre ou
+      sur <strong>Supprimer</strong> pour supprimer le paramètre de façon
+      permanente.</p>
+  <% end %>
+
+  <% help_section 'Corriger' do %>
+    <p>Modifier l'information sur l'échantillon</p>
+  <% end %>
+
+  <% help_section 'Supprimer' do %>
+    <p>Supprimer l'échantillon de façon permanente</p>
+  <% end %>
+
+  <% help_section 'Afficher' do %>
+    <p>Afficher les détails de l'échantillon</p>
+  <% end %>
+<% end %>

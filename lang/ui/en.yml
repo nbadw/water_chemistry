@@ -1,6 +1,6 @@
 # controllers/application
 #   application_name
-application_name: NB Aquatic Data Warehouse Data Management Application
+application_name: NB Aquatic Data Warehouse<br/> Data Management Application
 #   page_title
 nbadw: NB Aquatic Data Warehouse
 
@@ -80,6 +80,12 @@ data_entry_browse_action: Browse
 data_entry_explore_action: Explore
 #   current_location
 data_entry_current_location: Main Menu
+#   explore
+explore_legend_title: Data Collection Sites
+explore_legend_data_available_label: Data Attached
+explore_legend_legacy_data_available_label: See Agency for Data
+gmap_loading_text: Loading...
+gmap_max_window_title: Aquatic Site Details
 
 # controllers/help_controller
 #   show
@@ -108,6 +114,7 @@ recorded_chemicals_label: Lab Results
 water_measurement_parameter_name_label: Parameter Name
 water_measurement_paremeter_code_label: Parameter Code
 water_measurement_measurement_label: Value
+water_measurement_unit_of_measure_label: Unit of Measure
 water_measurement_qualifier_cd_label: Qualifier
 water_measurement_comment_label: Comment
 
@@ -227,8 +234,8 @@ bank_measurements_do_not_add_up_warning: "'Left' and 'Right' bank measurements f
 
 # helpers/recorded_observations_helper
 #   fish_passage_obstruction_ind_column
-fish_passage_obstructed_text: Yes
-fish_passage_not_obstructed_text: No
+fish_passage_obstructed_text: "Yes"
+fish_passage_not_obstructed_text: "No"
 
 # models/aquatic_data_warehouse/aquatic_activity_event
 #   to_label
@@ -290,13 +297,18 @@ waterbody_id_report_label: Waterbody ID
 waterbody_name_report_label: Waterbody Name
 drainage_code_report_label: Drainage Code
 site_description_report_label: Site Description
-date_sampled_report_label: Date Sampled
+date_sampled_report_label: Date Sampled <span class="date-format">(yyyy/mm/jj)</span>
 agency_report_label: Agency
 sampled_by_report_label: Sampled By
 agency_sample_no_report_label: Agency Sample No.
 analyzed_by_report_label: Analyzed By
 collection_method_report_label: Collection Method
 lab_no_report_label: Lab No.
+parameter_report_label: Parameter
+measurement_report_label: Measurement
+unit_of_measure_report_label: Unit of Measure
+qualifier_report_label: Qualifier
+comment_report_label: Comment
 # + reports/views/water_chemistry_sampling/sample_details.html
 # + reports/views/water_chemistry_sampling/site_details.html
 
@@ -428,6 +440,8 @@ bank_side_left_option: Left
 bank_side_right_option: Right
 
 # views/users/_form.html
+user: User Account
+agency: Agency
 users_form_label: Account Details
 users_form_name_field: Your Name
 users_form_login_field: Username
@@ -436,6 +450,7 @@ new_users_form_password_field: Password
 edit_users_form_password_field: Change Password
 new_users_form_password_confirmation_field: Confirm Password
 edit_users_form_password_confirmation_field: Confirm New Password
+users_form_preferred_language_field: Preferred Language
 users_form_agency_label: Agency
 users_form_user_agency_id_field: Agency
 new_users_form_create_agency_agency_field: Agency Name
@@ -445,7 +460,7 @@ new_users_form_create_agency_link: (Can't find your agency in the list?  Click h
 new_users_form_select_agency_link: (I'd like to select an existing agency instead)
 users_form_requesting_editor_priveleges_field: Will this account be used to add/edit your agency's data?
 users_form_requesting_editor_priveleges_no_option: No, I'd just like to view data and reports
-users_form_requesting_editor_priveleges_yes_option: Yes
+users_form_requesting_editor_priveleges_yes_option: "Yes"
 users_form_aoi_label: Area of Interest
 new_users_form_aoi_remove_area_of_interest_field: Remove Area of Interest
 new_users_form_submit_label: Create Account
@@ -454,6 +469,9 @@ users_form_cancel_label: Cancel
 
 # views/users/_navigation_tabs.html
 go_back_tab: Go Back
+
+# views/users/new.html
+create_new_account_label: Create New Account
 
 # views/water_chemistry_sampling/_activity_details.html
 activity_details_title: Activity Details
@@ -487,3 +505,8 @@ aoi_lookup_desc: |-
   Miramichi River, NW Miramichi River, Miramichi Lake, etc.
 lookup_result_waterbody_id_label: ID
 lookup_result_drainage_code_label: Drainage Code
+
+# views/water_chemistry_sampling/samples.html
+legacy_samples_present: |-
+  There are {count} water chemistry sampling events recorded for this site that cannot
+  be shown here.  Please contact <strong>{agency}</strong> for more information.

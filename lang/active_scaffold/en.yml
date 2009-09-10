@@ -44,7 +44,7 @@ show model:           "Show {model}"
 _to_ :                " to "
 update:               "Update"
 update model:         "Update {model}"
-udated model:         "Updated {model}"
+updated model:        "Updated {model}"
 # error messages
 version inconsistency - this record has been modified since you started editing it.: "Version inconsistency - this record has been modified since you started editing it."
 request failed (code 500, internal error): Sorry, an error occured while trying to handle your request

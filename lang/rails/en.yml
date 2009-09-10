@@ -1,128 +1,126 @@
-locale_name: Español (España)
-# Spanish translation file.
-# Translation by Luis Villa del Campo (www.grancomo.com)
-
+locale_name: English
 # ActiveRecord::Errors.default_error_messages
-error_message_inclusion: no está incluido en la lista
-error_message_exclusion: está reservado
-error_message_invalid: no es válido
-error_message_confirmation: no coincide con la confirmación
-error_message_accepted: debe ser aceptado
-error_message_empty: no puede estar vacío
-error_message_blank: no puede estar en blanco
-error_message_too_long: es demasiado largo (el máximo es %d caracteres)
-error_message_too_short: es demasiado corto (el mínimo es %d caracteres)
-error_message_wrong_length: no posee el largo correcto (debería ser de %d caracteres)
-error_message_taken: ya está ocupado
-error_message_not_a_number: no es un número
+error_message_inclusion: is not included in the list
+error_message_exclusion: is reserved
+error_message_invalid: is invalid
+error_message_confirmation: doesn't match confirmation
+error_message_accepted: must be accepted
+error_message_empty: can't be empty
+error_message_blank: can't be blank
+error_message_too_long: is too long (maximum is %d characters)
+error_message_too_short: is too short (minimum is %d characters)
+error_message_wrong_length: is the wrong length (should be %d characters)
+error_message_taken: has already been taken
+error_message_not_a_number: is not a number
 # ActionController::Base.resources_path_names
-resources_path_new: nuevo
-resources_path_edit: editar
+resources_path_new: new
+resources_path_edit: edit
 # used by ActionView::Helpers::DateHelper.distance_of_time_in_words
-date_helper_less_than_x_seconds: menos de %d segundos
-date_helper_half_a_minute: medio minuto
-date_helper_less_than_a_minute: menos de un minuto
-date_helper_one_minute: 1 minuto
-date_helper_x_minutes: %d minutos
-date_helper_one_hour: sobre una hora
-date_helper_x_hours: sobre %d horas
-date_helper_one_day: un día
-date_helper_x_days: %d días
-date_helper_one_month: 1 mes
-date_helper_x_months: %d meses
-date_helper_one_year: 1 año
-date_helper_x_years: %d años
+date_helper_less_than_x_seconds: less than %d seconds
+date_helper_half_a_minute: half a minute
+date_helper_less_than_a_minute: less than a minute
+date_helper_one_minute: 1 minute
+date_helper_x_minutes: %d minutes
+date_helper_one_hour: about 1 hour
+date_helper_x_hours: about %d hours
+date_helper_one_day: 1 day
+date_helper_x_days: %d days
+date_helper_one_month: 1 month
+date_helper_x_months: %d months
+date_helper_one_year: 1 year
+date_helper_x_years: %d years
 
 # DON'T TRANSLATE, just order
-date_helper_order: [:day, :month, :year] #default Rails is US ordered: :order => [:year, :month, :day]
+date_helper_order: [:year, :month, :day] #default Rails is US ordered: :order => [:year, :month, :day]
 
-# DON'T TRANSLATE, RE ORDER
-date_helper_date_formats: 
+date_helper_date_formats: # DON'T  TRANSLATE, RE ORDER
   default: "%Y-%m-%d"
-  short: "%e %b"
-  long: "%e %B, %Y"
+  short: "%b %e"
+  long: "%B %e, %Y"
 
-# DON'T TRANSLATE, RE ORDER
-date_helper_time_formats:
+date_helper_time_formats: # DON'T  TRANSLATE, RE ORDER
   default: "%a, %d %b %Y %H:%M:%S %z"
-  short: "%d %b, %H:%M"
-  long: "%d %B, %Y %H:%M"
+  short: "%d %b %H:%M"
+  long: "%B %d, %Y %H:%M"
 
 # added at the end of date if your date system doesn't use a 24 hours system
 date_helper_am: am
 date_helper_pm: pm
-
+    
 # used by ActionView::Helpers::NumberHelper.number_to_currency
-number_helper_unit: "€"
-number_helper_separator: "," #unit separator (between integer part and fraction part)
-number_helper_delimiter: "." #delimiter between each group of thousands. Example: 1.234.567
-number_helper_order: [number, unit] #order is at present unsupported in Rails
+number_helper_unit: "$"
+number_helper_separator: "." #unit separator (between integer part and fraction part)
+number_helper_delimiter: "," #delimiter between each group of thousands. Example: 1.234.567 
+number_helper_order: [ unit, number ] 
 #to support for instance French format, the order is different: Unit comes last (ex. "1.234,00 €")
 
 # use by +Array#to_sentence()+
-array_connector: 'y'
-array_skip_last_comma: 'true'
+array_connector: 'and'
+array_skip_last_comma: 'false'
+
+# Active Record error messages:
+active_record_helper_error_description: 'There were problems with the following fields:'
+active_record_helper_header_message: pluralize{{error_count}, error} prohibited this {failed_object} from being saved
 
 date_helper_month_names:
-  - # Leave that line
-  - # Leave that line
-  - Enero
-  - Febrero
-  - Marzo
-  - Abril
-  - Mayo
-  - Junio
-  - Julio
-  - Agosto
-  - Septiembre
-  - Octubre
-  - Noviembre
-  - Diciembre
+ -              # Leave that line
+   -            # Leave that line
+ - January
+ - February
+ - March
+ - April
+ - May
+ - June
+ - July
+ - August
+ - September
+ - October
+ - November
+ - December
 
 date_helper_abbr_month_names:
-  - # Leave that line
-  - # Leave that line
-  - Ene
+  -             # Leave that line
+    -           # Leave that line
+  - Jan
   - Feb
   - Mar
-  - Abr
+  - Apr
   - May
   - Jun
   - Jul
-  - Ago
+  - Aug
   - Sep
   - Oct
   - Nov
-  - Dic
+  - Dec
 
-date_helper_day_names:
-  - domingo
-  - lunes
-  - martes
-  - miércoles
-  - jueves
-  - viernes
-  - sábado
+date_helper_day_names: 
+  - Sunday
+  - Monday
+  - Tuesday
+  - Wednesday
+  - Thursday
+  - Friday
+  - Saturday
 
-date_helper_abbr_day_names:
-  - Dom
-  - Lun
-  - Mar
-  - Mié
-  - Jue
-  - Vie
-  - Sáb
+date_helper_abbr_day_names: 
+  - Sun
+  - Mon
+  - Tue
+  - Wed
+  - Thu
+  - Fri 
+  - Sat
 
-# STILL NEEDS TRANSLATIONS
 countries_list:
   - Afghanistan
-  - Albanie
-  - Algérie
-  - Samoa Américaine
-  - Andorre
+  - Albania
+  - Algeria
+  - American Samoa
+  - Andorra
   - Angola
   - Anguilla
-  - Antarctique
+  - Antarctica
   - Antigua And Barbuda
   - Argentina
   - Armenia
@@ -134,7 +132,7 @@ countries_list:
   - Bahrain
   - Bangladesh
   - Barbados
-  - Belarus
+  - Belarus 
   - Belgium
   - Belize
   - Benin
@@ -145,7 +143,7 @@ countries_list:
   - Botswana
   - Bouvet Island
   - Brazil
-  - British Indian Ocean Territory
+  - British Indian Ocean Territory 
   - Brunei Darussalam
   - Bulgaria
   - Burkina Faso
@@ -184,7 +182,7 @@ countries_list:
   - England
   - Equatorial Guinea
   - Eritrea
-  - España
+  - Espana
   - Estonia
   - Ethiopia
   - Falkland Islands
@@ -196,7 +194,7 @@ countries_list:
   - French Polynesia
   - French Southern Territories
   - Gabon
-  - Gambia
+  - Gambia 
   - Georgia
   - Germany
   - Ghana
@@ -216,7 +214,7 @@ countries_list:
   - Honduras
   - Hong Kong
   - Hungary
-  - Iceland
+  - Iceland 
   - India
   - Indonesia
   - Ireland

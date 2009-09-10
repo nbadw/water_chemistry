@@ -1,4 +1,7 @@
 <div id="map_canvas" style="height: 500px;"></div>
 <script type="text/javascript">
-    site_markers = <%= @site_markers.to_json  %>;
+    var site_markers = <%= @site_markers.to_json  %>;
+    var explore_legend_data = <%= @explore_legend_data.to_json %>;
+    var loading_text = <%= @loading_text.to_json %>;
+    var max_window_title = <%= @max_window_title.to_json %>;
 </script>

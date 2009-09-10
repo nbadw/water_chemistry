@@ -1,0 +1,25 @@
+<%= render :partial => "help/water_chemistry_sampling/overview_fr" %>
+
+<% help_section 'Mesures' do %>
+  <p>Il y a deux sections pour enregistrer les mesures sur le terrain: 
+    <strong>Mesures du site</strong> et <strong>Mesures de l'eau</strong>.</p>
+
+  <p>Cliquer sur <strong>En créer un nouveau</strong>, dans le coin supérieur droit
+    de la liste Mesures du site ou Mesures de l'eau, pour ouvrir une formule d'entrée
+    des données vierge afin d'enregistrer une nouvelle mesure.</p>
+
+  <p>Choisir le paramètre mesuré, puis entrer les autres champs associés au paramètre
+    de mesure. Certaines mesures du site comprendront un champ de la rive pour indiquer
+    la rive gauche ou la rive droite. Certaines mesures du site, comme les types de
+    cours d'eau doivent correspondre à 100 %. Le système fournira un message lorsque
+    des entrées multiples, comme les types de cours d'eau, ne correspondent pas
+    à 100 %.</p>
+
+  <% help_section 'Corriger' do %>
+    <p>Ouvre une formule pour corriger les détails des mesures</p>
+  <% end %>
+
+  <% help_section 'Supprimer' do %>
+    <p>Supprime la mesure de façon permanente</p>
+  <% end %>
+<% end %>

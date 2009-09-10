@@ -33,6 +33,7 @@ class UserMailer < ApplicationMailer
     from       :mail_from.l
     reply_to   "nb.aquatic.datawarehouse@gmail.com"
     sent_on    Time.now
+    template   "#{@template}_#{user.language}"
     body[:user] = user
   end
 end
