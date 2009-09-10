@@ -22,7 +22,8 @@
 #  last_login                   :datetime        
 #  created_at                   :datetime        
 #  updated_at                   :datetime        
-#  area_of_interest_id          :integer(11)     
+#  area_of_interest_id          :integer(11)
+#  language                     :string(2)       default('en')
 #
 
 require 'digest/sha1'
@@ -30,7 +31,7 @@ class User < ActiveRecord::Base
   # Virtual attribute for the unencrypted password
   attr_accessor :password
 
-  validates_presence_of     :name, :login, :email, :agency
+  validates_presence_of     :name, :login, :email, :agency, :language
   validates_presence_of     :password,                   :if => :password_required?
   validates_presence_of     :password_confirmation,      :if => :password_required?
   validates_length_of       :password, :within => 4..40, :if => :password_required?
@@ -38,6 +39,7 @@ class User < ActiveRecord::Base
   validates_length_of       :login,    :within => 3..40
   validates_length_of       :email,    :within => 3..100
   validates_length_of       :name,     :within => 1..100
+  validates_inclusion_of    :language, :in => %w(en fr)
   validates_uniqueness_of   :login, :email, :case_sensitive => false
   validates_format_of       :email, :with => /(^([^@\s]+)@((?:[-_a-z0-9]+\.)+[a-z]{2,})$)|(^$)/i
   validates_associated      :agency
@@ -51,7 +53,7 @@ class User < ActiveRecord::Base
   # prevents a user from submitting a crafted form that bypasses activation
   # anything else you want your user to change should be added here.
   attr_accessible :name, :login, :email, :password, :password_confirmation, 
-    :agency_id, :agency, :admin, :area_of_interest, :area_of_interest_id
+    :agency_id, :agency, :admin, :area_of_interest, :area_of_interest_id, :language
   
   attr_accessor :requests_editor_priveleges
   alias_method  :requests_editor_priveleges?, :requests_editor_priveleges
