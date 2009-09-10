@@ -1,6 +1,6 @@
 class HelpController < ApplicationController 
   def show    
-    template_name = "help/#{params[:controller_name]}/#{params[:action_name]}"
+    template_name = "help/#{params[:controller_name]}/#{params[:action_name]}_#{Locale.language}"
     begin
       render :layout => false, :template => template_name
     rescue ActionView::MissingTemplate
