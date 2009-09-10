@@ -227,8 +227,8 @@ bank_measurements_do_not_add_up_warning: "'Left' and 'Right' bank measurements f
 
 # helpers/recorded_observations_helper
 #   fish_passage_obstruction_ind_column
-fish_passage_obstructed_text: Yes
-fish_passage_not_obstructed_text: No
+fish_passage_obstructed_text: "Yes"
+fish_passage_not_obstructed_text: "No"
 
 # models/aquatic_data_warehouse/aquatic_activity_event
 #   to_label
@@ -446,7 +446,7 @@ new_users_form_create_agency_link: (Can't find your agency in the list?  Click h
 new_users_form_select_agency_link: (I'd like to select an existing agency instead)
 users_form_requesting_editor_priveleges_field: Will this account be used to add/edit your agency's data?
 users_form_requesting_editor_priveleges_no_option: No, I'd just like to view data and reports
-users_form_requesting_editor_priveleges_yes_option: Yes
+users_form_requesting_editor_priveleges_yes_option: "Yes"
 users_form_aoi_label: Area of Interest
 new_users_form_aoi_remove_area_of_interest_field: Remove Area of Interest
 new_users_form_submit_label: Create Account
