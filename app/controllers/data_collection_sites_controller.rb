@@ -4,7 +4,7 @@ class DataCollectionSitesController < ApplicationController
   
   active_scaffold :aquatic_site do |config|
     # columns
-    config.columns = [:incorporated, :id, :name, :aquatic_site_desc, :water_body_id, :water_body_name, :drainage_code, :name_and_description, :data_sets, :x_coordinate, :y_coordinate, :coordinate_system, :coordinate_source]
+    config.columns = [:incorporated, :id, :name, :aquatic_site_desc, :water_body_id, :water_body_name, :drainage_code, :name_and_description, :data_sets, :x_coordinate, :y_coordinate, :coordinate_system, :coordinate_source, :waterbody]
     config.list.columns = [:incorporated, :id, :agencies, :water_body_id, :water_body_name, :drainage_code, :name_and_description, :data_sets]    
     config.show.columns = [:id, :name, :aquatic_site_desc, :water_body_id, :water_body_name, :drainage_code, :x_coordinate, :y_coordinate, :coordinate_system, :coordinate_source]
     config.search.columns = [:id, :name, :water_body_id, :water_body_name, :drainage_code, :data_sets, :agencies]    
@@ -36,6 +36,7 @@ class DataCollectionSitesController < ApplicationController
     config.columns[:y_coordinate].label         = :aquatic_site_y_coordinate_label.l
     config.columns[:coordinate_system].label    = :aquatic_site_coordinate_system_label.l
     config.columns[:coordinate_source].label    = :aquatic_site_coordinate_source_label.l
+    config.columns[:waterbody].label            = :data_collection_sites_waterbody_subgroup.l
 
     # set i18n descriptions
     config.columns[:name].description              = :aquatic_site_name_desc.l
