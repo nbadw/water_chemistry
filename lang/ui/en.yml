@@ -428,6 +428,8 @@ bank_side_left_option: Left
 bank_side_right_option: Right
 
 # views/users/_form.html
+user: User Account
+agency: Agency
 users_form_label: Account Details
 users_form_name_field: Your Name
 users_form_login_field: Username

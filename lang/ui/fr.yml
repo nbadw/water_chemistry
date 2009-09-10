@@ -431,6 +431,8 @@ bank_side_left_option: Gauche
 bank_side_right_option: Droite
 
 # views/users/_form.html
+user: Compte
+agency: Organisme
 users_form_label: Détails du compte
 users_form_name_field: Votre nom
 users_form_login_field: Nom d'utilisateur
