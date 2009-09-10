@@ -1,0 +1,156 @@
+<% help_section 'Sites de collecte de données' do %>
+  <% help_section 'Liste de sites' do %>
+    <p>Voici une liste des sites où des données ont été recueillies. La liste sera
+      limitée à votre domaine d'intérêt comme il est défini dans votre profil d'utilisateur.
+      La liste comprend le ID du site attribué à l'Entrepôt de données aquatiques,
+      les organismes qui ont fait la collecte de données et l'ID de leur site; le cours
+      d'eau et l'ID des cours d'eau connexes et le code du bassin hydrographique; la
+      description du site, les types de données recueillies à chaque site et le nombre
+      de fichiers pour chaque type de données. Seules les données sur la composition
+      chimique de l'eau sont accessibles à ce point.</p>
+
+    <% help_section 'Tri de la liste' do %>
+      <p>On peut trier la liste des sites en cliquant sur l'ID du site, l'ID du cours
+        d'eau, le nom du cours d'eau ou l'en‑tête du code du bassin hydrographique.</p>
+    <% end %>
+
+    <% help_section "Recherche avec le code de l'organisme" do %>
+      <p>Si on clique sur le ou les codes de l'organisme dans un fichier, une sous-liste
+        des noms d'organismes apparaît.</p>
+    <% end %>
+
+    <% help_section 'Information sur le bassin hydrographique' do %>
+      <p>Placer la souris sur le code du bassin hydrographique pour afficher une
+        traduction des codes des bassins hydrographiques hiérarchiques.</p>
+    <% end %>
+
+    <% help_section 'Symbole de serrure' do %>
+      <p>Le symbole de serrure (<img alt="Lock Symbol" src="/images/lock_delete.png" />)
+        au début de la rangée indique que les données sont intégrées à l'Entrepôt de
+        données aquatiques du N.‑B. et ne peuvent pas être modifiées. Cliquer sur
+        <strong>Afficher</strong> à la fin de la rangée pour visualiser les détails
+        du site.</p>
+    <% end %>
+
+    <% help_section 'Nombre de sites et page suivante' do %>
+      <p>Le nombre de sites de collecte de données est affiché au bas de la liste
+        (à gauche). Au bas de la liste à droite se trouve également le contrôle de
+        la page pour afficher la page suivante de résultats. 15 sites sont affichés
+        par page.</p>
+    <% end %>
+  <% end %>
+
+  <% help_section "Filtrer par domaine d'intérêt / Afficher tous les sites" do %>
+    <p>Cliquer sur <strong>Filtrer par domaine d'intérêt</strong> (coin droit supérieur)
+      pour afficher la liste des sites définis par votre domaine d'intérêt dans votre
+      profil d'utilisateur. La commande <strong>Afficher tous les sites</strong>
+      ferme le filtre et affiche tous les sites de collecte de données.</p>
+  <% end %>
+
+  <% help_section 'Télécharger les données' do %>
+    <p>Cliquer sur <strong>Télécharger tout</strong> qui se trouve au haut de la
+      liste des sites de collecte de données (à droite) afin de télécharger les
+      données sur la composition chimique de l'eau pour les sites affichés dans
+      la liste des sites de collecte de données. Les données seront exportées comme
+      un texte fichier (.csv) qui peut être ouvert avec la plupart des logiciels,
+      y compris MS Excel et Access. Le téléchargement invite le spectateur à choisir
+      d'ouvrir le fichier en Excel ou à sauvegarder le fichier.</p>
+  <% end %>
+
+  <% help_section 'Recherche' do %>
+    <p>Cliquer sur <strong>Recherche</strong> (coin supérieur droit) afin d'afficher
+      une zone texte pour entrer le nom d'un cours d'eau, le nom du site, le code
+      du bassin hydrographique, le code de l'organisme ou un ensemble de données
+      comme critères de recherche. Le système cherchera des chaînes de texte partielles.
+      Par exemple, «Miramichi» retourne rivière Miramichi S.‑O., Miramichi N.-O.,
+      lac Miramichi, etc.</p>
+
+    <p>Ajouter «bassin hydrographique» ou «bassin» après un nom de cours d'eau pour
+      chercher des sites dans la zone du bassin hydrographique. Par exemple, si
+      on entre «rivière Hammond», une liste de sites pour la rivière Hammond seulement
+      sera affichée. Si on entre «Bassin hydrographique de la rivière Hammond»,
+      la liste générée comprendra les sites pour la rivière Hammond et tous ses
+      tributaires.</p>
+
+    <p>Utiliser «+» pour chercher des items multiples, comme un cours d'eau + un
+      code d'organisme + le nom d'un ensemble de données. Par exemple, rivière Hammond
+      + HRAA + composition chimique de l'eau.</p>
+
+    <p>L'option <strong>Reconfigurer</strong> génère toute la liste des sites de
+      collecte de données.</p>
+  <% end %>
+
+  <% help_section 'Ajouter nouveau site de collecte de données' do %>
+    <p>Cliquer sur <strong>En créer un nouveau</strong> au haut de la liste des sites
+      de collecte de données (à droite). Une formule d'entrée de données vierge pour
+      enregistrer un nouveau site est présentée. Avant d'ajouter un nouveau site,
+      il faut s'assurer qu'il n'existe pas déjà.</p>
+
+    <p>Entrer l'information des coordonnées et cliquer sur Afficher emplacement
+      sur carte pour confirmer visuellement que les coordonnées sont exactes.</p>
+  <% end %>
+
+  <% help_section 'Corriger un site de collecte de données' do %>
+    <p>Si les données peuvent être corrigées, il y aura trois options à la fin de la rangée:
+      <strong>Corriger</strong>, <strong>Supprimer</strong> et <strong>Afficher</strong>.
+      Un site peut seulement être supprimé si aucune donnée, comme la composition
+      chimique de l'eau, la pêche électrique, etc. n'est associée au site.</p>
+
+    <p><strong>Corriger</strong> - Ouvre les détails du site pour la correction.</p>
+    <p><strong>Supprimer</strong> – Invite une confirmation pour supprimer le site,
+      et ensuite supprime le fichier de façon permanente.</p>
+  <% end %>
+<% end %>
+
+<% help_section "Échantillonnage pour la composition chimique de l'eau" do %>
+  <p>Cliquer sur le nom d'un ensemble de données sur la composition chimique de
+    l'eau pour afficher une liste d'activités d'échantillonnage lors de la collecte
+    des données sur la composition chimique de l'eau. Il pourrait s’agir de mesures
+    d’équipement sur le terrain (p. ex. : au moyen d’une trousse Hach ou LeMott),
+    d’analyses de laboratoire ou de résultats de laboratoire portable.</p>
+
+  <% help_section "Liste d'activités d'échantillonnage" do %>
+    <p>Trois options se trouvent à la fin de chaque rangée: <strong>Ouvrir</strong>,
+      <strong>Corriger</strong> et <strong>Supprimer</strong> l'activité actuelle
+      de collecte de données. Le symbole «de serrure» indique que le site a été
+      intégré à l'Entrepôt de données aquatiques du N.‑B. et ne peut pas être corrigé
+      ou supprimé (ces options seront grises et non activées).</p>
+
+    <p><strong>Ouvrir</strong> – Cliquer sur ouvrir pour entrer, afficher ou corriger
+      les détails et les résultats de l'échantillon pour la composition chimique
+      de l'eau. Cette commande ouvre une nouvelle page contenant des onglets pour
+      Échantillons, Observations, Mesures et Rapport.</p>
+
+    <p><strong>Corriger</strong> - Ouvre l'activité d'échantillonnage pour la composition
+      chimique de l'eau pour la correction.</p>
+
+    <p><strong>Supprimer</strong> – Invite une confirmation pour supprimer l'activité,
+      et supprime ensuite le fichier de façon permanente.</p>
+  <% end %>
+
+  <% help_section "Ajouter une activité d'échantillonnage pour la composition chimique de l'eau" do %>
+    <p>Cliquer sur <strong>En créer un nouveau</strong>, en haut à droite de la
+      liste d'activités d'échantillonnage pour la composition chimique de l'eau,
+      afin d’ajouter une activité d'échantillonnage. Une formule d'entrée de données
+      en blanc en vue d'enregistrer une activité de collecte de données pour la
+      composition chimique de l'eau.</p>
+  <% end %>
+
+  <% help_section "Corriger une activité d'échantillonnage pour la composition chimique de l'eau" do %>
+    <p>Cliquer sur Corriger dans la rangée qui contient l'activité d'échantillonnage à corriger.</p>
+  <% end %>
+
+  <% help_section "Corriger l'ID du site de l'organisme" do %>
+    <p>Cliquer sur <strong>Corriger l'ID du site de l'organisme</strong> au haut
+      à droite de la liste d'activités d'échantillonnage pour la composition
+      chimique de l'eau afin d'ajouter ou de modifier l'ID du site de votre organisme.
+      Cette option apparaît seulement lorsque des activités d'échantillonnage sont
+      indiquées dans la liste.</p>
+  <% end %>
+<% end %>
+
+<% help_section 'Onglet Explorer' do %>
+  <p>Cliquer sur l'onglet <strong>Explorer</strong> pour afficher une carte des
+    sites de collecte de données dans votre domaine d'intérêt. Les sites sans coordonnées
+    ne seront pas affichés. </p>
+<% end %>

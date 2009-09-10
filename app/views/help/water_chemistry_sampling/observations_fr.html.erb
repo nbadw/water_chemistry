@@ -1,0 +1,20 @@
+<%= render :partial => 'help/water_chemistry_sampling/overview_fr' %>
+
+<% help_section 'Observations' do %>
+  <p>Cliquer sur <strong>En créer un nouveau</strong>, dans le coin droit supérieur
+    de la liste Observations, pour ouvrir une formule d'entrée des données vierge
+    afin d'enregistrer une nouvelle observation.</p>
+
+  <p>Choisir un type d'observation, puis entrer une valeur associée à l'observation
+    si cela convient. Par exemple, si l'observation est «point de rejet», la valeur
+    pourrait être le diamètre du tuyau. Pour certaines observations, il peut y avoir
+    une case pour le blocage d'une passe à poissons.</p>
+
+  <% help_section 'Corriger' do %>
+    <p>Seuls les champs de la valeur observée ou de la passe à poissons peuvent être corrigés.</p>
+  <% end %>
+
+  <% help_section 'Supprimer' do %>
+    <p>Supprimer l'observation de façon permanente.</p>
+  <% end %>
+<% end %>

@@ -1,0 +1,15 @@
+<%= render :partial => 'help/water_chemistry_sampling/overview_fr' %>
+
+<% help_section 'Rapport' do %>
+  <p>Un résumé de l'information sur l'activité d'échantillonnage et le site est
+    présenté, ainsi que les résultats de chaque échantillon. Les paramètres de
+    la composition chimique de l'eau sont présentés dans des colonnes comme celles
+    que l'on trouve normalement dans les rapports de laboratoire.</p>
+
+  <% help_section 'Télécharger' do %>
+    <p>Cliquer sur télécharge pour recevoir les données affichées. Les données seront
+      exportées comme un fichier texte (.csv) qui peut être ouvert à l'aide de la
+      plupart des logiciels, y compris MS Excel et Access. Le téléchargement invite
+      l'utilisateur à choisir d'ouvrir le fichier en Excel ou à le sauvegarder.</p>
+  <% end %>
+<% end %>
