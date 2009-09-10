@@ -1,6 +1,6 @@
 # controllers/application
 #   application_name
-application_name: NB Aquatic Data Warehouse Data Management Application
+application_name: NB Aquatic Data Warehouse<br/> Data Management Application
 #   page_title
 nbadw: NB Aquatic Data Warehouse
 
@@ -436,6 +436,7 @@ new_users_form_password_field: Password
 edit_users_form_password_field: Change Password
 new_users_form_password_confirmation_field: Confirm Password
 edit_users_form_password_confirmation_field: Confirm New Password
+users_form_preferred_language_field: Preferred Language
 users_form_agency_label: Agency
 users_form_user_agency_id_field: Agency
 new_users_form_create_agency_agency_field: Agency Name
@@ -454,6 +455,9 @@ users_form_cancel_label: Cancel
 
 # views/users/_navigation_tabs.html
 go_back_tab: Go Back
+
+# views/users/new.html
+create_new_account_label: Create New Account
 
 # views/water_chemistry_sampling/_activity_details.html
 activity_details_title: Activity Details
@@ -487,3 +491,8 @@ aoi_lookup_desc: |-
   Miramichi River, NW Miramichi River, Miramichi Lake, etc.
 lookup_result_waterbody_id_label: ID
 lookup_result_drainage_code_label: Drainage Code
+
+# views/water_chemistry_sampling/samples.html
+legacy_samples_present: |-
+  There are {count} water chemistry sampling events recorded for this site that cannot
+  be shown here.  Please contact <strong>{agency}</strong> for more information.
