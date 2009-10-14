@@ -5,11 +5,12 @@ class UsersControllerTest < ActionController::TestCase
   should_eventually "display a area of interest input"  
   
   def test_should_allow_signup    
-    user = mock
+    user = mock('user')
     user.expects(:save!)
     user.expects(:area_of_interest_id=)
     user.expects(:requesting_editor_priveleges=)
     User.expects(:new).returns(user)
+    User.expects(:authorized_for?).returns(true) 
     post :create, :user => user_params
     assert_response :redirect
   end
@@ -42,6 +43,7 @@ class UsersControllerTest < ActionController::TestCase
     user = User.new
     user.expects(:save!).raises(ActiveRecord::RecordInvalid, user)
     User.expects(:new).returns(user)
+    User.expects(:authorized_for?).returns(true) 
     post :create
   end
    
