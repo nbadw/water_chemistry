@@ -24,12 +24,13 @@ Rails::Initializer.run do |config|
   # They can then be installed with "rake gems:install" on new installations.
   # config.gem "bj"
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
-  # config.gem "aws-s3", :lib => "aws/s3"  
+  # config.gem "aws-s3", :lib => "aws/s3"
   config.gem "highline", :version => '1.5.1'
   config.gem "ruport", :version => '1.6.1'
   config.gem "ruport-util", :lib => "ruport/util", :version => '0.14.0'
   config.gem "GeoRuby", :lib => "geo_ruby", :version => '1.3.4'
   config.gem "action_mailer_tls", :lib => "smtp_tls.rb", :source => "http://gemcutter.org", :version => '1.1.3'
+#  config.gem "newrelic_rpm"
   # for testing, the following gems should also be present
   # - mocha   (0.9.8)
   # - shoulda (2.10.2)
@@ -38,7 +39,11 @@ Rails::Initializer.run do |config|
   #   and then run the following commands to build hpricot:
   #     jruby -S rake package_jruby
   #     jruby -S gem install -l pkg/hpricot-0.8.1-jruby.gem
-
+  if defined?(JRUBY_VERSION) # jruby-specific gems
+    config.gem "activerecord-jdbc-adapter", :lib => 'jdbc_adapter'
+    config.gem "torquebox-gem"
+    config.gem "torquebox-rails"
+  end
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
