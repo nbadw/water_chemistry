@@ -1,4 +1,4 @@
-CREATE TABLE `auxlakeswithdepths` (
+CREATE TABLE `auxLakesWithDepths` (
   `WaterBodyID` double(15,5) default NULL,
   `WaterBodyName` varchar(40) default NULL,
   `DrainageCd` varchar(17) default NULL,
@@ -12,7 +12,7 @@ CREATE TABLE `auxlakeswithdepths` (
   KEY `WATER_ID` (`WaterBodyID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `auxlakeswithsurveys` (
+CREATE TABLE `auxLakesWithSurveys` (
   `WaterBodyID` double(15,5) default NULL,
   `WaterBodyName` varchar(40) default NULL,
   `DrainageCd` varchar(17) default NULL,
@@ -26,7 +26,7 @@ CREATE TABLE `auxlakeswithsurveys` (
   KEY `WATER_ID` (`WaterBodyID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `auxstockedwaters` (
+CREATE TABLE `auxStockedWaters` (
   `WaterBodyID` double(15,5) default NULL,
   `WaterBodyName` varchar(50) default NULL,
   `DrainageCd` varchar(17) default NULL,
@@ -40,7 +40,7 @@ CREATE TABLE `auxstockedwaters` (
   KEY `WATERID` (`WaterBodyID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `auxstreamswithsurveys` (
+CREATE TABLE `auxStreamsWithSurveys` (
   `RIVER_SYS` smallint(5) default NULL,
   `WaterBodyID` double(15,5) default NULL,
   `WaterBodyName` varchar(40) default NULL,
@@ -57,7 +57,19 @@ CREATE TABLE `auxstreamswithsurveys` (
   KEY `WATER_ID` (`WaterBodyID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `auxuserdbelectrofishingfopestimate` (
+CREATE TABLE `auxUSERDBNonRestrictedActivityIDs` (
+  `AgencyCd` varchar(4) default NULL,
+  `AquaticActivityID` int(10) default NULL,
+  `AquaticActivityCd` smallint(5) default NULL,
+  `AquaticActivity` varchar(50) default NULL,
+  `AquaticActivityStartDate` varchar(10) default NULL,
+  `created_at` datetime default NULL,
+  `updated_at` datetime default NULL,
+  `created_by` int(11) default NULL,
+  `updated_by` int(11) default NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `auxUserDBElectrofishingFopEstimate` (
   `EFPopulationEstimateID` int(10) NOT NULL auto_increment,
   `oldEFPopulationEstimateID` int(10) default NULL,
   `EFDataID` int(10) default NULL,
@@ -89,21 +101,9 @@ CREATE TABLE `auxuserdbelectrofishingfopestimate` (
   KEY `EFPopulationEstimateID` (`oldEFPopulationEstimateID`),
   KEY `EFPopulationEstimateID1` (`EFPopulationEstimateID`),
   KEY `TempEFDataID` (`TempDataID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `auxuserdbnonrestrictedactivityids` (
-  `AgencyCd` varchar(4) default NULL,
-  `AquaticActivityID` int(10) default NULL,
-  `AquaticActivityCd` smallint(5) default NULL,
-  `AquaticActivity` varchar(50) default NULL,
-  `AquaticActivityStartDate` varchar(10) default NULL,
-  `created_at` datetime default NULL,
-  `updated_at` datetime default NULL,
-  `created_by` int(11) default NULL,
-  `updated_by` int(11) default NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE `auxuserdbselectedactivities` (
+CREATE TABLE `auxUserDBSelectedActivities` (
   `AquaticActivityID` int(10) default NULL,
   `DrainageCd` varchar(17) default NULL,
   `created_at` datetime default NULL,
@@ -112,7 +112,7 @@ CREATE TABLE `auxuserdbselectedactivities` (
   `updated_by` int(11) default NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `auxuserdbselectedsites` (
+CREATE TABLE `auxUserDBSelectedSiteUse` (
   `AquaticSiteUseID` int(10) NOT NULL auto_increment,
   `AquaticSiteID` int(10) default NULL,
   `AquaticActivityCd` smallint(5) default NULL,
@@ -123,9 +123,9 @@ CREATE TABLE `auxuserdbselectedsites` (
   `created_by` int(11) default NULL,
   `updated_by` int(11) default NULL,
   PRIMARY KEY  (`AquaticSiteUseID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6782 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `auxuserdbselectedsiteuse` (
+CREATE TABLE `auxUserDBSelectedSites` (
   `AquaticSiteUseID` int(10) NOT NULL auto_increment,
   `AquaticSiteID` int(10) default NULL,
   `AquaticActivityCd` smallint(5) default NULL,
@@ -136,9 +136,9 @@ CREATE TABLE `auxuserdbselectedsiteuse` (
   `created_by` int(11) default NULL,
   `updated_by` int(11) default NULL,
   PRIMARY KEY  (`AquaticSiteUseID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6171 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdagency` (
+CREATE TABLE `cdAgency` (
   `AgencyCd` varchar(5) NOT NULL,
   `Agency` varchar(60) default NULL,
   `AgencyType` varchar(4) default NULL,
@@ -147,10 +147,11 @@ CREATE TABLE `cdagency` (
   `updated_at` datetime default NULL,
   `created_by` int(11) default NULL,
   `updated_by` int(11) default NULL,
+  `active` tinyint(1) default '1',
   PRIMARY KEY  (`AgencyCd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdaquaticactivity` (
+CREATE TABLE `cdAquaticActivity` (
   `AquaticActivityCd` smallint(5) NOT NULL auto_increment,
   `AquaticActivity` varchar(50) default NULL,
   `AquaticActivityCategory` varchar(30) default NULL,
@@ -160,9 +161,9 @@ CREATE TABLE `cdaquaticactivity` (
   `created_by` int(11) default NULL,
   `updated_by` int(11) default NULL,
   PRIMARY KEY  (`AquaticActivityCd`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdaquaticactivitymethod` (
+CREATE TABLE `cdAquaticActivityMethod` (
   `AquaticMethodCd` smallint(5) NOT NULL auto_increment,
   `AquaticActivityCd` smallint(5) default NULL,
   `AquaticMethod` varchar(30) default NULL,
@@ -171,9 +172,9 @@ CREATE TABLE `cdaquaticactivitymethod` (
   `created_by` int(11) default NULL,
   `updated_by` int(11) default NULL,
   PRIMARY KEY  (`AquaticMethodCd`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdcountyparish` (
+CREATE TABLE `cdCountyParish` (
   `CountyParishID` int(10) NOT NULL auto_increment,
   `OldCountyCd` varchar(10) default NULL,
   `NewCountyCd` varchar(11) default NULL,
@@ -191,9 +192,9 @@ CREATE TABLE `cdcountyparish` (
   KEY `CountyParishID` (`CountyParishID`),
   KEY `NewCountyCd` (`NewCountyCd`),
   KEY `NewParishCd` (`NewParishCd`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=154 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdenvironmentalobservations` (
+CREATE TABLE `cdEnvironmentalObservations` (
   `ObservationID` int(10) NOT NULL auto_increment,
   `ObservationCategory` varchar(40) default NULL,
   `ObservationGroup` varchar(50) default NULL,
@@ -204,9 +205,9 @@ CREATE TABLE `cdenvironmentalobservations` (
   `updated_by` int(11) default NULL,
   PRIMARY KEY  (`ObservationID`),
   KEY `ObservationID` (`ObservationID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdfishageclass` (
+CREATE TABLE `cdFishAgeClass` (
   `FishAgeClass` varchar(25) NOT NULL,
   `FishAgeClassCategory` varchar(20) default NULL,
   `StockingInd` tinyint(1) NOT NULL default '0',
@@ -219,7 +220,7 @@ CREATE TABLE `cdfishageclass` (
   PRIMARY KEY  (`FishAgeClass`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdfishmark` (
+CREATE TABLE `cdFishMark` (
   `FishMarkCd` int(10) NOT NULL,
   `FishMark` varchar(50) default NULL,
   `created_at` datetime default NULL,
@@ -230,7 +231,7 @@ CREATE TABLE `cdfishmark` (
   KEY `Fin Status Code` (`FishMarkCd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdfishmortalitycause` (
+CREATE TABLE `cdFishMortalityCause` (
   `MortalityCauseCd` int(10) NOT NULL,
   `CauseOfMortality` varchar(50) default NULL,
   `created_at` datetime default NULL,
@@ -240,7 +241,7 @@ CREATE TABLE `cdfishmortalitycause` (
   PRIMARY KEY  (`MortalityCauseCd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdfishparasiteclass` (
+CREATE TABLE `cdFishParasiteClass` (
   `ParasiteClassCd` varchar(4) NOT NULL,
   `ParasiteClass` varchar(20) default NULL,
   `Location` varchar(24) default NULL,
@@ -251,7 +252,7 @@ CREATE TABLE `cdfishparasiteclass` (
   PRIMARY KEY  (`ParasiteClassCd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdfishpopulationformula` (
+CREATE TABLE `cdFishPopulationFormula` (
   `FormulaCd` int(10) NOT NULL auto_increment,
   `Formula` varchar(20) default NULL,
   `created_at` datetime default NULL,
@@ -259,9 +260,9 @@ CREATE TABLE `cdfishpopulationformula` (
   `created_by` int(11) default NULL,
   `updated_by` int(11) default NULL,
   PRIMARY KEY  (`FormulaCd`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdfishpopulationparameter` (
+CREATE TABLE `cdFishPopulationParameter` (
   `PopulationParameter` varchar(20) default NULL,
   `created_at` datetime default NULL,
   `updated_at` datetime default NULL,
@@ -269,7 +270,7 @@ CREATE TABLE `cdfishpopulationparameter` (
   `updated_by` int(11) default NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdfishspecies` (
+CREATE TABLE `cdFishSpecies` (
   `FishSpeciesCd` varchar(2) NOT NULL,
   `FishSpecies` varchar(30) default NULL,
   `StockedInd` tinyint(1) NOT NULL default '0',
@@ -281,7 +282,7 @@ CREATE TABLE `cdfishspecies` (
   PRIMARY KEY  (`FishSpeciesCd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdfishstatus` (
+CREATE TABLE `cdFishStatus` (
   `FishStatusCd` varchar(10) NOT NULL,
   `FishStatus` varchar(50) default NULL,
   `FishStatusType` varchar(20) default NULL,
@@ -292,7 +293,7 @@ CREATE TABLE `cdfishstatus` (
   PRIMARY KEY  (`FishStatusCd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdfishstomachcontent` (
+CREATE TABLE `cdFishStomachContent` (
   `StomachContentCd` int(10) NOT NULL auto_increment,
   `StomachContent` varchar(20) default NULL,
   `created_at` datetime default NULL,
@@ -300,9 +301,9 @@ CREATE TABLE `cdfishstomachcontent` (
   `created_by` int(11) default NULL,
   `updated_by` int(11) default NULL,
   PRIMARY KEY  (`StomachContentCd`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdhabitatunitcomment` (
+CREATE TABLE `cdHabitatUnitComment` (
   `CommentCd` varchar(2) NOT NULL,
   `Comment` varchar(30) default NULL,
   `created_at` datetime default NULL,
@@ -312,7 +313,7 @@ CREATE TABLE `cdhabitatunitcomment` (
   PRIMARY KEY  (`CommentCd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdinstrument` (
+CREATE TABLE `cdInstrument` (
   `InstrumentCd` int(10) NOT NULL auto_increment,
   `Instrument` varchar(50) default NULL,
   `Instrument_Category` varchar(50) default NULL,
@@ -321,9 +322,9 @@ CREATE TABLE `cdinstrument` (
   `created_by` int(11) default NULL,
   `updated_by` int(11) default NULL,
   PRIMARY KEY  (`InstrumentCd`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdmeasureinstrument` (
+CREATE TABLE `cdMeasureInstrument` (
   `MeasureInstrumentCd` int(10) NOT NULL auto_increment,
   `OandMCd` int(10) default NULL,
   `InstrumentCd` int(10) default NULL,
@@ -332,9 +333,9 @@ CREATE TABLE `cdmeasureinstrument` (
   `created_by` int(11) default NULL,
   `updated_by` int(11) default NULL,
   PRIMARY KEY  (`MeasureInstrumentCd`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdmeasureunit` (
+CREATE TABLE `cdMeasureUnit` (
   `MeasureUnitCd` int(10) NOT NULL auto_increment,
   `OandMCd` int(10) default NULL,
   `UnitofMeasureCd` int(10) default NULL,
@@ -345,9 +346,9 @@ CREATE TABLE `cdmeasureunit` (
   PRIMARY KEY  (`MeasureUnitCd`),
   KEY `cdMeasureUnitOandMCd` (`OandMCd`),
   KEY `cdMeasureUnitUnitofMeasureCd` (`UnitofMeasureCd`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=136 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdoandm` (
+CREATE TABLE `cdOandM` (
   `OandMCd` int(10) NOT NULL auto_increment,
   `OandM_Type` varchar(16) default NULL,
   `OandM_Category` varchar(40) default NULL,
@@ -364,9 +365,9 @@ CREATE TABLE `cdoandm` (
   `updated_by` int(11) default NULL,
   PRIMARY KEY  (`OandMCd`),
   KEY `ObservationID` (`OandMCd`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=204 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdoandmvalues` (
+CREATE TABLE `cdOandMValues` (
   `OandMValuesCd` int(10) NOT NULL auto_increment,
   `OandMCd` int(10) default NULL,
   `Value` varchar(20) default NULL,
@@ -376,9 +377,9 @@ CREATE TABLE `cdoandmvalues` (
   `updated_by` int(11) default NULL,
   PRIMARY KEY  (`OandMValuesCd`),
   KEY `O&M_ID` (`OandMCd`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdsamplecollectionmethod` (
+CREATE TABLE `cdSampleCollectionMethod` (
   `SampleMethodCd` int(10) NOT NULL auto_increment,
   `SampleMethod` varchar(30) default NULL,
   `Description` varchar(255) default NULL,
@@ -387,9 +388,9 @@ CREATE TABLE `cdsamplecollectionmethod` (
   `created_by` int(11) default NULL,
   `updated_by` int(11) default NULL,
   PRIMARY KEY  (`SampleMethodCd`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdsamplegear` (
+CREATE TABLE `cdSampleGear` (
   `SampleGearCd` int(10) NOT NULL auto_increment,
   `SampleGear` varchar(20) default NULL,
   `created_at` datetime default NULL,
@@ -397,9 +398,9 @@ CREATE TABLE `cdsamplegear` (
   `created_by` int(11) default NULL,
   `updated_by` int(11) default NULL,
   PRIMARY KEY  (`SampleGearCd`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdsex` (
+CREATE TABLE `cdSex` (
   `SexCd` varchar(1) NOT NULL,
   `Sex` varchar(10) default NULL,
   `created_at` datetime default NULL,
@@ -409,7 +410,7 @@ CREATE TABLE `cdsex` (
   PRIMARY KEY  (`SexCd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdstreamchanneltype` (
+CREATE TABLE `cdStreamChannelType` (
   `ChannelCd` varchar(1) NOT NULL,
   `ChannelType` varchar(6) default NULL,
   `created_at` datetime default NULL,
@@ -419,7 +420,7 @@ CREATE TABLE `cdstreamchanneltype` (
   PRIMARY KEY  (`ChannelCd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdstreamembeddedness` (
+CREATE TABLE `cdStreamEmbeddedness` (
   `EmbeddedCd` varchar(1) NOT NULL,
   `Embeddedness` varchar(10) default NULL,
   `created_at` datetime default NULL,
@@ -429,7 +430,7 @@ CREATE TABLE `cdstreamembeddedness` (
   PRIMARY KEY  (`EmbeddedCd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdstreamtype` (
+CREATE TABLE `cdStreamType` (
   `StreamTypeCd` varchar(2) NOT NULL,
   `StreamType` varchar(24) default NULL,
   `StreamTypeGroup` varchar(6) default NULL,
@@ -440,7 +441,7 @@ CREATE TABLE `cdstreamtype` (
   PRIMARY KEY  (`StreamTypeCd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdunitofmeasure` (
+CREATE TABLE `cdUnitofMeasure` (
   `UnitofMeasureCd` int(10) NOT NULL auto_increment,
   `UnitofMeasure` varchar(50) default NULL,
   `UnitofMeasureAbv` varchar(10) default NULL,
@@ -449,9 +450,9 @@ CREATE TABLE `cdunitofmeasure` (
   `created_by` int(11) default NULL,
   `updated_by` int(11) default NULL,
   PRIMARY KEY  (`UnitofMeasureCd`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdwaterchemistryqualifier` (
+CREATE TABLE `cdWaterChemistryQualifier` (
   `QualifierCd` varchar(4) NOT NULL,
   `Qualifier` varchar(100) default NULL,
   `created_at` datetime default NULL,
@@ -462,7 +463,7 @@ CREATE TABLE `cdwaterchemistryqualifier` (
   KEY `cdWaterChemistryQualifierQualif` (`QualifierCd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdwaterparameter` (
+CREATE TABLE `cdWaterParameter` (
   `WaterParameterCd` int(10) NOT NULL,
   `WaterParameter` varchar(50) default NULL,
   `created_at` datetime default NULL,
@@ -472,7 +473,7 @@ CREATE TABLE `cdwaterparameter` (
   PRIMARY KEY  (`WaterParameterCd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdwatersource` (
+CREATE TABLE `cdWaterSource` (
   `WaterSourceCd` varchar(4) NOT NULL,
   `WaterSource` varchar(20) default NULL,
   `WaterSourceType` varchar(20) default NULL,
@@ -483,7 +484,7 @@ CREATE TABLE `cdwatersource` (
   PRIMARY KEY  (`WaterSourceCd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `cdwatersourcetype` (
+CREATE TABLE `cdWaterSourceType` (
   `WaterSourceType` varchar(30) NOT NULL,
   `created_at` datetime default NULL,
   `updated_at` datetime default NULL,
@@ -497,19 +498,19 @@ CREATE TABLE `coordinate_sources` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(30) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `coordinate_sources_coordinate_systems` (
   `coordinate_source_id` int(11) default NULL,
   `coordinate_system_id` int(11) default NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `coordinate_systems` (
   `epsg` int(11) NOT NULL auto_increment,
   `name` varchar(100) default NULL,
   `display_name` varchar(40) default NULL,
   PRIMARY KEY  (`epsg`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26921 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `gmap_locations` (
   `id` int(11) NOT NULL auto_increment,
@@ -518,9 +519,9 @@ CREATE TABLE `gmap_locations` (
   `latitude` decimal(15,10) default NULL,
   `longitude` decimal(15,10) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1293 DEFAULT CHARSET=latin1;
 
-CREATE TABLE `rpttblbasinorderingscheme` (
+CREATE TABLE `rpttblBasinOrderingScheme` (
   `Level1No` varchar(2) NOT NULL,
   `Level1Name` varchar(40) default NULL,
   `OceanName` varchar(20) default NULL,
@@ -541,9 +542,9 @@ CREATE TABLE `schema_migrations` (
   `created_by` int(11) default NULL,
   `updated_by` int(11) default NULL,
   UNIQUE KEY `unique_schema_migrations` (`version`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `tblanglinglease` (
+CREATE TABLE `tblAnglingLease` (
   `RegulatedWaterID` int(10) NOT NULL,
   `LeaseNo` smallint(5) default NULL,
   `LeaseDesc` varchar(254) default NULL,
@@ -580,7 +581,7 @@ CREATE TABLE `tblanglinglease` (
   KEY `RegulatedWatersID` (`RegulatedWaterID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblanglinglicensesales` (
+CREATE TABLE `tblAnglingLicenseSales` (
   `LicenseSalesID` int(10) NOT NULL auto_increment,
   `LicenseCd` int(10) default NULL,
   `Residence` varchar(255) default NULL,
@@ -594,9 +595,9 @@ CREATE TABLE `tblanglinglicensesales` (
   `created_by` int(11) default NULL,
   `updated_by` int(11) default NULL,
   PRIMARY KEY  (`LicenseSalesID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1401 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblaquaticactivity` (
+CREATE TABLE `tblAquaticActivity` (
   `AquaticActivityID` int(10) NOT NULL auto_increment,
   `TempAquaticActivityID` int(10) default NULL,
   `Project` varchar(100) default NULL,
@@ -645,9 +646,9 @@ CREATE TABLE `tblaquaticactivity` (
   KEY `FisheriesSiteID` (`AquaticSiteID`),
   KEY `OldAquaticActivityID` (`TempAquaticActivityID`),
   KEY `oldAquaticSiteID` (`oldAquaticSiteID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=150639 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblaquaticprogram` (
+CREATE TABLE `tblAquaticProgram` (
   `AquaticProgramID` int(10) NOT NULL,
   `AquaticProgramName` varchar(30) default NULL,
   `AquaticProgramPurpose` varchar(150) default NULL,
@@ -664,7 +665,7 @@ CREATE TABLE `tblaquaticprogram` (
   KEY `AquaticProgramID` (`AquaticProgramID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblaquaticsite` (
+CREATE TABLE `tblAquaticSite` (
   `AquaticSiteID` int(10) NOT NULL auto_increment,
   `oldAquaticSiteID` int(10) default NULL,
   `RiverSystemID` smallint(5) default NULL,
@@ -700,9 +701,9 @@ CREATE TABLE `tblaquaticsite` (
   KEY `oldAquaticSiteID` (`oldAquaticSiteID`),
   KEY `RiverSystemID` (`RiverSystemID`),
   KEY `WaterBodyID` (`WaterBodyID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10001 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblaquaticsiteagencyuse` (
+CREATE TABLE `tblAquaticSiteAgencyUse` (
   `AquaticSiteUseID` int(10) NOT NULL auto_increment,
   `AquaticSiteID` int(10) default NULL,
   `AquaticActivityCd` smallint(5) default NULL,
@@ -723,9 +724,9 @@ CREATE TABLE `tblaquaticsiteagencyuse` (
   KEY `AgencySiteID` (`AgencySiteID`),
   KEY `AssmtSiteID` (`AquaticSiteUseID`),
   KEY `WaterBodyID` (`AquaticSiteID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7004 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblbacterialanalysis` (
+CREATE TABLE `tblBacterialAnalysis` (
   `BacterialAnalysisID` int(10) NOT NULL auto_increment,
   `AquaticActivityID` int(10) default NULL,
   `TempAquaticActivityID` int(10) default NULL,
@@ -749,9 +750,9 @@ CREATE TABLE `tblbacterialanalysis` (
   KEY `AquaticActivityID` (`AquaticActivityID`),
   KEY `BacterialAnalysisID` (`BacterialAnalysisID`),
   KEY `OldAquaticActivityID` (`TempAquaticActivityID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=602 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblbroodstockcollection` (
+CREATE TABLE `tblBroodstockCollection` (
   `AquaticActivityID` int(10) NOT NULL,
   `TempAquaticActivityID` int(10) default NULL,
   `Wild_M_MSW` double(15,5) default NULL,
@@ -782,7 +783,7 @@ CREATE TABLE `tblbroodstockcollection` (
   KEY `AquaticActivityID1` (`AquaticActivityID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblcrownreserve` (
+CREATE TABLE `tblCrownReserve` (
   `RegulatedWaterID` int(10) NOT NULL,
   `AnglingFishSpecies` varchar(20) default NULL,
   `StreamLength_km` double(15,5) default NULL,
@@ -802,7 +803,7 @@ CREATE TABLE `tblcrownreserve` (
   KEY `RegulatedWatersID` (`RegulatedWaterID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tbldraingeunit` (
+CREATE TABLE `tblDraingeUnit` (
   `DrainageCd` varchar(17) NOT NULL,
   `Level1No` varchar(2) default NULL,
   `Level1Name` varchar(40) default NULL,
@@ -832,7 +833,7 @@ CREATE TABLE `tbldraingeunit` (
   KEY `tblDraingeUnitsLevel1No` (`Level1No`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblelectrofishingdata` (
+CREATE TABLE `tblElectrofishingData` (
   `EFDataID` int(10) NOT NULL auto_increment,
   `oldEFDataID` double(15,5) default NULL,
   `TempDataID` int(10) default NULL,
@@ -874,9 +875,9 @@ CREATE TABLE `tblelectrofishingdata` (
   KEY `EFDATA_ID` (`oldEFDataID`),
   KEY `EFDataID` (`EFDataID`),
   KEY `TempEFDataID` (`TempDataID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=39414 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblelectrofishingmarkrecapturedata` (
+CREATE TABLE `tblElectrofishingMarkRecaptureData` (
   `EFMRDataID` int(10) NOT NULL auto_increment,
   `AquaticActivityID` int(10) default NULL,
   `TempAquaticActivityID` double(15,5) default NULL,
@@ -909,9 +910,9 @@ CREATE TABLE `tblelectrofishingmarkrecapturedata` (
   KEY `EFASSMT_ID` (`TempAquaticActivityID`),
   KEY `EFDATA_ID` (`EFMRDataID`),
   KEY `TempDataID` (`TempDataID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=961 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblelectrofishingmethoddetail` (
+CREATE TABLE `tblElectrofishingMethodDetail` (
   `AquaticActivityDetailID` int(10) NOT NULL auto_increment,
   `AquaticActivityID` int(10) default NULL,
   `TempAquaticActivityID` int(10) default NULL,
@@ -933,9 +934,9 @@ CREATE TABLE `tblelectrofishingmethoddetail` (
   KEY `AquaticActivityDetailsID` (`AquaticActivityDetailID`),
   KEY `AquaticActivityID` (`AquaticActivityID`),
   KEY `AssmtPrgrmID` (`TempAquaticActivityID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4126 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblelectrofishingpopulationestimate` (
+CREATE TABLE `tblElectrofishingPopulationEstimate` (
   `EFPopulationEstimateID` int(10) NOT NULL auto_increment,
   `oldEFPopulationEstimateID` int(10) default NULL,
   `EFDataID` int(10) default NULL,
@@ -970,9 +971,9 @@ CREATE TABLE `tblelectrofishingpopulationestimate` (
   KEY `EFPopulationEstimateID` (`oldEFPopulationEstimateID`),
   KEY `EFPopulationEstimateID1` (`EFPopulationEstimateID`),
   KEY `TempEFDataID` (`TempDataID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=67665 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblenvironmentalobservations` (
+CREATE TABLE `tblEnvironmentalObservations` (
   `EnvObservationID` int(10) NOT NULL auto_increment,
   `AquaticActivityID` int(10) default NULL,
   `ObservationGroup` varchar(50) default NULL,
@@ -989,7 +990,7 @@ CREATE TABLE `tblenvironmentalobservations` (
   KEY `AquaticActivityID` (`AquaticActivityID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblenvironmentalplanning` (
+CREATE TABLE `tblEnvironmentalPlanning` (
   `EnvPlanningID` int(10) NOT NULL auto_increment,
   `AquaticActivityID` int(10) default NULL,
   `IssueCategory` varchar(50) default NULL,
@@ -1010,7 +1011,7 @@ CREATE TABLE `tblenvironmentalplanning` (
   KEY `AquaticActivityID` (`AquaticActivityID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblenvironmentalsurveyfieldmeasures` (
+CREATE TABLE `tblEnvironmentalSurveyFieldMeasures` (
   `FieldMeasureID` int(10) NOT NULL auto_increment,
   `AquaticActivityID` int(10) default NULL,
   `StreamCover` varchar(10) default NULL,
@@ -1090,7 +1091,7 @@ CREATE TABLE `tblenvironmentalsurveyfieldmeasures` (
   KEY `AquaticActivityID` (`AquaticActivityID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblfishcount` (
+CREATE TABLE `tblFishCount` (
   `FishCountID` int(10) NOT NULL auto_increment,
   `AquaticActivityID` int(10) default NULL,
   `TempAquaticActivityID` int(10) default NULL,
@@ -1119,9 +1120,9 @@ CREATE TABLE `tblfishcount` (
   KEY `AquaticActivityID` (`TempAquaticActivityID`),
   KEY `AquaticActivityID1` (`AquaticActivityID`),
   KEY `FishCountID` (`FishCountID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=46064 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblfishfacility` (
+CREATE TABLE `tblFishFacility` (
   `FishFacilityID` int(10) NOT NULL,
   `AquaticSiteID` int(10) default NULL,
   `FishFacilityType` varchar(20) default NULL,
@@ -1142,7 +1143,7 @@ CREATE TABLE `tblfishfacility` (
   KEY `WaterBodyID` (`WaterBodyID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblfishmating` (
+CREATE TABLE `tblFishMating` (
   `FishMatingID` int(10) NOT NULL auto_increment,
   `FishMating` varchar(150) default NULL,
   `created_at` datetime default NULL,
@@ -1151,9 +1152,9 @@ CREATE TABLE `tblfishmating` (
   `updated_by` int(11) default NULL,
   PRIMARY KEY  (`FishMatingID`),
   KEY `Mating Code` (`FishMatingID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblfishmeasurement` (
+CREATE TABLE `tblFishMeasurement` (
   `FishSampleID` int(10) NOT NULL auto_increment,
   `AquaticActivityID` int(10) default NULL,
   `TempAquaticActivityID` int(10) default NULL,
@@ -1194,9 +1195,9 @@ CREATE TABLE `tblfishmeasurement` (
   KEY `{F065211C-F778-44FD-9014-6CD26F` (`SexCd`),
   KEY `AquaticActivityID` (`TempAquaticActivityID`),
   KEY `AquaticActivityID1` (`AquaticActivityID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=285877 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblfishstock` (
+CREATE TABLE `tblFishStock` (
   `FishStockID` int(10) NOT NULL,
   `FishSpeciesCd` varchar(2) default NULL,
   `WaterBodyID` int(10) default NULL,
@@ -1217,7 +1218,7 @@ CREATE TABLE `tblfishstock` (
   KEY `WaterBodyID` (`WaterBodyID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblfishtranslocation` (
+CREATE TABLE `tblFishTranslocation` (
   `FishTranslocationID` int(10) NOT NULL auto_increment,
   `AquaticActivityID` int(10) default NULL,
   `TempAquaticActivityID` int(10) default NULL,
@@ -1241,9 +1242,9 @@ CREATE TABLE `tblfishtranslocation` (
   KEY `FishStockID` (`FishStockID`),
   KEY `FishTranslocationID` (`FishTranslocationID`),
   KEY `OldAquaticActivityID` (`TempAquaticActivityID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblhabitatrestoration` (
+CREATE TABLE `tblHabitatRestoration` (
   `AquaticActivityID` int(10) NOT NULL,
   `TempAquaticActivityID` int(10) default NULL,
   `RestorationDesc` varchar(150) default NULL,
@@ -1257,7 +1258,7 @@ CREATE TABLE `tblhabitatrestoration` (
   KEY `OldAquaticActivityID` (`TempAquaticActivityID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblhabitatunit` (
+CREATE TABLE `tblHabitatUnit` (
   `HabitatUnitID` double(15,5) NOT NULL,
   `AquaticActivityID` int(10) default NULL,
   `TempAquaticActivityID` int(10) default NULL,
@@ -1329,7 +1330,7 @@ CREATE TABLE `tblhabitatunit` (
   KEY `WATER_ID` (`WaterBodyID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblhabitatunitcomment` (
+CREATE TABLE `tblHabitatUnitComment` (
   `AquaticActivityID` int(10) default NULL,
   `TempAquaticActivityID` int(10) default NULL,
   `HabitatUnitID` double(15,5) default NULL,
@@ -1346,7 +1347,7 @@ CREATE TABLE `tblhabitatunitcomment` (
   KEY `HABUNIT_ID` (`HabitatUnitID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblhabitatunitwatermeasurement` (
+CREATE TABLE `tblHabitatUnitWaterMeasurement` (
   `AquaticActivityID` int(10) default NULL,
   `TempAquaticActivityID` int(10) default NULL,
   `HabitatUnitID` double(15,5) default NULL,
@@ -1368,7 +1369,7 @@ CREATE TABLE `tblhabitatunitwatermeasurement` (
   KEY `HABUNIT_ID` (`HabitatUnitID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tbllakeattribute` (
+CREATE TABLE `tblLakeAttribute` (
   `WaterBodyID` int(10) NOT NULL,
   `County` varchar(20) default NULL,
   `Parish` varchar(30) default NULL,
@@ -1400,7 +1401,7 @@ CREATE TABLE `tbllakeattribute` (
   KEY `WATER_ID` (`WaterBodyID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tbllakesurveydetail` (
+CREATE TABLE `tblLakeSurveyDetail` (
   `AquaticActivityID` int(10) default NULL,
   `TempAquaticActivityID` int(10) default NULL,
   `DNRRegion` varchar(1) default NULL,
@@ -1466,7 +1467,7 @@ CREATE TABLE `tbllakesurveydetail` (
   KEY `oldAquaticActivityID` (`TempAquaticActivityID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tbllakesurveyfishspecies` (
+CREATE TABLE `tblLakeSurveyFishSpecies` (
   `LakeSurveyFishID` int(10) NOT NULL auto_increment,
   `AquaticActivityID` int(10) default NULL,
   `OldAssmtID` smallint(5) default NULL,
@@ -1487,9 +1488,9 @@ CREATE TABLE `tbllakesurveyfishspecies` (
   KEY `activityid` (`AquaticActivityID`),
   KEY `ASSMT_ID` (`OldAssmtID`),
   KEY `LakeSurveyFishID` (`LakeSurveyFishID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1442 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tbllakesurveytribassessment` (
+CREATE TABLE `tblLakeSurveyTribAssessment` (
   `LakeSurveyTribID` int(10) NOT NULL auto_increment,
   `AquaticActivityID` int(10) default NULL,
   `OldAssmtID` smallint(5) default NULL,
@@ -1527,9 +1528,9 @@ CREATE TABLE `tbllakesurveytribassessment` (
   KEY `activityID` (`AquaticActivityID`),
   KEY `ASSMT_ID` (`OldAssmtID`),
   KEY `LakeSurveyTribID` (`LakeSurveyTribID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=640 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tbllakesurveywatermeasurement` (
+CREATE TABLE `tblLakeSurveyWaterMeasurement` (
   `LakeSurveyWaterMeasID` int(10) NOT NULL auto_increment,
   `AquaticActivityID` int(10) default NULL,
   `OldAssmtID` smallint(5) default NULL,
@@ -1554,9 +1555,9 @@ CREATE TABLE `tbllakesurveywatermeasurement` (
   KEY `ASSMT_ID` (`OldAssmtID`),
   KEY `FREE_ACID` (`FreeAcid`),
   KEY `LakeSurveyWaterMeasID` (`LakeSurveyWaterMeasID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1217 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tbllevel1basin` (
+CREATE TABLE `tblLevel1Basin` (
   `Level1No` varchar(2) NOT NULL,
   `Level1Name` varchar(40) default NULL,
   `OceanName` varchar(20) default NULL,
@@ -1569,7 +1570,7 @@ CREATE TABLE `tbllevel1basin` (
   PRIMARY KEY  (`Level1No`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblobservations` (
+CREATE TABLE `tblObservations` (
   `ObservationID` int(10) NOT NULL auto_increment,
   `AquaticActivityID` int(10) default NULL,
   `OandMCd` int(10) default NULL,
@@ -1585,7 +1586,7 @@ CREATE TABLE `tblobservations` (
   KEY `EnvSurveyID` (`ObservationID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tbloldhabitatsurvey` (
+CREATE TABLE `tblOldHabitatSurvey` (
   `HabitatSurveyID` int(10) NOT NULL auto_increment,
   `WaterBodyID` double(15,5) default NULL,
   `AgencyCd` varchar(4) default NULL,
@@ -1607,9 +1608,9 @@ CREATE TABLE `tbloldhabitatsurvey` (
   PRIMARY KEY  (`HabitatSurveyID`),
   KEY `HabitatSurveyID` (`HabitatSurveyID`),
   KEY `WATER_ID` (`WaterBodyID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=268 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblphotos` (
+CREATE TABLE `tblPhotos` (
   `PhotoID` int(10) NOT NULL auto_increment,
   `AquaticActivityID` int(10) default NULL,
   `Path` varchar(50) default NULL,
@@ -1623,7 +1624,7 @@ CREATE TABLE `tblphotos` (
   KEY `PhotoID` (`PhotoID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblreconnaissanceresult` (
+CREATE TABLE `tblReconnaissanceResult` (
   `AquaticActivityID` int(10) NOT NULL,
   `TempAquaticActivityID` int(10) default NULL,
   `StreamTypeCd` varchar(2) default NULL,
@@ -1652,7 +1653,7 @@ CREATE TABLE `tblreconnaissanceresult` (
   KEY `oldAquaticActivityID` (`TempAquaticActivityID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblreddcount` (
+CREATE TABLE `tblReddCount` (
   `AquaticActivityID` int(10) NOT NULL,
   `TempAquaticActivityID` int(10) default NULL,
   `NoSmallRedds` double(15,5) default NULL,
@@ -1672,7 +1673,7 @@ CREATE TABLE `tblreddcount` (
   KEY `AquaticActivityID1` (`AquaticActivityID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblregulatedwater` (
+CREATE TABLE `tblRegulatedWater` (
   `RegulatedWaterID` int(10) NOT NULL auto_increment,
   `WaterBodyID` int(10) default NULL,
   `WaterBodyName` varchar(50) default NULL,
@@ -1697,9 +1698,9 @@ CREATE TABLE `tblregulatedwater` (
   PRIMARY KEY  (`RegulatedWaterID`),
   KEY `ID` (`RegulatedWaterID`),
   KEY `WaterBodyID` (`WaterBodyID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=320 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblregulatedwaterstretch` (
+CREATE TABLE `tblRegulatedWaterStretch` (
   `RegWaterStretchID` int(10) NOT NULL auto_increment,
   `RegulatedWaterID` int(10) default NULL,
   `RegulatedWaterName` varchar(50) default NULL,
@@ -1721,9 +1722,9 @@ CREATE TABLE `tblregulatedwaterstretch` (
   KEY `ID` (`RegWaterStretchID`),
   KEY `RegWaterID` (`RegulatedWaterID`),
   KEY `WaterBodyID` (`WaterBodyID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=320 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblrelatedaquaticactivities` (
+CREATE TABLE `tblRelatedAquaticActivities` (
   `RelatedAquaticActivitiesID` int(10) NOT NULL auto_increment,
   `PrimaryAquaticActivityID` int(10) default NULL,
   `RelatedAquaticActivityID` int(10) default NULL,
@@ -1739,9 +1740,9 @@ CREATE TABLE `tblrelatedaquaticactivities` (
   KEY `PrimaryAquaticActivityID` (`PrimaryAquaticActivityID`),
   KEY `RelatedAquaticActivityID` (`RelatedAquaticActivitiesID`),
   KEY `RelatedAquaticActivityID1` (`RelatedAquaticActivityID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1031 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblriversystem` (
+CREATE TABLE `tblRiverSystem` (
   `RiverSystemID` smallint(5) NOT NULL,
   `WaterBodyID` int(10) default NULL,
   `RiverSystemName` varchar(40) default NULL,
@@ -1755,7 +1756,7 @@ CREATE TABLE `tblriversystem` (
   KEY `WATER_ID` (`WaterBodyID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblsample` (
+CREATE TABLE `tblSample` (
   `SampleID` int(10) NOT NULL auto_increment,
   `AquaticActivityID` int(10) default NULL,
   `TempAquaticActivityID` int(10) default NULL,
@@ -1775,9 +1776,9 @@ CREATE TABLE `tblsample` (
   KEY `tblAquaticActivitytblSample` (`AquaticActivityID`),
   KEY `tblSampleWaterSourceType` (`WaterSourceType`),
   KEY `TempAquaticActivityID` (`TempAquaticActivityID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblsatelliterearing` (
+CREATE TABLE `tblSatelliteRearing` (
   `AquaticActivityID` int(10) NOT NULL,
   `TempAquaticActivityID` int(10) default NULL,
   `NoTanks` smallint(5) default NULL,
@@ -1796,7 +1797,7 @@ CREATE TABLE `tblsatelliterearing` (
   KEY `AquaticActivityID1` (`AquaticActivityID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblsitemeasurement` (
+CREATE TABLE `tblSiteMeasurement` (
   `SiteMeasurementID` int(10) NOT NULL auto_increment,
   `AquaticActivityID` int(10) default NULL,
   `OandMCd` int(10) default NULL,
@@ -1813,9 +1814,9 @@ CREATE TABLE `tblsitemeasurement` (
   KEY `AquaticActivityID` (`AquaticActivityID`),
   KEY `SiteMeasurementID` (`SiteMeasurementID`),
   KEY `tblAquaticActivitytblSiteMeasur` (`AquaticActivityID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5135 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblspawners` (
+CREATE TABLE `tblSpawners` (
   `AquaticActivityID` int(10) default NULL,
   `TempAquaticActivityID` int(10) default NULL,
   `SmallRedds` double(15,5) default NULL,
@@ -1833,7 +1834,7 @@ CREATE TABLE `tblspawners` (
   KEY `AquaticActivityID2` (`AquaticActivityID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblsportfishinganglinglease` (
+CREATE TABLE `tblSportfishingAnglingLease` (
   `SportfishingID` int(10) NOT NULL auto_increment,
   `RegulatedWaterID` int(10) default NULL,
   `LeaseNo` smallint(5) default NULL,
@@ -1865,9 +1866,9 @@ CREATE TABLE `tblsportfishinganglinglease` (
   KEY `{30865C15-4322-4026-86DB-C859C8` (`RegulatedWaterID`),
   KEY `LEASE_ID` (`LeaseNo`),
   KEY `RegulatedWaterID` (`RegulatedWaterID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=513 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblsportfishingatlanticsalmon` (
+CREATE TABLE `tblSportfishingAtlanticSalmon` (
   `SportfishingID` int(10) NOT NULL auto_increment,
   `WaterBodyID` int(10) default NULL,
   `WaterBodyName` varchar(55) default NULL,
@@ -1954,9 +1955,9 @@ CREATE TABLE `tblsportfishingatlanticsalmon` (
   KEY `{B2264753-0653-48B6-93B6-759023` (`WaterBodyID`),
   KEY `SportfishingID` (`SportfishingID`),
   KEY `WATER_ID` (`WaterBodyID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1338 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblsportfishingcrownreserve` (
+CREATE TABLE `tblSportfishingCrownReserve` (
   `SportfishingID` int(10) NOT NULL auto_increment,
   `RegulatedWaterID` int(10) default NULL,
   `Year` varchar(4) default NULL,
@@ -1984,9 +1985,9 @@ CREATE TABLE `tblsportfishingcrownreserve` (
   KEY `{771658EA-10AB-4276-AE7C-A4A7E0` (`RegulatedWaterID`),
   KEY `RegulatedWaterID` (`RegulatedWaterID`),
   KEY `SportfishingID` (`SportfishingID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=709 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblstockedfish` (
+CREATE TABLE `tblStockedFish` (
   `FishStockingID` int(10) NOT NULL auto_increment,
   `siteuseid` int(10) default NULL,
   `AquaticActivityID` int(10) default NULL,
@@ -2032,9 +2033,9 @@ CREATE TABLE `tblstockedfish` (
   KEY `FishStockID` (`FishStockID`),
   KEY `FishStockingID` (`FishStockingID`),
   KEY `siteuseid` (`siteuseid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=28144 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblstreamattribute` (
+CREATE TABLE `tblStreamAttribute` (
   `WaterBodyID` int(10) NOT NULL,
   `StreamLength_km` double(15,5) default NULL,
   `HighestOrder` smallint(5) default NULL,
@@ -2049,7 +2050,7 @@ CREATE TABLE `tblstreamattribute` (
   KEY `WATER_ID` (`WaterBodyID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblvibertboxanalysis` (
+CREATE TABLE `tblVibertBoxAnalysis` (
   `AquaticActivityID` int(10) default NULL,
   `TempAquaticActivityID` int(10) default NULL,
   `LocationDesc` varchar(20) default NULL,
@@ -2076,7 +2077,7 @@ CREATE TABLE `tblvibertboxanalysis` (
   KEY `oldAquaticActivityID` (`TempAquaticActivityID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblwaterbody` (
+CREATE TABLE `tblWaterBody` (
   `WaterBodyID` int(10) NOT NULL auto_increment,
   `DrainageCd` varchar(17) default NULL,
   `WaterBodyTypeCd` varchar(4) default NULL,
@@ -2100,9 +2101,9 @@ CREATE TABLE `tblwaterbody` (
   KEY `DR_CODE` (`DrainageCd`),
   KEY `FLOW_ID` (`FlowsIntoWaterBodyID`),
   KEY `WATER_ID` (`WaterBodyID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1000000 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblwaterbodycomplex` (
+CREATE TABLE `tblWaterBodyComplex` (
   `WaterBodyComplexID` smallint(5) NOT NULL,
   `WaterBodyComplexName` varchar(55) default NULL,
   `WaterBodyComplexType` varchar(4) default NULL,
@@ -2116,7 +2117,7 @@ CREATE TABLE `tblwaterbodycomplex` (
   KEY `tblWaterBodyComplexesDrainageCd` (`DrainageCd`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblwaterchemistryanalysis` (
+CREATE TABLE `tblWaterChemistryAnalysis` (
   `AquaticActivityID` int(10) default NULL,
   `TempAquaticActivityID` int(10) default NULL,
   `DOE_Program` varchar(14) default NULL,
@@ -2247,7 +2248,7 @@ CREATE TABLE `tblwaterchemistryanalysis` (
   KEY `AquaticActivityID1` (`AquaticActivityID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblwatermeasurement` (
+CREATE TABLE `tblWaterMeasurement` (
   `WaterMeasurementID` int(10) NOT NULL auto_increment,
   `AquaticActivityID` int(10) default NULL,
   `TempAquaticActivityID` int(10) default NULL,
@@ -2281,9 +2282,9 @@ CREATE TABLE `tblwatermeasurement` (
   KEY `TempDataID` (`TempDataID`),
   KEY `TemperatureLoggerID` (`TemperatureLoggerID`),
   KEY `WaterMeasurementID` (`WaterMeasurementID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=194945 DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tblwatertemperatureloggerdetails` (
+CREATE TABLE `tblWaterTemperatureLoggerDetails` (
   `TemperatureLoggerID` int(10) NOT NULL auto_increment,
   `AquaticActivityID` int(10) default NULL,
   `LoggerNo` varchar(20) default NULL,
@@ -2322,7 +2323,7 @@ CREATE TABLE `tblwatertemperatureloggerdetails` (
   UNIQUE KEY `TemperatureLoggerID` (`TemperatureLoggerID`),
   KEY `AquaticActivityID` (`AquaticActivityID`),
   KEY `LoggerID` (`LoggerNo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=291 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL auto_increment,
@@ -2345,8 +2346,9 @@ CREATE TABLE `users` (
   `created_at` datetime default NULL,
   `updated_at` datetime default NULL,
   `area_of_interest_id` int(11) default NULL,
+  `language` varchar(2) default 'en',
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 INSERT INTO schema_migrations (version) VALUES ('20080923163400');
 
@@ -2363,3 +2365,7 @@ INSERT INTO schema_migrations (version) VALUES ('20080923163973');
 INSERT INTO schema_migrations (version) VALUES ('20080926150102');
 
 INSERT INTO schema_migrations (version) VALUES ('20081008163622');
+
+INSERT INTO schema_migrations (version) VALUES ('20081127150314');
+
+INSERT INTO schema_migrations (version) VALUES ('20090909143559');
