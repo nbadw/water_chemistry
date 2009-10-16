@@ -30,20 +30,11 @@ Rails::Initializer.run do |config|
   config.gem "ruport-util", :lib => "ruport/util", :version => '0.14.0'
   config.gem "GeoRuby", :lib => "geo_ruby", :version => '1.3.4'
   config.gem "action_mailer_tls", :lib => "smtp_tls.rb", :source => "http://gemcutter.org", :version => '1.1.3'
-#  config.gem "newrelic_rpm"
+  config.gem "newrelic_rpm"
   # for testing, the following gems should also be present
   # - mocha   (0.9.8)
   # - shoulda (2.10.2)
   # - hpricot (0.8.1)
-  #   If using JRuby, clone http://github.com/olabini/hpricot or http://github.com/whymirror/hpricot/
-  #   and then run the following commands to build hpricot:
-  #     jruby -S rake package_jruby
-  #     jruby -S gem install -l pkg/hpricot-0.8.1-jruby.gem
-  if defined?(JRUBY_VERSION) # jruby-specific gems
-    config.gem "activerecord-jdbc-adapter", :lib => 'jdbc_adapter'
-    config.gem "torquebox-gem"
-    config.gem "torquebox-rails"
-  end
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
@@ -72,7 +63,7 @@ Rails::Initializer.run do |config|
   # Make sure the secret is at least 30 characters and all random, 
   # no regular words or you'll be exposed to dictionary attacks.
   config.action_controller.session = {
-    :session_key => '_nbadw_session',
+    :session_key => '_nbadw_dataentry_session',
     :secret      => 'f7ccddb583731efc258fafb8296fdbba8b75cc184856c3b43c351e85f1095aa3f957042e6d17bfcf62c94fc77fbb09fcac45eb0525ed4e369672a15fc46b047f'
   }
 
