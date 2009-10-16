@@ -1,17 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
-require 'sessions_controller'
 
-# Re-raise errors caught by the controller.
-class SessionsController; def rescue_action(e) raise e end; end
-
-class SessionsControllerTest < Test::Unit::TestCase
+class SessionsControllerTest < ActionController::TestCase
   fixtures :users
-
-  def setup
-    @controller = SessionsController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
   
   context "on POST request to :show" do
     setup { post :create, :username => 'quentin', :password => 'test' }
