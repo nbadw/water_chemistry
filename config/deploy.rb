@@ -13,4 +13,13 @@ namespace :deploy do
   task :restart, :roles => :app do
     run "touch #{current_path}/tmp/restart.txt"
   end
+  
+  task :after_symlink do
+    build_packaged_assets
+  end
+
+  desc "Build Packaged Assets"
+  task :build_packaged_assets, :roles => :app do
+    run("cd #{deploy_to}/current; rake asset:packager:build_all")
+  end
 end
