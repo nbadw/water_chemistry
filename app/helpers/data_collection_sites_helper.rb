@@ -1,6 +1,6 @@
 module DataCollectionSitesHelper
   def incorporated_column(aquatic_site)    
-    '<img class="incorporated" src="/images/lock_delete.png"/>' if aquatic_site.incorporated?
+    '<img class="incorporated" src="./images/lock_delete.png"/>' if aquatic_site.incorporated?
   end
   
   def water_body_name_column(aquatic_site)
