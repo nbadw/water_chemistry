@@ -1,7 +1,7 @@
 var explore_map;
 var site2marker = {};
-var legacy_icon_image = "/images/iconr.png";     
-var normal_icon_image = "/images/iconb.png";   
+var legacy_icon_image = "./images/iconr.png";
+var normal_icon_image = "./images/iconb.png";
 
 function init() {
     console.log('init');
@@ -84,7 +84,7 @@ function handleMarkerClick(evt) {
     
     if(marker.maxContent.innerHTML == loading_text) {
         GEvent.addListener(iw, "maximizeclick", function() {
-            GDownloadUrl("/data_collection_sites/gmap_max_content/" + marker.id, function(data) {
+            GDownloadUrl("./data_collection_sites/gmap_max_content/" + marker.id, function(data) {
                 marker.maxContent.innerHTML = data;
             });
         }); 

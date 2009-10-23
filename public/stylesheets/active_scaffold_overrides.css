@@ -191,3 +191,11 @@ td.incorporated-column {
     clear: left;
     padding-top: 2px;
 }
+
+.active-scaffold-header div.actions a.show_search {
+  background-image: url(../images/active_scaffold/default/magnifier.png);
+}
+.active-scaffold-header div.actions a.new,
+.active-scaffold-header div.actions a.new_existing {
+  background-image: url(../images/active_scaffold/default/add.gif);
+}
