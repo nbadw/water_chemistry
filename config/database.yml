@@ -17,10 +17,10 @@
 development:
   adapter: mysql
   encoding: utf8
-  database: nb_aquatic_data_warehouse_dev
+  database: nbadw_dev
+  pool: 5
   username: developer
   password: developer
-  host: localhost
 
 # Warning: The database defined as 'test' will be erased and
 # re-generated from your development database when you run 'rake'.
@@ -28,7 +28,7 @@ development:
 test:
   adapter: mysql
   encoding: utf8
-  database: nb_aquatic_data_warehouse_test
+  database: nbadw_test
   username: developer
   password: developer
   host: localhost
@@ -36,8 +36,8 @@ test:
 production:
   adapter: mysql
   encoding: utf8
-  database: nb_aquatic_data_warehouse_dev
-  username: developer
-  password: developer
+  database: nbadw
+  username: nbadw
+  password: NBADW_x3wp3
   host: localhost
 
