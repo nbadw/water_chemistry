@@ -14,9 +14,3 @@ ActionMailer::Base.smtp_settings = {
   :enable_starttls_auto => true
 }.merge(config_options) # Configuration options override default options
 
-# ActionMailer settings
-class ApplicationMailer < ActionMailer::Base
-  self.template_root = File.join(RAILS_ROOT, 'app', 'mailers', 'views')  
-  default_url_options[:host] = 'cri.nbwaters.unb.ca'
-  default_url_options[:port] = 3000
-end

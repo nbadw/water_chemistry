@@ -46,12 +46,12 @@ module AquaticDataWarehouse
 
           column = record.column_for_attribute(attr_name)
           if value.nil? || (configuration[:case_sensitive] || !finder_class.columns_hash[attr_name.to_s].text?)
-            condition_sql = "#{record.class.quoted_table_name}.#{column.name} #{attribute_condition(value)}"
+            condition_sql = "#{record.class.quoted_table_name}.#{connection.quote_column_name(column.name)} #{attribute_condition(value)}"
             condition_params = [value]
           else
             # sqlite has case sensitive SELECT query, while MySQL/Postgresql don't.
             # Hence, this is needed only for sqlite.
-            condition_sql = "LOWER(#{record.class.quoted_table_name}.#{column.name}) #{attribute_condition(value)}"
+            condition_sql = "LOWER(#{record.class.quoted_table_name}.#{connection.quote_column_name(column.name)}) #{attribute_condition(value)}"
             condition_params = [value.downcase]
           end
 
@@ -59,7 +59,7 @@ module AquaticDataWarehouse
             Array(scope).map do |scope_item|
               scope_column = record.column_for_attribute(scope_item)
               scope_value = record.send(scope_item)
-              condition_sql << " AND #{record.class.quoted_table_name}.#{scope_column.name} #{attribute_condition(scope_value)}"
+              condition_sql << " AND #{record.class.quoted_table_name}.#{connection.quote_column_name(scope_column.name)} #{attribute_condition(scope_value)}"
               condition_params << scope_value
             end
           end
