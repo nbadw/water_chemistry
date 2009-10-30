@@ -12,20 +12,20 @@ class SamplesController < ApplicationController
     config.update.columns = [:agency_sample_no, :sample_collection_method, :sample_depth_m, :water_source_type, :analyzed_by, :lab_no]
 
     # i18n labels
-    config.label                                    = :samples_label.l
-    config.create.label                             = :samples_create_label.l
-    config.update.label                             = :samples_update_label.l
-    config.columns[:id].label                       = :samples_id_label.l
-    config.columns[:agency_sample_no].label         = :samples_agency_sample_no_label.l
-    config.columns[:sample_collection_method].label = :samples_sample_collection_method_label.l
-    config.columns[:sample_depth_m].label           = :samples_sample_depth_m_label.l
-    config.columns[:water_source_type].label        = :samples_water_source_type_label.l
-    config.columns[:analyzed_by].label              = :samples_analyzed_by_label.l
-    config.columns[:lab_no].label                   = :samples_lab_no_label.l
-    config.columns[:sample_results].label           = :samples_sample_results_label.l
+    config.label                                    = :samples_label
+    config.create.label                             = :samples_create_label
+    config.update.label                             = :samples_update_label
+    config.columns[:id].label                       = :samples_id_label
+    config.columns[:agency_sample_no].label         = :samples_agency_sample_no_label
+    config.columns[:sample_collection_method].label = :samples_sample_collection_method_label
+    config.columns[:sample_depth_m].label           = :samples_sample_depth_m_label
+    config.columns[:water_source_type].label        = :samples_water_source_type_label
+    config.columns[:analyzed_by].label              = :samples_analyzed_by_label
+    config.columns[:lab_no].label                   = :samples_lab_no_label
+    config.columns[:sample_results].label           = :samples_sample_results_label
     
     # descriptions
-    config.columns[:analyzed_by].description = :samples_analyzed_by_desc.l
+    config.columns[:analyzed_by].description = :samples_analyzed_by_desc
 
     config.columns[:aquatic_activity_id].search_sql = 
       "#{Sample.table_name}.#{Sample.column_for_attribute(:aquatic_activity_id).name}"

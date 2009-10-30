@@ -19,28 +19,29 @@ class DataCollectionSitesController < ApplicationController
     end
                  
     # set i18n labels
-    config.label                                = :data_collection_sites_label.l
-    config.create.label                         = :data_collection_sites_create_label.l
+    logger.info "LOCALE: #{Globalite.current_locale}"
+    config.label                                = :data_collection_sites_label
+    config.create.label                         = :data_collection_sites_create_label
     config.show.label                           = '' # clear the title in the 'show' view
     config.columns[:incorporated].label         = '' # clear the incorporated column's label
-    config.columns[:id].label                   = :aquatic_site_id_label.l
-    config.columns[:name].label                 = :aquatic_site_name_label.l
-    config.columns[:aquatic_site_desc].label    = :aquatic_site_desc_label.l
-    config.columns[:agencies].label             = :aquatic_site_agencies_label.l
-    config.columns[:water_body_id].label        = :aquatic_site_waterbody_id_label.l
-    config.columns[:water_body_name].label      = :aquatic_site_waterbody_name_label.l
-    config.columns[:drainage_code].label        = :aquatic_site_drainage_code_label.l
-    config.columns[:name_and_description].label = :aquatic_site_name_and_description_label.l
-    config.columns[:data_sets].label            = :aquatic_site_data_sets_label.l
-    config.columns[:x_coordinate].label         = :aquatic_site_x_coordinate_label.l
-    config.columns[:y_coordinate].label         = :aquatic_site_y_coordinate_label.l
-    config.columns[:coordinate_system].label    = :aquatic_site_coordinate_system_label.l
-    config.columns[:coordinate_source].label    = :aquatic_site_coordinate_source_label.l
-    config.columns[:waterbody].label            = :data_collection_sites_waterbody_subgroup.l
+    config.columns[:id].label                   = :aquatic_site_id_label
+    config.columns[:name].label                 = :aquatic_site_name_label
+    config.columns[:aquatic_site_desc].label    = :aquatic_site_desc_label
+    config.columns[:agencies].label             = :aquatic_site_agencies_label
+    config.columns[:water_body_id].label        = :aquatic_site_waterbody_id_label
+    config.columns[:water_body_name].label      = :aquatic_site_waterbody_name_label
+    config.columns[:drainage_code].label        = :aquatic_site_drainage_code_label
+    config.columns[:name_and_description].label = :aquatic_site_name_and_description_label
+    config.columns[:data_sets].label            = :aquatic_site_data_sets_label
+    config.columns[:x_coordinate].label         = :aquatic_site_x_coordinate_label
+    config.columns[:y_coordinate].label         = :aquatic_site_y_coordinate_label
+    config.columns[:coordinate_system].label    = :aquatic_site_coordinate_system_label
+    config.columns[:coordinate_source].label    = :aquatic_site_coordinate_source_label
+    config.columns[:waterbody].label            = :data_collection_sites_waterbody_subgroup
 
     # set i18n descriptions
-    config.columns[:name].description              = :aquatic_site_name_desc.l
-    config.columns[:aquatic_site_desc].description = :aquatic_site_desc_desc.l
+    config.columns[:name].description              = :aquatic_site_name_desc
+    config.columns[:aquatic_site_desc].description = :aquatic_site_desc_desc
 
     # required fields
     config.columns[:aquatic_site_desc].required = true

@@ -5,7 +5,7 @@ class AquaticActivityEventController < ApplicationController
   
   active_scaffold do |config|
     # base config 
-    config.label = :aquatic_activity_event_label.l
+    config.label = :aquatic_activity_event_label
     config.actions = [:create, :list, :show, :update, :delete, :nested, :subform]
 
     config.columns = [:aquatic_site_id, :aquatic_activity_cd, :aquatic_activity_method, :start_date, :agency, :weather_conditions, :water_level]
@@ -16,21 +16,21 @@ class AquaticActivityEventController < ApplicationController
     config.columns[:aquatic_activity_cd].search_sql = "#{AquaticActivityEvent.table_name}.#{AquaticActivityEvent.column_for_attribute(:aquatic_activity_cd).name}"
 
     # i18n labels
-    config.columns[:aquatic_site_id].label         = :aquatic_site_id_label.l
-    config.columns[:aquatic_activity_cd].label     = :aquatic_activity_cd_label.l
-    config.columns[:aquatic_activity_method].label = :aquatic_activity_method_label.l
-    config.columns[:start_date].label              = :start_date_label.l
-    config.columns[:weather_conditions].label      = :weather_conditions_label.l
-    config.columns[:water_level].label             = :water_level_label.l
-    config.columns[:agency].label                  = :agency_label.l
+    config.columns[:aquatic_site_id].label         = :aquatic_site_id_label
+    config.columns[:aquatic_activity_cd].label     = :aquatic_activity_cd_label
+    config.columns[:aquatic_activity_method].label = :aquatic_activity_method_label
+    config.columns[:start_date].label              = :start_date_label
+    config.columns[:weather_conditions].label      = :weather_conditions_label
+    config.columns[:water_level].label             = :water_level_label
+    config.columns[:agency].label                  = :agency_label
 
     # action link labels
-    config.create.label    = :aquatic_activity_event_create_label.l 
-    config.update.label    = :aquatic_activity_event_update_label.l 
-    config.show.link.label = :aquatic_activity_event_show_label.l 
+    config.create.label    = :aquatic_activity_event_create_label
+    config.update.label    = :aquatic_activity_event_update_label
+    config.show.link.label = :aquatic_activity_event_show_label
 
     # descriptions
-    config.columns[:aquatic_activity_method].description = :aquatic_activity_method_desc.l
+    config.columns[:aquatic_activity_method].description = :aquatic_activity_method_desc
     
     # required fields
     config.columns[:aquatic_activity_method].required = true
@@ -52,7 +52,7 @@ class AquaticActivityEventController < ApplicationController
 
     # link to allow adding/editing of an agency's site id
     config.action_links.add 'edit_agency_site_id', 
-      :label => :edit_agency_site_id_label.l,
+      :label => :edit_agency_site_id_label,
       :type => :table,
       :inline => true
   end
