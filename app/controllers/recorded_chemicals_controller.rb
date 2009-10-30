@@ -48,7 +48,9 @@ class RecordedChemicalsController < ApplicationController
   end
   
   def find_chemicals
-    @chemicals = Measurement.chemicals.sort_by { |chemical| chemical.parameter.downcase }
+    # XXX: microbiology requirement adding to the application, the code here is now
+    #      somewhat obtuse but it should work (30/10/09)
+    @chemicals = (Measurement.chemicals + Measurement.microbiology).uniq.sort_by { |chemical| chemical.parameter.downcase }
     sample_id = active_scaffold_session_storage[:constraints][:sample]
     recorded = WaterMeasurement.recorded_chemicals(sample_id)
     recorded_ids = recorded.collect { |chem| chem.id }
