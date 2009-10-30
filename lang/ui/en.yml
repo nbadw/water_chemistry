@@ -297,7 +297,7 @@ waterbody_id_report_label: Waterbody ID
 waterbody_name_report_label: Waterbody Name
 drainage_code_report_label: Drainage Code
 site_description_report_label: Site Description
-date_sampled_report_label: Date Sampled <span class="date-format">(yyyy/mm/jj)</span>
+date_sampled_report_label: Date Sampled <span class="date-format">(yyyy/mm/dd)</span>
 agency_report_label: Agency
 sampled_by_report_label: Sampled By
 agency_sample_no_report_label: Agency Sample No.
