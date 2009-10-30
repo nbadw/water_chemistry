@@ -50,6 +50,7 @@ class Measurement < OandM
   end
   
   named_scope :chemicals, :conditions => { 'OandM_Category' => 'Water', 'OandM_Group' => 'Chemical' }
-  named_scope :water,  :conditions => { 'OandM_Category' => 'Water', 'OandM_Group' => 'Physical' }
-  named_scope :site,   :conditions => { 'OandM_Category' => ['Site', 'Aquatic Characteristic'] }
+  named_scope :microbiology, :conditions => { 'OandM_Category' => 'Water', 'OandM_Group' => 'Microbiology' }
+  named_scope :water, :conditions => { 'OandM_Category' => 'Water', 'OandM_Group' => 'Physical' }
+  named_scope :site, :conditions => { 'OandM_Category' => ['Site', 'Aquatic Characteristic'] }
 end
