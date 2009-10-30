@@ -312,6 +312,11 @@ comment_report_label: Comment
 # + reports/views/water_chemistry_sampling/sample_details.html
 # + reports/views/water_chemistry_sampling/site_details.html
 
+# reports/views/water_chemistry_sampling/empty_report.html
+empty_report_msg: |-
+  Nothing to report.  Either there are no samples and measurements recorded or the
+  collecting agency has to be contacted to obtain this information.
+
 # reports/views/water_chemistry_sampling/footer.html
 water_chemistry_report_source: NB Aquatic Data Warehouse
 

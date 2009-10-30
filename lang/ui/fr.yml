@@ -313,6 +313,11 @@ comment_report_label: Commentaire
 # + reports/views/water_chemistry_sampling/sample_details.html
 # + reports/views/water_chemistry_sampling/site_details.html
 
+# reports/views/water_chemistry_sampling/empty_report.html
+empty_report_msg: |-
+  Rien à signaler. Soit il n'y a pas d'échantillons et des relevés de mesure ou de 
+  l'organisme de collecte doit être contacté pour obtenir cette information.
+
 # reports/views/water_chemistry_sampling/footer.html
 water_chemistry_report_source: Entrepôt de données aquatiques du N.‑B.
 

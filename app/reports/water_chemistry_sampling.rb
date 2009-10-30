@@ -28,20 +28,28 @@ module Reports
       build(:header) { render_erb(:header) }
             
       build :parameter_tables do
-        current_aquatic_activity_event = nil
-        data.samples.each do |sample|                        
-          @sample = sample
-          if current_aquatic_activity_event != sample.aquatic_activity_event
-            @aquatic_activity_event = current_aquatic_activity_event = sample.aquatic_activity_event            
-            render_erb(:site_details)
+        unless data.samples.empty?
+          current_aquatic_activity_event = nil
+          data.samples.each do |sample|
+            @sample = sample
+            if current_aquatic_activity_event != sample.aquatic_activity_event
+              @aquatic_activity_event = current_aquatic_activity_event = sample.aquatic_activity_event
+              render_erb(:site_details)
+            end
+            @parameter_table = data.parameter_table(sample)
+            render_erb(:sample_details)
+            render_erb(:parameter_table)
           end
-          @parameter_table = data.parameter_table(sample)
-          render_erb(:sample_details)
-          render_erb(:parameter_table)        
+        else
+          render_erb(:empty_report)
         end
       end
       
-      build(:qualifier_legend) { render_erb(:qualifier_legend) }
+      build(:qualifier_legend) do
+        unless data.samples.empty?
+          render_erb(:qualifier_legend)
+        end
+      end
       
       build(:footer) { render_erb(:footer) }
       

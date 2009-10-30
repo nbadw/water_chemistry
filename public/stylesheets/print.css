@@ -1,27 +1,11 @@
-#header {
-    background-color: #001E20;
-    color: #fff;
-    height: 50px;
-}
 #session {
     display: none;
 }
 #application .logo {
-    height: 36px;
-    width: 36px;
-    float: left;
-    background-color: #fff;
-    color: #000;
-    text-align: center;
-    margin: 7px 10px;
     display: none;
 }
 #application .name {
-    font-size: 16px;
-    padding-top: 17px;
-    padding-left: 10px;
-    font-family: Verdana;
-    height: 33px;
+    display: none;
 }
 #application .name a {
     font-weight: normal;
@@ -44,7 +28,7 @@
     float: none;
     overflow: visible;
 }
-#water-chemistry-sampling .actions {
+a.action {
     display: none;
 }
 #water-chemistry-sampling.report #right {
@@ -107,13 +91,10 @@
 #water-chemistry-report .qualifier-legend th.code {
     padding-right: 2em;
 }
-#water-chemistry-report .footer * {
-}
 #water-chemistry-report .footer p {
     color: #808080;
     font-size: 11pt;
 }
 #water-chemistry-report .footer .date {
-    text-align: right;
-    margin-top: -11pt;
+    margin-top: -5pt;
 }
