@@ -480,6 +480,7 @@ create_new_account_label: Create New Account
 
 # views/water_chemistry_sampling/_activity_details.html
 activity_details_title: Activity Details
+agency_site_id_label: Agency Site ID
 
 # views/water_chemistry_sampling/_aquatic_site.html
 aquatic_site_title: Aquatic Site

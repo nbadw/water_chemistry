@@ -483,6 +483,7 @@ create_new_account_label: Créer un compte
 
 # views/water_chemistry_sampling/_activity_details.html
 activity_details_title: Détails de l'activité
+agency_site_id_label: ID du site de l'organisme
 
 # views/water_chemistry_sampling/_aquatic_site.html
 aquatic_site_title: Site aquatique

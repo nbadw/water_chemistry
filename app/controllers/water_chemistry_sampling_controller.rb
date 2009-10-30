@@ -2,6 +2,7 @@ class WaterChemistrySamplingController < ApplicationController
   before_filter :login_required
   before_filter :create_aquatic_site_map, :except => [:show, :edit]
   before_filter :check_for_legacy_samples, :only => :samples
+  before_filter :find_aquatic_site_usage, :except => :report
   layout 'application'
   
   def current_location
@@ -46,8 +47,36 @@ class WaterChemistrySamplingController < ApplicationController
       end
     end 
   end
+
+  helper do
+    def agency_site_id
+      usage = @aquatic_site_usage
+      agency_site_id = (usage && !usage.agency_site_id.to_s.blank?) ? usage.agency_site_id : '-'
+      agency_site_id
+    end
+  end
   
   private
+  def find_aquatic_site_usage
+    options = {
+      :agency_cd => current_user.agency.id,
+      :aquatic_site_id => params[:aquatic_site_id],
+      :aquatic_activity_cd => 17 # XXX: hardcoded activity code for water chemistry sampling
+    }
+    conditions = []
+
+    options.each do |attr, value|
+      query = conditions.first || []
+      query << "#{AquaticSiteUsage.column_for_attribute(attr).name} = ?"
+      conditions[0] = query
+      conditions << value
+    end
+    conditions[0] = conditions.first.join(' AND ')
+
+    @aquatic_site_usage = AquaticSiteUsage.first(:conditions => conditions)
+    @aquatic_site_usage
+  end
+
   def check_for_legacy_samples
     water_chemistry_sampling_activity_id = 17
     query = %Q{
