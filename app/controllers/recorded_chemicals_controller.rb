@@ -13,13 +13,13 @@ class RecordedChemicalsController < ApplicationController
     config.update.columns = [:measurement, :unit_of_measure, :qualifier_cd, :comment]
 
     # i18n labels
-    config.label                           = :recorded_chemicals_label.l
-    config.columns[:parameter_name].label  = :water_measurement_parameter_name_label.l
-    config.columns[:parameter_code].label  = :water_measurement_paremeter_code_label.l
-    config.columns[:measurement].label     = :water_measurement_measurement_label.l
-    config.columns[:unit_of_measure].label = :water_measurement_unit_of_measure_label.l
-    config.columns[:qualifier_cd].label    = :water_measurement_qualifier_cd_label.l
-    config.columns[:comment].label         = :water_measurement_comment_label.l
+    config.label                           = :recorded_chemicals_label
+    config.columns[:parameter_name].label  = :water_measurement_parameter_name_label
+    config.columns[:parameter_code].label  = :water_measurement_paremeter_code_label
+    config.columns[:measurement].label     = :water_measurement_measurement_label
+    config.columns[:unit_of_measure].label = :water_measurement_unit_of_measure_label
+    config.columns[:qualifier_cd].label    = :water_measurement_qualifier_cd_label
+    config.columns[:comment].label         = :water_measurement_comment_label
     
     config.create.persistent = true
   end

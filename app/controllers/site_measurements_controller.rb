@@ -12,14 +12,14 @@ class SiteMeasurementsController < ApplicationController
     config.update.columns = [:instrument, :unit_of_measure, :measurement, :bank]
     
     # i18n labels
-    config.label                           = :site_measurements_label.l
-    config.create.label                    = :site_measurements_create_label.l
-    config.columns[:o_and_m].label         = :site_measurements_o_and_m_label.l
-    config.columns[:group].label           = :site_measurements_group_label.l
-    config.columns[:instrument].label      = :site_measurements_instrument_label.l
-    config.columns[:unit_of_measure].label = :site_measurements_unit_of_measure_label.l
-    config.columns[:measurement].label     = :site_measurements_measurement_label.l
-    config.columns[:bank].label            = :site_measurements_bank_label.l
+    config.label                           = :site_measurements_label
+    config.create.label                    = :site_measurements_create_label
+    config.columns[:o_and_m].label         = :site_measurements_o_and_m_label
+    config.columns[:group].label           = :site_measurements_group_label
+    config.columns[:instrument].label      = :site_measurements_instrument_label
+    config.columns[:unit_of_measure].label = :site_measurements_unit_of_measure_label
+    config.columns[:measurement].label     = :site_measurements_measurement_label
+    config.columns[:bank].label            = :site_measurements_bank_label
 
     config.columns[:aquatic_activity_event_id].search_sql =
       "#{SiteMeasurement.table_name}.#{SiteMeasurement.column_for_attribute(:aquatic_activity_id).name}"

@@ -8,14 +8,14 @@ class UsersController < ApplicationController
   active_scaffold :user do |config|
     config.actions = [:create]
     config.columns = [:name, :login, :email, :password, :password_confirmation, :agency, :area_of_interest, :language, :agency, :agency_cd]
-    config.columns[:name].label                  = :users_form_name_field.l
-    config.columns[:login].label                 = :users_form_login_field.l
-    config.columns[:email].label                 = :users_form_email_field.l
-    config.columns[:password].label              = :new_users_form_password_field.l
-    config.columns[:password_confirmation].label = :new_users_form_password_confirmation_field.l
-    config.columns[:language].label              = :users_form_preferred_language_field.l
-    config.columns[:agency].label = :new_users_form_create_agency_agency_field.l
-    config.columns[:agency_cd].label = :new_users_form_create_agency_agency_cd_field.l
+    config.columns[:name].label                  = :users_form_name_field
+    config.columns[:login].label                 = :users_form_login_field
+    config.columns[:email].label                 = :users_form_email_field
+    config.columns[:password].label              = :new_users_form_password_field
+    config.columns[:password_confirmation].label = :new_users_form_password_confirmation_field
+    config.columns[:language].label              = :users_form_preferred_language_field
+    config.columns[:agency].label = :new_users_form_create_agency_agency_field
+    config.columns[:agency_cd].label = :new_users_form_create_agency_agency_cd_field
   end
   
   helper do

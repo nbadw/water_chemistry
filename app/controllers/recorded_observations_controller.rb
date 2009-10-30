@@ -12,13 +12,13 @@ class RecordedObservationsController < ApplicationController
     config.update.columns = [:observation]
     
     # i18n labels
-    config.label                                        = :recorded_observations_label.l
-    config.create.label                                 = :recorded_observations_create_label.l
-    config.columns[:aquatic_activity_event_id].label    = :recorded_observations_aquatic_activity_event_id_label.l
-    config.columns[:observation].label                  = :recorded_observations_observation_label.l
-    config.columns[:group].label                        = :recorded_observations_group_label.l
-    config.columns[:value_observed].label               = :recorded_observations_value_observed_label.l
-    config.columns[:fish_passage_obstruction_ind].label = :recorded_observations_fish_passage_obstruction_ind_label.l
+    config.label                                        = :recorded_observations_label
+    config.create.label                                 = :recorded_observations_create_label
+    config.columns[:aquatic_activity_event_id].label    = :recorded_observations_aquatic_activity_event_id_label
+    config.columns[:observation].label                  = :recorded_observations_observation_label
+    config.columns[:group].label                        = :recorded_observations_group_label
+    config.columns[:value_observed].label               = :recorded_observations_value_observed_label
+    config.columns[:fish_passage_obstruction_ind].label = :recorded_observations_fish_passage_obstruction_ind_label
   
     config.columns[:aquatic_activity_event_id].search_sql =
       "#{RecordedObservation.table_name}.#{RecordedObservation.column_for_attribute(:aquatic_activity_id).name}"
