@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
@@ -10,18 +10,29 @@
     <%= javascript_include_merged :base %>
   </head>
   <body class="profile">
-    
+
     <%= render :partial => 'layouts/header' %>
-    
+
     <div id="navigation" style="height: 60px;">
       <h2 class="location">
         <span class="primary"><%= :profile_location.l %></span>
       </h2>
     </div>
-        
+
     <div id="content"> 
       <%= yield %>
     </div>   
-    
+
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      try {
+        var pageTracker = _gat._getTracker("UA-11527884-1");
+        pageTracker._trackPageview();
+      } catch(err) { }
+    </script>
   </body>
 </html>
