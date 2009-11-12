@@ -21,3 +21,4 @@ stylesheets:
   - active_scaffold_overrides
 - ie:
   - active_scaffold/default/stylesheet-ie
+  - ie_fixes

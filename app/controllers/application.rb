@@ -82,10 +82,9 @@ class ApplicationController < ActionController::Base
     include_stylesheet :base, { :merged => true }
     include_stylesheet :ie,   { :merged => true, :conditional => 'IE' }
     include_javascript :base, { :merged => true }
-
-    if Rails.env == 'development'
-      include_javascript 'http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js', { :conditional => 'IE', :lazy_load => true }
-    end
+#    if Rails.env == 'development'
+#      include_javascript 'http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js', { :conditional => 'IE', :lazy_load => true }
+#    end
   end
 
   def set_locale(&block)

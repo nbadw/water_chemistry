@@ -69,43 +69,27 @@ module AuthenticatedSystem
   # to access the requested action.  For example, a popup window might
   # simply close itself.
   def access_denied
-    respond_to do |format|
-      format.html do
-        store_location
-        flash[:error] = :access_denied_error.l
-        redirect_to login_path
-      end
-      format.any do
-        request_http_basic_authentication 'Web Password'
-      end
-    end
+    store_location
+    flash[:error] = :access_denied_error.l
+    redirect_to login_path
   end
   
-  def permission_denied      
-    respond_to do |format|
-      format.html do
-        #Put your domain name here ex. http://www.example.com
-        domain_name = "http://localhost:3000"
-        http_referer = session[:refer_to]
-        if http_referer.nil?
-          store_referer
-          http_referer = ( session[:refer_to] || domain_name )
-        end
-        flash[:error] = :permission_denied_error.l
-        #The [0..20] represents the 21 characters in http://localhost:3000
-        #You have to set that to the number of characters in your domain name
-        if http_referer[0..20] != domain_name  
-          session[:refer_to] = nil
-          redirect_to root_path
-        else
-          redirect_to_referer_or_default(root_path)  
-        end
-      end
-      format.xml do
-        headers["Status"]           = "Unauthorized"
-        headers["WWW-Authenticate"] = %(Basic realm="Web Password")
-        render :text => :permission_denied_error.l, :status => '401 Unauthorized'
-      end
+  def permission_denied     
+    #Put your domain name here ex. http://www.example.com
+    domain_name = "http://cri-linux.nbwaters.unb.ca/water_chemistry/"
+    http_referer = session[:refer_to]
+    if http_referer.nil?
+      store_referer
+      http_referer = ( session[:refer_to] || domain_name )
+    end
+    flash[:error] = :permission_denied_error.l
+    #The [0..20] represents the 21 characters in http://localhost:3000
+    #You have to set that to the number of characters in your domain name
+    if http_referer[0..domain_name.length - 1] != domain_name
+      session[:refer_to] = nil
+      redirect_to root_path
+    else
+      redirect_to_referer_or_default(root_path)
     end
   end
 
