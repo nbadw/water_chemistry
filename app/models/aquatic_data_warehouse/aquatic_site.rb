@@ -84,7 +84,8 @@ class AquaticSite < AquaticDataWarehouse::BaseTbl
   
   def current_agency_authorized_for_update_or_destroy?
     if existing_record_check?
-      !!current_agency && agencies.to_a.include?(current_agency)
+      created_by_agency = User.find(created_by, :include => :agency).agency rescue nil
+      !!current_agency && (agencies.to_a.include?(current_agency) || created_by_agency == current_agency)
     else
       !!current_agency 
     end
