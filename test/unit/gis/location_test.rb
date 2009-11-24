@@ -90,19 +90,20 @@ class LocationTest < ActiveSupport::TestCase
     possible_formats = [
       ["40:26:46.302N", "79:56:55.903W"],
       ["40°26'21\"N", "79°58'36\"W"],
-      ["40d26'21\"N", "79d58'36\"W"]
+      ["40d26'21\"N", "79d58'36\"W"],
+      ["67 26 46.302", "40 56 55.903"]
     ]
     possible_formats.each do |coordinates|
       latitude, longitude = coordinates
       location = Location.new(latitude, longitude, nil)
       location.valid?
-      assert_nil location.errors.on(:latitude)
-      assert_nil location.errors.on(:longitude)
+      assert_nil location.errors.on(:latitude), "latitude: #{latitude} should be valid"
+      assert_nil location.errors.on(:longitude), "longitude: #{longitude} should be valid"
       # and the negative versions of the coordinates...
       location = Location.new('-' + latitude, '-' + longitude, nil)
       location.valid?
-      assert_nil location.errors.on(:latitude)
-      assert_nil location.errors.on(:longitude)
+      assert_nil location.errors.on(:latitude), "latitude: -#{latitude} should be valid"
+      assert_nil location.errors.on(:longitude), "longitude: -#{longitude} should be valid"
     end
   end
   
@@ -117,5 +118,36 @@ class LocationTest < ActiveSupport::TestCase
     location.valid?
     assert_nil location.errors.on(:latitude)
     assert_nil location.errors.on(:longitude)
+  end
+
+  should "not accept invalid decimal numbers" do
+    invalid = [
+      "040.446195",
+      "-01.2345",
+      "0-23.33421"
+    ]
+    invalid.each do |lat|
+      location = Location.new(lat, 0, nil)
+      location.valid?
+      assert location.errors.on(:latitude), "#{lat} should be invalid"
+    end
+  end
+
+  should "accept valid decimal numbers" do
+    valid = [
+      "40.446195",
+      "-23.33421",
+      "0",
+      "0.0",
+      "0.001",
+      "-0.123",
+      "123",
+      "-65"
+    ]
+    valid.each do |lat|
+      location = Location.new(lat, 0, nil)
+      location.valid?
+      assert_nil location.errors.on(:latitude), "#{lat} should be valid"
+    end
   end
 end

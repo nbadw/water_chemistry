@@ -4,7 +4,7 @@ require 'net/http'
 require 'timeout'
 
 class Location  
-  DEGREES_MINUTES_SECONDS_FORMAT = /^(-?\d{2}\d?)[:d°](\d\d?)[:'](\d\d?[.]?\d*)"?([NSEW]?)$/
+  DEGREES_MINUTES_SECONDS_FORMAT = /^(-?\d{2}\d?)[\s:d°](\d\d?)[\s:'](\d\d?[.]?\d*)"?([NSEW]?)$/
   #DECIMAL_DEGREES_REGEXP = //
   DECIMAL_FORMAT = /^(-?\d+[.]?\d*)$/
   
@@ -81,7 +81,17 @@ class Location
   
   private
   def decimal_format?(value)
-    !value.to_s.match(DECIMAL_FORMAT).nil?
+    value.to_s.match(DECIMAL_FORMAT) && !has_leading_zeros?(value)
+  end
+
+  # check to catch cases where the number is in decimal format
+  # but has unnecessary leading zeros - e.g., 01.234, -01.234, 0-123.45
+  def has_leading_zeros?(value)
+    if value.to_s.match(/\./)  # float value
+      value.to_s.to_f.to_s.length != value.to_s.length
+    else                       # integer value
+      value.to_s.to_i.to_s.length != value.to_s.length
+    end
   end
   
   def decimal_degrees_format?(value)
