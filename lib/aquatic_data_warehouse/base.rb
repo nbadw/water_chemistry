@@ -30,11 +30,13 @@ module AquaticDataWarehouse
     
     protected
     def log_creating_user
-      self.created_by = current_user if current_user != :false
+      the_current_user = current_user
+      self.created_by  = the_current_user.id unless the_current_user == :false
     end
     
     def log_updating_user
-      self.updated_by = current_user if current_user != :false
+      the_current_user = current_user
+      self.updated_by  = the_current_user.id unless the_current_user == :false
     end
   end
 end

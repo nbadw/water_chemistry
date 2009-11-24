@@ -43,8 +43,14 @@ module DataCollectionSitesHelper
         (agency_site_id_hash[agency_cd] ||= []) << aquatic_site_usage.agency_site_id unless aquatic_site_usage.agency_site_id.to_s.empty?
       end
     end
-    
-    record.agencies.uniq.collect do |agency|      
+
+    creating_agency = User.find(record.created_by).agency rescue nil
+
+    agencies = record.agencies.to_a
+    agencies << creating_agency if creating_agency
+    agencies = agencies.uniq
+
+    agencies.collect do |agency|
       agency_site_ids = agency_site_id_hash[agency.id] || []
       site_id_text = "(" + agency_site_ids.uniq.join(', ') + ")" unless agency_site_ids.empty?
       ["#{agency.code}", site_id_text, "<br/>"]
