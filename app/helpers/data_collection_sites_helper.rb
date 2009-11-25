@@ -16,7 +16,11 @@ module DataCollectionSitesHelper
   end
 
   def coordinate_system_column(aquatic_site)
-    aquatic_site.location.coordinate_system.display_name || '-'
+    if system = aquatic_site.location.coordinate_system
+      system.display_name
+    else
+      '-'
+    end
   end
     
   def drainage_code_column(aquatic_site)
