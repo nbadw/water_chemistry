@@ -101,7 +101,7 @@ class DataCollectionSitesController < ApplicationController
       end
     else
       coordinate_source = CoordinateSource.find_by_name(params[:coordinate_source], :include => [:coordinate_systems])  
-      choices = coordinate_source.coordinate_systems.collect { |source| [source.display_name, source.display_name] }
+      choices = coordinate_source.coordinate_systems.collect { |system| [system.display_name, system.epsg] }
       render :update do |page|   
         page.replace_html 'record_coordinate_system', :inline => '<%= options_for_select choices %>', :locals => { :choices => choices }  
         page << "$('record_coordinate_system').disabled = false;"
@@ -109,43 +109,44 @@ class DataCollectionSitesController < ApplicationController
         page << "$('record_y_coordinate').disabled = false;"
       end
     end
-  end 
-  
+  end
+
   def on_preview_location
-    aquatic_site = update_record_from_params(active_scaffold_config.model.new, active_scaffold_config.create.columns, params[:record] || {})
-    location = aquatic_site.location
-    
-    if location.valid?
-      begin
-        gmap_location = location.convert_to_gmap_location
-        if gmap_location
-          @map = GMap.new("preview-location-map")
-          @map.set_map_type_init(GMapType::G_HYBRID_MAP)
-          @map.control_init(:small_zoom => true)
-          @map.center_zoom_init([gmap_location.latitude, gmap_location.longitude], 8)
-          @map.overlay_init(GMarker.new([gmap_location.latitude, gmap_location.longitude]))
-        else
-          @messages = [:on_preview_location_error.l]
-        end
-      rescue Exception => e
-        @messages = ["#{:on_preview_location_error.l} (#{e.message})"]
-      end
-    else
-      if location.blank?
-        @messages = [:location_is_blank_error.l]
+    begin
+      point = Point.parse(params[:x], params[:y])
+      raise "There may be a problem with the format of your coordinates." unless point
+
+      url = 'http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer/project'
+      query = {
+        :f     => :json,
+        :inSR  => params[:epsg],
+        :outSR => 4326,
+        :geometries => {
+          :geometryType => :esriGeometryPoint,
+          :geometries => [{
+              :x => point.x,
+              :y => point.y
+            }]
+        }.to_json
+      }
+
+      response = HTTParty.get(url, :query => query, :format => :json)
+      if error = response["error"]
+        raise "#{error["details"].join(', ')}"
       else
-        aquatic_site.valid? # run aquatic site validations to get proper error messages
-        @messages = []
-        [:x_coordinate, :y_coordinate, :coordinate_system].each do |attr|
-          aquatic_site.errors.on(attr).to_a.each do |msg|
-            next if msg.nil?
-            @messages << active_scaffold_config.columns[attr].label + " " + msg
-          end
+        geometry = response['geometries'].first
+        x = geometry['x']
+        y = geometry['y']
+        render :update do |page|
+          page << "show_preview_marker(#{x}, #{y});"
         end
+      end
+    rescue Exception => e
+      message = 'There may be a problem with the format of your coordinates.'
+      render :update do |page|
+        page << "show_preview_message(#{message.to_json});"
       end
     end
-    
-    render :layout => 'map_iframe'
   end
   
   def report   
@@ -169,7 +170,15 @@ class DataCollectionSitesController < ApplicationController
     create_aquatic_site_map if @record
   end
   
-  protected      
+  protected
+  def before_create_save(aquatic_site)
+    x = params[:record][:gmap_x]
+    y = params[:record][:gmap_y]
+    unless(x.to_s.empty? && y.to_s.empty?)
+      aquatic_site.gmap_location = GmapLocation.new(:latitude => y, :longitude => x)
+    end
+  end
+
   def active_scaffold_joins
     [:waterbody, :aquatic_site_usages, :agencies, :aquatic_activities, :gmap_location]
   end
@@ -215,7 +224,7 @@ class DataCollectionSitesController < ApplicationController
       columns.each { |column| drainage_code_column = column if column.name == :drainage_code }
       finder_conditions = [
         "LOWER(#{drainage_code_column.search_sql}) IN (?)", 
-       create_watershed_query_terms(query_term)        
+        create_watershed_query_terms(query_term)
       ]
     else
       finder_conditions = ActiveScaffold::Finder.create_conditions_for_columns(query_term, columns, like_pattern(query_term))
