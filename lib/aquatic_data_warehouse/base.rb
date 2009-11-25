@@ -30,13 +30,17 @@ module AquaticDataWarehouse
     
     protected
     def log_creating_user
-      the_current_user = current_user
-      self.created_by  = the_current_user.id unless the_current_user == :false
+      current_user = self.current_user
+      unless current_user.nil? || current_user == :false
+        self.created_by  = current_user.send(:id)
+      end
     end
     
     def log_updating_user
-      the_current_user = current_user
-      self.updated_by  = the_current_user.id unless the_current_user == :false
+      current_user = self.current_user
+      unless current_user.nil? || current_user == :false
+        self.updated_by  = current_user.send(:id)
+      end
     end
   end
 end
