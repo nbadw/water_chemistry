@@ -74,7 +74,7 @@ function update_preview_marker() {
         clearTimeout(executionTimer);
       }
       executionTimer = setTimeout(function() {
-        var url = '/data_collection_sites/on_preview_location';
+        var url = './data_collection_sites/on_preview_location';
         new Ajax.Request(url, {
           parameters: {
             x: $('record_x_coordinate').value,
