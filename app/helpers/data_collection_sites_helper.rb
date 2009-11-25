@@ -14,6 +14,10 @@ module DataCollectionSitesHelper
     ].compact.join('<br/>')       
     !description.empty? ? description : '-'
   end
+
+  def coordinate_system_column(aquatic_site)
+    aquatic_site.location.coordinate_system.display_name || '-'
+  end
     
   def drainage_code_column(aquatic_site)
     return '-' unless aquatic_site.waterbody && aquatic_site.waterbody.drainage_unit

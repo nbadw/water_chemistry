@@ -31,6 +31,7 @@ Rails::Initializer.run do |config|
   config.gem "GeoRuby", :lib => "geo_ruby", :version => '1.3.4'
   config.gem "action_mailer_tls", :lib => "smtp_tls.rb", :source => "http://gemcutter.org", :version => '1.1.3'
   config.gem "newrelic_rpm"
+  config.gem "httparty"
   # for testing, the following gems should also be present
   # - mocha   (0.9.8)
   # - shoulda (2.10.2)

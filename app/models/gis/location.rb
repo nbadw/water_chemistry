@@ -16,34 +16,9 @@ class Location
     @errors = ActiveRecord::Errors.new(self)
   end
   
-  def convert_to_gmap_location    
-    service = "http://cri.nbwaters.unb.ca/services/project/coordinate.castle"
-    wgs84 = 4326 # epsg for WGS84 coordinate system
-    query_params = "x=#{CGI.escapeHTML(longitude.to_s)}&y=#{CGI.escapeHTML(latitude.to_s)}&from=#{coordinate_system.id}&to=#{wgs84}"    
-    
-    begin
-      response = nil
-      successful = Timeout::timeout(15) do
-        response = Net::HTTP.get(URI.parse("#{service}?#{query_params}" ))
-      end   
-
-      unless successful || !response.kind_of?(HTTPSuccess)
-        error_msg = :coordinate_conversion_service_unavailable.l('Sorry, the coordinate conversion service is not working.  Try again later.')
-        raise error_msg
-      end
-                  
-      json = response
-      if json.match(/\{"x":(.*),"y":(.*)\}/)
-        x, y = $1, $2
-        GmapLocation.new(:longitude => x, :latitude => y)
-      end
-    rescue
-      raise
-    end
-  end
-  
   def coordinate_system
-    @coordinate_system ||= CoordinateSystem.find_by_display_name(coordinate_system_name)
+    finder = coordinate_system_name.to_s.match(/^\d+$/) ? 'epsg' : 'display_name'
+    @coordinate_system ||= CoordinateSystem.send("find_by_#{finder}", coordinate_system_name)
   end
   
   def valid?
@@ -135,7 +110,9 @@ class Location
   
   def validate_coordinate_format(attr)
     value = self.send(attr)
-    unless decimal_format?(value) || decimal_degrees_format?(value) || degrees_minutes_seconds_format?(value)
+    begin
+      Coordinate.parse(value)
+    rescue
       errors.add attr, :coordinate_in_bad_format_validation_msg.l("is in a bad format")
     end
   end  

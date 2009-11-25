@@ -1,31 +1,20 @@
 <div id="coordinate-preview" style="float: left; margin-left: 3em;">
-  <a id="view-location-preview" href="javascript:void(0)"><%= :preview_location_on_map.l -%></a>
-  <div id="coordinate-preview-dialog" class="tooltip" style="display: none;">
-    <div class="tooltip_content">
-      <div id="coordinate-preview-loading" style="display: none;">
-        <%= loading_indicator_tag(:action => 'preview-location') %>
-        <span style="padding-left: 2px;"><%= :preview_location_loading.l -%></span>
-      </div>
-      <div id="coordinate-preview-result" class="iframe-container" style="width: 250px; height: 250px;">
-      </div>
-      <small><%= link_to_function :preview_location_close.l, "$('coordinate-preview-dialog').hide();" %></small>
+  <div id="preview-container" style="width: 350px; height: 200px; border: 1px solid black; position: absolute; margin-top: -85px; margin-left: 85px">
+    <div id="preview-map" style="position: relative; width: 350px; height: 200px;">
+      
+    </div>
+    <div id="preview-msg" style="position: relative; width: 350px; height: 200px; background-color: #ccc; opacity: 0.9; top: -200px">
+      <div id="preview-msg-body" style="padding: 10px; padding-top: 50px; opacity: 1.0; color: #000; text-align: center">A site marker will appear when a valid coordinate pair is entered.</div>
     </div>
   </div>
+
+  <input id="record_gmap_x" type="hidden" name="record[gmap_x]" value="" />
+  <input id="record_gmap_y" type="hidden" name="record[gmap_y]" value="" />
+
   <script type="text/javascript">
-      $('view-location-preview').observe('click', function(event) { 
-         var options = {
-            loadingImage: '<%= loading_indicator_id(:action => "preview-location") %>',
-            form: '<%= element_form_id(:action => :create)  %>',
-            url: '<%= url_for :action => 'on_preview_location' %>',
-            width: '250px',
-            height: '250px',
-            fields: [                
-                'record[x_coordinate]',
-                'record[y_coordinate]',
-                'record[coordinate_system]'
-            ]
-         };
-         showLocationOnMap(options, event); 
-      });
+    create_preview_map();
+    $('record_coordinate_system').observe('change', update_preview_marker);
+    $('record_x_coordinate').observe('keyup', update_preview_marker);
+    $('record_y_coordinate').observe('keyup', update_preview_marker);
   </script>
 </div>

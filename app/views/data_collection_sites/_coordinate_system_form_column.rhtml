@@ -3,7 +3,7 @@ unless @record.coordinate_source.blank?
   coordinate_source = CoordinateSource.find_by_name(@record.coordinate_source, :include => [:coordinate_systems]) 
 end
 coordinate_systems = coordinate_source ? coordinate_source.coordinate_systems : []
-choices = coordinate_systems.collect { |source| [source.display_name, source.display_name] }
+choices = coordinate_systems.collect { |system| [system.display_name, system.epsg] }
 select_options = { :selected => @record.coordinate_system }
 html_options = @record.coordinate_source.nil? ? { :disabled => true } : {}
 %>
@@ -16,9 +16,3 @@ html_options = @record.coordinate_source.nil? ? { :disabled => true } : {}
     <%= select :record, column.name, choices, select_options, html_options %>
   </dd>
 </dl>   
-
-<script type="text/javascript">
-    $('record_coordinate_system').observe('change', function() {
-        $('coordinate-preview-dialog').hide(); 
-    });
-</script>

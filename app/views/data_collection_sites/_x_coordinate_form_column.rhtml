@@ -12,9 +12,3 @@ options[:disabled] = true unless @record.coordinate_source
     <%= input :record, column.name, options %>
   </dd>
 </dl>  
-
-<script type="text/javascript">
-    $('record_x_coordinate').observe('keydown', function() {
-        $('coordinate-preview-dialog').hide(); 
-    });
-</script>
