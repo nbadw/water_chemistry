@@ -12,11 +12,19 @@ module AquaticActivityEventHelper
   end
 
   def water_level_column(aquatic_activity_event)
-    aquatic_activity_event.water_level ? aquatic_activity_event.water_level.observable_value.value : '-'
+    if water_level = aquatic_activity_event.water_level
+      water_level.observable_value ? water_level.observable_value.value : '-'
+    else
+      '-'
+    end
   end    
   
   def weather_conditions_column(aquatic_activity_event)
-    aquatic_activity_event.weather_conditions ? aquatic_activity_event.weather_conditions.observable_value.value : '-'
+    if weather_conditions = aquatic_activity_event.weather_conditions
+      weather_conditions.observable_value ? weather_conditions.observable_value.value : '-'
+    else
+      '-'
+    end
   end
   
   def agency_site_id
