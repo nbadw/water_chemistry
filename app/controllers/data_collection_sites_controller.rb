@@ -116,6 +116,14 @@ class DataCollectionSitesController < ApplicationController
       point = Point.parse(params[:x], params[:y])
       raise "There may be a problem with the format of your coordinates." unless point
 
+      # XXX: when should we project?
+      if point.x.is_a?(Coordinate::DegreesMinutesSeconds) && point.y.is_a?(Coordinate::DegreesMinutesSeconds)
+        render :update do |page|
+          page << "show_preview_marker(#{point.x.to_decimal}, #{point.y.to_decimal});"
+        end
+        return
+      end
+      
       url = 'http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer/project'
       query = {
         :f     => :json,
@@ -124,8 +132,8 @@ class DataCollectionSitesController < ApplicationController
         :geometries => {
           :geometryType => :esriGeometryPoint,
           :geometries => [{
-              :x => point.x,
-              :y => point.y
+              :x => point.x.to_decimal,
+              :y => point.y.to_decimal
             }]
         }.to_json
       }
