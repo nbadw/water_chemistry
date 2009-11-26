@@ -9,6 +9,6 @@ class Point
   end
 
   def self.parse(x, y)
-    new(Coordinate.parse(x).to_decimal, Coordinate.parse(y).to_decimal)
+    new(Coordinate.parse(x), Coordinate.parse(y))
   end
 end
