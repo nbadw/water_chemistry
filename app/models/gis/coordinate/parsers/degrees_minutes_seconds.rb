@@ -8,7 +8,7 @@ module Coordinate
       DIRECTION    = /([NSEW])/i
       SIGN         = /([+-])/
       IGNORE       = /[\s]/
-      DEGREE_UNITS = /[:d°]/i
+      DEGREE_UNITS = /[:d°˚]/i
       MINUTE_UNITS = /[:m']/i
       SECOND_UNITS = /[:s\"]/i
       INTEGER      = /(-?0|-?[1-9]\d*)/

@@ -38,10 +38,15 @@ module Coordinate
           "e 1 2 3",
           "s 1 2 3",
           "w 1 2 3",
+          "W65˚ 4' 45.9"
         ]
         coordinates.each do |coordinate|
           assert DegreesMinutesSeconds.new(coordinate).parse, "#{coordinate} should be valid"
         end
+      end
+
+      should "raise an error" do
+        assert DegreesMinutesSeconds.new("W65˚ 4' 45.9").parse
       end
 
       should "raise a parser error for invalid degrees minutes seconds coordinates" do
