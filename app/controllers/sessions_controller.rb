@@ -1,7 +1,7 @@
 # This controller handles the login/logout function of the site.  
 class SessionsController < ApplicationController    
   before_filter :login_required,         :only => :destroy
-  before_filter :not_logged_in_required, :only => [:new, :create]
+  before_filter :not_logged_in_required, :only => [:new, :create, :reset]
   
   # render new.rhtml
   def new
@@ -22,6 +22,7 @@ class SessionsController < ApplicationController
 
   def reset
     reset_session
+    redirect_to :action => 'new'
   end
   
   protected  
