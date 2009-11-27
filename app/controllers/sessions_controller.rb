@@ -19,6 +19,10 @@ class SessionsController < ApplicationController
     flash[:notice] = :logout_notice.l
     redirect_to :action => 'new', :lang => self.current_user.language
   end
+
+  def reset
+    reset_session
+  end
   
   protected  
   # Updated 2/20/08
