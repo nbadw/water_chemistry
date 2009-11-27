@@ -1,6 +1,7 @@
-class WaterChemistrySamplingController < ApplicationController 
+class WaterChemistrySamplingController < ApplicationController
+  before_filter :active_scaffold_session_cleanup
   before_filter :login_required
-  before_filter :create_aquatic_site_map, :except => [:show, :edit]
+  before_filter :create_aquatic_site_map
   before_filter :check_for_legacy_samples, :only => :samples
   before_filter :find_aquatic_site_usage, :except => :report
   layout 'application'
