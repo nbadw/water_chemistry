@@ -1,6 +1,6 @@
 class DataCollectionSitesController < ApplicationController  
   helper DataCollectionSitesHelper
-  before_filter :active_scaffold_session_cleanup, :except => [:index, :table, :on_coordinate_source_change, :on_preview_location]
+  before_filter :active_scaffold_session_cleanup, :except => [:index, :table, :on_coordinate_source_change, :on_preview_location, :gmap_max_content]
   before_filter :login_required
   
   active_scaffold :aquatic_site do |config|
