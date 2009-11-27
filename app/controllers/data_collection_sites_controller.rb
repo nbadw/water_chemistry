@@ -2,7 +2,10 @@ class DataCollectionSitesController < ApplicationController
   helper DataCollectionSitesHelper
   before_filter :active_scaffold_session_cleanup, :except => [:index, :table, :on_coordinate_source_change, :on_preview_location, :gmap_max_content]
   before_filter :login_required
-  
+
+  # gmap_max_content needs these helpers
+  helper :aquatic_activity_event
+
   active_scaffold :aquatic_site do |config|
     # columns
     config.columns = [:incorporated, :id, :name, :aquatic_site_desc, :water_body_id, :water_body_name, :drainage_code, :name_and_description, :data_sets, :x_coordinate, :y_coordinate, :coordinate_system, :coordinate_source, :waterbody]

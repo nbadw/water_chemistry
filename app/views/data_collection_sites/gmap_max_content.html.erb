@@ -19,10 +19,10 @@
         <% @water_chemistry_samplings.each_with_index do |sampling, i| %>
           <tr class="record <%= 'even-record' if i % 2 == 0 %>">
             <td><%= sampling.aquatic_activity_method ? sampling.aquatic_activity_method.name : '-' %></td>
-            <td><%= sampling.start_date ? sampling.start_date.to_s : '-' %></td>
-            <td><%= sampling.agency ? sampling.agency.id : '-' %></td>
-            <td><%= sampling.weather_conditions ? sampling.weather_conditions.observable_value.value : '-' %></td>
-            <td><%= sampling.water_level ? sampling.water_level.observable_value.value : '-' %></td>
+            <td><%= start_date_column(sampling) %></td>
+            <td><%= agency_column(sampling) %></td>
+            <td><%= weather_conditions_column(sampling) %></td>
+            <td><%= water_level_column(sampling) %></td>
             <td class="actions">
               <%= link_to :gmap_max_content_open_label.l, url_for(:controller => 'water_chemistry_sampling', :action => 'samples', :aquatic_site_id => @aquatic_site.id, :aquatic_activity_event_id => sampling.id) %>
             </td>
