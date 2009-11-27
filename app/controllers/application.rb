@@ -68,7 +68,13 @@ class ApplicationController < ActionController::Base
   
   def include_javascript(javascript, options = {})
     included_javascripts << [javascript, options]
-  end  
+  end
+
+  def active_scaffold_session_cleanup
+    backup = session.data.clone
+    reset_session
+    backup.each { |k, v| session[k] = v unless k.is_a?(String) && k =~ /^as:/ }
+  end
 
   private
   def set_javascripts_and_stylesheets
