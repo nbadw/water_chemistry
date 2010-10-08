@@ -1,0 +1,4 @@
+.DS_Store
+log
+nbproject
+db/adw*.sql
