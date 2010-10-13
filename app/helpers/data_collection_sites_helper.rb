@@ -64,14 +64,20 @@ module DataCollectionSitesHelper
       ["#{agency.code}", site_id_text, "<br/>"]
     end.flatten.compact.join(' ')
   end
-    
+
+  # XXX: this should probably be cleaned up...
   def data_sets_column(aquatic_site)
-    water_chemistry_sampling = AquaticActivity.find(17)
     attached_data_sets = aquatic_site.attached_data_sets.sort
+
+    water_chemistry_sampling = AquaticActivity.find(17)
     attached_data_sets.delete(water_chemistry_sampling)
+
+    environmental_stream_survey = AquaticActivity.find(29)
+    attached_data_sets.delete(environmental_stream_survey)
       
     links = []
-    ## initial link to water chemistry data
+    # link to environmental stream survey & water chemistry data
+    links << environmental_stream_survey_link(aquatic_site, environmental_stream_survey)
     links << water_chemistry_sampling_link(aquatic_site, water_chemistry_sampling)
             
     attached_data_sets.each do |aquatic_activity|
@@ -82,25 +88,39 @@ module DataCollectionSitesHelper
     links.join('<br/>')
   end
     
-  def water_chemistry_sampling_link(aquatic_site, water_chemistry_sampling)      
-    options = { 
-      :_method => 'get', 
+  def water_chemistry_sampling_link(aquatic_site, water_chemistry_sampling)
+    label = :water_chemistry_sampling_link_text.l_with_args({
+        :aquatic_site_id => aquatic_site.id, :aquatic_site_name => aquatic_site.name
+      })
+    link_to_activity(aquatic_site, water_chemistry_sampling, label)
+  end
+
+  def environmental_stream_survey_link(aquatic_site, environmental_stream_survey)
+    label = "Environmental Stream Survey for Site #{aquatic_site.id} - #{aquatic_site.name}"
+    link_to_activity(aquatic_site, environmental_stream_survey, label)
+  end
+
+  def link_to_activity(aquatic_site, activity_code, label)
+    controller = "#{activity_code.name.gsub(' ', '_').downcase}_event"
+
+    options = {
+      :_method => 'get',
       :action => 'aquatic_site_activities',
-      :aquatic_site_id => aquatic_site.id, 
-      :controller => 'aquatic_activity_event',
-      :aquatic_activity_id => water_chemistry_sampling.id, 
-      :label => :water_chemistry_sampling_link_text.l_with_args({ :aquatic_site_id => aquatic_site.id, :aquatic_site_name => aquatic_site.name })
+      :aquatic_site_id => aquatic_site.id,
+      :controller => controller,
+      :aquatic_activity_id => activity_code.id,
+      :label => label
     }
-    
-    html_options = { 
-      :class => 'nested action attached-data-set', 
+
+    html_options = {
+      :class => 'nested action attached-data-set',
       :position => 'after',
-      :id => "aquatic_sites-nested-#{aquatic_site.id}-link", 
-      :style => 'display: block;'         
+      :id => "aquatic_sites-nested-#{aquatic_site.id}-link",
+      :style => 'display: block;'
     }
-    
-    count = AquaticActivityEvent.count_attached(aquatic_site, water_chemistry_sampling)
-    link_to("#{water_chemistry_sampling.name} (#{count})", options, html_options)
+
+    count = AquaticActivityEvent.count_attached(aquatic_site, activity_code)
+    link_to("#{activity_code.name} (#{count})", options, html_options)
   end
     
   def unattached_data_sets_select(unattached_data_sets)

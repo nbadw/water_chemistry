@@ -1,0 +1,4 @@
+<%= add_tab "Surveys", :controller => 'environmental_stream_survey', :action => 'surveys', :aquatic_activity_event_id => params[:aquatic_activity_event_id], :aquatic_site_id => params[:aquatic_site_id] %>
+<%= add_tab :observations_tab.l, :controller => 'environmental_stream_survey', :action => 'observations', :aquatic_activity_event_id => params[:aquatic_activity_event_id], :aquatic_site_id => params[:aquatic_site_id] %>
+<%= add_tab :measurements_tab.l, :controller => 'environmental_stream_survey', :action => 'measurements', :aquatic_activity_event_id => params[:aquatic_activity_event_id], :aquatic_site_id => params[:aquatic_site_id] %>
+<%= add_tab :report_tab.l, :controller => 'environmental_stream_survey', :action => 'report', :aquatic_activity_event_id => params[:aquatic_activity_event_id], :aquatic_site_id => params[:aquatic_site_id] %>

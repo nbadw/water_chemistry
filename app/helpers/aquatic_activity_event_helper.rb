@@ -59,6 +59,8 @@ module AquaticActivityEventHelper
   def render_action_link(link, url_options)
     if link.parameters && link.parameters[:water_chemistry_sampling_link]
       render_water_chemistry_sampling_link(link, url_options)
+    elsif link.parameters && link.parameters[:environmental_stream_surveys_link]
+      render_environmental_stream_survey_link(link, url_options)
     else
       super
     end
@@ -82,6 +84,26 @@ module AquaticActivityEventHelper
     
     label = url_options.delete(:link) || link.label
     link_to label, wcs_url_options, html_options
+  end
+
+  def render_environmental_stream_survey_link(link, url_options)
+    active_scaffold_session_storage = session["as:#{params[:eid]}"]
+    constraints = active_scaffold_session_storage[:constraints]
+
+    ess_url_options = {
+      :action => link.action,
+      :controller => link.controller,
+      :aquatic_activity_event_id => url_options[:id],
+      :aquatic_site_id => constraints[:aquatic_site_id]
+    }
+
+    html_options = {
+      :class => link.action,
+      :id => action_link_id(url_options[:action], url_options[:id])
+    }
+
+    label = url_options.delete(:link) || link.label
+    link_to label, ess_url_options, html_options
   end
   
   def render_edit_agency_site_id_action_link(url_options)    

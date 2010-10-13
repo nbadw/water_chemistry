@@ -1,0 +1,9 @@
+<script type="text/javascript">
+    closeOpenNestedViews('<%= params[:aquatic_site_id] %>');
+</script>
+<div id="open-nested-view-<%= params[:aquatic_site_id] %>" class="open-nested-view">
+  <div class="site-activity-usages" style="margin-top: 1em;">
+    <div id="aquatic_activity_event-messages"></div>
+    <%= render :active_scaffold => 'water_chemistry_sampling_event', :label => @label, :constraints => @constraints %>
+  </div>
+</div>

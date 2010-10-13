@@ -1,0 +1,50 @@
+<div id="aquatic-site" class="active-scaffold">
+  <h3 class="name" style="border-bottom: 1px solid black;"><%= :aquatic_site_title.l %></h3>
+  <div class="show-view">
+    <dl>
+      <dt><%= :aquatic_site_name_label.l %></dt>
+      <dd><%= @aquatic_site.name || '-' %></dd>
+    </dl>
+    <dl>
+      <dt><%= :aquatic_site_waterbody_name_label.l %></dt>
+      <dd><%= @aquatic_site.waterbody ? @aquatic_site.waterbody.water_body_name : '-' %></dd>
+    </dl>
+    <dl>
+      <dt><%= :aquatic_site_waterbody_id_label.l %></dt>
+      <dd><%= @aquatic_site.waterbody ? @aquatic_site.waterbody.water_body_id : '-' %></dd>
+    </dl>
+    <dl>
+      <dt><%= :aquatic_site_drainage_code_label.l %></dt>
+      <dd><%= @aquatic_site.waterbody ? @aquatic_site.waterbody.drainage_cd : '-' %></dd>
+    </dl>
+    <dl>
+      <dt><%= :aquatic_site_desc_label.l %></dt>
+      <dd><%= @aquatic_site.description || '-' %></dd>
+    </dl>
+  </div>  
+  
+  <div style="clear: both;"></div>
+  
+  <div class="show-view" style="margin-top: 1em;">
+    <h3 class="name" style="border-bottom: 1px solid black;"><%= :location_label.l %></h3>
+    <% unless @aquatic_site.gmap_location %>
+      <p style="font-size: 11px; font-family: Verdana; font-style: italic; padding-left: 5px; color: #555;"><%= :no_coordinate_information.l %></p>
+    <% else %>
+      <dl>
+        <dt><%= :aquatic_site_x_coordinate_label.l %></dt>
+        <dd><%= @aquatic_site.gmap_location.longitude %></dd>
+      </dl>
+      <dl>
+        <dt><%= :aquatic_site_y_coordinate_label.l %></dt>
+        <dd><%= @aquatic_site.gmap_location.latitude %></dd>
+      </dl>
+      <dl>
+        <dt><%= :aquatic_site_coordinate_system_label.l %></dt>
+        <dd>WGS 84</dd>
+      </dl>        
+      <div style="clear: both;"></div>    
+      <%= @aquatic_site_map.div %>
+      <%= @aquatic_site_map.to_html(:no_load => true) %>
+    <% end %>
+  </div>  
+</div>

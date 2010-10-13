@@ -53,7 +53,10 @@ class AquaticActivityEvent < AquaticDataWarehouse::BaseTbl
   has_many   :recorded_observations, :foreign_key => 'AquaticActivityID', :dependent => :destroy
   has_many   :samples, :foreign_key => 'AquaticActivityID', :dependent => :destroy
          
-  validates_presence_of  :aquatic_site, :aquatic_activity, :agency, :aquatic_activity_method, :start_date     
+  validates_presence_of  :aquatic_site, :aquatic_activity, :agency, :start_date
+
+  # TODO: needs to be moved into a water_chemistry_sampling_event model...
+  # validates_presence_of :aquatic_activity_method
   
   def to_label
     :aquatic_activity_event_to_label.l_with_args({ :id => id })

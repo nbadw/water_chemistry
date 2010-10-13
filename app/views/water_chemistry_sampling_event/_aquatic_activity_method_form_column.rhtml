@@ -1,0 +1,19 @@
+<dl class="override <%= 'required' if column.required? %>">
+  <dt>
+    <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
+  </dt>
+  <dd>
+    <select name="record[<%= column.name %>]">
+      <% @aquatic_activity_methods.each do |method| %>
+        <option value="<%=h method.id %>"><%=h method.name %> </option>
+      <% end %>
+    </select>
+    <% if description = column.description %>
+      <div class="tooltip-box" style="display: none;">
+        <div class="tooltip-box-content">
+          <span class="description"><%= description %></span>
+        </div>
+      </div>
+    <% end %>
+  </dd>
+</dl>

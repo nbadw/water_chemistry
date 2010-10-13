@@ -1,0 +1,8 @@
+<dl>
+  <dt>
+    <label for="<%= "record_#{column.name}" %>"><%= column.label %></label>
+  </dt>
+  <dd>
+    <%= select('record', column.name, Observation.water_level.observable_values.collect { |obs_val| [obs_val.value, obs_val.id] }, { :include_blank => true }) %>
+  </dd>
+</dl>

@@ -1,0 +1,3 @@
+class WaterChemistrySamplingEventController < AquaticActivityEventController 
+  
+end

@@ -1,0 +1,17 @@
+<div id="activity-details" class="active-scaffold">
+  <h3 class="name" style="border-bottom: 1px solid black;"><%= :activity_details_title.l  %></h3>
+  <%= render :active_scaffold => 'aquatic_activity_event', :action => 'details', :params => {
+    :aquatic_activity_event_id => params[:aquatic_activity_event_id]
+  } %>
+  <div style="clear: both;"></div>
+
+  <div class="active-scaffold">
+    <div class="show-view view">
+      <dl>
+        <dt><%= :agency_site_id_label.l %></dt>
+        <dd><%= agency_site_id %></dd>
+      </dl>
+    </div>
+  </div>
+  <div style="clear: both;"></div>
+</div>

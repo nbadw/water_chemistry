@@ -47,11 +47,18 @@ ActionController::Routing::Routes.draw do |map|
   # AQUATIC ACTIVITY ROUTES  
   map.connect '/aquatic_activity/site_aquatic_activities', :controller => 'aquatic_activity', :action => 'site_aquatic_activities'  
   map.connect '/aquatic_activity/aquatic_activity_details', :controller => 'aquatic_activity', :action => 'aquatic_activity_details'  
-  
+
+  # WATER CHEMISTRY SAMPLING EVENT ROUTES
+  map.connect '/water_chemistry_sampling_event/site_aquatic_activities', :controller => 'water_chemistry_sampling_event', :action => 'site_aquatic_activities'
+  map.connect '/water_chemistry_sampling_event/aquatic_activity_details', :controller => 'water_chemistry_sampling_event', :action => 'aquatic_activity_details'
+
   # WATER CHEMISTRY SAMPLING ROUTES
   map.connect '/aquatic_site/:aquatic_site_id/water_chemistry_sampling/:aquatic_activity_event_id/:action', :controller => 'water_chemistry_sampling'
   map.connect '/aquatic_site/:aquatic_site_id/water_chemistry_sampling/:aquatic_activity_event_id/report.:format', :controller => 'water_chemistry_sampling', :action => 'report'  
   
+  # ESS ROUTES
+  map.connect '/aquatic_site/:aquatic_site_id/environmental_stream_survey/:aquatic_activity_event_id/:action', :controller => 'environmental_stream_survey'
+
   # OTHER ROUTES
   map.resources :recorded_chemicals, :active_scaffold => true
   
