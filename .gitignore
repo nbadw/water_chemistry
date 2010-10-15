@@ -2,3 +2,4 @@
 log
 nbproject
 db/adw*.sql
+config/smtp_gmail.yml
